@@ -68,21 +68,22 @@ public class WellComeHelper extends Presenter implements LoginView{
      * 是否进入下个页面
      */
     public void intoNext() {
-        new Thread(new Runnable() {
+        Thread th= new Thread(new Runnable() {
             @Override
             public void run() {
                 SystemClock.sleep(startTime);
             }
-        }).start();
+        });
         if(isFirstEnter()){
             Log.i(TAG,"第一次登录！");
-            firstEnter();
+            //firstEnter();
         }else if(isLogin()){
             Log.i(TAG,"已登录！");
+            th.start();
             comeToMain();
         }else{
             Log.i(TAG,"未登录！");
-            comeToLogin();
+//            comeToLogin();
         }
     }
 

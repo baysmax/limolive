@@ -2,11 +2,18 @@ package com.example.project.limolive.welcome;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.util.Log;
+import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.example.project.limolive.R;
 import com.example.project.limolive.activity.BaseActivity;
@@ -19,6 +26,9 @@ import com.pgyersdk.update.UpdateManagerListener;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 /**
  * 欢迎页by hwj in 2016/08/31
@@ -26,6 +36,10 @@ import org.json.JSONObject;
 public class WelcomeActivity extends Activity {
 
     private WellComeHelper helper;
+    private ViewPager mViewpager;
+    private ArrayList<Integer> imageList;
+    private IvAdapter ivAdapter;
+    private LinearLayout layout;
 //    private LocationClient mLocationClient = null;
 //    private BDLocationListener myListener = new MyLocationListener();
 //    private SPUtil sp;
@@ -38,6 +52,7 @@ public class WelcomeActivity extends Activity {
         //设置全屏
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_welcome);
+        mViewpager=findViewById(R.id.vp_Welcome_images);
 //        mLocationClient = new LocationClient(getApplicationContext());     //声明LocationClient类
 //        sp = SPUtil.getInstance(this);
 //        initLocation();
@@ -47,10 +62,71 @@ public class WelcomeActivity extends Activity {
       //  PgyCrashManager.register(this);
       //  PgyUpdateManager.register(this,getString(R.string.file_provider));
       //  checkUp();
+
+
         helper = new WellComeHelper(this);
+        if(helper.isLogin()){
+            mViewpager.setBackground(getDrawable(R.drawable.welcome_bg));
+        }else {
+            initImage();
+            initDate();
+        }
+
+
      //   helper.startAlpha(findViewById(R.id.ll_root_layout));
         helper.intoNext();
     }
+
+    private void initDate() {
+        ivAdapter=new IvAdapter(this,imageList);
+
+        mViewpager.setAdapter(ivAdapter);
+
+    }
+
+    private void initImage() {
+        imageList=new ArrayList<>();
+        imageList.add(R.drawable.item1);
+        imageList.add(R.drawable.item2);
+        imageList.add(R.drawable.item3);
+    }
+
+
+    class IvAdapter extends PagerAdapter {
+        Context context;
+        ArrayList<Integer> goodsList;
+
+        public IvAdapter(Context context, ArrayList<Integer> goodsList) {
+            this.context = context;
+            this.goodsList = goodsList;
+        }
+
+        @Override
+        public int getCount() {
+            return goodsList.size();
+        }
+
+
+        @Override
+        public boolean isViewFromObject(View view, Object object) {
+            return view==object;
+        }
+
+        @Override
+        public ImageView instantiateItem(ViewGroup container, int position) {
+            ImageView iv = new ImageView(context);
+            iv.setImageResource(goodsList.get(position));
+            container.addView(iv);
+            return iv;
+        }
+
+        @Override
+        public void destroyItem(ViewGroup container, int position, Object object) {
+            ImageView iv= (ImageView) object;
+            container.removeView(iv);
+        }
+    }
+
 
     @Override
     protected void onResume() {
