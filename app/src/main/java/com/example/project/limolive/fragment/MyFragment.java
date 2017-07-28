@@ -10,6 +10,8 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.example.project.limolive.R;
 import com.example.project.limolive.activity.AccountDetailActivity;
 import com.example.project.limolive.activity.CollectionListActivity;
@@ -19,10 +21,17 @@ import com.example.project.limolive.activity.MyShopActivity;
 import com.example.project.limolive.activity.OrderActivity;
 import com.example.project.limolive.activity.SettingActivity;
 import com.example.project.limolive.activity.ShoppingCartActivity;
+import com.example.project.limolive.api.Api;
 import com.example.project.limolive.api.ApiHttpClient;
+import com.example.project.limolive.api.ApiResponse;
+import com.example.project.limolive.api.ApiResponseHandler;
 import com.example.project.limolive.helper.LoginManager;
 import com.example.project.limolive.model.LoginModel;
 import com.example.project.limolive.provider.MineDataProvider;
+import com.example.project.limolive.tencentlive.model.CurLiveInfo;
+import com.example.project.limolive.tencentlive.views.LiveingActivity;
+import com.example.project.limolive.utils.NetWorkUtil;
+import com.example.project.limolive.utils.ToastUtils;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 /**
@@ -53,6 +62,7 @@ public class MyFragment extends BaseFragment implements View.OnClickListener{
 	private TextView tv_wait_receive;  //待收货
 	private TextView tv_wait_comment;  //待评价
 	private TextView tv_return_shop;  //退款售后
+	private TextView tv_my_money_num; //主播柠檬币；
 
 
 	@Override
@@ -75,6 +85,7 @@ public class MyFragment extends BaseFragment implements View.OnClickListener{
 		tv_account_detail= (TextView) findViewById(R.id.tv_account_detail);
 		tv_collection= (TextView) findViewById(R.id.tv_collection);
 		tv_shopping_history= (TextView) findViewById(R.id.tv_shopping_history);
+		tv_my_money_num= (TextView) findViewById(R.id.tv_my_money_num);
 
 		ll_fans= (LinearLayout) findViewById(R.id.ll_fans);
 		ll_attention= (LinearLayout) findViewById(R.id.ll_attention);
@@ -92,6 +103,7 @@ public class MyFragment extends BaseFragment implements View.OnClickListener{
 	 * 设置数据
 	 */
 	private void setData() {
+		getSelCoins();
 		LoginModel loginModel=provider.getMineInfo(LoginManager.getInstance().getPhone(getApplication()));
 		if(loginModel!=null){
 			tv_username.setText(loginModel.getNickname());
@@ -106,7 +118,32 @@ public class MyFragment extends BaseFragment implements View.OnClickListener{
 
 		}
 	}
+	/*********
+	 * 获取观众自己柠檬币
+	 */
+	private void getSelCoins() {
 
+		if (NetWorkUtil.isNetworkConnected(getContext())) {
+			Api.getMemberCoins(LoginManager.getInstance().getUserID(getContext()), new ApiResponseHandler(getContext()) {
+				@Override
+				public void onSuccess(ApiResponse apiResponse) {
+					Log.i("获取成员剩余柠檬币", "apiResponse.." + apiResponse.toString());
+					if (apiResponse.getCode() == 0) {
+						JSONObject parse = JSON.parseObject(apiResponse.getData());
+						String Sellemon_coins = parse.getString("charm");
+						Log.i("获取成员剩余柠檬币", "1走没有");
+						tv_my_money_num.setText(Sellemon_coins);
+					} else {
+						ToastUtils.showShort(getContext(), apiResponse.getMessage());
+					}
+				}
+			});
+
+		} else {
+			ToastUtils.showShort(getContext(), "网络异常，请检查您的网络~");
+		}
+
+	}
 	@Override
 	public void onResume() {
 		super.onResume();

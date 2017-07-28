@@ -62,10 +62,9 @@
             android:id="@+id/rightPanel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
             android:layout_marginRight="10dp"
-            android:layout_alignParentRight="true">
+            android:layout_alignTop="@+id/leftPanel"
+            android:layout_alignParentStart="true">
             <com.example.project.limolive.tencentim.widget.CircleImageView
                 android:id="@+id/rightAvatar"
                 android:layout_width="35dp"

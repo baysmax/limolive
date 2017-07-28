@@ -115,6 +115,38 @@
                         android:layout_marginBottom="@dimen/activity_padding_margin4"
                         />
                     <LinearLayout
+                        android:id="@+id/ll_my_money"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:gravity="center"
+                        >
+                        <TextView
+                            android:id="@+id/tv_my_money_num"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_horizontal"
+                            android:textSize="@dimen/text_size2"
+                            android:textColor="@color/white"
+                            />
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_horizontal"
+                            android:textSize="@dimen/text_size2"
+                            android:textColor="@color/white"
+                            android:text="@string/mine_my_money"
+                            />
+                    </LinearLayout>
+                    <View
+                        android:layout_width="@dimen/line_width1"
+                        android:layout_height="match_parent"
+                        android:background="@color/white"
+                        android:layout_marginTop="@dimen/activity_padding_margin4"
+                        android:layout_marginBottom="@dimen/activity_padding_margin4"
+                        />
+                    <LinearLayout
                         android:id="@+id/ll_attention"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
