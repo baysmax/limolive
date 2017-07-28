@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:weightSum="2">
+
+    <FrameLayout
+        android:id="@+id/yhn_2"
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+
+        <RelativeLayout
+            android:id="@+id/bac_p_2"
+            android:layout_width="140dp"
+            android:layout_height="35dp"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/guanzhu_bt"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/tv_presentcontent_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/name"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_toRightOf="@+id/tv_chat_head_image_present_2"
+                android:background="@null"
+                android:gravity="center_vertical"
+                android:text="送出了"
+                android:textColor="#FDEF08"
+                android:textSize="9dp" />
+
+            <TextView
+                android:id="@+id/name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_toRightOf="@+id/tv_chat_head_image_present_2"
+                android:background="@null"
+                android:gravity="center_vertical"
+                android:text="周杰伦"
+                android:textColor="#ffffff"
+                android:textSize="9dp" />
+
+            <com.example.project.limolive.tencentlive.views.CircleImageView
+                android:id="@+id/tv_chat_head_image_present_2"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:focusable="false"
+                android:src="@drawable/head" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <RelativeLayout
+                android:id="@+id/re_hua_2"
+                android:layout_width="148dp"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/big_present_toa_2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:visibility="invisible"
+                    android:src="@drawable/present_1" />
+            </RelativeLayout>
+
+            <com.example.project.limolive.tencentlive.views.customviews.MagicTextView
+                xmlns:qwerjk="http://schemas.android.com/apk/res/com.example.project.limolive"
+                android:id="@+id/gift_num"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_toRightOf="@+id/re_hua_2"
+                android:padding="2dp"
+                android:text="X1"
+                android:textColor="@android:color/holo_blue_dark"
+                android:textSize="30sp"
+                android:textStyle="bold"
+                qwerjk:foreground="@android:color/holo_blue_bright"
+                qwerjk:innerShadowColor="#FF000000"
+                qwerjk:innerShadowDy="2"
+                qwerjk:innerShadowRadius="1"
+                qwerjk:strokeColor="@android:color/white"
+                qwerjk:strokeJoinStyle="miter"
+                qwerjk:strokeWidth="2" />
+        </RelativeLayout>
+    </FrameLayout>
+</LinearLayout>

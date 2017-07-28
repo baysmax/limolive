@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <include
+        layout="@layout/standard_title_bar"
+        />
+    <include
+        layout="@layout/view_non_data"
+        />
+
+    <ListView
+        android:id="@+id/lv_bill_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:divider="@color/background1"
+        android:dividerHeight="@dimen/activity_padding_margin1"
+        />
+
+</LinearLayout>

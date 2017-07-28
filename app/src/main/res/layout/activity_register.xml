@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <include
+        layout="@layout/standard_title_bar"
+        />
+    <EditText
+        android:id="@+id/edit_user_name"
+        style="@style/register_edit"
+        android:layout_marginTop="@dimen/register_edit_marginTop"
+        android:hint="@string/register_user_name"
+        />
+    <EditText
+        android:id="@+id/edit_pwd"
+        style="@style/register_edit"
+        android:layout_marginTop="@dimen/activity_padding_margin7"
+        android:hint="@string/register_pwd"
+        android:inputType="textPassword"
+        />
+    <EditText
+        android:id="@+id/edit_pwd_ok"
+        style="@style/register_edit"
+        android:layout_marginTop="@dimen/activity_padding_margin7"
+        android:hint="@string/register_pwd_ok"
+        android:inputType="textPassword"
+        />
+    <EditText
+        android:id="@+id/edit_phone"
+        style="@style/register_edit"
+        android:layout_marginTop="@dimen/activity_padding_margin7"
+        android:hint="@string/register_phone"
+        android:inputType="phone"
+        />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/button_height2"
+        android:layout_marginTop="@dimen/activity_padding_margin7"
+        android:layout_marginLeft="@dimen/login_edit_box_margin_lr"
+        android:layout_marginRight="@dimen/login_edit_box_margin_lr"
+        android:orientation="horizontal"
+        >
+
+        <EditText
+            android:id="@+id/edit_code"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/button_height2"
+            android:layout_weight="1"
+            android:hint="@string/register_code"
+            android:inputType="number"
+            android:textSize="@dimen/text_size1"
+            android:textColor="@color/text_color3"
+            android:textColorHint="@color/line_color2"
+            android:maxLines="1"
+            android:background="@drawable/shape_edit_out2"
+            android:layout_marginRight="@dimen/activity_horizontal_margin7"
+            android:paddingLeft="@dimen/activity_padding_margin3"
+            android:paddingRight="@dimen/activity_padding_margin3"
+            />
+
+        <TextView
+            android:id="@+id/tv_get_code"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/button_bg1"
+            android:text="@string/register_get_code"
+            android:gravity="center"
+            android:textColor="@color/white"
+            />
+    </LinearLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/login_edit_box_margin_lr"
+        android:layout_marginRight="@dimen/login_edit_box_margin_lr"
+        android:layout_marginTop="@dimen/register_edit_marginTop"
+        android:orientation="horizontal"
+        >
+        <ImageView
+            android:id="@+id/check_agree"
+            android:layout_width="@dimen/register_check_size"
+            android:layout_height="@dimen/register_check_size"
+            android:background="@drawable/select_protocol_bg"
+            />
+        <TextView
+            android:id="@+id/tv_agree_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/check_agree"
+            android:layout_alignTop="@+id/check_agree"
+            android:layout_marginLeft="@dimen/activity_padding_margin4"
+            />
+    </RelativeLayout>
+
+
+    <Button
+        android:id="@+id/btn_register"
+        style="@style/login_button"
+        android:layout_marginTop="@dimen/register_edit_marginTop"
+        android:text="@string/register_at_once"
+        android:onClick="register"
+        />
+
+
+</LinearLayout>

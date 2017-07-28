@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GridView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/live_room_gift_gridview"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:columnWidth="80.0dip"
+    android:background="@color/live_bg"
+    android:gravity="center"
+    android:listSelector="@android:color/transparent"
+    android:numColumns="4"
+    android:scrollbars="none"/>

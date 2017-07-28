@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background1"
+    android:orientation="vertical">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/line_width3"
+        android:layout_marginTop="@dimen/activity_padding_margin8"
+        android:background="@color/line_color1" />
+
+    <RelativeLayout
+        android:id="@+id/rl_person_info"
+        style="@style/setting_button">
+
+        <TextView
+            style="@style/setting_text1"
+            android:text="@string/mine_person_info" />
+
+        <TextView
+            style="@style/setting_text2"
+            android:drawableRight="@mipmap/icon_right_shape" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/line_width3"
+        android:layout_marginLeft="@dimen/activity_padding_margin8"
+        android:background="@color/line_color1" />
+
+    <RelativeLayout
+        android:id="@+id/rl_number_safe"
+        style="@style/setting_button">
+
+        <TextView
+            style="@style/setting_text1"
+            android:text="@string/mine_number_safe" />
+
+        <TextView
+            style="@style/setting_text2"
+            android:drawableRight="@mipmap/icon_right_shape" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/line_width3"
+        android:background="@color/line_color1" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/line_width3"
+        android:layout_marginTop="@dimen/activity_padding_margin8"
+        android:background="@color/line_color1" />
+
+    <RelativeLayout
+        android:visibility="gone"
+        android:id="@+id/rl_push_setting"
+        style="@style/setting_button">
+
+        <TextView
+            style="@style/setting_text1"
+            android:text="@string/mine_push_setting" />
+
+        <TextView
+            style="@style/setting_text2"
+            android:drawableRight="@mipmap/icon_right_shape" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/line_width3"
+        android:layout_marginLeft="@dimen/activity_padding_margin8"
+        android:background="@color/line_color1" />
+
+    <RelativeLayout
+        android:id="@+id/rl_invite_friend"
+        style="@style/setting_button">
+
+        <TextView
+            style="@style/setting_text1"
+            android:text="@string/mine_invite_friend" />
+
+        <TextView
+            style="@style/setting_text2"
+            android:drawableRight="@mipmap/icon_right_shape" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/line_width3"
+        android:layout_marginLeft="@dimen/activity_padding_margin8"
+        android:background="@color/line_color1" />
+
+    <RelativeLayout
+        android:id="@+id/rl_clear_junk"
+        style="@style/setting_button">
+
+        <TextView
+            style="@style/setting_text1"
+            android:text="@string/mine_clear_junk" />
+
+        <TextView
+            style="@style/setting_text2"
+            android:drawableRight="@mipmap/icon_right_shape" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/line_width3"
+        android:background="@color/line_color1" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/line_width3"
+        android:layout_marginTop="@dimen/activity_padding_margin8"
+        android:background="@color/line_color1" />
+
+    <RelativeLayout
+        android:id="@+id/rl_user_return"
+        style="@style/setting_button">
+
+        <TextView
+            style="@style/setting_text1"
+            android:text="@string/mine_user_return" />
+
+        <TextView
+            style="@style/setting_text2"
+            android:drawableRight="@mipmap/icon_right_shape" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/line_width3"
+        android:layout_marginLeft="@dimen/activity_padding_margin8"
+        android:background="@color/line_color1" />
+
+    <RelativeLayout
+        android:id="@+id/rl_about_us"
+        style="@style/setting_button">
+
+        <TextView
+            style="@style/setting_text1"
+            android:text="@string/mine_about_us" />
+
+        <TextView
+            style="@style/setting_text2"
+            android:drawableRight="@mipmap/icon_right_shape" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/line_width3"
+        android:background="@color/line_color1" />
+    <RelativeLayout
+        android:id="@+id/rl_check"
+        style="@style/setting_button">
+
+        <TextView
+            style="@style/setting_text1"
+            android:text="检查更新" />
+
+        <TextView
+            style="@style/setting_text2"
+            android:drawableRight="@mipmap/icon_right_shape" />
+    </RelativeLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/line_width3"
+        android:layout_marginTop="@dimen/activity_padding_margin8"
+        android:background="@color/line_color1" />
+
+    <RelativeLayout
+        android:id="@+id/rl_black_list"
+        style="@style/setting_button">
+
+        <TextView
+            style="@style/setting_text1"
+            android:text="@string/mine_black_list" />
+
+        <TextView
+            style="@style/setting_text2"
+            android:drawableRight="@mipmap/icon_right_shape" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/line_width3"
+        android:background="@color/line_color1" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/line_width3"
+        android:layout_marginTop="@dimen/activity_padding_margin8"
+        android:background="@color/line_color1" />
+
+    <TextView
+        android:id="@+id/tv_login_out"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/button_height1"
+        android:background="@color/white"
+        android:gravity="center"
+        android:text="@string/mine_login_out"
+        android:textColor="@color/red_bar"
+        android:textSize="@dimen/text_size1" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/line_width3"
+        android:background="@color/line_color1" />
+</LinearLayout>

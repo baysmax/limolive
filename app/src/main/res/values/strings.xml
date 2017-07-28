@@ -1,0 +1,511 @@
+<resources>
+    <!--<string name="app_name">新客</string>-->
+    <!--<string name="app_name">魔锥生活馆</string>-->
+    <string name="app_name">柠檬直播</string>
+
+    <!--权限申请-->
+    <string name="permission_label">权限申请</string>
+    <string name="permission_camera">是否允许用户调用相机进行拍照或录制视频？</string>
+    <!--首页-->
+    <string name="shouye_query">连衣裙</string>
+    <string name="adress_list">北京</string>
+    <string name="json_is_null">数据为空！</string>
+    <!--登录注册-->
+    <string name="login_title_text">登录</string>
+    <string name="login_user_text">账号:</string>
+    <string name="login_pwd_text">密码:</string>
+    <string name="login_forgot_pwd">忘记密码?</string>
+    <string name="login_forgot_title">忘记密码</string>
+    <string name="login_find_pwd">找回密码</string>
+    <string name="login_register">注册直播商城</string>
+    <string name="login_other">使用其他账户登录</string>
+    <string name="register_title_text">注册</string>
+    <string name="publish_product_text">发布宝贝</string>
+    <string name="publish_product_detail">宝贝描述</string>
+    <string name="register_at_once">立即注册</string>
+    <string name="register_user_name">用户名</string>
+    <string name="register_pwd">登录密码</string>
+    <string name="register_pwd_ok">确认密码</string>
+    <string name="register_phone">手机号码</string>
+    <string name="register_code">6位数字</string>
+    <string name="register_get_code">获取验证码</string>
+    <string name="register_agree_text">我已阅读并同意\n《服务协议》</string>
+    <string name="login_error1">请填写手机号码！</string>
+    <string name="login_error2">请填写用户名！</string>
+    <string name="login_error3">请填写确认密码！</string>
+    <string name="login_error4">请填写登录密码！</string>
+    <string name="login_error5">请填写验证码！</string>
+    <string name="login_error6">密码和确认密码不一致！</string>
+    <string name="login_error7">加载数据失败，请稍后再试！</string>
+    <string name="login_protocol_title">服务协议</string>
+
+    <!--..............................................................................-->
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="title_activity_register">RegisterActivity</string>
+    <string name="tencent_tls_ui_independentLoginTitle">用户名登录</string>
+    <string name="tencent_tls_ui_independentRegisterTitle">用户名注册</string>
+    <string name="title_living">是否回到上次直播</string>
+    <string name="action_settings">settings</string>
+
+    <string name="exit_app">再按一次退出</string>
+    <string name="btn_take_photo">拍照</string>
+    <string name="btn_pic_photo">从手机相册选择</string>
+    <string name="btn_return_home">返回首页</string>
+    <string name="btn_return">返回</string>
+    <string name="btn_save">保存</string>
+    <string name="btn_cancel">取消</string>
+    <string name="btn_refuse">拒绝</string>
+    <string name="btn_agree">同意</string>
+    <string name="btn_sure">确定</string>
+    <string name="btn_close">关闭</string>
+
+
+    <string name="error_code_prefix">错误码：</string>
+
+
+    <!-- live fragment-->
+    <string name="live_unknown">未知</string>
+    <string name="live_titile">最新直播</string>
+    <string name="dialog_members_tips">邀请互动连线（最多可与三个成员进行互动直播）</string>
+
+
+    <!-- live play -->
+    <string name="send">send</string>
+    <string name="invite_dialog_tips">主播邀请您与他进行互动直播</string>
+    <string name="live_end_ask_tips">确定结束直播?</string>
+    <string name="live_end_tips">直播结束啦</string>
+    <string name="live_time_tips">直播时长</string>
+    <string name="live_members_tips">观看人数</string>
+    <string name="live_admires_tips">获赞数量</string>
+
+    <string name="live_report_tips">请选择您的举报原因</string>
+    <string name="live_report_dirty">垃圾营销</string>
+    <string name="live_report_false">不实信息</string>
+    <string name="live_report_virus">有害信息</string>
+    <string name="live_report_illegal">违法信息</string>
+    <string name="live_report_yellow">淫秽信息</string>
+
+    <string name="live_host_leave">主播可能暂时离开</string>
+
+    <string name="live_btn_par">par</string>
+    <string name="live_btn_record">录制</string>
+    <string name="live_btn_push">开启推流</string>
+    <string name="live_btn_stop_push">关闭推流</string>
+    <string name="live_btn_stop_record">停录</string>
+
+    <!-- pushstream -->
+    <string name="clip_title">点击地址复制到黏贴版</string>
+    <string name="clip_tip">地址复制到黏贴版上了</string>
+
+    <!-- msgadapter -->
+    <item name="tag_first" type="id"></item>
+    <item name="tag_second" type="id"></item>
+
+
+    <!-- profile fragment-->
+    <string name="profile_title">编辑个人信息</string>
+    <string name="profile_icon">头像</string>
+    <string name="profile_nickname">昵称</string>
+    <string name="profile_sign">签名</string>
+    <string name="profile_set">设置</string>
+
+    <string name="profile_about">关于随心播</string>
+    <string name="btn_login_out">退出登录</string>
+    <string name="tip_force_offline">您的帐号已在其它地方登陆</string>
+
+    <!-- set -->
+    <string name="set_live_animator">渐隐动画</string>
+    <string name="set_log_level">日志等级</string>
+    <string name="set_sdk_version">SDK版本</string>
+
+    <!-- edit -->
+    <string name="edit_error">修改失败</string>
+
+
+    <!-- fragment publish -->
+    <string name="publish_already_launch_avRoom">wait!</string>
+    <string name="publish_photo_take">拍照</string>
+    <string name="publish_photo_album">相册</string>
+    <string name="publish_need_photo_tips">从未发起过图片，请选择一张作为直播封面</string>
+    <string name="publish_wait_uploading">请等待封面上传完成</string>
+    <string name="publish_upload_success">上传封面成功</string>
+    <string name="publish_photo_make_sure_tips">请添加一张照片</string>
+    <string name="publish_photo_make_sure_title">请输入图片标题</string>
+    <string name="publish_create_room_failed">创建房间失败</string>
+    <string name="publish_upload_cover_failed">上传封面失败</string>
+    <string name="publish_photo_success">发布图片成功</string>
+    <string name="text_continue">继续</string>
+    <string name="text_publish">开始直播</string>
+    <string name="text_live_preview">发布直播</string>
+    <string name="text_photo_preview">发布照片</string>
+    <string name="text_live_title_input">请输入直播标题</string>
+    <string name="text_photo_title_input">你的照片你做主</string>
+    <string name="text_live_open_lbs">开启位置</string>
+    <string name="text_live_close_lbs">不显示位置</string>
+    <string name="text_live_location">正在定位中</string>
+    <string name="text_live_lbs_fail">定位失败</string>
+    <string name="text_live_lbs_unknown">未知</string>
+    <string name="text_live_default_title">我的直播我做主</string>
+    <string name="text_start_push">开启推流</string>
+    <string name="text_record_info">开始录制后直播视频自动录制，并可以进行回放</string>
+    <string name="text_live_all_see">所有人可看</string>
+    <string name="text_live_share">同步到</string>
+    <string name="text_live">正在直播>></string>
+    <string name="text_live_add_title_tips">给你的直播设置一个满意的封面</string>
+    <string name="text_live_admire_limit">点赞过于频繁</string>
+    <string name="tip_no_permission">权限不足</string>
+
+    <string name="host_sign">我的签名就是把我的世界直播给你们</string>
+    <string name="host_phone">iPhone6S Plus</string>
+    <string name="host_funs">粉丝数:9090</string>
+    <string name="host_follow">关注:7089</string>
+    <string name="host_admire">赞:11.3w</string>
+
+
+    <string name="ping_ing">测速中</string>
+    <string name="ping_progress">测速进度</string>
+    <string name="ping_speed_test">网络测速</string>
+    <string name="ping_start">开始测速</string>
+    <string name="ping_no_server">获取测速列表失败，请稍后重试</string>
+    <string name="ping_time">平均时延</string>
+    <string name="ping_miss">丢包率</string>
+    <string name="ping_cancel">取消</string>
+    <string name="ping_TEL">电信</string>
+    <string name="ping_CMCC">移动</string>
+    <string name="ping_CNC">联通</string>
+    <string name="ping_SH">上海</string>
+    <string name="ping_SZ">深圳</string>
+    <string name="ping_CD">成都</string>
+    <string name="ping_TJ">天津</string>
+    <string name="ping_NJ">南京</string>
+    <string name="ping_HZ">杭州</string>
+    <string name="ping_GZ">广州</string>
+    <!--..............................................................................-->
+    <!--好友店铺-->
+    <string name="friends_store_title">好友店铺</string>
+    <string name="friends_new">新朋友</string>
+    <string name="friends_conversation_list">会话列表</string>
+    <string name="friends_info_title">详细资料</string>
+    <string name="friends_store_search">搜索</string>
+    <string name="friends_store_liveing">正在直播</string>
+    <!--我的-->
+    <string name="mine_fragment_title">我的</string>
+    <string name="my_store">我的店铺</string>
+    <string name="contact_coustomer">联系客服</string>
+    <string name="after_sale_management">售后管理</string>
+    <string name="mine_fans_title">粉丝</string>
+    <string name="mine_attention_title">关注</string>
+    <string name="mine_order">我的订单</string>
+    <string name="mine_look_all_order">查看全部订单</string>
+    <string name="mine_wait_pay">待付款</string>
+    <string name="mine_wait_receive">待收货</string>
+    <string name="mine_wait_send">待发货</string>
+    <string name="mine_wait_returning">退款中</string>
+    <string name="mine_wait_comment">待评价</string>
+    <string name="mine_return_shop">退款/售后</string>
+    <string name="mine_shop_cart">购物车</string>
+    <string name="add_product_title">添加商品标题</string>
+    <string name="product_sort">商品分类</string>
+    <string name="product_price">商品价格</string>
+    <string name="product_storege">现有库存</string>
+    <string name="product_transportation_fee">运费</string>
+    <string name="product_descrption">宝贝描述</string>
+    <string name="product_destination">发货地</string>
+    <string name="mine_my_shop">我的店铺</string>
+    <string name="mine_account_detail">账单明细</string>
+    <string name="mine_collection">收藏</string>
+    <string name="mine_shop_history">足迹</string>
+    <string name="mine_fans">粉丝</string>
+    <string name="mine_attention">关注</string>
+    <string name="mine_shop_number">0</string>
+    <string name="mine_money_today">今日成交额</string>
+    <string name="mine_sold_good">已售商品</string>
+    <string name="mine_order_today">今日订单</string>
+    <string name="mine_push_product">发布宝贝</string>
+    <string name="mine_trade_manager">交易管理</string>
+    <string name="mine_shop_manager">商品管理</string>
+    <string name="mine_contact_service">联系客服</string>
+    <string name="mine_after_sale">售后管理</string>
+    <string name="mine_look_history">浏览足迹</string>
+    <string name="mine_edit">编辑</string>
+    <string name="mine_address_title">地址管理</string>
+    <string name="mine_address_add">新增地址</string>
+    <string name="mine_address_delete">删除地址</string>
+    <string name="mine_address_change">修改地址</string>
+    <string name="mine_address_error1">请填写收货人</string>
+    <string name="mine_address_error2">请填写电话号码</string>
+    <string name="mine_address_error3">请选择省市区</string>
+    <string name="mine_address_error4">请填写详细地址</string>
+    <string name="mine_all_select">全选</string>
+    <string name="mine_calculate_price">结算</string>
+    <string name="mine_calculate_all">合计：</string>
+    <string name="mine_cart_number">商品数量不能小于1</string>
+    <string name="mine_cart_delete">删除商品</string>
+    <string name="mine_cart_over">完成</string>
+    <string name="mine_cart_select_good">请选择商品</string>
+    <!--设置-->
+    <string name="mine_setting">设置</string>
+    <string name="mine_person_info">个人资料</string>
+    <string name="mine_user_reback">用户反馈</string>
+    <string name="mine_number_safe">账号安全</string>
+    <string name="mine_push_setting">推送设置</string>
+    <string name="mine_invite_friend">邀请好友</string>
+    <string name="mine_clear_junk">清理缓存</string>
+    <string name="mine_user_return">用户反馈</string>
+    <string name="mine_about_us">关于我们</string>
+    <string name="mine_black_list">黑名单</string>
+    <string name="mine_login_out">退出登录</string>
+    <string name="mine_info_avatar">头像</string>
+    <string name="mine_user_name">用户名</string>
+    <string name="mine_live_code">直播号</string>
+    <string name="mine_user_sex">性别</string>
+    <string name="mine_user_age">年龄</string>
+    <string name="mine_user_home">家乡</string>
+    <string name="mine_user_profession">职业</string>
+    <string name="mine_user_address">收货地址</string>
+    <string name="mine_receive_user">收货人</string>
+    <string name="mine_province">省市区</string>
+    <string name="mine_detail_address">详细地址</string>
+    <string name="wait_for_pay">待付款</string>
+    <string name="wait_for_send">待发货</string>
+    <string name="already_for_send">已发货</string>
+    <string name="reback_for_money_ing">退款中</string>
+    <string name="wait_for_comment">待评价</string>
+    <string name="follow_for_trans_news">物流跟踪</string>
+    <string name="orders">订单</string>
+    <string name="publish_now">立即发布</string>
+
+    <!--个人资料-->
+    <string name="change_info_simple_job">修改职业</string>
+    <string name="change_info_simple_job_hint">您的职业</string>
+    <string name="change_info_simple_username">修改用户名</string>
+    <string name="change_info_simple_username_hint">请输入用户名(最多20个字)</string>
+
+    <!--订单-->
+    <string name="order_title">我的订单</string>
+    <string-array name="order_type">
+        <item>全部</item>
+        <item>待付款</item>
+        <item>待收货</item>
+        <item>待评价</item>
+        <item>售后</item>
+    </string-array>
+    <!--Dialog-->
+    <string name="dialog_change_avatar_title">修改头像</string>
+    <string name="dialog_change_avatar_take_photo">拍照</string>
+    <string name="dialog_change_avatar_select_photo">手机相册选择</string>
+    <string name="dialog_change_sex">修改性别</string>
+    <string name="dialog_change_male">男</string>
+    <string name="dialog_change_female">女</string>
+    <string name="cancel">取消</string>
+    <string name="ok">确定</string>
+    <string name="save">保存</string>
+    <string name="rationale_ask_again">如果没有请求的权限，这个应用程序可能无法正常工作。打开应用程序设置界面修改应用程序权限。</string>
+    <string name="location_Permissions">您当前拒绝了位置权限,可能导致相关的功能不能使用,请手动设置位置权限</string>
+    <string name="returned_from_app_settings_to_activity">Returned from app settings to MainActivity</string>
+    <!--淘物-->
+    <string name="findgoods_fragment_title">淘物</string>
+    <string name="goods_content__title">商品详情</string>
+    <string-array name="pnw_date_time_range">
+        <item>今天</item>
+        <item>明天</item>
+        <item>后天</item>
+    </string-array>
+
+
+    <string name="timepicker_year">年</string>
+    <string name="timepicker_month">月</string>
+    <string name="timepicker_day">日</string>
+    <string name="timepicker_hour">时</string>
+    <string name="timepicker_min">分</string>
+    <string name="timepicker_title">选择时间</string>
+    <string name="timepicker_finish">确认</string>
+    <string name="timepicker_title_default">设置</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="transaction_orderdetail_adress">请输入详细地址</string>
+    <string name="transaction_orderdetail_adress_name">收货人:</string>
+    <string name="transaction_orderdetail_adress_hint_name">请输入收货人名称</string>
+    <string name="transaction_orderdetail_adress_phone">联系电话:</string>
+    <string name="transaction_orderdetail_adress_hint_phone">请输入手机号码</string>
+    <string name="transaction_orderdetail_adress_content">详细地址:</string>
+
+    <!-- chat activity -->
+    <string name="chat_up_finger">手指上滑，取消发送</string>
+    <string name="confirm">确定</string>
+    <string name="chat_press_talk">按住 说话</string>
+    <string name="chat_release_send">松开 结束</string>
+    <string name="chat_image">图片</string>
+    <string name="chat_file">文件</string>
+    <string name="chat_photo">拍摄</string>
+    <string name="chat_video">小视频</string>
+    <string name="chat_audio_too_short">录音过短，请重试</string>
+    <string name="chat_video_too_short">录制过短，请重试</string>
+    <string name="chat_resend">重新发送</string>
+    <string name="chat_del">删除</string>
+    <string name="chat_save">保存</string>
+    <string name="chat_file_too_large">文件过大，发送失败</string>
+    <string name="chat_file_not_exist">文件不存在，发送失败</string>
+    <string name="chat_image_preview_title">图片预览</string>
+    <string name="chat_image_preview_send">发送</string>
+    <string name="chat_image_preview_load_err">图片加载失败</string>
+    <string name="chat_image_preview_ori">原图发送</string>
+    <string name="chat_typing">对方正在输入…</string>
+    <string name="chat_content_bad">内容含有敏感词</string>
+    <!-- time -->
+    <string name="time_yesterday">昨天</string>
+    <string name="time_day">日</string>
+    <string name="time_month">月</string>
+    <string name="time_year">年</string>
+    <string name="time_more">99+</string>
+    <string name="title_activity_group_chat_setting">GroupChatSettingActivity</string>
+
+    <!-- friendship handle activity -->
+    <string name="friendship_handle_title">申请详情</string>
+    <string name="friendship_handle_ok">同意</string>
+    <string name="friendship_handle_reject">拒绝</string>
+    <string name="friendship_handle_word">附加信息</string>
+    <string name="operate_fail">操作失败</string>
+
+    <!-- Add newfriend activity -->
+    <string name="title_addfri">添加好友</string>
+    <string name="add_detail_ID">帐号ID</string>
+    <string name="add_detail_name">备注名</string>
+    <string name="add_detail_group">分组</string>
+    <string name="add_detail_message">附加消息</string>
+    <string name="add_friend_send">发送添加好友请求</string>
+    <string name="add_friend_succeed">请求已发送</string>
+    <string name="add_friend_added">已添加好友</string>
+    <string name="add_friend_refuse_all">对方拒绝添加任何人为好友</string>
+    <string name="add_friend_to_blacklist">我在对方的黑名单中</string>
+    <string name="add_friend_error">添加好友失败，请稍后重试</string>
+    <string name="add_friend_del_black_list">添加失败，该用户在你的黑名单中，是否将该用户从黑名单中移除（你需要在移除成功后重发添加好友请求）</string>
+    <string name="add_friend_del_black_err">移出黑名单失败</string>
+    <string name="add_friend_del_black_succ">移出黑名单成功</string>
+
+    <!-- profile activity -->
+    <string name="profile_detail">详细资料</string>
+    <string name="profile_back">返回</string>
+    <string name="profile_id">账号</string>
+    <string name="profile_remark">备注名</string>
+    <string name="profile_black">加入黑名单</string>
+    <string name="profile_remark_edit">修改备注</string>
+    <string name="profile_chat">发送消息</string>
+    <string name="profile_del">删除好友</string>
+    <string name="profile_group">添加分组</string>
+    <string name="profile_now_group">所在分组</string>
+    <string name="profile_del_succeed">删除好友成功</string>
+    <string name="profile_del_fail">删除好友失败</string>
+    <string name="profile_black_succ">加入黑名单成功</string>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="action_bar_back">返回</string>
+    <string name="agree">同意</string>
+    <string name="agreed">已同意</string>
+    <string name="refuse">拒绝</string>
+    <string name="refused">已拒绝</string>
+    <string name="done">完成</string>
+    <string name="friend_allow_all">允许任何人添加</string>
+    <string name="friend_refuse_all">拒绝任何人添加</string>
+    <string name="friend_need_confirm">需验证</string>
+    <string name="default_group_name">默认分组</string>
+    <string name="change_group_error">修改分组失败</string>
+    <string name="people">人</string>
+    <string name="login_error">登录失败，请稍后重试</string>
+    <string name="login_error_timeout">登录失败，当前无网络</string>
+    <string name="login_succ">登录成功</string>
+    <string name="kick_logout">你的账号已在其他终端登录,重新登录</string>
+    <string name="need_permission">您需要开启权限,并重启应用</string>
+    <string name="save_succ">保存成功</string>
+    <string name="download_fail">下载失败</string>
+    <string name="downloading">正在下载，请稍候</string>
+    <string name="save_fail">保存失败</string>
+    <string name="save_exist">文件已存在</string>
+    <string name="tls_expire">账号登录已过期，请重新登录</string>
+    <string name="env_normal">当前连接正式环境</string>
+    <string name="env_test">当前连接测试环境</string>
+    <string name="file_not_found">未找到文件，请稍后重试</string>
+    <string name="google_service_not_available">google推送服务不可用，请检查google play设置</string>
+
+    <!-- message -->
+    <string name="summary_image">[图片]</string>
+    <string name="summary_voice">[语音]</string>
+    <string name="summary_video">[小视频]</string>
+    <string name="summary_file">[文件]</string>
+    <string name="summary_friend_add">请求添加好友</string>
+    <string name="summary_friend_added">我已添加</string>
+    <string name="summary_friend_add_me">请求添加</string>
+    <string name="summary_friend_recommend">推荐添加</string>
+    <string name="summary_me">我</string>
+    <string name="summary_group_apply">申请加群</string>
+    <string name="summary_group_invite">邀请</string>
+    <string name="summary_group_add">加入群</string>
+    <string name="summary_agree">同意</string>
+    <string name="summary_disagree">拒绝</string>
+    <string name="summary_invite_person">邀请人</string>
+    <string name="summary_handle_person">处理人</string>
+    <string name="summary_group_admin_change">管理员变更</string>
+    <string name="summary_group_info_change">群资料变更</string>
+    <string name="summary_group_mem_change">群成员变更</string>
+    <string name="summary_group_mem_add">加入群</string>
+    <string name="summary_group_mem_quit">退出群</string>
+    <string name="summary_group_mem_kick">被踢出群</string>
+    <string name="summary_group_mem_modify">资料变更</string>
+
+
+    <!-- Add newfri activity -->
+    <string name="title_new_fri">新朋友</string>
+    <string name="newfri_agree">同意</string>
+    <string name="newfri_reject">拒绝</string>
+    <string name="newfri_do">操作</string>
+    <string name="newfri_disagree">已拒绝</string>
+    <string name="newfri_accept">已接受</string>
+    <string name="newfri_wait">等待验证</string>
+
+    <!-- conversation fragment -->
+    <string name="conversation_system">系统消息</string>
+    <string name="conversation_system_friend">新朋友</string>
+    <string name="conversation_system_group">群组消息</string>
+    <string name="conversation_del">删除会话</string>
+    <string name="conversation_draft">[草稿]</string>
+
+
+    <!-- contact fragment -->
+    <string name="home_contact_tab">联系人</string>
+    <string name="new_friend">新朋友</string>
+    <string name="public_group">公开群</string>
+    <string name="discuss_group">讨论组</string>
+    <string name="chatroom">聊天室</string>
+    <string name="addfriend">添加好友</string>
+    <string name="contact_add_group">添加群组</string>
+    <string name="manangergroup">管理分组</string>
+
+    <!--送礼物-->
+
+    <string name="live_gift_tab_hot">热门</string>
+    <string name="live_gift_tab_fun">趣味</string>
+    <string name="live_gift_tab_luxury">豪华</string>
+    <string name="live_gift_tab_exclusive">专属</string>
+    <string name="live_gift_tab_special">红包</string>
+    <string name="live_gift_tab_store">包裹</string>
+    <string name="live_gift_gold">我的柠檬币：</string>
+    <string name="live_gift_gold_coin">钻石点：</string>
+    <string name="live_gift_gold_pay">点击充值 >></string>
+
+    <string name="file_provider">com.example.project.limolive.provider</string>
+
+    <!-- 组合礼物的数目 -->
+    <integer-array name="gift_group_count">
+        <item>1</item>
+        <item>5</item>
+        <item>10</item>
+        <item>20</item>
+        <item>50</item>
+        <item>99</item>
+        <item>188</item>
+        <item>520</item>
+        <item>1314</item>
+        <item>3344</item>
+    </integer-array>
+</resources>

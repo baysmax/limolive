@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background1"
+    >
+    <include
+        layout="@layout/standard_title_bar"
+        />
+    <com.example.project.limolive.widget.AutoSwipeRefreshLayout
+        android:id="@+id/swipe_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+        <ListView
+            android:id="@+id/lv_info_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/activity_padding_margin8"
+            android:dividerHeight="@dimen/line_width1"
+            android:divider="@color/line_color2"
+            />
+    </com.example.project.limolive.widget.AutoSwipeRefreshLayout>
+
+    <TextView
+        android:id="@+id/tv_non_placeholder"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        />
+
+</LinearLayout>

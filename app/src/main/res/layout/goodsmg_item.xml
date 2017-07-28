@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:padding="10dp"
+    android:layout_height="100dp">
+
+    <ImageView
+        android:id="@+id/iv_goods_iicon"
+        android:layout_width="80dp"
+        android:layout_centerVertical="true"
+        android:layout_height="80dp"
+        android:src="@mipmap/goods_iicon" />
+
+    <RelativeLayout
+        android:layout_marginLeft="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_toRightOf="@+id/iv_goods_iicon">
+
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:maxLines="2"
+            android:text="双肩包双肩包双肩包双肩包双肩包双肩包双肩包双肩包双肩包双肩包双肩包双肩包双肩包双肩包"
+            android:maxEms="11"
+            android:textColor="#343434"
+            android:ellipsize="end"
+            android:textSize="16dp" />
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tv_prices"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:text="¥"
+                android:textColor="#FF4E35"
+                android:textSize="16dp" />
+            <TextView
+                android:id="@+id/tv_price"
+                android:layout_toRightOf="@+id/tv_prices"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_alignParentBottom="true"
+                android:text="119"
+                android:textColor="#FF4E35"
+                android:textSize="16dp" />
+            <TextView
+                android:id="@+id/tv_kucun"
+                android:layout_toRightOf="@+id/tv_price"
+                android:layout_marginLeft="30dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:text="库存 :"
+                android:textSize="16dp" />
+            <TextView
+                android:id="@+id/tv_repertoryNum"
+                android:layout_toRightOf="@+id/tv_kucun"
+                android:layout_marginLeft="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:text="110"
+                android:textColor="#343434"
+                android:textSize="16dp" />
+        </RelativeLayout>
+
+
+    </RelativeLayout>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:src="@mipmap/shape1" />
+</RelativeLayout>

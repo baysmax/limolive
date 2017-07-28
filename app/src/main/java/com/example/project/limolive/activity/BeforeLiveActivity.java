@@ -1,0 +1,359 @@
+package com.example.project.limolive.activity;
+
+import android.Manifest;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.os.Build;
+import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.text.TextUtils;
+import android.util.Log;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.alibaba.fastjson.JSON;
+import com.example.project.limolive.R;
+import com.example.project.limolive.api.Api;
+import com.example.project.limolive.api.ApiResponse;
+import com.example.project.limolive.api.ApiResponseHandler;
+import com.example.project.limolive.bean.live.AllcatgoryBean;
+import com.example.project.limolive.helper.LoginManager;
+import com.example.project.limolive.presenter.LoginPresenter;
+import com.example.project.limolive.tencentlive.model.CurLiveInfo;
+import com.example.project.limolive.tencentlive.model.LiveMySelfInfo;
+import com.example.project.limolive.tencentlive.presenters.InitBusinessHelper;
+import com.example.project.limolive.tencentlive.utils.Constants;
+import com.example.project.limolive.tencentlive.views.LiveingActivity;
+import com.example.project.limolive.utils.NetWorkUtil;
+import com.example.project.limolive.utils.SPUtil;
+import com.example.project.limolive.utils.ToastUtils;
+import com.example.project.limolive.view.CustomProgressDialog;
+import com.example.project.limolive.view.SelectFenleiiPopupWindow;
+import com.example.project.limolive.widget.LiveMallTitleBar;
+import com.tencent.av.sdk.AVContext;
+import com.tencent.ilivesdk.ILiveSDK;
+import com.tencent.ilivesdk.core.ILiveRoomManager;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * 作者：hpg on 2016/12/23 10:57
+ * 功能：
+ */
+public class BeforeLiveActivity extends BaseActivity implements View.OnClickListener, SelectFenleiiPopupWindow.ChangeText {
+
+    private boolean bPermission = false;
+    private RelativeLayout rl_selectFenlei, rl_addLocation;
+    private EditText et_live_tittle;
+    private ImageView iv_out, iv_fenlei, iv_addlocation, iv_chat, iv_qq, iv_weibo, iv_colect, iv_StartLive;
+    private LinearLayout all_layout;
+    private ImageView iv_home;
+    private ImageView iv_live;
+    public static final String FENLEIINFO = "FENLEIINFO";
+    private List<AllcatgoryBean> AllcatgoryBeans;
+    private TextView tv_selectFenlei;
+    private String selectType_name, SelectId;
+    private SPUtil sp;
+    private TextView id_city;
+    private final int REQUEST_PHONE_PERMISSIONS = 0;
+    private int selectPositon;
+    private CustomProgressDialog mProgressDialog;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        sp = SPUtil.getInstance(this);
+        setContentView(R.layout.fragment_alive);
+        SharedPreferences pref = getSharedPreferences("data", MODE_PRIVATE);
+        boolean living = pref.getBoolean("living", false);
+        Log.i("打印版本", "ssss" + AVContext.getVersion());
+
+        // 提前更新sig
+        bPermission = checkPublishPermission();
+        ClearFenlei();
+        initView();
+
+      /*  if (living) {
+            NotifyDialog dialog = new NotifyDialog();
+            dialog.show(getString(R.string.title_living), getSupportFragmentManager(), new DialogInterface.OnClickListener() {
+
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+
+                }
+            }, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+
+                }
+            });
+        }*/
+    }
+
+    //检查权限
+    void checkPermission() {
+        Log.i("手机sdk版本", "Build.VERSION.SDK_INT..." + Build.VERSION.SDK_INT);
+        final List<String> permissionsList = new ArrayList<>();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            Log.i("手机sdk版本", "Build.VERSION.SDK_INT..." + Build.VERSION.SDK_INT);
+            if ((checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED)) {
+                permissionsList.add(Manifest.permission.CAMERA);
+            }
+            if ((checkSelfPermission(Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED)) {
+                permissionsList.add(Manifest.permission.RECORD_AUDIO);
+            }
+            if ((checkSelfPermission(Manifest.permission.WAKE_LOCK) != PackageManager.PERMISSION_GRANTED)) {
+                permissionsList.add(Manifest.permission.WAKE_LOCK);
+            }
+            if ((checkSelfPermission(Manifest.permission.MODIFY_AUDIO_SETTINGS) != PackageManager.PERMISSION_GRANTED)) {
+                permissionsList.add(Manifest.permission.MODIFY_AUDIO_SETTINGS);
+            }
+            if (permissionsList.size() != 0) {
+                Log.i("手机sdk版本", "permissionsList.size()" + permissionsList.size());
+                requestPermissions(permissionsList.toArray(new String[permissionsList.size()]),
+                        REQUEST_PHONE_PERMISSIONS);
+            }
+        }
+    }
+
+    protected void initView() {
+        setStatusBarbg(R.drawable.livebg_up);
+        title_bar_standard = (LiveMallTitleBar) findViewById(R.id.title_bar_standard);
+        iv_out = (ImageView) findViewById(R.id.iv_out);
+        et_live_tittle = (EditText) findViewById(R.id.et_live_tittle);
+        iv_fenlei = (ImageView) findViewById(R.id.iv_fenlei);
+        rl_selectFenlei = (RelativeLayout) findViewById(R.id.rl_selectFenlei);
+        tv_selectFenlei = (TextView) findViewById(R.id.tv_selectFenlei);
+        rl_addLocation = (RelativeLayout) findViewById(R.id.rl_addLocation);
+        id_city = (TextView) findViewById(R.id.id_city);
+        iv_addlocation = (ImageView) findViewById(R.id.iv_addlocation);
+        iv_chat = (ImageView) findViewById(R.id.iv_chat);
+        iv_qq = (ImageView) findViewById(R.id.iv_qq);
+        iv_weibo = (ImageView) findViewById(R.id.iv_weibo);
+        iv_colect = (ImageView) findViewById(R.id.iv_colect);
+        iv_StartLive = (ImageView) findViewById(R.id.iv_StartLive);
+        all_layout = (LinearLayout) findViewById(R.id.all_layout);
+        AllcatgoryBeans = new ArrayList<>();
+        BindEvent();
+    }
+
+    protected void BindEvent() {
+        iv_out.setOnClickListener(this);
+        rl_selectFenlei.setOnClickListener(this);
+        rl_addLocation.setOnClickListener(this);
+        iv_chat.setOnClickListener(this);
+        iv_qq.setOnClickListener(this);
+        iv_weibo.setOnClickListener(this);
+        iv_colect.setOnClickListener(this);
+        iv_StartLive.setOnClickListener(this);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        // unregisterReceiver(Receiver);
+    }
+
+    private boolean checkPublishPermission() {
+        if (Build.VERSION.SDK_INT >= 23) {
+            List<String> permissions = new ArrayList<>();
+            if (PackageManager.PERMISSION_GRANTED != ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                permissions.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+            }
+            if (PackageManager.PERMISSION_GRANTED != ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA)) {
+                permissions.add(Manifest.permission.CAMERA);
+            }
+            if (PackageManager.PERMISSION_GRANTED != ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE)) {
+                permissions.add(Manifest.permission.READ_PHONE_STATE);
+            }
+            if (permissions.size() != 0) {
+                ActivityCompat.requestPermissions(this,
+                        (String[]) permissions.toArray(new String[0]),
+                        Constants.WRITE_PERMISSION_REQ_CODE);
+                return false;
+            }
+        }
+        return true;
+    }
+
+    @Override
+    public void onClick(View view) {
+        Intent intent = new Intent();
+        switch (view.getId()) {
+            case R.id.iv_out:
+                finish();
+                break;
+            case R.id.rl_selectFenlei://选择分类
+                mProgressDialog = new CustomProgressDialog(BeforeLiveActivity.this);
+                // showProgressDialog("正在加载");
+                //  SelectFenlei();
+                SelectFenleiiPopupWindow aaaa = new SelectFenleiiPopupWindow(BeforeLiveActivity.this, this, selectPositon);
+                aaaa.showPopupWindow(rl_selectFenlei);
+                break;
+            case R.id.rl_addLocation://添加定位
+                // mLocationClient.start();
+                String locationAddress = sp.getString("LocationAddress");
+                id_city.setText(locationAddress);
+                Log.i("rl_addLocation", "------------rl_addLocation" + locationAddress);
+                Log.i("rl_addLocation", "------------rl_addLocation" + sp.getString("lon"));
+                Log.i("rl_addLocation", "------------rl_addLocation" + sp.getString("lat"));
+                break;
+            case R.id.iv_chat:
+                break;
+            case R.id.iv_qq:
+                break;
+            case R.id.iv_weibo:
+                break;
+            case R.id.iv_colect:
+                break;
+            case R.id.iv_StartLive:
+                if (ILiveSDK.getInstance().getAVContext() == null) {//retry
+                    ToastUtils.showShort(this, "版本为空 imsdk登录失败");
+                } else if (TextUtils.isEmpty(et_live_tittle.getText())) {
+                    ToastUtils.showShort(this, "标题不能为空额");
+                } else if (TextUtils.isEmpty(tv_selectFenlei.getText())) {
+                    ToastUtils.showShort(this, "请选择直播类型");
+                } else {
+                    intent.setClass(this, LiveingActivity.class);
+                    intent.putExtra(Constants.ID_STATUS, Constants.HOST);
+                    LiveMySelfInfo.getInstance().setIdStatus(Constants.HOST);//身份为主播
+                    LiveMySelfInfo.getInstance().setJoinRoomWay(true);
+                    CurLiveInfo.setTitle(et_live_tittle.getText().toString());//标题
+                    CurLiveInfo.setLiveType(SelectId);
+                    CurLiveInfo.setHostName(LoginManager.getInstance().getHostName(this));
+                    CurLiveInfo.setHostID(LiveMySelfInfo.getInstance().getId());//主播id
+                    CurLiveInfo.setHost_phone(LiveMySelfInfo.getInstance().getPhone());//主播id
+                    CurLiveInfo.setRoomNum(LiveMySelfInfo.getInstance().getMyRoomNum());//房间号
+                    LiveMySelfInfo.getInstance().setAvatar(LoginManager.getInstance().getAvatar(this));
+                    CurLiveInfo.setHostAvator(LiveMySelfInfo.getInstance().getAvatar());
+                    startActivity(intent);
+                    finish();
+                }
+                break;
+        }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        retryImLogin();
+        ClearFenlei();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        ILiveRoomManager.getInstance().onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        ILiveRoomManager.getInstance().onPause();
+    }
+
+    private void retryImLogin() {
+        if (ILiveSDK.getInstance().getAVContext() == null) {//retry
+            InitBusinessHelper.initApp(this.getApplicationContext());
+            LoginPresenter mLoginHelper = new LoginPresenter(this);
+            mLoginHelper.imLogin(LiveMySelfInfo.getInstance().getId(), LiveMySelfInfo.getInstance().getUserSig());
+        }
+    }
+
+    private void SelectFenlei() {
+        if (!NetWorkUtil.isNetworkConnected(this)) {
+            ToastUtils.showShort(this, "请检查网络!");
+            return;
+        }
+        Api.getGoodsType(new ApiResponseHandler(this) {
+            @Override
+            public void onSuccess(ApiResponse apiResponse) {
+                if (apiResponse.getCode() == Api.SUCCESS) {
+                    Log.i("所有分类", apiResponse.toString());
+
+                    List<AllcatgoryBean> list = JSON.parseArray(apiResponse.getData(), AllcatgoryBean.class);
+                    AllcatgoryBeans.clear();
+                    AllcatgoryBeans.addAll(list);
+                    Log.i("所有分类", AllcatgoryBeans.toString());
+                    hideProgressDialog();
+                }
+            }
+
+            @Override
+            public void onFailure(String errMessage) {
+                super.onFailure(errMessage);
+                ToastUtils.showCustom(BeforeLiveActivity.this, errMessage, Toast.LENGTH_SHORT);
+                hideProgressDialog();
+            }
+        });
+    }
+
+    //清除选择分类中保存的信息
+    private void ClearFenlei() {
+        SharedPreferences settings = getSharedPreferences(Constants.USER_INFO, 0);
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putInt("selectPosition", -1);
+        editor.putString("selectId", "");
+        editor.putString("selectName", "");
+        editor.commit();
+        Log.i("清除信息", "走了么");
+    }
+
+    @Override
+    public void changeText(String text, int selectPositon) {
+        tv_selectFenlei.setText(text);
+        this.selectPositon = selectPositon;
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        if (ev.getAction() == MotionEvent.ACTION_DOWN) {
+            View v = getCurrentFocus();
+            if (isShouldHideInput(v, ev)) {
+                if (hideInputMethod(this, v)) {
+                    return true; //隐藏键盘时，其他控件不响应点击事件==》注释则不拦截点击事件
+                }
+            }
+        }
+        return super.dispatchTouchEvent(ev);
+    }
+
+    public static boolean isShouldHideInput(View v, MotionEvent event) {
+        if (v != null && (v instanceof EditText)) {
+            int[] leftTop = {0, 0};
+            v.getLocationInWindow(leftTop);
+            int left = leftTop[0], top = leftTop[1], bottom = top + v.getHeight(), right = left
+                    + v.getWidth();
+            if (event.getX() > left && event.getX() < right
+                    && event.getY() > top && event.getY() < bottom) {
+                // 保留点击EditText的事件
+                return false;
+            } else {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static Boolean hideInputMethod(Context context, View v) {
+        InputMethodManager imm = (InputMethodManager) context
+                .getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (imm != null) {
+            return imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+        }
+        return false;
+    }
+
+}

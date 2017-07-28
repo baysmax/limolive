@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white"
+    >
+
+    <include
+        layout="@layout/standard_title_bar"
+        />
+
+
+    <TextView
+        android:id="@+id/tv_about_us"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="        柠檬TV是微客网络科技有限公司旗下的移动视频直播及互联网商城产品，致力于打造90后人群视频社交及互联网商城应用。这里有停不住的八卦吐槽，红遍网络的御姐和萌妹子等你来邂逅，数不尽的大咖、小鲜肉、草根族等你来约，7×24小时精彩不断，还有强大的商城功能，休闲娱乐必备神器。"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:gravity="left|top"
+        android:textSize="14dp"
+        />
+
+
+</LinearLayout>

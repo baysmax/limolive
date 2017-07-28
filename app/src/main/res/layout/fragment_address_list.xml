@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background1"
+    android:orientation="vertical"
+    >
+    <include
+        layout="@layout/standard_title_bar"
+        />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+        <Button
+            android:id="@+id/btn_add_address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/activity_padding_margin8"
+            android:layout_marginRight="@dimen/activity_padding_margin8"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="@dimen/activity_padding_margin8"
+            android:text="@string/mine_address_add"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size1"
+            android:background="@drawable/bg_btn_add_address"
+            />
+        <com.example.project.limolive.widget.AutoSwipeRefreshLayout
+            android:id="@+id/swipe_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/btn_add_address"
+            android:layout_marginBottom="@dimen/activity_padding_margin8"
+            android:layout_marginTop="@dimen/activity_padding_margin8"
+            android:background="@null"
+            >
+            <ListView
+                android:id="@+id/lv_address_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:divider="@color/line_color2"
+                android:dividerHeight="@dimen/line_width3"
+                />
+        </com.example.project.limolive.widget.AutoSwipeRefreshLayout>
+    </RelativeLayout>
+
+</LinearLayout>
