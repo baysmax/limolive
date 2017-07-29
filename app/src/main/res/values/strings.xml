@@ -20,6 +20,7 @@
     <string name="login_register">注册直播商城</string>
     <string name="login_other">使用其他账户登录</string>
     <string name="register_title_text">注册</string>
+    <string name="welcome_to_login">进入</string>
     <string name="publish_product_text">发布宝贝</string>
     <string name="publish_product_detail">宝贝描述</string>
     <string name="register_at_once">立即注册</string>

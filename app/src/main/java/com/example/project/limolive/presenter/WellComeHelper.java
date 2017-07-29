@@ -18,6 +18,7 @@ import com.example.project.limolive.tencentlive.model.LiveMySelfInfo;
 import com.example.project.limolive.tencentlive.presenters.viewinface.LoginView;
 import com.example.project.limolive.utils.NetWorkUtil;
 import com.example.project.limolive.utils.ToastUtils;
+import com.example.project.limolive.welcome.ViewInterface.IWelconme;
 import com.example.project.limolive.welcome.WelcomeActivity;
 
 
@@ -67,7 +68,8 @@ public class WellComeHelper extends Presenter implements LoginView{
     /**
      * 是否进入下个页面
      */
-    public void intoNext() {
+    public void intoNext(WelcomeActivity welcomeActivity) {
+
         Thread th= new Thread(new Runnable() {
             @Override
             public void run() {
@@ -76,21 +78,31 @@ public class WellComeHelper extends Presenter implements LoginView{
         });
         if(isFirstEnter()){
             Log.i(TAG,"第一次登录！");
-            //firstEnter();
+            welcomeActivity.showViewPager();
+            Log.i("main",""+welcomeActivity.getAdapterItem());
+                //welcomeActivity.showBtn();
+            firstEnter();
         }else if(isLogin()){
             Log.i(TAG,"已登录！");
+            welcomeActivity.setWelcomeActivityBackground();
+            welcomeActivity.hideBtn();
+            welcomeActivity.hideViewPager();
             th.start();
             comeToMain();
         }else{
             Log.i(TAG,"未登录！");
-//            comeToLogin();
+            //comeToLogin();
+            welcomeActivity.showViewPager();
+            Log.i("main",""+welcomeActivity.getAdapterItem());
+            //welcomeActivity.showBtn();
+
         }
     }
 
     /**
      * 跳往登录页面
      */
-    private void comeToLogin() {
+    public void comeToLogin() {
         Log.i(TAG,"未登录，跳到登录界面！");
         context.startActivity(new Intent(context,LoginActivity.class));
         ((WelcomeActivity)context).finish();
@@ -127,8 +139,8 @@ public class WellComeHelper extends Presenter implements LoginView{
         //TODO 判断是否第一次打开，如果是，则进入图片引导页，否则进行下一步判断
         //TODO 进入图片引导页
         loginManager.firstEnter(context);
-        context.startActivity(new Intent(context, LoginActivity.class));
-        ((WelcomeActivity)context).finish();
+       /* context.startActivity(new Intent(context, LoginActivity.class));
+        ((WelcomeActivity)context).finish();*/
     }
 
 

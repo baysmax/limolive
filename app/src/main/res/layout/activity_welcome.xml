@@ -1,13 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/ll_start"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
+<!--android:background="@drawable/item1"-->
     <android.support.v4.view.ViewPager
         android:id="@+id/vp_Welcome_images"
         android:layout_width="match_parent"
+        android:visibility="gone"
         android:layout_height="match_parent"/>
+    <LinearLayout
+        android:id="@+id/welcome_to_login"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="100dp"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+        <View
+            android:layout_weight="2"
+            android:layout_width="@dimen/gaudio_spacing_320"
+            android:layout_height="1dp"/>
+        <Button
+
+            android:text="@string/welcome_to_login"
+            android:textColor="@color/color_333333"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:onClick="onClick"
+            android:background="@drawable/button_bg3"
+        />
+        <View
+            android:layout_weight="2"
+            android:layout_width="@dimen/gaudio_spacing_320"
+            android:layout_height="1dp"/>
 
 
-</FrameLayout>
+
+    </LinearLayout>
+
+
+</RelativeLayout>
