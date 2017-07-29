@@ -599,7 +599,9 @@ public class LiveHelper extends Presenter implements ILiveRoomOption.onRoomDisco
 
             @Override
             public void onError(String module, int errCode, String errMsg) {
-                Toast.makeText(mContext, "sendCmd->failed:" + module + "|" + errCode + "|" + errMsg, Toast.LENGTH_SHORT).show();
+                if(mContext!=null){
+                    Toast.makeText(mContext, "sendCmd->failed:" + module + "|" + errCode + "|" + errMsg, Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
