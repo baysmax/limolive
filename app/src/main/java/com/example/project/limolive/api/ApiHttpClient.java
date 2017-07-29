@@ -13,11 +13,16 @@ public class ApiHttpClient {
    //  public static final String API_PIC = "http://123.57.148.47:8080/lemon/";
    //  public static final String API_LOCATION_PIC = "http://123.57.148.47:8080/lemon";
 
-    public static final String API_URL = "http://112.121.186.162/lemon/index.php/";
-    public static final String API_PIC = "http://112.121.186.162/lemon/";
-    public static final String API_LOCATION_PIC = "http://112.121.186.162/lemon";
-   //   public static final String API_URL = "http://lemon.ningmengtv.net/index.php/";
-   //    public static final String API_PIC = "http://lemon.ningmengtv.net/";
+//    public static final String API_URL = "http://112.121.186.162/lemon/index.php/";
+//    public static final String API_PIC = "http://112.121.186.162/lemon/";
+//    public static final String API_LOCATION_PIC = "http://112.121.186.162/lemon";
+
+    public static final String API_URL = "http://47.93.32.34/index.php/";
+    public static final String API_PIC = "http://47.93.32.34/";
+    public static final String API_LOCATION_PIC = "http://47.93.32.34";
+
+    //   public static final String API_URL = "http://lemon.ningmengtv.net/index.php/";
+    //    public static final String API_PIC = "http://lemon.ningmengtv.net/";
    //   public static final String API_LOCATION_PIC = "http://lemon.ningmengtv.net";
 
 
