@@ -138,7 +138,6 @@ import static com.example.project.limolive.presenter.Presenter.NET_UNCONNECT;
 public class LiveingActivity extends BaseActivity implements LiveView, View.OnClickListener, ProfileView, LiveListView {
     private static final String TAG = LiveingActivity.class.getSimpleName();
     private static final int GETPROFILE_JOIN = 0x200;
-
     private LiveHelper mLiveHelper;
     public static ArrayList<ChatEntity> mArrayListChatEntity;
     public static ArrayList<ChatEntity> mArrayListPresent;
@@ -240,6 +239,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
         mLiveHelper.startEnterRoom();
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
     }
+
 
     private Handler mHandler = new Handler(new Handler.Callback() {
         @Override
@@ -655,6 +655,8 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
         }
     }
 
+
+
     /**
      * 主动退出直播
      */
@@ -664,6 +666,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
             if (backDialog.isShowing() == false)
                 backDialog.show();
         } else {
+
             mLiveHelper.startExitRoom();
         }
     }
@@ -777,7 +780,8 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
                 editor.putBoolean("living", false);
                 editor.apply();
                 mDetailTime.setText(formatTime);
-                mDetailAdmires.setText("" + CurLiveInfo.getAdmires());
+                mDetailAdmires . setText("" + CurLiveInfo.getAdmires());
+                tv_get_NMB.setText(""+Hostlemon_coins);
                 mDetailWatchCount.setText("" + watchCount);
                 mDetailDialog.show();
             }
@@ -808,7 +812,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
         });
     }
 
-    private TextView mDetailTime, mDetailAdmires, mDetailWatchCount, btn_save, btn_delete;
+    private TextView mDetailTime, mDetailAdmires, mDetailWatchCount, btn_save, btn_delete,tv_get_NMB;
     private ImageView iv_chat, iv_qq, iv_weibo, iv_colect;
 
     private void initDetailDailog() {
@@ -816,6 +820,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
         mDetailDialog.setContentView(R.layout.dialog_live_detail);
         mDetailTime = (TextView) mDetailDialog.findViewById(R.id.tv_time);
         mDetailAdmires = (TextView) mDetailDialog.findViewById(R.id.tv_admires);
+        tv_get_NMB=(TextView) mDetailDialog.findViewById(R.id.tv_get_NMB);
         mDetailWatchCount = (TextView) mDetailDialog.findViewById(R.id.tv_members);
         btn_save = (TextView) mDetailDialog.findViewById(R.id.btn_save);
         btn_delete = (TextView) mDetailDialog.findViewById(R.id.btn_delete);
@@ -1499,6 +1504,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
     /*********
      * 获取剩余柠檬币  显示的魅力值
      */
+    String Hostlemon_coins="";
     private void getHostCoins() {
 
         if (NetWorkUtil.isNetworkConnected(this)) {
@@ -1508,7 +1514,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
                     Log.i("获取主播剩余柠檬币", "apiResponse.." + apiResponse.toString());
                     if (apiResponse.getCode() == 0) {
                         JSONObject parse = JSON.parseObject(apiResponse.getData());
-                        String Hostlemon_coins = parse.getString("lemon_coins");
+                        Hostlemon_coins = parse.getString("lemon_coins");
                         tv_NMB.setText(Hostlemon_coins);
                     } else {
                         ToastUtils.showShort(LiveingActivity.this, apiResponse.getMessage());

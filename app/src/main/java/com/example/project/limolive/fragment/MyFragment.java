@@ -34,6 +34,8 @@ import com.example.project.limolive.utils.NetWorkUtil;
 import com.example.project.limolive.utils.ToastUtils;
 import com.facebook.drawee.view.SimpleDraweeView;
 
+import static com.example.project.limolive.presenter.Presenter.NET_UNCONNECT;
+
 /**
  * Created by hpg on 2016/12/13
  * 我的 fragment
@@ -57,7 +59,7 @@ public class MyFragment extends BaseFragment implements View.OnClickListener{
 
 	private LinearLayout ll_fans;    //粉丝
 	private LinearLayout ll_attention;//关注
-
+	private TextView tvMembers;//关注人数
 	private TextView tv_wait_pay;  //待付款
 	private TextView tv_wait_receive;  //待收货
 	private TextView tv_wait_comment;  //待评价
@@ -68,7 +70,9 @@ public class MyFragment extends BaseFragment implements View.OnClickListener{
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		return setContentView(R.layout.fragment_my,inflater,container);
+		View view = setContentView(R.layout.fragment_my, inflater, container);
+		getFollow();
+		return view;
 	}
 
 	@Override
@@ -76,6 +80,7 @@ public class MyFragment extends BaseFragment implements View.OnClickListener{
 		super.initView();
 		loadTitle();
 		provider=new MineDataProvider(getActivity());
+		tvMembers=(TextView)findViewById(R.id.tv_attention_num);//关注
 		iv_user_head= (SimpleDraweeView) findViewById(R.id.iv_user_head);
 		rl_all_order= (RelativeLayout) findViewById(R.id.rl_all_order);
 		tv_username= (TextView) findViewById(R.id.tv_username);
@@ -94,8 +99,7 @@ public class MyFragment extends BaseFragment implements View.OnClickListener{
 		tv_wait_receive= (TextView) findViewById(R.id.tv_wait_receive);
 		tv_wait_comment= (TextView) findViewById(R.id.tv_wait_comment);
 		tv_return_shop= (TextView) findViewById(R.id.tv_return_shop);
-
-
+		//显示
 		initEvent();
 	}
 
@@ -144,10 +148,43 @@ public class MyFragment extends BaseFragment implements View.OnClickListener{
 		}
 
 	}
+	/**
+	 * 主播的关注人数
+	 */
+	public void getFollow() {
+
+		if (!NetWorkUtil.isNetworkConnected(getContext())) {
+			ToastUtils.showShort(getContext(), NET_UNCONNECT);
+			return;
+		} else {
+			Api.getFollows(LoginManager.getInstance().getUserID(getContext()), new ApiResponseHandler(getContext()) {
+				@Override
+				public void onSuccess(ApiResponse apiResponse) {
+					Log.i("主播的关注人数", "apiResponse" + apiResponse.toString());
+
+					if (apiResponse.getCode() == 0) {
+						//主播的关注人数
+						JSONObject parse = (JSONObject) JSON.parse(apiResponse.getData());
+						String follow_nums = parse.getString("follow_nums");
+						Log.i("main","getFollow:"+follow_nums);
+						tvMembers.setText(follow_nums + "");
+
+					}
+				}
+
+				@Override
+				public void onFailure(String errMessage) {
+					super.onFailure(errMessage);
+					ToastUtils.showShort(getContext(), errMessage);
+				}
+			});
+		}
+	}
 	@Override
 	public void onResume() {
 		super.onResume();
 		setData();
+		getFollow();
 	}
 
 	private void initEvent() {
