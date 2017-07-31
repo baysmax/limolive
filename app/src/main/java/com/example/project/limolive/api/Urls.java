@@ -82,5 +82,6 @@ public class Urls {
     public static final String GET_HAVECOINS ="/appapi/Ucenter/have_coins";  //获取主播魅力值接口
     public static final String GET_MEMBERCOINS ="/appapi/Ucenter/have_charm";  //获取成员柠檬币接口
     public static final String GET_FOLLOWS ="/appapi/ucenter/follows";  //主播的关注人数
+    public static final String GET_FANSLIST ="/Appapi/Ucenter/followLists";  //粉丝列表
 
 }

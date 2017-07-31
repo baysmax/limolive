@@ -11,6 +11,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.example.project.limolive.R;
 import com.example.project.limolive.activity.AccountDetailActivity;
@@ -33,6 +34,7 @@ import com.example.project.limolive.tencentlive.views.LiveingActivity;
 import com.example.project.limolive.utils.NetWorkUtil;
 import com.example.project.limolive.utils.ToastUtils;
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.loopj.android.http.AsyncHttpResponseHandler;
 
 import static com.example.project.limolive.presenter.Presenter.NET_UNCONNECT;
 
@@ -65,6 +67,7 @@ public class MyFragment extends BaseFragment implements View.OnClickListener{
 	private TextView tv_wait_comment;  //待评价
 	private TextView tv_return_shop;  //退款售后
 	private TextView tv_my_money_num; //主播柠檬币；
+	private TextView tvfansMembers;//粉丝数量
 
 
 	@Override
@@ -72,7 +75,28 @@ public class MyFragment extends BaseFragment implements View.OnClickListener{
 			Bundle savedInstanceState) {
 		View view = setContentView(R.layout.fragment_my, inflater, container);
 		getFollow();
+		getFans();
 		return view;
+	}
+
+	private void getFans() {
+		if (NetWorkUtil.isNetworkConnected(getContext())) {
+			Api.getFansHandle(LoginManager.getInstance().getUserID(getContext()), String.valueOf(2), new ApiResponseHandler(getContext()) {
+				@Override
+				public void onSuccess(ApiResponse apiResponse) {
+					Object parse = JSON.parse(apiResponse.getData());
+					JSONArray objects = JSONArray.parseArray(apiResponse.getData());
+					tvfansMembers.setText(String.valueOf(objects.size()));
+					Log.i("main","getFans:"+apiResponse.toString());
+				}
+
+			});
+
+		} else {
+			ToastUtils.showShort(getContext(), "网络异常，请检查您的网络~");
+		}
+
+
 	}
 
 	@Override
@@ -81,6 +105,7 @@ public class MyFragment extends BaseFragment implements View.OnClickListener{
 		loadTitle();
 		provider=new MineDataProvider(getActivity());
 		tvMembers=(TextView)findViewById(R.id.tv_attention_num);//关注
+		tvfansMembers=(TextView)findViewById(R.id.tv_fans_num);//粉丝
 		iv_user_head= (SimpleDraweeView) findViewById(R.id.iv_user_head);
 		rl_all_order= (RelativeLayout) findViewById(R.id.rl_all_order);
 		tv_username= (TextView) findViewById(R.id.tv_username);
@@ -330,4 +355,6 @@ public class MyFragment extends BaseFragment implements View.OnClickListener{
 		intent.putExtra("orderPage",page);
 		startActivity(intent);
 	}
+
+
 }

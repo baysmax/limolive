@@ -456,6 +456,15 @@ public class Api {
         params.put("fuid", fuid);
         ApiHttpClient.get(ApiHttpClient.API_URL + Urls.FOLLOWHANDLE, params, handler);
     }
+    /**
+     * 获取粉丝列表
+     */
+    public static void getFansHandle(String uid, String type, AsyncHttpResponseHandler handler) {
+        RequestParams params = new RequestParams();
+        params.put("uid", uid);
+        params.put("type", type);
+        ApiHttpClient.get(ApiHttpClient.API_URL + Urls.GET_FANSLIST, params, handler);
+    }
 
     /**
      * 附近的直播
