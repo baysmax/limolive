@@ -271,7 +271,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
                     getHostCoins();
                     break;
                 case GUANZHU://同步关注数量
-                    getFollow();
+                    //getFollow();
                     break;
 
                 case PAIHANG://更新排行头像
@@ -399,10 +399,10 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
         send_gift = (TextView) findViewById(R.id.send_gift);//送礼物
         mBeautyConfirm = (TextView) findViewById(R.id.qav_beauty_setting_finish);//美颜提交
         gif_donghua = (ImageView) findViewById(R.id.gif_donghua);//显示动画的控件
-        zaixian_member = (TextView) findViewById(R.id.zaixian_member);//在线人数
-        getFollow();//获取主播的关注人数
-
-        zaixian_member.setText("" + CurLiveInfo.getMembers());
+        //zaixian_member = (TextView) findViewById(R.id.zaixian_member);//在线人数
+        //getFollow();//获取主播的关注人数
+        tvMembers.setText(CurLiveInfo.getMembers()+"在线");
+        //zaixian_member.setText("" + CurLiveInfo.getMembers());
 
         giftCon = (LinearLayout) findViewById(R.id.gift_con);
         giftManger = new GiftShowManager(LiveingActivity.this, giftCon);
@@ -492,8 +492,8 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
         mChatMsgListAdapter = new ChatMsgListAdapter(this, mListViewMsgItems, mArrayListChatEntity);
         mListViewMsgItems.setAdapter(mChatMsgListAdapter);
 
-        zaixian_member.setText("" + CurLiveInfo.getMembers());
-
+        //zaixian_member.setText("" + CurLiveInfo.getMembers());
+        tvMembers.setText(CurLiveInfo.getMembers()+"在线");
         //TODO 获取渲染层
         mRootView = (AVRootView) findViewById(R.id.av_root_view);
         //TODO 设置渲染层
@@ -876,7 +876,9 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
         refreshTextListView(TextUtils.isEmpty(name) ? id : name, "进入房间", Constants.MEMBER_ENTER);
 
         CurLiveInfo.setMembers(CurLiveInfo.getMembers() + 1);
-        zaixian_member.setText("" + CurLiveInfo.getMembers());
+        //zaixian_member.setText("" + CurLiveInfo.getMembers());
+        tvMembers.setText(CurLiveInfo.getMembers()+"在线");
+
     }
 
     @Override
@@ -887,7 +889,8 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
 
         if (CurLiveInfo.getMembers() > 0) {
             CurLiveInfo.setMembers(CurLiveInfo.getMembers() - 1);
-            zaixian_member.setText("" + CurLiveInfo.getMembers());
+            //zaixian_member.setText("" + CurLiveInfo.getMembers());
+            tvMembers.setText(CurLiveInfo.getMembers()+"在线");
         }
     }
 
@@ -1853,7 +1856,8 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
             switch (requestCode) {
                 case GETPROFILE_JOIN:
                     for (TIMUserProfile user : profiles) {
-                        zaixian_member.setText("" + CurLiveInfo.getMembers());
+                        //zaixian_member.setText("" + CurLiveInfo.getMembers());
+                        tvMembers.setText(CurLiveInfo.getMembers()+"在线");
                         SxbLog.w(TAG, "get nick name:" + user.getNickName());
                         SxbLog.w(TAG, "get remark name:" + user.getRemark());
                         SxbLog.w(TAG, "get avatar:" + user.getFaceUrl());
@@ -2019,7 +2023,8 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
             if (!TextUtils.isEmpty(CurLiveInfo.getHostName())) {
             } else {
             }
-            zaixian_member.setText("" + CurLiveInfo.getMembers());
+            //zaixian_member.setText("" + CurLiveInfo.getMembers());
+            tvMembers.setText(CurLiveInfo.getMembers()+"在线");
             //进入房间流程
             mLiveHelper.startEnterRoom();
         }

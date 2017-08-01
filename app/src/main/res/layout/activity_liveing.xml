@@ -68,6 +68,7 @@
                     android:textSize="12sp"
                     />
 
+
                 <TextView
                     android:id="@+id/tv_NMB"
                     android:layout_toRightOf="@+id/tv_NMBtext"
@@ -76,8 +77,13 @@
                     android:layout_height="wrap_content"
                     android:textColor="#FF0080"
                     android:textSize="12sp" />
+                <ImageView
+                    android:id="@+id/go_to_PHB"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
             </RelativeLayout>
             <RelativeLayout
+                android:visibility="gone"
                 android:layout_below="@+id/meili"
                 android:layout_width="wrap_content"
                 android:layout_marginTop="5dp"
