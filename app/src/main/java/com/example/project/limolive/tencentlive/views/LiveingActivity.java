@@ -56,6 +56,7 @@ import com.bumptech.glide.RequestManager;
 import com.example.project.limolive.R;
 import com.example.project.limolive.activity.BaseActivity;
 import com.example.project.limolive.activity.MainActivity;
+import com.example.project.limolive.activity.RanksActivity;
 import com.example.project.limolive.adapter.BlackListAdapter;
 import com.example.project.limolive.api.Api;
 import com.example.project.limolive.api.ApiHttpClient;
@@ -195,6 +196,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
     private TextView live_room_gift_pay;
     private TextView live_room_gift_money;
     private Dialog presentdialog;
+    private RelativeLayout go_phb_Layout;
     private LinearLayout giftCon;//礼物的里列表的外层ViewGroup
     private View viewd;
     private SPUtil sp;
@@ -359,7 +361,8 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
      */
     private void initView() {
         hideStatusBar();
-
+        go_phb_Layout= (RelativeLayout) findViewById(R.id.gotoPHB);//柠檬币外部布局用来 实现点击事件
+        go_phb_Layout.setOnClickListener(this);
         Display My_Display = getWindow().getWindowManager().getDefaultDisplay();
         Max_X = My_Display.getWidth();
         Max_Y = My_Display.getHeight() + 300;
@@ -1266,6 +1269,10 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
         } else if (i == R.id.rl_head) {
             //点击主播头像 传入 CurLiveInfo
             mHostInfoPopupWindow.showPopupWindow(this.findViewById(R.id.rl_main));
+        }else if (i==R.id.gotoPHB){
+            Intent intent = new Intent();
+            intent.setClass(LiveingActivity.this,RanksActivity.class);
+            startActivity(intent);
         }
     }
 

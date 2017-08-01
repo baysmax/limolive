@@ -43,21 +43,24 @@
 
         </RelativeLayout>
         <RelativeLayout
+            android:id="@+id/gotoPHB"
             android:layout_width="wrap_content"
             android:layout_marginLeft="10dp"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="60dp"
             android:layout_height="wrap_content">
             <RelativeLayout
                 android:id="@+id/meili"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
                 <ImageView
+                    android:layout_centerVertical="true"
                     android:id="@+id/image"
                     android:layout_width="16dp"
                     android:layout_height="16dp"
                     android:src="@drawable/diamond_img"
                     />
                 <TextView
+                    android:layout_centerVertical="true"
                     android:id="@+id/tv_NMBtext"
                     android:layout_toRightOf="@+id/image"
                     android:layout_width="wrap_content"
@@ -70,6 +73,7 @@
 
 
                 <TextView
+                    android:layout_centerVertical="true"
                     android:id="@+id/tv_NMB"
                     android:layout_toRightOf="@+id/tv_NMBtext"
                     android:layout_width="wrap_content"
@@ -78,9 +82,12 @@
                     android:textColor="#FF0080"
                     android:textSize="12sp" />
                 <ImageView
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@+id/tv_NMB"
                     android:id="@+id/go_to_PHB"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_width="12sp"
+                    android:layout_height="12sp"
+                    android:src="@drawable/mlz_back"/>
             </RelativeLayout>
             <RelativeLayout
                 android:visibility="gone"

@@ -119,6 +119,9 @@
         <activity
             android:name="com.example.project.limolive.activity.ProductSortActivity"
             android:screenOrientation="portrait" />
+        <!--主播的排行榜-->
+        <activity android:name="com.example.project.limolive.activity.RanksActivity"
+            android:screenOrientation="portrait"/>
 
         <!--联系客服-->
         <activity
