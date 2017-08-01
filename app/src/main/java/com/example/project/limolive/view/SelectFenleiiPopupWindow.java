@@ -79,6 +79,7 @@ public class SelectFenleiiPopupWindow {
                 changeText.changeText(AllcatgoryBeans.get(position).getType_name(),position);
                 adapter.setSelectPosition(position);
                 adapter.notifyDataSetChanged();
+                if (popupWindow!=null) popupWindow.dismiss();
             }
         });
         popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
