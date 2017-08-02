@@ -47,6 +47,7 @@
             android:layout_width="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="60dp"
+            android:background="@drawable/button_bg3"
             android:layout_height="wrap_content">
             <RelativeLayout
                 android:id="@+id/meili"
