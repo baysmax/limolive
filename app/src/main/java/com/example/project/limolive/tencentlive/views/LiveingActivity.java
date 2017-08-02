@@ -218,6 +218,8 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
     public static final int PAIHANG = 6666;
     private int score = 0;
 
+    private int startnmb=0,stopnmb=0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -424,7 +426,10 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
         share_btn.setOnClickListener(this);
         send_gift.setOnClickListener(this);
         mBeautyConfirm.setOnClickListener(this);
+
         getHostCoins();//主播的柠檬币
+
+
         Log.i("getHostID", CurLiveInfo.getHostID());
         if (LiveMySelfInfo.getInstance().getIdStatus() == Constants.HOST) {
             Log.i("主播身份", "1");
@@ -475,8 +480,6 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
                 }
             });
             startService(new Intent(getApplication(), DesServices.class));
-
-
 
         } else {  //成员观看  自己非主播身份
             initInviteDialog();
@@ -799,6 +802,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
                 mDetailAdmires . setText("" + CurLiveInfo.getAdmires());
                 tv_get_NMB.setText(""+Hostlemon_coins);
                 mDetailWatchCount.setText("" + watchCount);
+                tv_get_NMB.setText(""+(stopnmb-startnmb));
                 mDetailDialog.show();
             }
         } else {
@@ -836,7 +840,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
         mDetailDialog.setContentView(R.layout.dialog_live_detail);
         mDetailTime = (TextView) mDetailDialog.findViewById(R.id.tv_time);
         mDetailAdmires = (TextView) mDetailDialog.findViewById(R.id.tv_admires);
-        tv_get_NMB=(TextView) mDetailDialog.findViewById(R.id.tv_get_NMB);
+        tv_get_NMB=(TextView) mDetailDialog.findViewById(R.id.tv_get_NMB);//————————————————————
         mDetailWatchCount = (TextView) mDetailDialog.findViewById(R.id.tv_members);
         btn_save = (TextView) mDetailDialog.findViewById(R.id.btn_save);
         btn_delete = (TextView) mDetailDialog.findViewById(R.id.btn_delete);
@@ -1528,6 +1532,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
      * 获取剩余柠檬币  显示的魅力值
      */
     String Hostlemon_coins="";
+    boolean isfast=true;
     private void getHostCoins() {
 
         if (NetWorkUtil.isNetworkConnected(this)) {
@@ -1539,6 +1544,17 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
                         JSONObject parse = JSON.parseObject(apiResponse.getData());
                         Hostlemon_coins = parse.getString("lemon_coins");
                         tv_NMB.setText(Hostlemon_coins);
+                        if (isfast){
+                            if (Hostlemon_coins!=null&&Hostlemon_coins!=""){
+                                startnmb=Integer.parseInt(Hostlemon_coins);
+                            }
+                            isfast=false;
+                        }else {
+                            if (Hostlemon_coins!=null&&Hostlemon_coins!=""){
+                                stopnmb=Integer.parseInt(Hostlemon_coins);
+                            }
+                        }
+
                     } else {
                         ToastUtils.showShort(LiveingActivity.this, apiResponse.getMessage());
                     }
