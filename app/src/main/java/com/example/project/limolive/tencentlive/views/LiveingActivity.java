@@ -64,6 +64,7 @@ import com.example.project.limolive.api.ApiResponse;
 import com.example.project.limolive.api.ApiResponseHandler;
 import com.example.project.limolive.bean.mine.BlackListBean;
 import com.example.project.limolive.helper.LoginManager;
+import com.example.project.limolive.service.DesServices;
 import com.example.project.limolive.tencentim.ui.ChatActivity;
 import com.example.project.limolive.tencentlive.adapters.MembersHeadAdapter;
 import com.example.project.limolive.tencentlive.giftpage.BasePager;
@@ -226,10 +227,13 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
         checkPermission();
         mLiveHelper = new LiveHelper(this, this, mHandler);
         sp = SPUtil.getInstance(LiveingActivity.this);
+
+        //注册广播接收者
         myReceiver = new MyReceiver();
         IntentFilter filter = new IntentFilter();
         filter.addAction(GETMENBERINFO);
         registerReceiver(myReceiver, filter);
+
         liwu = (Animation) AnimationUtils.loadAnimation(this, R.anim.liwu);
 
         //   enter = (Animation) AnimationUtils.loadAnimation(this, R.anim.act_open_enter);
@@ -470,6 +474,9 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
                     }
                 }
             });
+            startService(new Intent(getApplication(), DesServices.class));
+
+
 
         } else {  //成员观看  自己非主播身份
             initInviteDialog();
@@ -609,11 +616,17 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
      * 记时器
      */
     private class VideoTimerTask extends TimerTask {
+        private Intent intent=new Intent();
+        {
+            intent.setAction("com.example.project.limolive.service");
+        }
         public void run() {
             SxbLog.i(TAG, "timeTask ");
             ++mSecond;
-            if (LiveMySelfInfo.getInstance().getIdStatus() == Constants.HOST)
+            if (LiveMySelfInfo.getInstance().getIdStatus() == Constants.HOST){
+                sendBroadcast(intent);
                 mHandler.sendEmptyMessage(UPDAT_WALL_TIME_TIMER_TASK);
+            }
         }
     }
 
