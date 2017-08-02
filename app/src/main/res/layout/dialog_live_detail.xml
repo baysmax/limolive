@@ -97,7 +97,7 @@
             android:id="@+id/tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="柠檬币："
+            android:text="柠檬币收益："
             android:textColor="@android:color/white"
             android:textSize="20sp" />
 
