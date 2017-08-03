@@ -36,6 +36,12 @@ public class Api {
         params.put("code", code);
         ApiHttpClient.post(ApiHttpClient.API_URL + Urls.POST_REGISTER, params, handler);
     }
+    public static void getRanking(String uid, String userid, AsyncHttpResponseHandler handler) {
+        RequestParams params = new RequestParams();
+        params.put("uid", uid);
+        params.put("user_id", userid);
+        ApiHttpClient.post(ApiHttpClient.API_URL + Urls.POST_RANKING_INFO, params, handler);
+    }
 
     /**
      * 登录

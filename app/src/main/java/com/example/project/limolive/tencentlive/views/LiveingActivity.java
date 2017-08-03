@@ -22,6 +22,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.text.LoginFilter;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -64,6 +65,7 @@ import com.example.project.limolive.api.ApiResponse;
 import com.example.project.limolive.api.ApiResponseHandler;
 import com.example.project.limolive.bean.mine.BlackListBean;
 import com.example.project.limolive.helper.LoginManager;
+import com.example.project.limolive.model.LoginModel;
 import com.example.project.limolive.service.DesServices;
 import com.example.project.limolive.tencentim.ui.ChatActivity;
 import com.example.project.limolive.tencentlive.adapters.MembersHeadAdapter;
@@ -1288,6 +1290,8 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
             mHostInfoPopupWindow.showPopupWindow(this.findViewById(R.id.rl_main));
         }else if (i==R.id.gotoPHB){
             Intent intent = new Intent();
+            intent.putExtra("hostid",CurLiveInfo.getHostID());
+            intent.putExtra("userid", LoginManager.getInstance().getUserID(LiveingActivity.this));
             intent.setClass(LiveingActivity.this,RanksActivity.class);
             startActivity(intent);
         }

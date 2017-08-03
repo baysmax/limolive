@@ -25,6 +25,7 @@ public class Urls {
 
     public static final String GET_FIND_PASSWORD = "appapi/user/passwordReset";  //找回密码
     public static final String POST_CHANGE_INFO = "appapi/ucenter/edit";  //修改个人信息
+    public static final String POST_RANKING_INFO = "/Appapi/Ucenter/gift_Ranking";  //修改个人信息
 
     public static final String GET_MYROOMID = "/appapi/live/roomnum";  //获取房间号码
     public static final String NEW_ROOM_INFO = "/appapi/live/create";  //用户创建直播间接口

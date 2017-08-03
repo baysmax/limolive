@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:background="#ffffff"
+    android:layout_height="wrap_content">
+    <TextView
+        android:id="@+id/tv_mc1"
+        android:layout_centerVertical="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"/>
+    <RelativeLayout
+        android:id="@+id/rl1"
+        android:layout_centerInParent="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/sdv_avatar"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            fresco:roundAsCircle="true"
+            fresco:roundingBorderColor="@color/white"
+            fresco:roundingBorderWidth="2dp"
+            fresco:backgroundImage="@mipmap/icon_qq_img"
+            android:layout_centerInParent="true"/>
+        <TextView
+            android:id="@+id/tvNickname"
+            android:layout_marginTop="35dp"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/sdv_avatar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/profile_nickname"/>
+        <RelativeLayout
+            android:layout_marginTop="5dp"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/tvNickname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/tv_meiliz"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="魅力值"/>
+            <TextView
+                android:id="@+id/tv_mlz"
+                android:text="21314"
+                android:layout_marginLeft="15dp"
+                android:layout_toRightOf="@+id/tv_meiliz"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+    </RelativeLayout>
+
+
+    <View
+        android:id="@+id/v1"
+        android:layout_below="@id/rl1"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="#22111111"/>
+    <View
+        android:layout_below="@id/v1"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="4dp"
+        android:background="#00000000"/>
+
+</RelativeLayout>
