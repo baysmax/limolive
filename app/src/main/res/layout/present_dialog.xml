@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:background="#30000000"
     android:gravity="bottom"
     android:orientation="vertical">
@@ -9,7 +9,7 @@
     <android.support.v4.view.ViewPager
         android:id="@+id/page_prient"
         android:layout_width="match_parent"
-        android:layout_height="207dp"></android.support.v4.view.ViewPager>
+        android:layout_height="220dp"></android.support.v4.view.ViewPager>
 
     <View
         android:layout_width="fill_parent"

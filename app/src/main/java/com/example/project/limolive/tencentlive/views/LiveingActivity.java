@@ -1305,6 +1305,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
         WindowManager.LayoutParams params = dialog1.getWindow().getAttributes();// 得到属性
         params.gravity = Gravity.BOTTOM;// 显示在底部
         params.width = LinearLayout.LayoutParams.MATCH_PARENT;
+        params.height = LinearLayout.LayoutParams.WRAP_CONTENT;
         dialog1.getWindow().setAttributes(params);// 设置属性
         dialog1.getWindow().setContentView(viewd);// 把自定义view加上去
         ViewPager page_prient = (ViewPager) viewd.findViewById(R.id.page_prient);
