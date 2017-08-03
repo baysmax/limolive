@@ -228,14 +228,14 @@ public class BaseActivity extends AppCompatActivity implements ProfileView, Easy
     @Override
     protected void onPause() {
         super.onPause();
-        PgyFeedbackShakeManager.unregister();
+        //PgyFeedbackShakeManager.unregister();
         mLocationClient.stop();
     }
 
 
     @Override
     protected void onResume() {
-        PgyFeedbackShakeManager.register(this, false);
+        //PgyFeedbackShakeManager.register(this, false);
         super.onResume();
     }
 
