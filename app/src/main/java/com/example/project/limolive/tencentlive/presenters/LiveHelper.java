@@ -155,6 +155,21 @@ public class LiveHelper extends Presenter implements ILiveRoomOption.onRoomDisco
             }
         });
     }
+    public static void tellstartExitRoom(final Context context) {
+        Log.i("监控主播退出了房间", "tellstartExitRoom");
+        ILVLiveManager.getInstance().quitRoom(new ILiveCallBack() {
+            @Override
+            public void onSuccess(Object data) {
+                //通知结束
+                notifyTellServerLiveEnd(context);
+
+            }
+
+            @Override
+            public void onError(String module, int errCode, String errMsg) {
+            }
+        });
+    }
 
     public void perpareQuitRoom(boolean bPurpose) {
         if (bPurpose) {
@@ -420,9 +435,29 @@ public class LiveHelper extends Presenter implements ILiveRoomOption.onRoomDisco
     /**
      * 通知用户UserServer房间
      */
-    public void notifyServerLiveEnd() {
+    public  void notifyServerLiveEnd() {
         Log.i("退出房间", "走进来没");
         Api.stopLiveRoom(LiveMySelfInfo.getInstance().getMyRoomNum(), new ApiResponseHandler(mContext) {
+            @Override
+            public void onSuccess(ApiResponse apiResponse) {
+                if (apiResponse.getCode() == Api.SUCCESS) {
+                }
+                Log.i("退出房间", apiResponse.toString());
+            }
+
+            @Override
+            public void onFailure(String errMessage) {
+                super.onFailure(errMessage);
+                Log.i("退出房间", errMessage);
+            }
+        });
+    }
+    /**
+     * 通知用户UserServer房间
+     */
+    public static void notifyTellServerLiveEnd(Context context) {
+        Log.i("退出房间", "走进来没");
+        Api.stopLiveRoom(LiveMySelfInfo.getInstance().getMyRoomNum(), new ApiResponseHandler(context) {
             @Override
             public void onSuccess(ApiResponse apiResponse) {
                 if (apiResponse.getCode() == Api.SUCCESS) {
