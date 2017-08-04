@@ -34,8 +34,9 @@ public class PhbPersenter extends Presenter{
         super(context);
         this.context=context;
     }
+    private boolean result=false;
+    public Boolean getDate(String uid,String hostid){
 
-    public void getDate(String uid,String hostid){
         Api.getRanking(uid, hostid, new ApiResponseHandler(context) {
             @Override
             public void onSuccess(ApiResponse apiResponse) {
@@ -47,11 +48,14 @@ public class PhbPersenter extends Presenter{
                     list.addAll(lists);
                     adapter.notifyDataSetChanged();
                     Log.i("排行榜数据",list.toString());
+                    result=true;
                 }else {
+                    result=false;
                     Log.i("排行榜数据","失败");
                 }
             }
         });
+        return result;
     }
     @Override
     public void refresh() {
