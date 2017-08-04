@@ -33,6 +33,7 @@
         android:inputType="phone"
         />
     <LinearLayout
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="@dimen/button_height2"
         android:layout_marginTop="@dimen/activity_padding_margin7"

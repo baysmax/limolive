@@ -129,7 +129,7 @@ public class RegisterActivity extends BaseActivity {
                 ,edit_pwd.getText().toString().trim()
                 ,edit_pwd_ok.getText().toString().trim()
                 ,edit_phone.getText().toString().trim()
-                ,edit_code.getText().toString().trim()
+                ,/*edit_code.getText().toString().trim()*/"1234"
                 );
     }
 
