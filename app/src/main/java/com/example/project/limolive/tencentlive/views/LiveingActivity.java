@@ -390,7 +390,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
         paramTimer.schedule(task, 1000, 1000);
         tv_chat.setOnClickListener(this);
         followHandle();
-        avMemberInfos = new ArrayList<>();
+        avMemberInfos = new ArrayList<>();//直播时右上角显示头像的数据
         HeadAdapter = new MembersHeadAdapter(this, avMemberInfos);
         member_headList.setAdapter(HeadAdapter);
 
@@ -802,9 +802,13 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
                 editor.apply();
                 mDetailTime.setText(formatTime);
                 mDetailAdmires . setText("" + CurLiveInfo.getAdmires());
-                tv_get_NMB.setText(""+Hostlemon_coins);
+                //tv_get_NMB.setText(""+Hostlemon_coins);
                 mDetailWatchCount.setText("" + watchCount);
-                tv_get_NMB.setText(""+(stopnmb-startnmb));
+                if (stopnmb==0){
+                    tv_get_NMB.setText(""+0);//stopnmb为0说明获取柠檬币接口只被掉用了一次 说明收益为0
+                }else {
+                    tv_get_NMB.setText(""+(stopnmb-startnmb));
+                }
                 mDetailDialog.show();
             }
         } else {
@@ -2089,6 +2093,8 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
                         List<AvMemberInfo> list = JSON.parseArray(apiResponse.getData(), AvMemberInfo.class);
                         avMemberInfos.clear();
                         avMemberInfos.addAll(list);
+                        CurLiveInfo.setMembers(avMemberInfos.size()+CurLiveInfo.getAdmires());
+                        tvMembers.setText(CurLiveInfo.getMembers()+"在线");
                     } else {
                         ToastUtils.showShort(LiveingActivity.this, apiResponse.getMessage().toString());
                     }
