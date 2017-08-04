@@ -8,6 +8,7 @@ public class Urls {
     public static final String POST_REGISTER = "appapi/user/register";  //注册
     public static final String POST_THIRDLOGIN = "/appapi/user/thirdLogin";  //第三方登录注册
     public static final String POST_ISFIRSTLOGIN = "/appapi/user/is_first";  //是否是第一次登录
+    public static final String POST_ISBANED = "/Appapi/Ucenter/user_live_disable";  //是否被禁播
     public static final String GET_GETSIG = "/appapi/user/getSig";  //用户获取腾讯sig
     public static final String POST_LOGIN = "appapi/user/login";  //登录
     public static final String GET_LIVE_LIST = "appapi/live/live_list";  //直播列表

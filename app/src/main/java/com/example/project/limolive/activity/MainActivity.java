@@ -12,7 +12,10 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.example.project.limolive.R;
+import com.example.project.limolive.api.Api;
 import com.example.project.limolive.api.ApiHttpClient;
+import com.example.project.limolive.api.ApiResponse;
+import com.example.project.limolive.api.ApiResponseHandler;
 import com.example.project.limolive.fragment.BaseFragment;
 import com.example.project.limolive.fragment.FindGoodsFragment;
 import com.example.project.limolive.fragment.FriendsStoreFragment;
@@ -93,10 +96,22 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 clickIndex = 1;
                 break;
             case R.id.iv_live: //直播
-                Intent intent = new Intent();
-                intent.setClass(this, BeforeLiveActivity.class);
-                overridePendingTransition(R.anim.push_bottom_in, R.anim.push_bottom_out);
-                startActivity(intent);
+                tabs[2].setEnabled(false);
+                Api.isBaned(LoginManager.getInstance().getUserID(MainActivity.this), new ApiResponseHandler(MainActivity.this) {
+                    @Override
+                    public void onSuccess(ApiResponse apiResponse) {
+                        tabs[2].setEnabled(true);
+                        if (apiResponse!=null&&apiResponse.getCode()==0){
+                            Intent intent = new Intent();
+                            intent.setClass(MainActivity.this, BeforeLiveActivity.class);
+                            overridePendingTransition(R.anim.push_bottom_in, R.anim.push_bottom_out);
+                            startActivity(intent);
+                        }else if (apiResponse.getCode()==-2){
+                            showDialogs(apiResponse.getMessage());
+                        }
+                    }
+                });
+
                 break;
             case R.id.iv_shopping: //购物车
                 clickIndex = 3;
@@ -109,6 +124,19 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             return;
         }
         loadFragment();
+    }
+
+    private void showDialogs(String banDate) {
+        new AlertDialog.Builder(MainActivity.this)
+                .setTitle("禁播通知：")
+                .setMessage(banDate)
+                .setNegativeButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .show();
     }
 
     /**

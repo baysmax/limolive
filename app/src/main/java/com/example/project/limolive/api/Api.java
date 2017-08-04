@@ -1,6 +1,7 @@
 package com.example.project.limolive.api;
 
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -807,4 +808,13 @@ public class Api {
         ApiHttpClient.get(ApiHttpClient.API_URL + Urls.GET_FOLLOWS, params, handler);
     }
 
+    /**
+     * 该用户是否被禁播
+     */
+    public static void isBaned(String userID,AsyncHttpResponseHandler handler) {
+        RequestParams params = new RequestParams();
+        params.put("uid", userID);
+        Log.i("禁播",""+ApiHttpClient.API_URL + Urls.POST_ISBANED+"userID="+userID);
+        ApiHttpClient.get(ApiHttpClient.API_URL + Urls.POST_ISBANED, params, handler);
+    }
 }
