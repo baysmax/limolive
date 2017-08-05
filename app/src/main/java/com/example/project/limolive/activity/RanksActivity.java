@@ -65,7 +65,7 @@ public class RanksActivity extends BaseActivity{
         srl_Down= (SwipeRefreshLayout) findViewById(R.id.srl_Down);
         lv_PHB= (RecyclerView) findViewById(R.id.lv_PHB);
         tvTitle= (TextView) findViewById(R.id.title);
-        tvTitle.setText("排行榜");
+        tvTitle.setText("贡献榜");
         menu_return= (TextView) findViewById(R.id.menu_return);
     }
 }

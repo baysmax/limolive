@@ -22,10 +22,13 @@ import java.util.List;
  */
 
 public class PHBadapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+    private static final int TYPE_FOOTER = 4;
     private Context context;
     private List<PHBean> phBeanList;
     private static final int TYPE_FIST=0;
     private static final int TYPE_ITEM=1;
+    private static final int TYPE_DIER=2;
+    private static final int TYPE_DISAN=3;
 
     public PHBadapter(Context context, List<PHBean> phBeanList) {
         this.context = context;
@@ -37,39 +40,66 @@ public class PHBadapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         switch (viewType){
             case TYPE_FIST:
                 return new PHBHolderFist(View.inflate(context,R.layout.item1_phb,null));
-            case TYPE_ITEM:
-                return new PHBHolder(View.inflate(context,R.layout.item2_phb,null));
         }
-
-        return null;
+        return new PHBHolder(View.inflate(context,R.layout.item2_phb,null));
     }
 
     @Override
     public int getItemViewType(int position) {
-        if(position==0){
-            return TYPE_FIST;
+        if (position==getItemCount()-1){
+            return TYPE_FOOTER;
         }
+        switch (position){
+            case 0:
+                return TYPE_FIST;
+            case 1:
+                return TYPE_DIER;
+            case 2:
+                return TYPE_DISAN ;
+        }
+
         return TYPE_ITEM;
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         PHBean phBean = phBeanList.get(position);
+
         if (getItemViewType(position)==TYPE_FIST){
             PHBHolderFist holderFist= (PHBHolderFist) holder;
             holderFist.tv_nickName.setText(phBean.getNickname());
             holderFist.tv_MLZ.setText(phBean.getLemon_coins_sum());
-            holderFist.tv_mc1.setText(phBean.getMc());
+            //holderFist.tv_mc1.setText(phBean.getMc());
             if (phBean.getHeadsmall().contains("http://")){
                 holderFist.iv_Avatar.setImageURI(phBean.getHeadsmall());
             }else {
                 holderFist.iv_Avatar.setImageURI(ApiHttpClient.API_PIC+phBean.getHeadsmall());
             }
         }else {
+
             PHBHolder phbHolder= (PHBHolder) holder;
             phbHolder.tv_nickName1.setText(phBean.getNickname());
             phbHolder.tv_number.setText(phBean.getLemon_coins_sum());
-            phbHolder.tv_mc.setText(phBean.getMc());
+
+            if (getItemViewType(position)==TYPE_DIER){
+                phbHolder.tv_mc.setBackground(context.getDrawable(R.drawable.dier));
+            }else if (getItemViewType(position)==TYPE_DISAN){
+                phbHolder.tv_mc.setBackground(context.getDrawable(R.drawable.disan));
+            }else if (getItemViewType(position)==TYPE_ITEM){
+                phbHolder.tv_mc.setText("NO."+phBean.getMc());
+            }
+
+            if (TYPE_FOOTER==getItemViewType(position)){
+                phbHolder.tv_nickName1.setText(phBean.getNickname());
+                phbHolder.tv_number.setText(phBean.getLemon_coins_sum());
+                phbHolder.tv_mc.setText("NO."+phBean.getMc());
+                if (phBean.getHeadsmall().contains("http://")){
+                    phbHolder.iv_Avatar1.setImageURI(phBean.getHeadsmall());
+                }else {
+                    phbHolder.iv_Avatar1.setImageURI(ApiHttpClient.API_PIC+phBean.getHeadsmall());
+                }
+                return;
+            }
             if (phBean.getHeadsmall().contains("http://")){
                 phbHolder.iv_Avatar1.setImageURI(phBean.getHeadsmall());
             }else {
