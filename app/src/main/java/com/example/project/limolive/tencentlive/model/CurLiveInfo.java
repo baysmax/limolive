@@ -6,7 +6,9 @@ package com.example.project.limolive.tencentlive.model;
  */
 public class CurLiveInfo {
     private static int members;
+    private static int maxmembers;//最大人数
     private static int admires;
+
     private static String title;
     private static double lat1;
     private static double long1;
@@ -21,6 +23,7 @@ public class CurLiveInfo {
     public static String hostAvator;
     public static String host_phone;
     public static int currentRequestCount = 0;
+    private static String maxMembers;
 
     public static int getCurrentRequestCount() {
         return currentRequestCount;
@@ -86,6 +89,9 @@ public class CurLiveInfo {
 
     public static void setMembers(int members) {
         CurLiveInfo.members = members;
+        if (CurLiveInfo.members>CurLiveInfo.maxmembers){
+            CurLiveInfo.maxmembers=CurLiveInfo.members;
+        }
     }
 
     public static int getAdmires() {
@@ -149,4 +155,7 @@ public class CurLiveInfo {
     }
 
 
+    public static String getMaxMembers() {
+        return ""+maxMembers;
+    }
 }
