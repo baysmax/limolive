@@ -258,6 +258,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                         loginPresenter.cashData(apiResponse.getData());
                         loginPresenter.getUserSig(thridLogin.getPhone());
 
+                    }else if (apiResponse.getCode() == -4){
+                        ToastUtils.showLong(LoginActivity.this,apiResponse.getMessage());
                     }else {
                         ToastUtils.showShort(LoginActivity.this,apiResponse.getMessage());
                     }

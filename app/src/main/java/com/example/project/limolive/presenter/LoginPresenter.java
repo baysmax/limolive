@@ -341,7 +341,9 @@ public class LoginPresenter extends Presenter {
                     cashData(localJson);
                     getUserSig(phone);
 
-                } else {
+                }else if (apiResponse.getCode()==-4){
+                    ToastUtils.showLong(context,apiResponse.getMessage());
+                }else {
                     loginHandler.sendEmptyMessage(LOGIN_FAILED);
                     ToastUtils.showShort(context, apiResponse.getMessage());
                     Log.i("登录成功数据", "" + apiResponse.getMessage().toString());
