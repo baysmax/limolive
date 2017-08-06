@@ -23,7 +23,6 @@ public class CurLiveInfo {
     public static String hostAvator;
     public static String host_phone;
     public static int currentRequestCount = 0;
-    private static String maxMembers;
 
     public static int getCurrentRequestCount() {
         return currentRequestCount;
@@ -155,7 +154,7 @@ public class CurLiveInfo {
     }
 
 
-    public static String getMaxMembers() {
-        return ""+maxMembers;
+    public static int getMaxMembers() {
+        return maxmembers;
     }
 }
