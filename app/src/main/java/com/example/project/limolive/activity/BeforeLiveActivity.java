@@ -225,7 +225,7 @@ public class BeforeLiveActivity extends BaseActivity implements View.OnClickList
                     ToastUtils.showShort(this, "请选择直播类型");
                 } else {
                     if (ILiveSDK.getInstance().getAVContext() == null) {//retry
-                        ToastUtils.showShort(this, "版本为空 imsdk登录失败");
+                        //ToastUtils.showShort(this, "版本为空 imsdk登录失败");
                         retryImLogin();
                     }
                     intent.setClass(this, LiveingActivity.class);
