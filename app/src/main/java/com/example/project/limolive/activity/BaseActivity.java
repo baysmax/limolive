@@ -139,7 +139,7 @@ public class BaseActivity extends AppCompatActivity implements ProfileView, Easy
                 new UpdateManagerListener() {
                     @Override
                     public void onUpdateAvailable(final String result) {
-                        Log.i("主人有新的版本更新哟",result.toString());
+                        //Log.i("主人有新的版本更新哟",result.toString());
                         new AlertDialog.Builder(BaseActivity.this)
                                 .setTitle("更新")
                                 .setMessage("主人有新的版本更新哟...")
@@ -149,31 +149,36 @@ public class BaseActivity extends AppCompatActivity implements ProfileView, Easy
 
                                             @Override
                                             public void onClick(
-                                                    DialogInterface dialog,
-                                                    int which) {
-                                                String url;
-                                                JSONObject jsonData;
-                                                try {
-                                                    jsonData = new JSONObject(
-                                                            result);
-                                                    if ("0".equals(jsonData
-                                                            .getString("code"))) {
-                                                        JSONObject jsonObject = jsonData
-                                                                .getJSONObject("data");
-                                                        url = jsonObject
-                                                                .getString("downloadURL");
-
-                                                        startDownloadTask(
-                                                                BaseActivity.this,
-                                                                url);
-
-                                                    }
-
-                                                } catch (JSONException e) {
-                                                    // TODO Auto-generated
-                                                    // catch block
-                                                    e.printStackTrace();
-                                                }
+                                                    DialogInterface dialog, int which) {
+//                                                String url;
+//                                                JSONObject jsonData;
+//                                                try {
+//                                                    jsonData = new JSONObject(
+//                                                            result);
+//                                                    if ("0".equals(jsonData
+//                                                            .getString("code"))) {
+//                                                        JSONObject jsonObject = jsonData
+//                                                                .getJSONObject("data");
+//                                                        url = jsonObject
+//                                                                .getString("downloadURL");
+//
+//                                                        startDownloadTask(
+//                                                                BaseActivity.this,
+//                                                                url);
+//
+//                                                    }
+//
+//                                                } catch (JSONException e) {
+//                                                    // TODO Auto-generated
+//                                                    // catch block
+//                                                    e.printStackTrace();
+//                                                }
+                                                Log.i("123456","android.intent.action.VIEW");
+                                                Intent intent= new Intent();
+                                                intent.setAction("android.intent.action.VIEW");
+                                                Uri content_url = Uri.parse("https://www.pgyer.com/Ko1C");
+                                                        intent.setData(content_url);
+                                                startActivity(intent);
                                             }
                                         })
                                 .setPositiveButton("取消", new DialogInterface.OnClickListener() {
@@ -228,14 +233,14 @@ public class BaseActivity extends AppCompatActivity implements ProfileView, Easy
     @Override
     protected void onPause() {
         super.onPause();
-        PgyFeedbackShakeManager.unregister();
+        //PgyFeedbackShakeManager.unregister();
         mLocationClient.stop();
     }
 
 
     @Override
     protected void onResume() {
-        PgyFeedbackShakeManager.register(this, false);
+        //PgyFeedbackShakeManager.register(this, false);
         super.onResume();
     }
 

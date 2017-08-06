@@ -116,6 +116,7 @@
                 />
 
             <ImageView
+                android:visibility="gone"
                 android:id="@+id/iv_weibo_login"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -125,6 +126,7 @@
                 />
 
             <ImageView
+                android:visibility="gone"
                 android:id="@+id/iv_qq_login"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
