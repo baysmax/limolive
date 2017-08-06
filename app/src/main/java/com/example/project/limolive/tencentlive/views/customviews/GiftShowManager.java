@@ -222,7 +222,7 @@ public class GiftShowManager {
                             im.setImageResource(R.drawable.present_19);
                             final ImageView imageView = new ImageView(cxt);
                             RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
-                                    200, 100);
+                                    400, 200);
                             imageView.setLayoutParams(params);
                             imageView.setBackgroundResource(R.drawable.animation_qiche);
                             Animation animation = AnimationUtils.loadAnimation(cxt, R.anim.translate);

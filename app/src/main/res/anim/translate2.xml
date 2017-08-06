@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <set xmlns:android="http://schemas.android.com/apk/res/android">
     <translate
-        android:fromXDelta="90%"
-        android:toXDelta="0"
+        android:fromXDelta="50%p"
+        android:toXDelta="20%p"
 
-        android:fromYDelta="50%"
-        android:toYDelta="100%"
+        android:fromYDelta="5%p"
+        android:toYDelta="30%p"
 
         android:duration="3000"
         android:interpolator="@android:anim/linear_interpolator"/>
@@ -22,8 +22,8 @@
 
     <translate
         android:startOffset="3000"
-        android:fromXDelta="0"
-        android:toXDelta="-600"
+        android:fromXDelta="20%p"
+        android:toXDelta="-800"
         android:interpolator="@android:anim/accelerate_interpolator"
         android:duration="3000"/>
 </set>
