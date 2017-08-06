@@ -22,7 +22,7 @@ import java.util.List;
  */
 
 public class PHBadapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private static final int TYPE_FOOTER = 4;
+//    private static final int TYPE_FOOTER = 4;
     private Context context;
     private List<PHBean> phBeanList;
     private static final int TYPE_FIST=0;
@@ -46,9 +46,9 @@ public class PHBadapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     @Override
     public int getItemViewType(int position) {
-        if (position==getItemCount()-1){
-            return TYPE_FOOTER;
-        }
+//        if (position==getItemCount()-1){
+//            return TYPE_FOOTER;
+//        }
         switch (position){
             case 0:
                 return TYPE_FIST;
@@ -89,17 +89,17 @@ public class PHBadapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 phbHolder.tv_mc.setText("NO."+phBean.getMc());
             }
 
-            if (TYPE_FOOTER==getItemViewType(position)){
-                phbHolder.tv_nickName1.setText(phBean.getNickname());
-                phbHolder.tv_number.setText(phBean.getLemon_coins_sum());
-                phbHolder.tv_mc.setText("NO."+phBean.getMc());
-                if (phBean.getHeadsmall().contains("http://")){
-                    phbHolder.iv_Avatar1.setImageURI(phBean.getHeadsmall());
-                }else {
-                    phbHolder.iv_Avatar1.setImageURI(ApiHttpClient.API_PIC+phBean.getHeadsmall());
-                }
-                return;
-            }
+//            if (TYPE_FOOTER==getItemViewType(position)){
+//                phbHolder.tv_nickName1.setText(phBean.getNickname());
+//                phbHolder.tv_number.setText(phBean.getLemon_coins_sum());
+//                phbHolder.tv_mc.setText("NO."+phBean.getMc());
+//                if (phBean.getHeadsmall().contains("http://")){
+//                    phbHolder.iv_Avatar1.setImageURI(phBean.getHeadsmall());
+//                }else {
+//                    phbHolder.iv_Avatar1.setImageURI(ApiHttpClient.API_PIC+phBean.getHeadsmall());
+//                }
+//                return;
+//            }
             if (phBean.getHeadsmall().contains("http://")){
                 phbHolder.iv_Avatar1.setImageURI(phBean.getHeadsmall());
             }else {
