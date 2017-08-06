@@ -219,13 +219,15 @@ public class BeforeLiveActivity extends BaseActivity implements View.OnClickList
             case R.id.iv_colect:
                 break;
             case R.id.iv_StartLive:
-                if (ILiveSDK.getInstance().getAVContext() == null) {//retry
-                    ToastUtils.showShort(this, "版本为空 imsdk登录失败");
-                } else if (TextUtils.isEmpty(et_live_tittle.getText())) {
+                if (TextUtils.isEmpty(et_live_tittle.getText())) {
                     ToastUtils.showShort(this, "标题不能为空额");
                 } else if (TextUtils.isEmpty(tv_selectFenlei.getText())) {
                     ToastUtils.showShort(this, "请选择直播类型");
                 } else {
+                    if (ILiveSDK.getInstance().getAVContext() == null) {//retry
+                        ToastUtils.showShort(this, "版本为空 imsdk登录失败");
+                        retryImLogin();
+                    }
                     intent.setClass(this, LiveingActivity.class);
                     intent.putExtra(Constants.ID_STATUS, Constants.HOST);
                     LiveMySelfInfo.getInstance().setIdStatus(Constants.HOST);//身份为主播
