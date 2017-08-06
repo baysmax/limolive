@@ -1,21 +1,27 @@
 package com.example.project.limolive.tencentlive.views.customviews;
 
+import android.animation.AnimatorSet;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
 import android.view.animation.AnimationUtils;
 import android.view.animation.ScaleAnimation;
 import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -27,9 +33,15 @@ import com.example.project.limolive.tencentlive.utils.GlideCircleTransform;
 import com.example.project.limolive.tencentlive.utils.UIUtils;
 import com.example.project.limolive.tencentlive.views.CircleImageView;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.LinkedBlockingQueue;
+
+import static com.example.project.limolive.R.id.imageView;
+import static com.example.project.limolive.R.id.rl_anim;
+import static com.example.project.limolive.R.id.rl_main;
 
 /**
  * @author zhongxf
@@ -51,6 +63,8 @@ public class GiftShowManager {
     private LinkedBlockingQueue<GiftVo> queue;//礼物的队列
     private LinearLayout giftCon;//礼物的容器
     private Context cxt;//上下文
+    private RelativeLayout rl_anim;
+    private List<ImageView> imageLists;
 
     private TranslateAnimation inAnim;//礼物View出现的动画
     private Animation huaAnim;//礼物View出现的动画
@@ -61,6 +75,7 @@ public class GiftShowManager {
     private final static int GET_QUEUE_GIFT = 0;//从队列中获取礼物
     private final static int REMOVE_GIFT_VIEW = 2;//当礼物的View显示超时，删除礼物View
     private final static int GET_HUA = 111;
+    private final static int REMOVE_GIFT = 3;
     private ImageView im;
 
     private Timer timer;//轮询礼物容器的所有的子View判断是否超过显示的最长时间
@@ -70,10 +85,16 @@ public class GiftShowManager {
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what) {
+                case REMOVE_GIFT:
+                    ImageView img= (ImageView) msg.obj;
+                    rl_anim.removeView(img);
+                    break;
                 case SHOW_GIFT_FLAG://如果是处理显示礼物的消息
                     Log.i("handler收到的","msg..."+msg.toString());
                     GiftVo showVo = (GiftVo) msg.obj;
+                    if (showVo.getType().equals("20")){
 
+                    }
                     String userId = showVo.getUserId();
                     int num = showVo.getNum();
 
@@ -199,12 +220,95 @@ public class GiftShowManager {
                             tv_n.setText("赠送主播");
                         }else if (showVo.getType().equals("19")) {
                             im.setImageResource(R.drawable.present_19);
+                            final ImageView imageView = new ImageView(cxt);
+                            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
+                                    200, 100);
+                            imageView.setLayoutParams(params);
+                            imageView.setBackgroundResource(R.drawable.animation_qiche);
+                            Animation animation = AnimationUtils.loadAnimation(cxt, R.anim.translate);
+                            imageView.startAnimation(animation);
+                            animation.setAnimationListener(new Animation.AnimationListener() {
+                                @Override
+                                public void onAnimationStart(Animation animation) {
+
+                                }
+
+                                @Override
+                                public void onAnimationEnd(Animation animation) {
+                                    rl_anim.removeView(imageView);
+                                }
+
+                                @Override
+                                public void onAnimationRepeat(Animation animation) {
+
+                                }
+                            });
+                            rl_anim.addView(imageView);
+                            AnimationDrawable a = (AnimationDrawable) imageView.getBackground();
+                            a.start();
+
+
                             tv_n.setText("赠送主播");
                         }else if (showVo.getType().equals("20")) {
                             im.setImageResource(R.drawable.present_20);
+                            final ImageView imageView = new ImageView(cxt);
+                            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
+                                    RelativeLayout.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+                            imageView.setLayoutParams(params);
+                            imageView.setBackgroundResource(R.drawable.animation_1314);
+                            Animation animation = AnimationUtils.loadAnimation(cxt, R.anim.translate3);
+                            imageView.startAnimation(animation);
+                            animation.setAnimationListener(new Animation.AnimationListener() {
+                                @Override
+                                public void onAnimationStart(Animation animation) {
+
+                                }
+
+                                @Override
+                                public void onAnimationEnd(Animation animation) {
+                                    rl_anim.removeView(imageView);
+                                }
+
+                                @Override
+                                public void onAnimationRepeat(Animation animation) {
+
+                                }
+                            });
+                            rl_anim.addView(imageView);
+                            AnimationDrawable anim = (AnimationDrawable) imageView.getBackground();
+                            anim.start();
+                            imageLists.add(imageView);
                             tv_n.setText("赠送主播");
                         }else if (showVo.getType().equals("21")) {
                             im.setImageResource(R.drawable.present_21);
+                            final ImageView imageView = new ImageView(cxt);
+                            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
+                                    400, 200);
+                            imageView.setLayoutParams(params);
+                            imageView.setBackgroundResource(R.drawable.animation_fj);
+                            Animation animation = AnimationUtils.loadAnimation(cxt, R.anim.translate2);
+                            imageView.startAnimation(animation);
+                            animation.setAnimationListener(new Animation.AnimationListener() {
+                                @Override
+                                public void onAnimationStart(Animation animation) {
+
+                                }
+
+                                @Override
+                                public void onAnimationEnd(Animation animation) {
+                                    rl_anim.removeView(imageView);
+                                }
+
+                                @Override
+                                public void onAnimationRepeat(Animation animation) {
+
+                                }
+                            });
+                            rl_anim.addView(imageView);
+                            AnimationDrawable a = (AnimationDrawable) imageView.getBackground();
+                            a.start();
+
+
                             tv_n.setText("赠送主播");
                         }else if (showVo.getType().equals("22")) {
                             im.setImageResource(R.drawable.present_22);
@@ -283,9 +387,11 @@ public class GiftShowManager {
         }
     };
 
-    public GiftShowManager(Context cxt, final LinearLayout giftCon) {
+    public GiftShowManager(Context cxt, final LinearLayout giftCon,RelativeLayout rl_anim) {
         this.cxt = cxt;
         this.giftCon = giftCon;
+        this.rl_anim=rl_anim;
+        imageLists=new ArrayList<>();
         queue = new LinkedBlockingQueue<GiftVo>(100);
         inAnim = (TranslateAnimation) AnimationUtils.loadAnimation(cxt, R.anim.slide_left_in);
         huaAnim = (Animation) AnimationUtils.loadAnimation(cxt, R.anim.gif_hua);

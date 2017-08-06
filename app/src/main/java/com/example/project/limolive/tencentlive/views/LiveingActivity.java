@@ -14,6 +14,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.AnimationDrawable;
 import android.media.AudioManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -221,12 +222,13 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
     private int score = 0;
 
     private int startnmb=0,stopnmb=0;
-
+    private RelativeLayout rl_anim;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON, WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);   // 不锁屏
         setContentView(R.layout.activity_liveing);
+        rl_anim= (RelativeLayout) findViewById(R.id.rl_anim);
         manager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         checkPermission();
         mLiveHelper = new LiveHelper(this, this, mHandler);
@@ -416,7 +418,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
         //zaixian_member.setText("" + CurLiveInfo.getMembers());
 
         giftCon = (LinearLayout) findViewById(R.id.gift_con);
-        giftManger = new GiftShowManager(LiveingActivity.this, giftCon);
+        giftManger = new GiftShowManager(LiveingActivity.this, giftCon,rl_anim);
         giftManger.showGift();//开始显示礼物
 
         presentdialog = new Dialog(this, R.style.dialog);
@@ -803,7 +805,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
                 mDetailTime.setText(formatTime);
                 mDetailAdmires . setText("" + CurLiveInfo.getAdmires());
                 //tv_get_NMB.setText(""+Hostlemon_coins);
-                mDetailWatchCount.setText("" + watchCount);
+                mDetailWatchCount.setText("" +CurLiveInfo.getMaxMembers());
                 if (stopnmb==0){
                     tv_get_NMB.setText(""+0);//stopnmb为0说明获取柠檬币接口只被掉用了一次 说明收益为0
                 }else {
@@ -2191,8 +2193,8 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
                     Log.i("关注", "getHostID：" + CurLiveInfo.getHostID());
                     Log.i("关注", "1参数：" + LoginManager.getInstance().getUserID(LiveingActivity.this));
 
-                    JSONObject parse = (JSONObject) JSON.parse(apiResponse.getData());
-                    String is_follows = parse.getString("is_follows");//是否已经关注
+                    /*JSONObject parse = (JSONObject) JSON.parse(apiResponse.getData());
+                    String is_follows = parse.getString("is_follows");//是否已经关注*/
                     /*if (is_follows.equals("0")) {  //1以关注 0取消关注
                         tv_guanzhu.setText("取消关注");
                     } else {
