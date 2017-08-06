@@ -51,6 +51,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        checkUp();
         initView();
         monitor();
         setChangIMname();
@@ -245,7 +246,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         });
     }
 
-    private void checkUp(){
+    private void checkUps(){
         // 版本检测方式2：带更新回调监听
         PgyUpdateManager.register(MainActivity.this,getString(R.string.file_provider),
                 new UpdateManagerListener() {

@@ -130,10 +130,39 @@ public class BaseActivity extends AppCompatActivity implements ProfileView, Easy
         registerReceiver(recv, filter);
 
         PgyCrashManager.register(this);
-        PgyUpdateManager.register(this,getString(R.string.file_provider));
-        checkUp();
+        //PgyUpdateManager.register(this,getString(R.string.file_provider));
+
     }
-    private void checkUp(){
+
+    private void checkUps() {
+        new AlertDialog.Builder(BaseActivity.this)
+                .setTitle("更新")
+                .setMessage("主人有新的版本更新哟...")
+                .setNegativeButton(
+                        "确定",
+                        new DialogInterface.OnClickListener() {
+
+                            @Override
+                            public void onClick(
+                                    DialogInterface dialog, int which) {
+                                Log.i("123456","android.intent.action.VIEW");
+                                Intent intent= new Intent();
+                                intent.setAction("android.intent.action.VIEW");
+                                Uri content_url = Uri.parse("https://www.pgyer.com/Ko1C");
+                                intent.setData(content_url);
+                                startActivity(intent);
+                            }
+                        })
+                .setPositiveButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .show();
+    }
+
+    protected void checkUp(){
         // 版本检测方式2：带更新回调监听
         PgyUpdateManager.register(BaseActivity.this,getString(R.string.file_provider),
                 new UpdateManagerListener() {
@@ -202,7 +231,7 @@ public class BaseActivity extends AppCompatActivity implements ProfileView, Easy
             unregisterReceiver(recv);
         } catch (Exception e) {
         }
-        PgyUpdateManager.unregister();
+        //PgyUpdateManager.unregister();
 
         PgyUpdateManager.unregister();
         PgyCrashManager.unregister();

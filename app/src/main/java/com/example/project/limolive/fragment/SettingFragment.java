@@ -16,7 +16,6 @@ import android.widget.Toast;
 import com.example.project.limolive.R;
 import com.example.project.limolive.activity.AboutUsActivity;
 import com.example.project.limolive.activity.BlackListActivity;
-import com.example.project.limolive.activity.CheckUpdataActivity;
 import com.example.project.limolive.activity.LoginActivity;
 import com.example.project.limolive.activity.PersonInfoActivity;
 import com.example.project.limolive.activity.UserRebackActivity;

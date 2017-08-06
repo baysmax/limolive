@@ -20,37 +20,36 @@ public class CheckUpdataActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        PgyCrashManager.register(this);
+        //PgyCrashManager.register(this);
 
-        PgyUpdateManager.register(CheckUpdataActivity.this,"",
-        new UpdateManagerListener() {
-
-            @Override
-            public void onUpdateAvailable(final String result) {
-
-                // 将新版本信息封装到AppBean中
-                final AppBean appBean = getAppBeanFromString(result);
-                new AlertDialog.Builder(CheckUpdataActivity.this)
-                        .setTitle("更新")
-                        .setMessage("主人有新的版本更新哟...")
-                        .setNegativeButton(
-                                "确定",
-                                new DialogInterface.OnClickListener() {
-
-                                    @Override
-                                    public void onClick(
-                                            DialogInterface dialog,
-                                            int which) {
-                                        startDownloadTask(
-                                                CheckUpdataActivity.this,
-                                                appBean.getDownloadURL());
-                                    }
-                                }).show();
-            }
-
-            @Override
-            public void onNoUpdateAvailable() {
-            }
-        });
+//        PgyUpdateManager.register(CheckUpdataActivity.this,"",
+//        new UpdateManagerListener() {
+//
+//            @Override
+//            public void onUpdateAvailable(final String result) {
+//
+////                // 将新版本信息封装到AppBean中
+////                final AppBean appBean = getAppBeanFromString(result);
+////                new AlertDialog.Builder(CheckUpdataActivity.this)
+////                        .setTitle("更新")
+////                        .setMessage("主人有新的版本更新哟...")
+////                        .setNegativeButton("确定", new DialogInterface.OnClickListener() {
+////
+////                                    @Override
+////                                    public void onClick(
+////                                            DialogInterface dialog,
+////                                            int which) {
+//////                                        startDownloadTask(
+//////                                                CheckUpdataActivity.this,
+//////                                                appBean.getDownloadURL());
+////
+////                                    }
+////                                }).show();
+//            }
+//
+//            @Override
+//            public void onNoUpdateAvailable() {
+//            }
+//        });
     }
 }
