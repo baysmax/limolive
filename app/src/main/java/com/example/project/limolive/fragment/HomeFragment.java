@@ -379,7 +379,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ll_shouye_adress:
-                startActivity(new Intent(getActivity(), BaiDuLocation.class));
+                //startActivity(new Intent(getActivity(), BaiDuLocation.class));
                 break;
             case R.id.ll_message:
                 Intent intent = new Intent();
