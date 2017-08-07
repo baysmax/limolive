@@ -47,27 +47,31 @@ public class DesServices extends Service {
     }
     boolean isKill=false;
     private class MsgReceiver extends BroadcastReceiver{
-
-        @Override
-        public void onReceive(final Context context, Intent intent) {
-            Log.i(TAG,"onReceive........");
-            isKill = context==null?true:false;
-            tellService();
-
-            new Thread(){
-                @Override
-                public void run() {
-                    for (;;){
-                        try {
-                            Thread.sleep(1000L*10);
-                            isKill = context==null?true:false;
-                            tellService();
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
+        Intent intent=null;
+         Thread thread=new Thread(){
+            @Override
+            public void run() {
+                for (;;){
+                    try {
+                        Thread.sleep(2000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    if (!intent.getStringExtra("111").equals("111")){
+                        Log.i("tell","service tell=");
+                        tellService();
+                        onDestroy();
                     }
                 }
-            }.start();
+            }
+        };
+        {
+            thread.start();
+        }
+        @Override
+        public void onReceive(final Context context, final Intent intent) {
+            this.intent=intent;
+            Log.i(TAG,"onReceive........");
         }
     }
 

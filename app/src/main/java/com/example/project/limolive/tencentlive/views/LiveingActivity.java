@@ -6,12 +6,14 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.ClipboardManager;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.AnimationDrawable;
@@ -366,6 +368,31 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
         }
     }
 
+    public static Intent getExplicitIntent(Context context, Intent implicitIntent) {
+
+        PackageManager pm = context.getPackageManager();
+
+        // 返回给定条件的所有ResolveInfo对象(本质上是Service)
+        List<ResolveInfo> resolveInfo = pm.queryIntentServices(implicitIntent, 0);
+        // 确保只有一个service匹配
+        if (resolveInfo == null || resolveInfo.size() != 1) {
+            return null;
+        }
+        //获取component信息并创建ComponentName
+        ResolveInfo serviceInfo = resolveInfo.get(0);
+        //获取Service所在的包名
+        String packageName = serviceInfo.serviceInfo.packageName;
+        //获取Service的名称
+        String className = serviceInfo.serviceInfo.name;
+        // 通过包名和service的类名创建component
+        //ComponentName用于指定打开其他应用的activity和service
+        ComponentName component = new ComponentName(packageName, className);
+        // 创建新的intent
+        Intent explicitIntent = new Intent(implicitIntent);
+        // 为intent设置指定的组件
+        explicitIntent.setComponent(component);
+        return explicitIntent;
+    }
     /**
      * 初始化界面
      */
@@ -483,7 +510,8 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
                     }
                 }
             });
-            startService(new Intent(getApplication(), DesServices.class));
+
+            //startService(getExplicitIntent(LiveingActivity.this,new Intent("com.example.project.Services")));
 
         } else {  //成员观看  自己非主播身份
             initInviteDialog();
@@ -626,6 +654,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
         private Intent intent=new Intent();
         {
             intent.setAction("com.example.project.limolive.service");
+            intent.putExtra("111","111");
         }
         public void run() {
             SxbLog.i(TAG, "timeTask ");

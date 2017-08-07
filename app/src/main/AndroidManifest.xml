@@ -276,10 +276,15 @@
             android:name="com.tencent.qalsdk.service.QalAssistService"
             android:exported="false"
             android:process=":QALSERVICE"></service>
-        <service
-            android:name="com.example.project.limolive.service.DesServices"
-            android:exported="false"
-            android:process=".desservice"></service>
+        <!--<service-->
+            <!--android:name="com.example.project.limolive.service.DesServices"-->
+            <!--android:enabled="true"-->
+            <!--android:process=".Deservice">-->
+            <!--<intent-filter>-->
+                <!--<action android:name="com.example.project.Services"/>-->
+            <!--</intent-filter>-->
+
+        <!--</service>-->
         <!--  离线消息广播接收器 -->
         <receiver
             android:name="com.tencent.qalsdk.QALBroadcastReceiver"
