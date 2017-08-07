@@ -414,7 +414,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
         gif_donghua = (ImageView) findViewById(R.id.gif_donghua);//显示动画的控件
         //zaixian_member = (TextView) findViewById(R.id.zaixian_member);//在线人数
         //getFollow();//获取主播的关注人数
-        tvMembers.setText(CurLiveInfo.getMembers()+"在线");
+        //tvMembers.setText(CurLiveInfo.getMembers()+"在线");
         //zaixian_member.setText("" + CurLiveInfo.getMembers());
 
         giftCon = (LinearLayout) findViewById(R.id.gift_con);
@@ -510,7 +510,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
         mListViewMsgItems.setAdapter(mChatMsgListAdapter);
 
         //zaixian_member.setText("" + CurLiveInfo.getMembers());
-        tvMembers.setText(CurLiveInfo.getMembers()+"在线");
+        //tvMembers.setText(CurLiveInfo.getMembers()+"在线");
         //TODO 获取渲染层
         mRootView = (AVRootView) findViewById(R.id.av_root_view);
         //TODO 设置渲染层
@@ -661,6 +661,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
         CurLiveInfo.setMembers(0);
         CurLiveInfo.setAdmires(0);
         CurLiveInfo.setCurrentRequestCount(0);
+        CurLiveInfo.setMaxmembers(0);
         mLiveHelper.onDestory();
     }
 
@@ -1904,7 +1905,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
                 case GETPROFILE_JOIN:
                     for (TIMUserProfile user : profiles) {
                         //zaixian_member.setText("" + CurLiveInfo.getMembers());
-                        tvMembers.setText(CurLiveInfo.getMembers()+"在线");
+                        //tvMembers.setText(CurLiveInfo.getMembers()+"在线");
                         SxbLog.w(TAG, "get nick name:" + user.getNickName());
                         SxbLog.w(TAG, "get remark name:" + user.getRemark());
                         SxbLog.w(TAG, "get avatar:" + user.getFaceUrl());
@@ -2095,6 +2096,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
                         List<AvMemberInfo> list = JSON.parseArray(apiResponse.getData(), AvMemberInfo.class);
                         avMemberInfos.clear();
                         avMemberInfos.addAll(list);
+                        Log.i("Main","Menbers="+CurLiveInfo.getAdmires()+",avMemberInfos="+avMemberInfos);
                         CurLiveInfo.setMembers(avMemberInfos.size()+CurLiveInfo.getAdmires());
                         tvMembers.setText(CurLiveInfo.getMembers()+"在线");
                     } else {
@@ -2244,7 +2246,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
                         //主播的关注人数
                         JSONObject parse = (JSONObject) JSON.parse(apiResponse.getData());
                         String follow_nums = parse.getString("follow_nums");
-                        tvMembers.setText(follow_nums + "关注");
+                        //tvMembers.setText(follow_nums + "关注");
 
                     }
                 }

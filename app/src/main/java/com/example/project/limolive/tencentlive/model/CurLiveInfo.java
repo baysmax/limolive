@@ -6,6 +6,11 @@ package com.example.project.limolive.tencentlive.model;
  */
 public class CurLiveInfo {
     private static int members;
+
+    public static void setMaxmembers(int maxmembers) {
+        CurLiveInfo.maxmembers = maxmembers;
+    }
+
     private static int maxmembers;//最大人数
     private static int admires;
 
