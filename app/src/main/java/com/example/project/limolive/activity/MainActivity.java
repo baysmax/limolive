@@ -22,6 +22,7 @@ import com.example.project.limolive.fragment.FriendsStoreFragment;
 import com.example.project.limolive.fragment.HomeFragment;
 import com.example.project.limolive.fragment.MyFragment;
 import com.example.project.limolive.helper.LoginManager;
+import com.example.project.limolive.tencentlive.presenters.LiveHelper;
 import com.example.project.limolive.utils.ToastUtils;
 import com.pgyersdk.crash.PgyCrashManager;
 import com.pgyersdk.update.PgyUpdateManager;
@@ -51,6 +52,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        tellService();
         checkUp();
         initView();
         monitor();
@@ -59,6 +61,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         PgyCrashManager.register(this);
         PgyUpdateManager.register(this,getString(R.string.file_provider));
       //  checkUp();
+    }
+
+    private void tellService() {
+        LiveHelper.tellstartExitRoom(getApplication());
     }
 
     private void monitor() {
