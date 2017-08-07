@@ -16,6 +16,7 @@ import com.example.project.limolive.api.ApiResponseHandler;
 import com.example.project.limolive.helper.DialogFactory;
 import com.example.project.limolive.helper.LoginManager;
 import com.example.project.limolive.provider.MineDataProvider;
+import com.example.project.limolive.tencentlive.model.LiveMySelfInfo;
 import com.example.project.limolive.utils.DateUtils;
 import com.example.project.limolive.utils.NetWorkUtil;
 import com.example.project.limolive.utils.ToastUtils;
@@ -170,6 +171,8 @@ public class PersonInfoPresenter extends Presenter {
                         values.put("nickname",userName);
                         provider.updateMineData(values,
                                 LoginManager.getInstance().getPhone(context));
+                        LiveMySelfInfo.getInstance().setNickName(userName);
+                        LoginManager.getInstance().setHostName(context,userName);
                         handler.sendEmptyMessage(HEAD_UPDATE_USERNAME);
                     }
                 }else{
