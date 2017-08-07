@@ -221,33 +221,7 @@ public class GiftShowManager {
                         }else if (showVo.getType().equals("19")) {
                             im.setImageResource(R.drawable.present_19);
                             final ImageView imageView = new ImageView(cxt);
-                            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
-                                    400, 200);
-                            imageView.setLayoutParams(params);
-                            imageView.setBackgroundResource(R.drawable.animation_qiche);
-                            Animation animation = AnimationUtils.loadAnimation(cxt, R.anim.translate);
-                            imageView.startAnimation(animation);
-                            animation.setAnimationListener(new Animation.AnimationListener() {
-                                @Override
-                                public void onAnimationStart(Animation animation) {
-
-                                }
-
-                                @Override
-                                public void onAnimationEnd(Animation animation) {
-                                    rl_anim.removeView(imageView);
-                                }
-
-                                @Override
-                                public void onAnimationRepeat(Animation animation) {
-
-                                }
-                            });
-                            rl_anim.addView(imageView);
-                            AnimationDrawable a = (AnimationDrawable) imageView.getBackground();
-                            a.start();
-
-
+                            showBigluwu(imageView,R.drawable.animation_qiche,R.anim.translate,cxt,rl_anim);
                             tv_n.setText("赠送主播");
                         }else if (showVo.getType().equals("20")) {
                             im.setImageResource(R.drawable.present_20);
@@ -266,7 +240,10 @@ public class GiftShowManager {
 
                                 @Override
                                 public void onAnimationEnd(Animation animation) {
-                                    rl_anim.removeView(imageView);
+                                    Message ms = Message.obtain();
+                                    ms.what=REMOVE_GIFT;
+                                    ms.obj=imageView;
+                                    handler.sendMessage(ms);
                                 }
 
                                 @Override
@@ -296,7 +273,10 @@ public class GiftShowManager {
 
                                 @Override
                                 public void onAnimationEnd(Animation animation) {
-                                    rl_anim.removeView(imageView);
+                                    Message ms = Message.obtain();
+                                    ms.what=REMOVE_GIFT;
+                                    ms.obj=imageView;
+                                    handler.sendMessage(ms);
                                 }
 
                                 @Override
@@ -386,6 +366,38 @@ public class GiftShowManager {
             }
         }
     };
+
+    private void showBigluwu(final ImageView imageView , int drawable, int anim, Context context, final RelativeLayout relativeLayout) {
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
+                400, 200);
+        imageView.setLayoutParams(params);
+        imageView.setBackgroundResource(drawable);
+        Animation animation = AnimationUtils.loadAnimation(context, anim);
+        imageView.startAnimation(animation);
+        animation.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                Message msg = Message.obtain();
+                msg.obj=imageView;
+                msg.what=REMOVE_GIFT;
+                handler.sendMessage(msg);
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+        relativeLayout.addView(imageView);
+        AnimationDrawable a = (AnimationDrawable) imageView.getBackground();
+        a.start();
+    }
 
     public GiftShowManager(Context cxt, final LinearLayout giftCon,RelativeLayout rl_anim) {
         this.cxt = cxt;
