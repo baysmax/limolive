@@ -222,7 +222,8 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
     public static final int GUANZHU = 4444;
     public static final int UNGUANZHU = 5555;
     public static final int PAIHANG = 6666;
-    public static final int GETSYSMSG = 7777;
+    public static final int GETSYSMSG = 77777;
+    public static final int GIFT_STOP_ADMIN = 88888;
     private int score = 0;
     ArrayList<SystemMsgBean> sysMsgList=null;
 
@@ -275,6 +276,9 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
         @Override
         public boolean handleMessage(Message msg) {
             switch (msg.what) {
+                case GIFT_STOP_ADMIN:
+                    tv_admin.setText("");
+                    break;
                 case GETSYSMSG://系统消息显示
                     sysMsgList.clear();
                     String json = (String) msg.obj;
@@ -370,6 +374,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
     private int Max_X, Max_Y;
     private ManberInfoPopupWindow ManberInfoPopupWindow;
     private TextView tv_NMBtext, tv_NMB;
+    private TextView tv_admin;
 
     private void showHeadIcon(ImageView view, String avatar) {
 
@@ -421,7 +426,9 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
      */
     private void initView() {
         hideStatusBar();
-        sysMsgList=new ArrayList<>();
+        tv_admin= (TextView) findViewById(R.id.tv_admin);
+        startAnimtions();
+        sysMsgList=new ArrayList<>();//系统通知的数据
         go_phb_Layout= (RelativeLayout) findViewById(R.id.gotoPHB);//柠檬币外部布局用来 实现点击事件
         go_phb_Layout.setOnClickListener(this);
         Display My_Display = getWindow().getWindowManager().getDefaultDisplay();
@@ -618,6 +625,27 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
                         bFirstRender = false;
                     }
                 });
+            }
+        });
+    }
+
+    private void startAnimtions() {
+        Animation animation = AnimationUtils.loadAnimation(LiveingActivity.this, R.anim.admin_translate);
+        tv_admin.startAnimation(animation);
+        animation.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                    mHandler.sendEmptyMessage(GIFT_STOP_ADMIN);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
             }
         });
     }
