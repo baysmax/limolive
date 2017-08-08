@@ -66,6 +66,7 @@ import com.example.project.limolive.api.Api;
 import com.example.project.limolive.api.ApiHttpClient;
 import com.example.project.limolive.api.ApiResponse;
 import com.example.project.limolive.api.ApiResponseHandler;
+import com.example.project.limolive.bean.SystemMsgBean;
 import com.example.project.limolive.bean.mine.BlackListBean;
 import com.example.project.limolive.helper.LoginManager;
 import com.example.project.limolive.model.LoginModel;
@@ -221,7 +222,9 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
     public static final int GUANZHU = 4444;
     public static final int UNGUANZHU = 5555;
     public static final int PAIHANG = 6666;
+    public static final int GETSYSMSG = 7777;
     private int score = 0;
+    ArrayList<SystemMsgBean> sysMsgList=null;
 
     private int startnmb=0,stopnmb=0;
     private RelativeLayout rl_anim;
@@ -252,15 +255,19 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
         //进入房间流程
         mLiveHelper.startEnterRoom();
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
-        getSystemMsg();
+        mLiveHelper.getSystemMsg();
+
     }
 
-    private void getSystemMsg() {
-        ChatEntity entity = new ChatEntity();
-        entity.setSenderName("系统");
-        entity.setContext("系统消息");
-        entity.setType(Constants.HOST_BACK);
-        notifyRefreshListView(entity);
+    private void getSystemMsg(){
+        ChatEntity entity=null;
+        for (SystemMsgBean msgBean : sysMsgList) {
+            entity = new ChatEntity();
+            entity.setSenderName(msgBean.getNotice_name()+":");
+            entity.setContext(msgBean.getNotice_content());
+            entity.setType(Constants.HOST_BACK);
+            notifyRefreshListView(entity);
+        }
     }
 
 
@@ -268,6 +275,13 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
         @Override
         public boolean handleMessage(Message msg) {
             switch (msg.what) {
+                case GETSYSMSG://系统消息显示
+                    sysMsgList.clear();
+                    String json = (String) msg.obj;
+                    sysMsgList.addAll(JSON.parseArray(json, SystemMsgBean.class));
+                    Log.i("系统消息","Handler="+sysMsgList.toString());
+                    getSystemMsg();
+                    break;
                 case UPDAT_WALL_TIME_TIMER_TASK:
                     updateWallTime();
                     break;
@@ -407,6 +421,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
      */
     private void initView() {
         hideStatusBar();
+        sysMsgList=new ArrayList<>();
         go_phb_Layout= (RelativeLayout) findViewById(R.id.gotoPHB);//柠檬币外部布局用来 实现点击事件
         go_phb_Layout.setOnClickListener(this);
         Display My_Display = getWindow().getWindowManager().getDefaultDisplay();

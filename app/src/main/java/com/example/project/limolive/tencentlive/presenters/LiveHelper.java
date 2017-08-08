@@ -21,6 +21,7 @@ import com.example.project.limolive.R;
 import com.example.project.limolive.api.Api;
 import com.example.project.limolive.api.ApiResponse;
 import com.example.project.limolive.api.ApiResponseHandler;
+import com.example.project.limolive.bean.SystemMsgBean;
 import com.example.project.limolive.helper.LoginManager;
 import com.example.project.limolive.tencentlive.model.ChatEntity;
 import com.example.project.limolive.tencentlive.model.CurLiveInfo;
@@ -64,6 +65,7 @@ import org.json.JSONObject;
 import org.json.JSONTokener;
 
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
@@ -91,6 +93,21 @@ public class LiveHelper extends Presenter implements ILiveRoomOption.onRoomDisco
     private NotifyServerLiveEnd liveEndTask;
     private CustomProgressDialog mProgressDialog;
     private Handler mHandler;
+
+    public void getSystemMsg() {
+        Api.getSystemMsg(LoginManager.getInstance().getPhone(mContext), new ApiResponseHandler(mContext) {
+            @Override
+            public void onSuccess(ApiResponse apiResponse) {
+                if (apiResponse.getCode()==Api.SUCCESS){
+                    Message msg = Message.obtain();
+                    msg.what=LiveingActivity.GETSYSMSG;
+                    msg.obj=apiResponse.getData();
+                    mHandler.sendMessage(msg);
+                }
+            }
+        });
+    }
+
     class NotifyServerLiveEnd extends AsyncTask<String, Integer, LiveInfoJson> {
 
         @Override

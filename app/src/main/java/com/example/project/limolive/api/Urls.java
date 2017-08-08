@@ -86,5 +86,5 @@ public class Urls {
     public static final String GET_FOLLOWS ="/appapi/ucenter/follows";  //主播的关注人数
     public static final String GET_FANSLIST ="/Appapi/Ucenter/followLists";  //粉丝列表
 
-    public static final String GET_SYSTEM_MSG = "";//获取系统通知消息
+    public static final String GET_SYSTEM_MSG = "Appapi/live/live_notice";//获取系统通知消息
 }
