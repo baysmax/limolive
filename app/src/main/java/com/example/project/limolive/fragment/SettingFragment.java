@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -15,6 +16,7 @@ import android.widget.Toast;
 
 import com.example.project.limolive.R;
 import com.example.project.limolive.activity.AboutUsActivity;
+import com.example.project.limolive.activity.BaseActivity;
 import com.example.project.limolive.activity.BlackListActivity;
 import com.example.project.limolive.activity.LoginActivity;
 import com.example.project.limolive.activity.PersonInfoActivity;
@@ -53,7 +55,7 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         PgyCrashManager.register(getActivity());
-        PgyUpdateManager.register(getActivity(),getString(R.string.file_provider));
+        //PgyUpdateManager.register(getActivity(),getString(R.string.file_provider));
         return setContentView(R.layout.fragment_setting, inflater, container);
     }
 
@@ -112,66 +114,48 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
                 loginOut();
                 break;
             case R.id.rl_check://检查更新
-
-                // 版本检测方式2：带更新回调监听
-                PgyUpdateManager.register(getActivity(),getString(R.string.file_provider),
-                        new UpdateManagerListener() {
-                            @Override
-                            public void onUpdateAvailable(final String result) {
-
-                                new AlertDialog.Builder(getActivity())
-                                        .setTitle("更新")
-                                        .setMessage("主人有新的版本更新哟...")
-                                        .setNegativeButton(
-                                                "确定",
-                                                new DialogInterface.OnClickListener() {
-
-                                                    @Override
-                                                    public void onClick(
-                                                            DialogInterface dialog,
-                                                            int which) {
-                                                        String url;
-                                                        JSONObject jsonData;
-                                                        try {
-                                                            jsonData = new JSONObject(
-                                                                    result);
-                                                            if ("0".equals(jsonData
-                                                                    .getString("code"))) {
-                                                                JSONObject jsonObject = jsonData
-                                                                        .getJSONObject("data");
-                                                                url = jsonObject
-                                                                        .getString("downloadURL");
-
-                                                                startDownloadTask(
-                                                                        getActivity(),
-                                                                        url);
-
-                                                            }
-
-                                                        } catch (JSONException e) {
-                                                            // TODO Auto-generated
-                                                            // catch block
-                                                            e.printStackTrace();
-                                                        }
-                                                    }
-                                                })
-                                        .setPositiveButton("取消", new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                dialog.dismiss();
-                                            }
-                                        })
-                                        .show();
-
-                            }
-
-                            @Override
-                            public void onNoUpdateAvailable() {
-                                ToastUtils.showCustom(getActivity(), "已经是最新版本", Toast.LENGTH_SHORT);
-                            }
-                        });
+                checkUp();
                 break;
         }
+    }
+    protected void checkUp(){
+        // 版本检测方式2：带更新回调监听
+        PgyUpdateManager.register(getActivity(),getString(R.string.file_provider),
+                new UpdateManagerListener() {
+                    @Override
+                    public void onUpdateAvailable(final String result) {
+                        new AlertDialog.Builder(getActivity())
+                                .setTitle("更新")
+                                .setMessage("主人有新的版本更新哟...")
+                                .setNegativeButton(
+                                        "确定",
+                                        new DialogInterface.OnClickListener() {
+
+                                            @Override
+                                            public void onClick(
+                                                    DialogInterface dialog, int which) {
+                                                Log.i("123456","android.intent.action.VIEW");
+                                                Intent intent= new Intent();
+                                                intent.setAction("android.intent.action.VIEW");
+                                                Uri content_url = Uri.parse("https://www.pgyer.com/Ko1C");
+                                                intent.setData(content_url);
+                                                startActivity(intent);
+                                            }
+                                        })
+                                .setPositiveButton("取消", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.dismiss();
+                                    }
+                                })
+                                .show();
+                    }
+
+                    @Override
+                    public void onNoUpdateAvailable() {
+                        ToastUtils.showCustom(getActivity(), "已经是最新版本", Toast.LENGTH_SHORT);
+                    }
+                });
     }
 
     @Override
