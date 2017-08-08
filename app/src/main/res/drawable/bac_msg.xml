@@ -3,7 +3,7 @@
     android:shape="rectangle">
 
     <!-- 填充的颜色：这里设置背景透明 -->
-    <solid android:color="#10000000" />
+    <solid android:color="#00000000" />
     <corners
         android:bottomLeftRadius="20dip"
         android:bottomRightRadius="20dip"
