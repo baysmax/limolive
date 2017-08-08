@@ -30,18 +30,24 @@ public class FansAndAttention extends Presenter {
     private FansAdapter fansAdapter;
     private AttentionAdapter attentionAdapter;
 
-    private List<FansAttention> data;
+    private List<FansAttention> dataAttent;
+    private List<FansAttention> dataFans;
 
     public FansAndAttention(Context context) {
         super(context);
     }
     public void getFans() {
+        if (dataFans!=null){
+            dataFans.clear();
+        }else {
+            dataFans=new ArrayList<>();
+        }
         if (NetWorkUtil.isNetworkConnected(context)) {
             Api.getFansHandle(LoginManager.getInstance().getUserID(context), String.valueOf(2), new ApiResponseHandler(context) {
                 @Override
                 public void onSuccess(ApiResponse apiResponse) {
-                    data.clear();
-                    data.addAll(JSONArray.parseArray(apiResponse.getData(),FansAttention.class));
+
+                    dataFans.addAll(JSONArray.parseArray(apiResponse.getData(),FansAttention.class));
                     if(fansAdapter!=null){
                         fansAdapter.notifyDataSetChanged();
                     }
@@ -70,6 +76,7 @@ public class FansAndAttention extends Presenter {
         super.getDate(isClear);
         //TODO 请求接口
         getFans();
+        getAttention();
         if(fansAdapter!=null){
             fansAdapter.notifyDataSetChanged();
         }else if(attentionAdapter!=null){
@@ -81,20 +88,49 @@ public class FansAndAttention extends Presenter {
     }
 
     public FansAdapter getFansAdapter() {
+
         if(fansAdapter==null){
-            data=new ArrayList<>();
+            if (dataFans==null){
+                dataFans=new ArrayList<>();
+            }
             getFans();
-            fansAdapter=new FansAdapter(context,data,this);
+            fansAdapter=new FansAdapter(context,dataFans,this);
         }
         return fansAdapter;
     }
 
     public AttentionAdapter getAttentionAdapter() {
         if(attentionAdapter==null){
-            data=new ArrayList<>();
-            attentionAdapter=new AttentionAdapter(context,data);
+            dataAttent=new ArrayList<>();
+            getAttention();
+            attentionAdapter=new AttentionAdapter(context,dataAttent,this);
         }
         return attentionAdapter;
+    }
+
+    public void getAttention() {
+        if (dataAttent!=null){
+            dataAttent.clear();
+        }else {
+            dataAttent=new ArrayList<>();
+        }
+        if (NetWorkUtil.isNetworkConnected(context)) {
+            Api.getFansHandle(LoginManager.getInstance().getUserID(context), String.valueOf(1), new ApiResponseHandler(context) {
+                @Override
+                public void onSuccess(ApiResponse apiResponse) {
+
+                    dataAttent.addAll(JSONArray.parseArray(apiResponse.getData(),FansAttention.class));
+                    if(attentionAdapter!=null){
+                        attentionAdapter.notifyDataSetChanged();
+                    }
+                    Log.i("main","getAttention:"+apiResponse.toString());
+                }
+
+            });
+
+        } else {
+            ToastUtils.showShort(context, "网络异常，请检查您的网络~");
+        }
     }
 
 

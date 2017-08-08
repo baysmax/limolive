@@ -35,12 +35,13 @@ public class FansAdapter extends CommonAdapter<FansAttention> {
         this.mDatas=mDatas;
         this.fansPersenter=fansPersenter;
     }
-
+    boolean isFans=false;
     @Override
     public void convert(ViewHolder helper, FansAttention item, int position) {
         final FansAttention fansAttention = mDatas.get(position);
         TextView tv_nickname=helper.getView(R.id.tv_nickname);
         tv_nickname.setText(item.getNickname());
+
         SimpleDraweeView simpleDraweeView = helper.getView(R.id.iv_user_head);
         final ImageView imageView = helper.getView(R.id.iv_select);
         if (fansAttention.getHeadsmall().contains("http://")){
@@ -51,8 +52,14 @@ public class FansAdapter extends CommonAdapter<FansAttention> {
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                imageView.setSelected(true);
+                isFans=(!isFans);
+                isFouc(imageView,isFans);
             }
         });
     }
+
+    private void isFouc(ImageView imageView,boolean isFans) {
+        imageView.setSelected(isFans);
+    }
+
 }

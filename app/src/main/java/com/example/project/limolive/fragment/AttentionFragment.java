@@ -41,6 +41,7 @@ public class AttentionFragment extends BaseFragment implements SwipeRefreshLayou
         loadTitle();
         lv_info_list= (ListView) findViewById(R.id.lv_info_list);
         lv_info_list.setAdapter(presenter.getAttentionAdapter());
+        presenter.getAttention();
         swipe_list= (AutoSwipeRefreshLayout) findViewById(R.id.swipe_list);
         swipe_list.setColorSchemeColors(BaseActivity.STATUS_BAR_COLOR_DEFAULT);
         swipe_list.setOnRefreshListener(this);
