@@ -449,7 +449,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
         tv_NMB = (TextView) findViewById(R.id.tv_NMB);
         paramTimer.schedule(task, 1000, 1000);
         tv_chat.setOnClickListener(this);
-        followHandle();
+        //followHandle();
         avMemberInfos = new ArrayList<>();//直播时右上角显示头像的数据
         HeadAdapter = new MembersHeadAdapter(this, avMemberInfos);
         member_headList.setAdapter(HeadAdapter);
