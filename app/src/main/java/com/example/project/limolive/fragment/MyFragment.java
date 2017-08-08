@@ -31,6 +31,7 @@ import com.example.project.limolive.model.LoginModel;
 import com.example.project.limolive.provider.MineDataProvider;
 import com.example.project.limolive.tencentlive.model.CurLiveInfo;
 import com.example.project.limolive.tencentlive.views.LiveingActivity;
+import com.example.project.limolive.tencentlive.views.MyAccountActivity;
 import com.example.project.limolive.utils.NetWorkUtil;
 import com.example.project.limolive.utils.ToastUtils;
 import com.facebook.drawee.view.SimpleDraweeView;
@@ -61,6 +62,7 @@ public class MyFragment extends BaseFragment implements View.OnClickListener{
 
 	private LinearLayout ll_fans;    //粉丝
 	private LinearLayout ll_attention;//关注
+	private LinearLayout ll_my_money;//柠檬币点击事件
 	private TextView tvMembers;//关注人数
 	private TextView tv_wait_pay;  //待付款
 	private TextView tv_wait_receive;  //待收货
@@ -103,6 +105,7 @@ public class MyFragment extends BaseFragment implements View.OnClickListener{
 	protected void initView() {
 		super.initView();
 		loadTitle();
+		ll_my_money= (LinearLayout) findViewById(R.id.ll_my_money);
 		provider=new MineDataProvider(getActivity());
 		tvMembers=(TextView)findViewById(R.id.tv_attention_num);//关注
 		tvfansMembers=(TextView)findViewById(R.id.tv_fans_num);//粉丝
@@ -225,6 +228,7 @@ public class MyFragment extends BaseFragment implements View.OnClickListener{
 		tv_wait_receive.setOnClickListener(this);
 		tv_wait_comment.setOnClickListener(this);
 		tv_return_shop.setOnClickListener(this);
+		ll_my_money.setOnClickListener(this);
 	}
 
 	private void loadTitle() {
@@ -293,7 +297,16 @@ public class MyFragment extends BaseFragment implements View.OnClickListener{
 			case R.id.tv_return_shop:  //售后
 				lookOrder(4);
 				break;
+			case R.id.ll_my_money:
+				//充值
+				goAccount();
+				break;
 		}
+	}
+
+	private void goAccount() {
+		Intent sendPres = new Intent(getActivity(), MyAccountActivity.class);
+		startActivity(sendPres);
 	}
 
 	/**
