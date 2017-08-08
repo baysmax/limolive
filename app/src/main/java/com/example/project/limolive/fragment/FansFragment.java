@@ -39,11 +39,13 @@ public class FansFragment extends BaseFragment implements SwipeRefreshLayout.OnR
         super.initView();
         presenter=new FansAndAttention(getActivity());
         presenter.registerMsgToActivity(this);
+
         loadTitle();
 
         swipe_list= (AutoSwipeRefreshLayout) findViewById(R.id.swipe_list);
         lv_info_list= (ListView) findViewById(R.id.lv_info_list);
         lv_info_list.setAdapter(presenter.getFansAdapter());
+        presenter.getFans();
         swipe_list.setColorSchemeColors(BaseActivity.STATUS_BAR_COLOR_DEFAULT);
         swipe_list.setOnRefreshListener(this);
         swipe_list.autoRefresh();
