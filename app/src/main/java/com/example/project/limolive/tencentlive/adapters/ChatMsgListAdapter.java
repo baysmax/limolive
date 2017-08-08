@@ -195,7 +195,7 @@ public class ChatMsgListAdapter extends BaseAdapter implements AbsListView.OnScr
                 Log.e("sdadsadsdss", "___" + item.getSenderName() + "___" + item.toString());
                 if (item.getType() != Constants.TEXT_TYPE) {
                     // 设置名称为粗体
-                    StyleSpan boldStyle = new StyleSpan(Typeface.BOLD_ITALIC);
+                    StyleSpan boldStyle = new StyleSpan(Typeface.BOLD);
                     spanString.setSpan(boldStyle, 0, item.getSenderName().length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                     //holder.textItem.setBackgroundResource(R.drawable.img_chat_black);//img_chat_black
                     holder.sendContext.setTextColor(context.getResources().getColor(R.color.colorTextWhite));
