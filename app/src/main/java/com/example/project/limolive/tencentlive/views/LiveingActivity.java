@@ -264,7 +264,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
         ChatEntity entity=null;
         for (SystemMsgBean msgBean : sysMsgList) {
             entity = new ChatEntity();
-            entity.setSenderName(msgBean.getNotice_name()+":");
+            entity.setSenderName(msgBean.getNotice_name());
             entity.setContext(msgBean.getNotice_content());
             entity.setType(Constants.HOST_BACK);
             notifyRefreshListView(entity);
