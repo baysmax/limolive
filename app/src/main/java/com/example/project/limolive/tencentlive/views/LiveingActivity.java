@@ -252,6 +252,15 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
         //进入房间流程
         mLiveHelper.startEnterRoom();
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
+        getSystemMsg();
+    }
+
+    private void getSystemMsg() {
+        ChatEntity entity = new ChatEntity();
+        entity.setSenderName("系统");
+        entity.setContext("系统消息");
+        entity.setType(Constants.HOST_BACK);
+        notifyRefreshListView(entity);
     }
 
 

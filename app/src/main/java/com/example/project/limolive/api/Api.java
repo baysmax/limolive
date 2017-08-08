@@ -101,6 +101,14 @@ public class Api {
         ApiHttpClient.get(ApiHttpClient.API_URL + Urls.GET_MYROOMID, params, handler);
     }
 
+    public static void getSystemMsg(String phone, AsyncHttpResponseHandler handler) {
+        RequestParams params = new RequestParams();
+        params.put("phone", phone);
+        ApiHttpClient.get(ApiHttpClient.API_URL + Urls.GET_SYSTEM_MSG, params, handler);
+    }
+
+
+
 
     /**
      * 用户创建直播间接口
