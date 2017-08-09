@@ -2,6 +2,7 @@ package com.example.project.limolive.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -22,7 +23,11 @@ import com.example.project.limolive.bean.taowu.RecommendBean;
 import com.example.project.limolive.helper.LoginManager;
 import com.example.project.limolive.utils.NetWorkUtil;
 import com.example.project.limolive.utils.ToastUtils;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.display.SimpleBitmapDisplayer;
 
+import java.util.Arrays;
 import java.util.List;
 
 import static com.example.project.limolive.presenter.Presenter.NET_UNCONNECT;
@@ -31,7 +36,7 @@ public class FindGoodsList_Adapter extends BaseAdapter {
     private Context mContext;
     private LayoutInflater mInflater;
     private List<RecommendBean> list;
-    private RecommendBean rb;
+    //private RecommendBean rb;
 
     public FindGoodsList_Adapter(Context mContext, List<RecommendBean> list) {
         this.mContext = mContext;
@@ -49,7 +54,7 @@ public class FindGoodsList_Adapter extends BaseAdapter {
     @Override
     public Object getItem(int position) {
         // TODO Auto-generated method stub
-        return null;
+        return list.get(position);
     }
 
     @Override
@@ -61,7 +66,7 @@ public class FindGoodsList_Adapter extends BaseAdapter {
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         // TODO Auto-generated method stub
-        rb = list.get(position);
+        RecommendBean rb = (RecommendBean) getItem(position);
         ViewHolder viewHolder = null;
         if (convertView == null) {
             viewHolder = new ViewHolder();
@@ -75,12 +80,12 @@ public class FindGoodsList_Adapter extends BaseAdapter {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        if (TextUtils.isEmpty(rb.getGoods_content())) {
+        if (TextUtils.isEmpty(rb.getOriginal_img())) {
             viewHolder.iv_goodspicture.setImageResource(R.mipmap.goods);
         } else {
-            String[] split = rb.getGoods_content().split(";");
+            //String[] split = rb.getGoods_content().split(";");
             Log.i("获取普通商品","getOriginal_img"+rb.getOriginal_img());
-            Glide.with(mContext).load(ApiHttpClient.API_PIC + split[0]).into(viewHolder.iv_goodspicture);
+           Glide.with(mContext).load(ApiHttpClient.API_PIC + rb.getOriginal_img()).into(viewHolder.iv_goodspicture);
         }
         viewHolder.tv_recommend_baokuan.setText(rb.getGoods_name());
         viewHolder.tv_howMoney.setText("¥" + rb.getShop_price());
