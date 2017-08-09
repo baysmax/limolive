@@ -60,6 +60,7 @@ import com.bumptech.glide.RequestManager;
 import com.example.project.limolive.R;
 import com.example.project.limolive.activity.BaseActivity;
 import com.example.project.limolive.activity.MainActivity;
+import com.example.project.limolive.activity.MyWalletActivity;
 import com.example.project.limolive.activity.RanksActivity;
 import com.example.project.limolive.adapter.BlackListAdapter;
 import com.example.project.limolive.api.Api;
@@ -1437,7 +1438,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
             @Override
             public void onClick(View v) {
                 //充值
-                Intent sendPres = new Intent(LiveingActivity.this, MyAccountActivity.class);
+                Intent sendPres = new Intent(LiveingActivity.this, MyWalletActivity.class);
                 startActivity(sendPres);
                 dialog1.dismiss();
 

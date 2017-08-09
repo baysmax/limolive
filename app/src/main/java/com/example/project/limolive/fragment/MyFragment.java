@@ -69,7 +69,7 @@ public class MyFragment extends BaseFragment implements View.OnClickListener{
 	private TextView tv_wait_receive;  //待收货
 	private TextView tv_wait_comment;  //待评价
 	private TextView tv_return_shop;  //退款售后
-	private TextView tv_my_money_num; //主播柠檬币；
+	private TextView tv_my_money_num; //主播钻石；
 	private TextView tvfansMembers;//粉丝数量
 
 
@@ -152,29 +152,49 @@ public class MyFragment extends BaseFragment implements View.OnClickListener{
 		}
 	}
 	/*********
-	 * 获取观众自己柠檬币
+	 * 获取观众自己钻石
 	 */
 	private void getSelCoins() {
-
-		if (NetWorkUtil.isNetworkConnected(getContext())) {
-			Api.getMemberCoins(LoginManager.getInstance().getUserID(getContext()), new ApiResponseHandler(getContext()) {
-				@Override
-				public void onSuccess(ApiResponse apiResponse) {
-					Log.i("获取成员剩余柠檬币", "apiResponse.." + apiResponse.toString());
-					if (apiResponse.getCode() == 0) {
-						JSONObject parse = JSON.parseObject(apiResponse.getData());
-						String Sellemon_coins = parse.getString("charm");
-						Log.i("获取成员剩余柠檬币", "1走没有");
-						tv_my_money_num.setText(Sellemon_coins);
-					} else {
-						ToastUtils.showShort(getContext(), apiResponse.getMessage());
-					}
-				}
-			});
-
-		} else {
-			ToastUtils.showShort(getContext(), "网络异常，请检查您的网络~");
+		if (!NetWorkUtil.isNetworkConnected(getActivity())) {
+			ToastUtils.showShort(getActivity(), NET_UNCONNECT);
+			return;
+		}else {
+			Api.getDiamonds(LoginManager.getInstance().getUserID(getActivity()),
+					new ApiResponseHandler(getActivity()) {
+						@Override
+						public void onSuccess(ApiResponse apiResponse) {
+							Log.i("钻石","apiResponse="+apiResponse.toString());
+							if (apiResponse.getCode()==Api.SUCCESS){
+								String data = apiResponse.getData();
+								JSONObject parse = (JSONObject) JSON.parse(data);
+								String diamonds_coins = parse.getString("diamonds_coins");
+								Log.i("钻石","diamonds_coins:"+diamonds_coins);
+								tv_my_money_num.setText(diamonds_coins + "");
+							}
+						}
+					});
 		}
+
+
+//		if (NetWorkUtil.isNetworkConnected(getContext())) {
+//			Api.getMemberCoins(LoginManager.getInstance().getUserID(getContext()), new ApiResponseHandler(getContext()) {
+//				@Override
+//				public void onSuccess(ApiResponse apiResponse) {
+//					Log.i("获取成员剩余柠檬币", "apiResponse.." + apiResponse.toString());
+//					if (apiResponse.getCode() == 0) {
+//						JSONObject parse = JSON.parseObject(apiResponse.getData());
+//						String Sellemon_coins = parse.getString("charm");
+//						Log.i("获取成员剩余柠檬币", "1走没有");
+//						tv_my_money_num.setText(Sellemon_coins);
+//					} else {
+//						ToastUtils.showShort(getContext(), apiResponse.getMessage());
+//					}
+//				}
+//			});
+//
+//		} else {
+//			ToastUtils.showShort(getContext(), "网络异常，请检查您的网络~");
+//		}
 
 	}
 	/**

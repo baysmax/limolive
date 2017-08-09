@@ -61,8 +61,8 @@
         android:icon="@mipmap/logo"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:versionCode="18"
-        android:versionName="1.4"
+        android:versionCode="19"
+        android:versionName="1.5"
         android:theme="@style/AppTheme">
         <provider
             android:name="android.support.v4.content.FileProvider"
@@ -113,6 +113,10 @@
         <!--宝贝描述-->
         <activity
             android:name="com.example.project.limolive.activity.ProductDescriptionActivity"
+            android:screenOrientation="portrait" />
+        <!--我的钱包-->
+        <activity
+            android:name="com.example.project.limolive.activity.MyWalletActivity"
             android:screenOrientation="portrait" />
 
         <!--宝贝分类-->

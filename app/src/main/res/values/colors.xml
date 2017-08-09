@@ -46,6 +46,7 @@
     <color name="colorAccent">#FF4081</color>
     <color name="color_8a8a8a">#8a8a8a</color>
     <color name="white">#FFFFFF</color>
+    <color name="hogn">#e21717</color>
 
     <color name="btn_live_press">#2F3134</color>
     <color name="line_bg">#CDCDCD</color>
@@ -53,6 +54,8 @@
     <color name="color_999999">#999999</color>
     <color name="color_555555">#555555</color>
     <color name="color_333333">#333333</color>
+    <color name="color_btnsf">#adffbf00</color>
+    <color name="color_btns">#75545454</color>
     <color name="color_FF9245">#FF9245</color>
     <color name="color_F4F3FB">#F4F3FB</color>
 
