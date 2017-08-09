@@ -357,7 +357,7 @@ public class GoodsDetails extends BaseActivity implements View.OnClickListener {
 
     private void share() {
         UMImage thumb = new UMImage(this, R.mipmap.logo);
-        UMWeb web = new UMWeb("https://www.pgyer.com/limolive");
+        UMWeb web = new UMWeb("https://www.pgyer.com/Ko1C");
         web.setTitle("柠檬直播");//标题
         web.setThumb(thumb);  //缩略图
         web.setDescription("大家好,我正在直播哦，喜欢我的朋友赶紧来哦");//描述
