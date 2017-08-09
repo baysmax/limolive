@@ -68,9 +68,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     }
 
     private void monitor() {
-        for (int i = 0; i < tabs.length; i++) {
-            tabs[i].setOnClickListener(this);
-        }
+
+            tabs[0].setOnClickListener(this);
+            tabs[1].setOnClickListener(this);
+            tabs[2].setOnClickListener(this);
+            //tabs[3].setOnClickListener(this);
+            tabs[4].setOnClickListener(this);
     }
 
     private void initView() {
@@ -120,9 +123,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 });
 
                 break;
-            case R.id.iv_shopping: //购物车
-                clickIndex = 3;
-                break;
+//            case R.id.iv_shopping: //购物车
+//                clickIndex = 3;
+//                break;
             case R.id.iv_my: //我的
                 clickIndex = 4;
                 break;
