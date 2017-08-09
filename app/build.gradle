@@ -7,7 +7,7 @@ android {
         applicationId "com.example.project.limolive"
         minSdkVersion 21
         targetSdkVersion 26
-        versionCode 17
+        versionCode 18
         versionName "1.4"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         ndk{
