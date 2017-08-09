@@ -144,7 +144,7 @@ public class PayReadyActivity extends BaseActivity implements View.OnClickListen
         });
     }
 
-    //柠檬币订单生成接口
+    //钻石订单生成接口
     public void Recharge(String user_id, String lemon_id) {
         Api.Recharge(user_id, lemon_id, new ApiResponseHandler(this) {
             @Override

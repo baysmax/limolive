@@ -41,7 +41,7 @@
                     android:gravity="bottom|center_horizontal"
                     android:paddingBottom="3dp"
                     android:paddingTop="3dp"
-                    android:text="@string/live_gift_gold"
+                    android:text="@string/live_gift_gold_coins"
                     android:textColor="#727272"
                     android:textSize="12sp" />
 

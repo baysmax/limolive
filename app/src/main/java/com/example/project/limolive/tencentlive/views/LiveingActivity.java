@@ -297,12 +297,12 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
                     cancelInviteView(id);
                     mLiveHelper.sendGroupCmd(Constants.AVIMCMD_MULTI_HOST_CANCELINVITE, id);
                     break;
-                case 2222://如果是处理显示礼物的消息  自己的柠檬币
+                case 2222://如果是处理显示礼物的消息  自己的钻石
                  /*   String lemon_coin = (String) msg.obj;
                     live_room_gift_money.setText(lemon_coin);*/
                     getSelCoins();
                     break;
-                case NIMOBI://如果是处理显示礼物的消息   //主播的柠檬币
+                case NIMOBI://如果是处理显示礼物的消息   //主播的魅力值
                     Log.i("NIMOBI", "NIMOBI" + "走没有");
                /*     Log.i("NIMOBI","lemon_coins"+lemon_coins);
                     Log.i("NIMOBI","NIMOBI"+"走没有");
@@ -489,7 +489,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
         send_gift.setOnClickListener(this);
         mBeautyConfirm.setOnClickListener(this);
 
-        getHostCoins();//主播的柠檬币
+        getHostCoins();//主播的魅力值
 
 
         Log.i("getHostID", CurLiveInfo.getHostID());
@@ -1431,7 +1431,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
         live_room_gift_pay = (TextView) viewd.findViewById(R.id.live_room_gift_pay);//点击充值
         live_room_gift_money = (TextView) viewd.findViewById(R.id.live_room_gift_money);//柠檬币
         iv_giftGiveing_button = (Button) viewd.findViewById(R.id.iv_giftGiveing_button);
-        getSelCoins();//观众的柠檬币
+        getSelCoins();//观众的钻石
         live_room_gift_sendname.setText("主播: " + CurLiveInfo.getHostName());
         live_room_gift_pay.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -1482,7 +1482,11 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
             Log.i("送礼物接口", "getHostID.." + CurLiveInfo.getHostID());
             Log.i("送礼物接口", "amount.." + amount);
             Log.i("送礼物接口", "score.." + score);
-            Api.sendGift(LoginManager.getInstance().getUserID(LiveingActivity.this), CurLiveInfo.getHostID(), amount, score, new ApiResponseHandler(this) {
+            Api.sendGift(LoginManager.getInstance().getUserID(LiveingActivity.this)
+                    , CurLiveInfo.getHostID()
+                    , amount
+                    , score
+                    , new ApiResponseHandler(this) {
                 @Override
                 public void onSuccess(ApiResponse apiResponse) {
                     Log.i("送礼物接口", "apiResponse.." + apiResponse.toString());
@@ -1622,7 +1626,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
 
 
     /*********
-     * 获取剩余柠檬币  显示的魅力值
+     * 显示的魅力值
      */
     String Hostlemon_coins="";
     boolean isfast=true;
@@ -1639,12 +1643,12 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
                         tv_NMB.setText(Hostlemon_coins);
                         if (isfast){
                             if (Hostlemon_coins!=null&&Hostlemon_coins!=""){
-                                startnmb=Integer.parseInt(Hostlemon_coins);
+                                startnmb=Integer.parseInt(Hostlemon_coins);//开始时的魅力值
                             }
                             isfast=false;
                         }else {
                             if (Hostlemon_coins!=null&&Hostlemon_coins!=""){
-                                stopnmb=Integer.parseInt(Hostlemon_coins);
+                                stopnmb=Integer.parseInt(Hostlemon_coins);//结束时的魅力值
                             }
                         }
 
@@ -1660,20 +1664,19 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
     }
 
     /*********
-     * 获取观众自己柠檬币
+     * 获取观众自己的钻石
      */
     private void getSelCoins() {
-
         if (NetWorkUtil.isNetworkConnected(this)) {
-            Api.getMemberCoins(LoginManager.getInstance().getUserID(LiveingActivity.this), new ApiResponseHandler(this) {
+            Api.getDiamonds(LoginManager.getInstance().getUserID(LiveingActivity.this), new ApiResponseHandler(this) {
                 @Override
                 public void onSuccess(ApiResponse apiResponse) {
-                    Log.i("获取成员剩余柠檬币", "apiResponse.." + apiResponse.toString());
+                    Log.i("获取成员剩余钻石", "apiResponse.." + apiResponse.toString());
                     if (apiResponse.getCode() == 0) {
                         JSONObject parse = JSON.parseObject(apiResponse.getData());
-                        String Sellemon_coins = parse.getString("charm");
-                        Log.i("获取成员剩余柠檬币", "1走没有");
-                        live_room_gift_money.setText(Sellemon_coins);
+                        String diamonds_coins = parse.getString("diamonds_coins");
+                        Log.i("获取成员剩余钻石", "1走没有");
+                        live_room_gift_money.setText(diamonds_coins);
                     } else {
                         ToastUtils.showShort(LiveingActivity.this, apiResponse.getMessage());
                     }

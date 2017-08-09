@@ -775,7 +775,7 @@ public class Api {
     }
 
     /**
-     * 获取观众柠檬币接口
+     * 获取用户柠檬币接口
      */
     public static void getMemberCoins(String uid,AsyncHttpResponseHandler handler) {
         RequestParams params = new RequestParams();
@@ -824,5 +824,17 @@ public class Api {
         params.put("uid", userID);
         Log.i("禁播",""+ApiHttpClient.API_URL + Urls.POST_ISBANED+"userID="+userID);
         ApiHttpClient.get(ApiHttpClient.API_URL + Urls.POST_ISBANED, params, handler);
+    }
+
+    /**
+     * 获取用户钻石接口
+     * @param userID
+     * @param handler
+     */
+    public static void getDiamonds(String userID, AsyncHttpResponseHandler handler) {
+        RequestParams params = new RequestParams();
+        params.put("uid", userID);
+        Log.i("钻石",""+ApiHttpClient.API_URL + Urls.POST_GETUSER_DIAMONDS+"userID="+userID);
+        ApiHttpClient.get(ApiHttpClient.API_URL + Urls.POST_GETUSER_DIAMONDS, params, handler);
     }
 }

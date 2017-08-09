@@ -19,6 +19,7 @@ import com.example.project.limolive.activity.CollectionListActivity;
 import com.example.project.limolive.activity.FansAttentionActivity;
 import com.example.project.limolive.activity.HistoryActivity;
 import com.example.project.limolive.activity.MyShopActivity;
+import com.example.project.limolive.activity.MyWalletActivity;
 import com.example.project.limolive.activity.OrderActivity;
 import com.example.project.limolive.activity.SettingActivity;
 import com.example.project.limolive.activity.ShoppingCartActivity;
@@ -299,9 +300,15 @@ public class MyFragment extends BaseFragment implements View.OnClickListener{
 				break;
 			case R.id.ll_my_money:
 				//充值
-				goAccount();
+				//goAccount();
+				goWallet();
 				break;
 		}
+	}
+
+	private void goWallet() {
+		Intent sendPres = new Intent(getActivity(), MyWalletActivity.class);
+		startActivity(sendPres);
 	}
 
 	private void goAccount() {
