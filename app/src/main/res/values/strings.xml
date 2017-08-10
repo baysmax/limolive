@@ -282,6 +282,7 @@
     <string name="change_info_simple_job_hint">您的职业</string>
     <string name="change_info_simple_username">修改用户名</string>
     <string name="change_info_simple_username_hint">请输入用户名(最多20个字)</string>
+    <string name="change_info_wallet_hint">注:充值成功后到账可能会有一定的延迟，请耐心的等待。若没有到账请及时与客服联系</string>
 
     <!--订单-->
     <string name="order_title">我的订单</string>

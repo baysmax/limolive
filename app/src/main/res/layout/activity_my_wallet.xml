@@ -279,7 +279,7 @@
                 android:layout_marginLeft="18dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="*注:充值成功后到账可能会有一定的延迟，请耐心的等待。若没有到账请及时与客服联系"/>
+                android:text="@string/change_info_wallet_hint"/>
         </LinearLayout>
        <RelativeLayout
            android:layout_marginTop="19dp"
