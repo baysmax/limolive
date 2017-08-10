@@ -22,6 +22,7 @@ public class ChangeInfoActivity extends BaseActivity {
      */
     public static final int SIMPLE=0;
     public static final int ADDRESS=1;
+    public static final int CART=3;
     public static final String INFO_TYPE="info_type";
 
     private BaseFragment showFragment;

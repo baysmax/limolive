@@ -438,7 +438,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
 
         mHeartLayout = (PeriscopeLayout) findViewById(R.id.heart_layout);
         mHostCtrView = (LinearLayout) findViewById(R.id.host_bottom_layout);
-        mHostLeaveLayout = (LinearLayout) findViewById(R.id.ll_host_leave);
+        mHostLeaveLayout = (LinearLayout) findViewById(R.id.ll_host_leave);//暂时离开
         mHeadIcon = (ImageView) findViewById(R.id.head_icon);
         tvMembers = (TextView) findViewById(R.id.member_counts);
         tv_chat = (TextView) findViewById(R.id.tv_chat);

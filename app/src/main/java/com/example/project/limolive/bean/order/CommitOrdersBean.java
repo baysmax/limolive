@@ -12,7 +12,7 @@ public class CommitOrdersBean implements Serializable {
     private List<CartList> cartList;
     private String totalPrice;
 
-    public class AddressList {
+    public class AddressList  implements Serializable {
         private String address;
         private String address_id;
         private String city;
@@ -186,14 +186,16 @@ public class CommitOrdersBean implements Serializable {
         }
     }
 
-    public class CartList {
+    public class CartList  implements Serializable {
         private List<Datas> data;
         private String goods_price;
         private String shiping_price;
         private String stores_name;
         private String uid;
 
-        public class Datas{
+        public class Datas implements Serializable {
+
+
             private String add_time;
             private String bar_code;
             private String goods_id;
@@ -346,6 +348,28 @@ public class CommitOrdersBean implements Serializable {
 
             public void setUser_id(String user_id) {
                 this.user_id = user_id;
+            }
+            @Override
+            public String toString() {
+                return "Datas{" +
+                        "add_time='" + add_time + '\'' +
+                        ", bar_code='" + bar_code + '\'' +
+                        ", goods_id='" + goods_id + '\'' +
+                        ", goods_name='" + goods_name + '\'' +
+                        ", goods_num='" + goods_num + '\'' +
+                        ", goods_price='" + goods_price + '\'' +
+                        ", id='" + id + '\'' +
+                        ", member_goods_price='" + member_goods_price + '\'' +
+                        ", original_img='" + original_img + '\'' +
+                        ", price_num='" + price_num + '\'' +
+                        ", prom_id='" + prom_id + '\'' +
+                        ", prom_type='" + prom_type + '\'' +
+                        ", selected='" + selected + '\'' +
+                        ", shiping_price='" + shiping_price + '\'' +
+                        ", sku='" + sku + '\'' +
+                        ", uid='" + uid + '\'' +
+                        ", user_id='" + user_id + '\'' +
+                        '}';
             }
         }
 

@@ -23,6 +23,7 @@ import com.example.project.limolive.utils.ToastUtils;
 import com.example.project.limolive.zhifubao.zhifuPayActivity;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static com.example.project.limolive.presenter.Presenter.NET_UNCONNECT;
@@ -40,6 +41,7 @@ public class CommitOrdersActivity extends BaseActivity implements View.OnClickLi
     private RelativeLayout commit_order_rl;
     private LinearLayout commit_order_ll;
     private List<CommitOrdersBean.CartList> list;
+    private List<CommitOrdersBean.CartList.Datas> dateList;
     private CommitOrdersAdapter adapter;
     private CommitOrdersBean c;
     @Override
@@ -53,6 +55,8 @@ public class CommitOrdersActivity extends BaseActivity implements View.OnClickLi
     private void initView() {
         loadTitle();
         list = new ArrayList<>();
+        dateList=new ArrayList<>();
+        getDatas();
         commit_listView = (ListView) findViewById(R.id.commit_listView);
         name = (TextView) findViewById(R.id.commit_order_name);
         phone = (TextView) findViewById(R.id.commit_order_phone);
@@ -60,7 +64,7 @@ public class CommitOrdersActivity extends BaseActivity implements View.OnClickLi
         price = (TextView) findViewById(R.id.commit_order_price);
         commit_order_rl = (RelativeLayout) findViewById(R.id.commit_order_rl);
         commit_order_ll = (LinearLayout) findViewById(R.id.commit_order_ll);
-        adapter = new CommitOrdersAdapter(this, list);
+        adapter = new CommitOrdersAdapter(this, list,dateList);
         commit_listView.setAdapter(adapter);
 
         commit_order_rl.setOnClickListener(this);
@@ -70,7 +74,7 @@ public class CommitOrdersActivity extends BaseActivity implements View.OnClickLi
     @Override
     protected void onResume() {
         super.onResume();
-        getDatas();
+
     }
 
     private void loadTitle() {
@@ -92,14 +96,17 @@ public class CommitOrdersActivity extends BaseActivity implements View.OnClickLi
             ToastUtils.showShort(this, NET_UNCONNECT);
             return;
         }
+        Log.i("main","getIntent().getStringExtra(\"ids\")="+getIntent().getStringExtra("ids"));
         Api.commitCart(LoginManager.getInstance().getUserID(this), getIntent().getStringExtra("ids"), new ApiResponseHandler(this) {
             @Override
             public void onSuccess(ApiResponse apiResponse) {
                 if (apiResponse.getCode() == Api.SUCCESS) {
-                    Log.i("获取订单详情", "apiResponse.." + apiResponse.toString());
+                    Log.i("main", "commitCart.." + apiResponse.toString());
                     c = JSON.parseObject(apiResponse.getData(), CommitOrdersBean.class);
                     list.clear();
                     list.addAll(c.getCartList());
+                    Log.i("main", "list.." + list.size());
+                    dateList.addAll(list.get(0).getData());
                     name.setText(c.getAddressList().getConsignee());
                     phone.setText(c.getAddressList().getMobile());
                     address.setText("收货地址 : " + c.getAddressList().getAddress());
@@ -154,10 +161,10 @@ public class CommitOrdersActivity extends BaseActivity implements View.OnClickLi
                 break;
             case R.id.commit_order_ll:
                 ToastUtils.showShort(this, "正在开发中");
-//                Intent intent1 = new Intent(this, PayReadyActivity.class);
-//                intent1.putExtra(ChangeInfoActivity.INFO_TYPE, ChangeInfoActivity.ADDRESS);
-//                intent1.putExtra("cob", c);
-//                startActivity(intent1);
+                Intent intent1 = new Intent(this, PayReadyActivity.class);
+                intent1.putExtra("type", ChangeInfoActivity.CART);
+               intent1.putExtra("cobs", c);
+                startActivity(intent1);
                 break;
         }
     }

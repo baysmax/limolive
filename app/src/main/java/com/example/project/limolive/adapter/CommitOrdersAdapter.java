@@ -1,6 +1,7 @@
 package com.example.project.limolive.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import com.example.project.limolive.api.ApiHttpClient;
 import com.example.project.limolive.bean.order.CommitOrdersBean;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -24,20 +26,22 @@ public class CommitOrdersAdapter extends BaseAdapter {
     private Context context;
     private List<CommitOrdersBean.CartList> list;
     private CommitOrdersBean.CartList c;
+    List<CommitOrdersBean.CartList.Datas> dateList;
 
-    public CommitOrdersAdapter(Context context, List<CommitOrdersBean.CartList> list) {
+    public CommitOrdersAdapter(Context context, List<CommitOrdersBean.CartList> list,List<CommitOrdersBean.CartList.Datas> dateList) {
         this.context = context;
         this.list = list;
+        this.dateList=dateList;
     }
 
     @Override
     public int getCount() {
-        return list.size();
+        return dateList.size();
     }
 
     @Override
     public Object getItem(int i) {
-        return list.get(i);
+        return dateList.get(i);
     }
 
     @Override
@@ -48,7 +52,7 @@ public class CommitOrdersAdapter extends BaseAdapter {
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
         ViewHolder vh = null;
-        c = list.get(i);
+        c = list.get(0);
         if (view == null) {
             vh = new ViewHolder();
             view = LayoutInflater.from(context).inflate(R.layout.commit_order_item, null);
@@ -65,10 +69,10 @@ public class CommitOrdersAdapter extends BaseAdapter {
         }
 
         vh.store.setText(c.getStores_name());
-        ImageLoader.getInstance().displayImage(ApiHttpClient.API_PIC+c.getData().get(0).getOriginal_img(),vh.iv);
-        vh.desc.setText(c.getData().get(0).getGoods_name());
-        vh.count.setText("X"+c.getData().get(0).getGoods_num());
-        if("0.00".equals(c.getData().get(0).getShiping_price())){
+        ImageLoader.getInstance().displayImage(ApiHttpClient.API_PIC+dateList.get(i).getOriginal_img(),vh.iv);
+        vh.desc.setText(dateList.get(i).getGoods_name());
+        vh.count.setText("X"+dateList.get(i).getGoods_num());
+        if("0.00".equals(dateList.get(i).getShiping_price())){
             vh.kuaidi.setText("快递 不包邮");
         }else {
             vh.kuaidi.setText("快递 不包邮");
