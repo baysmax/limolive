@@ -79,7 +79,7 @@ public class BaseActivity extends AppCompatActivity implements ProfileView, Easy
     /**
      * 默认状态栏颜色
      */
-    public static final int STATUS_BAR_COLOR_DEFAULT = Color.parseColor("#FF5740");
+    public static final int STATUS_BAR_COLOR_DEFAULT = Color.parseColor("#a0fce13d");
 
     /**
      * 顶部标题栏
