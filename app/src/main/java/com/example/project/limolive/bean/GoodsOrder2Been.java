@@ -9,6 +9,17 @@ package com.example.project.limolive.bean;/**
 
 public class GoodsOrder2Been {
     private String postFee;
+
+    @Override
+    public String toString() {
+        return "GoodsOrder2Been{" +
+                "postFee='" + postFee + '\'' +
+                ", payables='" + payables + '\'' +
+                ", goodsFee='" + goodsFee + '\'' +
+                ", order_sn='" + order_sn + '\'' +
+                '}';
+    }
+
     private String payables;
     private String goodsFee;
     private String order_sn;

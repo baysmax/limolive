@@ -1,6 +1,8 @@
 package com.example.project.limolive.adapter;
 
 import android.content.Context;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +18,7 @@ import com.example.project.limolive.bean.order.CommitOrdersBean;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -28,10 +31,17 @@ public class CommitOrdersAdapter extends BaseAdapter {
     private CommitOrdersBean.CartList c;
     List<CommitOrdersBean.CartList.Datas> dateList;
 
+    public HashMap<String, String> getBeizhu() {
+        return beizhu;
+    }
+
+    private HashMap<String,String> beizhu;
+
     public CommitOrdersAdapter(Context context, List<CommitOrdersBean.CartList> list,List<CommitOrdersBean.CartList.Datas> dateList) {
         this.context = context;
         this.list = list;
         this.dateList=dateList;
+        beizhu=new HashMap<>();
     }
 
     @Override
@@ -50,7 +60,7 @@ public class CommitOrdersAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int i, View view, ViewGroup viewGroup) {
+    public View getView(final int i, View view, ViewGroup viewGroup) {
         ViewHolder vh = null;
         c = list.get(0);
         if (view == null) {
@@ -63,6 +73,22 @@ public class CommitOrdersAdapter extends BaseAdapter {
             vh.kuaidi = (TextView) view.findViewById(R.id.commit_item_kuaidi);
             vh.youhui = (TextView) view.findViewById(R.id.commit_item_youhui);
             vh.beizhu = (EditText) view.findViewById(R.id.commit_item_beizhu);
+            vh.beizhu.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+                    beizhu.put(dateList.get(i).getGoods_id(),editable.toString());
+                }
+            });
             view.setTag(vh);
         } else {
             vh = (ViewHolder) view.getTag();

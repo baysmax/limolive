@@ -308,6 +308,17 @@ public class Api {
         params.put("user_id", user_id);
         ApiHttpClient.get(ApiHttpClient.API_URL + Urls.GET_CART_LIST, params, handler);
     }
+    /**
+     * 购物车结算(未完善)
+     */
+    public static void Cart3(String user_id,String address_id,String remark,String ids, AsyncHttpResponseHandler handler) {
+        RequestParams params = new RequestParams();
+        params.put("user_id", user_id);
+        params.put("address_id", address_id);
+        params.put("remark", remark);
+        params.put("ids", ids);
+        ApiHttpClient.get(ApiHttpClient.API_URL + Urls.GET_CART_CART3, params, handler);
+    }
 
     /**
      * 删除购物车列表

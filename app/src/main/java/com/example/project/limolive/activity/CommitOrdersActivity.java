@@ -44,6 +44,7 @@ public class CommitOrdersActivity extends BaseActivity implements View.OnClickLi
     private List<CommitOrdersBean.CartList.Datas> dateList;
     private CommitOrdersAdapter adapter;
     private CommitOrdersBean c;
+    private String ids;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,11 +52,11 @@ public class CommitOrdersActivity extends BaseActivity implements View.OnClickLi
 
         initView();
     }
-
     private void initView() {
         loadTitle();
         list = new ArrayList<>();
         dateList=new ArrayList<>();
+        ids = getIntent().getStringExtra("ids");
         getDatas();
         commit_listView = (ListView) findViewById(R.id.commit_listView);
         name = (TextView) findViewById(R.id.commit_order_name);
@@ -66,7 +67,6 @@ public class CommitOrdersActivity extends BaseActivity implements View.OnClickLi
         commit_order_ll = (LinearLayout) findViewById(R.id.commit_order_ll);
         adapter = new CommitOrdersAdapter(this, list,dateList);
         commit_listView.setAdapter(adapter);
-
         commit_order_rl.setOnClickListener(this);
         commit_order_ll.setOnClickListener(this);
     }
@@ -97,7 +97,7 @@ public class CommitOrdersActivity extends BaseActivity implements View.OnClickLi
             return;
         }
         Log.i("main","getIntent().getStringExtra(\"ids\")="+getIntent().getStringExtra("ids"));
-        Api.commitCart(LoginManager.getInstance().getUserID(this), getIntent().getStringExtra("ids"), new ApiResponseHandler(this) {
+        Api.commitCart(LoginManager.getInstance().getUserID(this),ids, new ApiResponseHandler(this) {
             @Override
             public void onSuccess(ApiResponse apiResponse) {
                 if (apiResponse.getCode() == Api.SUCCESS) {
@@ -162,8 +162,10 @@ public class CommitOrdersActivity extends BaseActivity implements View.OnClickLi
             case R.id.commit_order_ll:
                 ToastUtils.showShort(this, "正在开发中");
                 Intent intent1 = new Intent(this, PayReadyActivity.class);
-                intent1.putExtra("type", ChangeInfoActivity.CART);
-               intent1.putExtra("cobs", c);
+                intent1.putExtra("type", "3");
+                intent1.putExtra("cobs", c);
+                intent1.putExtra("beizhus", adapter.getBeizhu());
+                intent1.putExtra("ids", ids);
                 startActivity(intent1);
                 break;
         }

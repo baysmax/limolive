@@ -21,6 +21,7 @@ public class Urls {
     public static final String GET_DELETE_ADDRESS = "appapi/Goodstype/del_address";  //删除收货地址
     public static final String SET_DEFAULT_ADDRESS = "appapi/Goodstype/setDefaultAddress";  //设置默认收货地址
     public static final String GET_CART_LIST = "appapi/Cart/cartList";  //购物车列表
+    public static final String GET_CART_CART3 = "/Appapi/Cart/cart3";  //购物车第三步确定页面(结算)接口
     public static final String GET_DELETE_CART_LIST = "appapi/Cart/delCart";  //删除购物车
     public static final String GET_CHANGE_CART_LIST = "appapi/Cart/batch_cartgoods_num";  //批量修改
     public static final String GET_COMMIT_CART_LIST = "appapi/Cart/cart2";  //结算

@@ -17,9 +17,13 @@ public class ApiHttpClient {
 //    public static final String API_PIC = "http://112.121.186.162/lemon/";
 //    public static final String API_LOCATION_PIC = "http://112.121.186.162/lemon";
 
-    public static final String API_URL = "http://47.93.32.34/index.php/";
-    public static final String API_PIC = "http://47.93.32.34/";
+    public static final String API_URL = "http://47.93.32.34:8081/index.php/";
+    public static final String API_PIC = "http://47.93.32.34:8081/";
     public static final String API_LOCATION_PIC = "http://47.93.32.34";
+
+//    public static final String API_URL = "http://47.93.32.34/index.php/";
+//    public static final String API_PIC = "http://47.93.32.34/";
+//    public static final String API_LOCATION_PIC = "http://47.93.32.34";
 
     //   public static final String API_URL = "http://lemon.ningmengtv.net/index.php/";
     //    public static final String API_PIC = "http://lemon.ningmengtv.net/";
@@ -102,6 +106,7 @@ public class ApiHttpClient {
             client = new AsyncHttpClient();
         client.post(getAbsoluteApiUrl(partUrl), params, handler);
         log(new StringBuilder("POST ").append(partUrl).append("&").append(params).toString());
+        Log.i("main",new StringBuilder("POST ").append(partUrl).append("&").append(params).toString());
     }
 
     public static void postDirect(String url, RequestParams params, AsyncHttpResponseHandler handler) {
