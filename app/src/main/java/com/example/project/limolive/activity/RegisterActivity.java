@@ -3,10 +3,12 @@ package com.example.project.limolive.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextPaint;
+import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.view.MotionEvent;
@@ -16,8 +18,10 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.baidu.mapapi.map.Text;
 import com.example.project.limolive.R;
 import com.example.project.limolive.presenter.LoginPresenter;
+import com.example.project.limolive.utils.ToastUtils;
 
 import static com.example.project.limolive.activity.BeforeLiveActivity.isShouldHideInput;
 
@@ -36,7 +40,10 @@ public class RegisterActivity extends BaseActivity {
     private EditText edit_phone;   //电话
     private EditText edit_code;     //验证码
 
+
     private TextView tv_get_code;  //获取验证码
+    private TextView username,password,password2,phone;
+    private ImageView iv1,iv2,iv3,iv4;
 
     //同意服务协议
     private TextView tv_agree_text;
@@ -54,6 +61,15 @@ public class RegisterActivity extends BaseActivity {
 
     private void initView() {
         loadTitle();
+
+        username= (TextView) findViewById(R.id.username);
+        password= (TextView) findViewById(R.id.password);
+        password2= (TextView) findViewById(R.id.password2);
+        phone= (TextView) findViewById(R.id.phone);
+        iv1= (ImageView) findViewById(R.id.iv1);
+        iv2= (ImageView) findViewById(R.id.iv2);
+        iv3= (ImageView) findViewById(R.id.iv3);
+        iv4= (ImageView) findViewById(R.id.iv4);
         edit_user_name= (EditText) findViewById(R.id.edit_user_name);
         edit_pwd= (EditText) findViewById(R.id.edit_pwd);
         edit_pwd_ok= (EditText) findViewById(R.id.edit_pwd_ok);
@@ -125,12 +141,62 @@ public class RegisterActivity extends BaseActivity {
      * @param v
      */
     public void register(View v){
-        loginPresenter.register(edit_user_name.getText().toString().trim()
+
+        setDraws();
+        if (TextUtils.isEmpty(edit_user_name.getText().toString().trim())) {
+            setDraw(username,iv1,false,"用户名不可为空");
+            return;
+        }else {
+            setDraw(username,iv1,true,"");
+        }
+        if (TextUtils.isEmpty(edit_pwd.getText().toString().trim())) {
+            setDraw(password,iv2,false,"密码不可为空");
+            return;
+        }else {
+            setDraw(password,iv2,true,"");
+        }
+        if (TextUtils.isEmpty(edit_pwd_ok.getText().toString().trim())) {
+            setDraw(password2,iv3,false,"重复密码不可为空");
+            return;
+        }else {
+            setDraw(password2,iv3,true,"");
+        }
+        if (!edit_pwd_ok.getText().toString().trim().equals(edit_pwd.getText().toString().trim())) {
+            setDraw(password2,iv3,false,"两次密码不一致");
+            return;
+        }else {
+            setDraw(password2,iv3,true,"");
+        }
+        if (TextUtils.isEmpty(edit_phone.getText().toString().trim())) {
+            setDraw(phone,iv4,false,"手机号不可为空");
+            return;
+        }else {
+            setDraw(phone,iv4,true,"");
+        }
+
+        loginPresenter.register(
+                edit_user_name.getText().toString().trim()
                 ,edit_pwd.getText().toString().trim()
                 ,edit_pwd_ok.getText().toString().trim()
-                ,edit_phone.getText().toString().trim()
-                ,/*edit_code.getText().toString().trim()*/"1234"
-                );
+                ,edit_phone.getText().toString().trim(),/*edit_code.getText().toString().trim()*/"1234"
+        );
+    }
+
+    private void setDraws() {
+        iv1.setImageDrawable(null);
+        iv2.setImageDrawable(null);
+        iv3.setImageDrawable(null);
+        iv4.setImageDrawable(null);
+        username.setText("");
+        password.setText("");
+        password2.setText("");
+        phone.setText("");
+    }
+
+    private void setDraw(TextView username,ImageView iv,boolean isb,String tis) {
+        //设置EditText中文字左边的显示图标，上面 、右边 、下面 没有则置空null
+        iv.setImageDrawable(getDrawable(isb?R.drawable.duihao_03:R.drawable.cuohao_03));
+        username.setText(tis);
     }
 
     @Override

@@ -105,25 +105,26 @@ public class LoginPresenter extends Presenter {
      */
     public void register(String username, final String pwd
             , String pwd_ok, final String phone, String code) {
-        if (TextUtils.isEmpty(username)) {
-            ToastUtils.showShort(context, getString(R.string.login_error2));
-            return;
-        } else if (TextUtils.isEmpty(pwd)) {
-            ToastUtils.showShort(context, getString(R.string.login_error4));
-            return;
-        } else if (TextUtils.isEmpty(pwd_ok)) {
-            ToastUtils.showShort(context, getString(R.string.login_error3));
-            return;
-        } else if (TextUtils.isEmpty(phone)) {
-            ToastUtils.showShort(context, getString(R.string.login_error1));
-            return;
-        } else if (TextUtils.isEmpty(code)) {
-            ToastUtils.showShort(context, getString(R.string.login_error5));
-            return;
-        } else if (!pwd.equals(pwd_ok)) {
-            ToastUtils.showShort(context, getString(R.string.login_error6));
-            return;
-        } else if (!NetWorkUtil.isNetworkConnected(context)) {
+//        if (TextUtils.isEmpty(username)) {
+//            ToastUtils.showShort(context, getString(R.string.login_error2));
+//            return;
+//        } else if (TextUtils.isEmpty(pwd)) {
+//            ToastUtils.showShort(context, getString(R.string.login_error4));
+//            return;
+//        } else if (TextUtils.isEmpty(pwd_ok)) {
+//            ToastUtils.showShort(context, getString(R.string.login_error3));
+//            return;
+//        } else if (TextUtils.isEmpty(phone)) {
+//            ToastUtils.showShort(context, getString(R.string.login_error1));
+//            return;
+//        } else if (TextUtils.isEmpty(code)) {
+//            ToastUtils.showShort(context, getString(R.string.login_error5));
+//            return;
+//        } else if (!pwd.equals(pwd_ok)) {
+//            ToastUtils.showShort(context, getString(R.string.login_error6));
+//            return;
+/*        } else */
+        if (!NetWorkUtil.isNetworkConnected(context)) {
             ToastUtils.showShort(context, NET_UNCONNECT);
             return;
         }

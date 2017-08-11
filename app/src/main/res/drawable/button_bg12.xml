@@ -6,7 +6,7 @@
         android:radius="@dimen/corner_dimen2"
         />
     <solid
-        android:color="@color/red_bar"
+        android:color="#e5a6a6a6"
         />
 
 </shape>

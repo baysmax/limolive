@@ -24,8 +24,9 @@
     <dimen name="activity_padding_margin6">12dp</dimen>
     <dimen name="activity_padding_margin7">14dp</dimen>
     <dimen name="activity_padding_margin8">16dp</dimen>
+    <dimen name="activity_padding_margin9">50dp</dimen>
     <!--line-->
-    <dimen name="line_width1">1dp</dimen>
+    <dimen name="line_width1">0dp</dimen>
     <dimen name="line_width2">0.5dp</dimen>
     <dimen name="line_width3">1px</dimen>
     <dimen name="line_width4">0.5px</dimen>
@@ -42,7 +43,7 @@
     <dimen name="listView_height1">60dp</dimen>
     <dimen name="listView_height2">50dp</dimen>
     <!--textSize-->
-    <dimen name="text_size1">16sp</dimen>
+    <dimen name="text_size1">13sp</dimen>
     <dimen name="text_size2">14sp</dimen>
     <dimen name="text_size3">12sp</dimen>
     <dimen name="text_size4">18sp</dimen>
@@ -78,13 +79,13 @@
     <!--登录-->
     <dimen name="login_img_size">100dp</dimen>
     <dimen name="login_img_margin_top">35dp</dimen>
-    <dimen name="login_edit_box_height">102dp</dimen>
+    <dimen name="login_edit_box_height">120dp</dimen>
     <dimen name="login_edit_box_margin_top">20dp</dimen>
-    <dimen name="login_edit_box_margin_lr">36dp</dimen>
+    <dimen name="login_edit_box_margin_lr">20dp</dimen>
     <dimen name="login_edit_text_size">16sp</dimen>
     <dimen name="login_forget_pwd_size">16sp</dimen>
-    <dimen name="login_other_marginTop">80dp</dimen>
-    <dimen name="login_other_img_marginTop">20dp</dimen>
+    <dimen name="login_other_marginTop">70dp</dimen>
+    <dimen name="login_other_img_marginTop">60dp</dimen>
     <dimen name="register_edit_marginTop">30dp</dimen>
     <dimen name="register_check_size">14dp</dimen>
     <dimen name="forget_edit_marginTop">150dp</dimen>

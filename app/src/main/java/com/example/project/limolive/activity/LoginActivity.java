@@ -7,11 +7,14 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -63,6 +66,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     private Double lon, lat;
     private ImageView iv_wx_login,iv_weibo_login,iv_qq_login;
     private SnsPlatform var1;
+    private Button btn_login;
 
     private String denglu="";
     @Override
@@ -76,7 +80,22 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         loginPresenter = new LoginPresenter(this);
         var1 = new SnsPlatform();
         initView();
+        initEditListener();
 //        locationAndContactsTask();
+    }
+    String pass,username;
+    private void initEditListener() {
+
+    }
+
+    private void isDraw() {
+        if ((username!=null&&username!="")&&(pass!=null&&pass!="")){
+            btn_login.setEnabled(true);
+            btn_login.setBackground(this.getDrawable(R.drawable.button_bg1));
+        }else {
+            btn_login.setEnabled(false);
+            btn_login.setBackground(this.getDrawable(R.drawable.button_bg12));
+        }
     }
 
     private void initView() {
@@ -88,6 +107,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         iv_wx_login = (ImageView) findViewById(R.id.iv_wx_login);
         iv_weibo_login = (ImageView) findViewById(R.id.iv_weibo_login);
         iv_qq_login = (ImageView) findViewById(R.id.iv_qq_login);
+        btn_login= (Button) findViewById(R.id.btn_login);
 
         findViewById(R.id.tv_register).setOnClickListener(this);
         findViewById(R.id.tv_forgot_pwd).setOnClickListener(this);

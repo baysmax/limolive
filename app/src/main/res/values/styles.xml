@@ -39,7 +39,7 @@
     <!--注册edit-->
     <style name="register_edit">
         <item name="android:layout_height">@dimen/button_height2</item>
-        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_width">180dp</item>
         <item name="android:layout_marginLeft">@dimen/login_edit_box_margin_lr</item>
         <item name="android:layout_marginRight">@dimen/login_edit_box_margin_lr</item>
         <item name="android:background">@drawable/shape_edit_out2</item>
