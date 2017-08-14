@@ -848,4 +848,10 @@ public class Api {
         Log.i("钻石",""+ApiHttpClient.API_URL + Urls.POST_GETUSER_DIAMONDS+"userID="+userID);
         ApiHttpClient.get(ApiHttpClient.API_URL + Urls.POST_GETUSER_DIAMONDS, params, handler);
     }
+
+    public static void newsDate(String userID, AsyncHttpResponseHandler handler) {
+        RequestParams params = new RequestParams();
+        params.put("uid", userID);
+        ApiHttpClient.get(ApiHttpClient.API_URL + Urls.POST_GETUSER_NEWS, params, handler);
+    }
 }

@@ -6,6 +6,7 @@
     android:orientation="vertical">
 
     <LinearLayout
+        android:visibility="gone"
         style="@style/toporangetitle"
         android:gravity="center_vertical"
         android:orientation="horizontal">
@@ -194,6 +195,11 @@
             android:layout_height="match_parent"
             android:background="@color/white">
 
+        </com.example.project.limolive.widget.AutoSwipeRefreshLayout>
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/srl_Downs"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
             <com.example.project.limolive.view.HeaderGridView
                 android:id="@+id/home_gv"
                 android:layout_width="match_parent"
@@ -206,7 +212,7 @@
                 android:verticalSpacing="10dp">
 
             </com.example.project.limolive.view.HeaderGridView>
-        </com.example.project.limolive.widget.AutoSwipeRefreshLayout>
+        </android.support.v4.widget.SwipeRefreshLayout>
     </FrameLayout>
 
 </LinearLayout>

@@ -293,6 +293,13 @@
         <item>待评价</item>
         <item>售后</item>
     </string-array>
+    <!--首页-->
+    <string name="sy_title">我的订单</string>
+    <string-array name="sy_type">
+        <item>关注</item>
+        <item>推荐</item>
+        <item>最新</item>
+    </string-array>
     <!--Dialog-->
     <string name="dialog_change_avatar_title">修改头像</string>
     <string name="dialog_change_avatar_take_photo">拍照</string>

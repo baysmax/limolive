@@ -29,6 +29,7 @@
     <color name="live_tab_title_normal">#5c5c5c</color>
     <!--Theme color-->
     <color name="red_bar">#ffffb010</color>
+    <color name="red_bars">#ffffff</color>
     <!--line-->
     <color name="line_color1">#CECECE</color>
     <color name="line_color2">#C5C5C5</color>

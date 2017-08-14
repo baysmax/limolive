@@ -186,6 +186,13 @@
         <item name="android:background">@color/red_bar</item>
         <item name="android:gravity">center_vertical</item>
     </style>
+    <!-- 主页标题栏 -->
+    <style name="toporangetitles">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">48dp</item>
+        <item name="android:background">@color/red_bars</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
     <!-- 滑动textview样式-->
     <style name="top_category_scroll_view_item_text">
         <item name="android:textSize">18sp</item>

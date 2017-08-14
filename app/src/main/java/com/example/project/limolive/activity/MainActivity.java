@@ -21,6 +21,7 @@ import com.example.project.limolive.fragment.BaseFragment;
 import com.example.project.limolive.fragment.FindGoodsFragment;
 import com.example.project.limolive.fragment.FriendsStoreFragment;
 import com.example.project.limolive.fragment.HomeFragment;
+import com.example.project.limolive.fragment.HomeFragment2;
 import com.example.project.limolive.fragment.MyFragment;
 import com.example.project.limolive.helper.LoginManager;
 import com.example.project.limolive.tencentlive.presenters.LiveHelper;
@@ -97,7 +98,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         ll_tabs.setVisibility(View.VISIBLE);
 
         fragments = new BaseFragment[5];
-        fragments[0] = new HomeFragment();
+        fragments[0] = new HomeFragment2();
         fragments[1] = new FriendsStoreFragment();
         fragments[3] = new FindGoodsFragment();
         fragments[4] = new MyFragment();

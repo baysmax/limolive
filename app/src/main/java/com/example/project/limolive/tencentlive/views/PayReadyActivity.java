@@ -153,7 +153,7 @@ public class PayReadyActivity extends BaseActivity implements View.OnClickListen
                 if (apiResponse.getCode()==Api.SUCCESS){
                     GoodsOrder2Been gob = JSON.parseObject(apiResponse.getData(), GoodsOrder2Been.class);
                     WXPayUtils wxPayUtils = new WXPayUtils(PayReadyActivity.this, Constant.WXNOTIFY_URL);
-                    wxPayUtils.pay("购物", cob.getTotalPrice(), gob.getOrder_sn());
+                    wxPayUtils.pay("购物", cobs.getTotalPrice(), gob.getOrder_sn());
                 }
             }
         });
