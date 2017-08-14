@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.project.limolive.R;
@@ -40,6 +41,7 @@ import org.json.JSONObject;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener {
     private ImageView tabs[];
+    private TextView tab_tv[];
     private BaseFragment fragments[];
     public static final String changFragment = "FRAGMENTCHANGETOHOME";
     private int currentIndex = 0;
@@ -72,17 +74,25 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             tabs[0].setOnClickListener(this);
             tabs[1].setOnClickListener(this);
             tabs[2].setOnClickListener(this);
-            //tabs[3].setOnClickListener(this);
+            tabs[3].setOnClickListener(this);
             tabs[4].setOnClickListener(this);
     }
 
     private void initView() {
         tabs = new ImageView[5];
+        tab_tv=new TextView[5];
         tabs[0] = (ImageView) findViewById(R.id.iv_home);
         tabs[1] = (ImageView) findViewById(R.id.iv_friendshop);
         tabs[2] = (ImageView) findViewById(R.id.iv_live);
         tabs[3] = (ImageView) findViewById(R.id.iv_shopping);
         tabs[4] = (ImageView) findViewById(R.id.iv_my);
+
+        tab_tv[0]= (TextView) findViewById(R.id.tv_home);
+        tab_tv[1]= (TextView) findViewById(R.id.tv_friend);
+        tab_tv[2]= (TextView) findViewById(R.id.tv_live);
+        tab_tv[3]= (TextView) findViewById(R.id.tv_shopping);
+        tab_tv[4]= (TextView) findViewById(R.id.tv_my);
+
         ll_tabs = (LinearLayout) findViewById(R.id.ll_tabs);
         ll_tabs.setVisibility(View.VISIBLE);
 
@@ -123,9 +133,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 });
 
                 break;
-//            case R.id.iv_shopping: //购物车
-//                clickIndex = 3;
-//                break;
+            case R.id.iv_shopping: //购物车
+                clickIndex = 3;
+               break;
             case R.id.iv_my: //我的
                 clickIndex = 4;
                 break;
@@ -176,12 +186,19 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private void changeStyle() {
         if (currentIndex == 0) {
             tabs[0].setSelected(false);
+            tab_tv[0].setTextColor(0x4b4a4a);
         }
         if (clickIndex == 0) {
             tabs[0].setSelected(true);
+            tab_tv[0].setTextColor(0xa0fce13d);
         }
         tabs[currentIndex].setSelected(false);
+        for (int i = 0; i < tab_tv.length; i++) {
+            tab_tv[i].setTextColor(0xaa4b4a4a);
+        }
+        //tab_tv[currentIndex].setTextColor(0x4b4a4a);
         tabs[clickIndex].setSelected(true);
+        tab_tv[clickIndex].setTextColor(0xa0fce13d);
     }
 
 
