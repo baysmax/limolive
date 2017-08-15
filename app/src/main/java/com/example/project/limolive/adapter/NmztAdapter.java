@@ -42,11 +42,20 @@ public class NmztAdapter extends RecyclerView.Adapter {
         NmztHolder holder1= (NmztHolder) holder;
         holder1.tv_nick.setText(host.getUsername());
         holder1.tv_pm.setText("top"+(position+1));
-        if (host.getAvatar().contains("http://")){
-            ImageLoader.getInstance().displayImage(host.getAvatar(),holder1.avatar);
+        if ("".equals(homeListBeen.getCover())){
+            if (homeListBeen.getCover().contains("http://")){
+                ImageLoader.getInstance().displayImage(homeListBeen.getCover(),holder1.avatar);
+            }else {
+                ImageLoader.getInstance().displayImage(ApiHttpClient.API_PIC+homeListBeen.getCover(),holder1.avatar);
+            }
         }else {
-            ImageLoader.getInstance().displayImage(ApiHttpClient.API_PIC+host.getAvatar(),holder1.avatar);
+            if (host.getAvatar().contains("http://")){
+                ImageLoader.getInstance().displayImage(host.getAvatar(),holder1.avatar);
+            }else {
+                ImageLoader.getInstance().displayImage(ApiHttpClient.API_PIC+host.getAvatar(),holder1.avatar);
+            }
         }
+
 
     }
 

@@ -34,6 +34,16 @@ public class HomeListBeen {
     private HostInformationBeen host;
     //位置信息
     private AdressInformationBeen lbs;
+    //是否关注
+    private String is_follow;
+
+    public String getIs_follow() {
+        return is_follow;
+    }
+
+    public void setIs_follow(String is_follow) {
+        this.is_follow = is_follow;
+    }
 
     public String getAdmireCount() {
         return admireCount;
@@ -134,8 +144,10 @@ public class HomeListBeen {
                 ", timeSpan='" + timeSpan + '\'' +
                 ", title='" + title + '\'' +
                 ", watchCount='" + watchCount + '\'' +
+                ", juli='" + juli + '\'' +
                 ", host=" + host +
                 ", lbs=" + lbs +
+                ", is_follow='" + is_follow + '\'' +
                 '}';
     }
 }

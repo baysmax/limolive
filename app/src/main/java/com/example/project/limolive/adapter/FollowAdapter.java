@@ -66,7 +66,7 @@ public class FollowAdapter  extends RecyclerView.Adapter {
         holder1.largeImgs.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //进入直播间点击事件
+                //进入直播间点击
             }
         });
     }

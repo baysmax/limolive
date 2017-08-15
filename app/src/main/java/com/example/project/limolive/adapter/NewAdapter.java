@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.example.project.limolive.R;
 import com.example.project.limolive.api.ApiHttpClient;
 import com.example.project.limolive.bean.NewLiveBean;
+import com.example.project.limolive.bean.home.HomeListBeen;
 import com.example.project.limolive.view.RoundCornersImageView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
@@ -20,11 +21,11 @@ import java.util.List;
  */
 
 public class NewAdapter extends RecyclerView.Adapter {
-    List<NewLiveBean> newList;
+    List<HomeListBeen> newList;
 
     Context context;
 
-    public NewAdapter(List<NewLiveBean> newList, Context context) {
+    public NewAdapter(List<HomeListBeen> newList, Context context) {
         this.newList = newList;
 
         this.context = context;
@@ -36,19 +37,19 @@ public class NewAdapter extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        NewLiveBean newLiveBean = newList.get(position);
+        HomeListBeen homeListBeen = newList.get(position);
         NewsHolder holder1= (NewsHolder) holder;
-        holder1.tv_UserName.setText(newLiveBean.getNick());
-        if (newLiveBean.isLive()){
+        holder1.tv_UserName.setText(homeListBeen.getHost().getUsername());
+        if (!homeListBeen.getWatchCount().equals("null")){
             holder1.isLive.setImageDrawable(context.getDrawable(R.drawable.zbz));
         }else {
             holder1.isLive.setImageDrawable(context.getDrawable(R.drawable.wkb));
         }
-        holder1.tv_dizhi.setText(newLiveBean.getAddess());
-        if (newLiveBean.getImg().contains("http://")){
-            ImageLoader.getInstance().displayImage(newLiveBean.getImg(),holder1.image);
+        holder1.tv_dizhi.setText(homeListBeen.getLbs().getAddress());
+        if (homeListBeen.getCover().contains("http://")){
+            ImageLoader.getInstance().displayImage(homeListBeen.getCover(),holder1.image);
         }else {
-            ImageLoader.getInstance().displayImage(ApiHttpClient.API_PIC+newLiveBean.getImg(),holder1.image);
+            ImageLoader.getInstance().displayImage(ApiHttpClient.API_PIC+homeListBeen.getCover(),holder1.image);
         }
         holder1.image.setOnClickListener(new View.OnClickListener() {
             @Override

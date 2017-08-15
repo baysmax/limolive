@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,7 @@ import com.example.project.limolive.api.ApiResponse;
 import com.example.project.limolive.api.ApiResponseHandler;
 import com.example.project.limolive.bean.FollowLiveBeans;
 import com.example.project.limolive.bean.NewLiveBean;
+import com.example.project.limolive.bean.home.HomeListBeen;
 import com.example.project.limolive.helper.LoginManager;
 
 import java.util.ArrayList;
@@ -29,7 +31,7 @@ import java.util.List;
 public class NewFragment extends BaseFragment {
     private SwipeRefreshLayout swipeRefreshLayout;
     private RecyclerView recyclerView;
-    private List<NewLiveBean> newLiveList;
+    private List<HomeListBeen> newLiveList;
     private int page=1;
     private GridLayoutManager gm;
     private NewAdapter adapter;
@@ -48,9 +50,9 @@ public class NewFragment extends BaseFragment {
         gm=new GridLayoutManager(getActivity(),2);
         recyclerView.setLayoutManager(gm);
         newLiveList= new ArrayList<>();
-        for (int i=0;i<10;i++){
-            newLiveList.add(new NewLiveBean("","1212","123",true,"背景"));
-        }
+//        for (int i=0;i<10;i++){
+//            newLiveList.add(new NewLiveBean("","1212","123",true,"背景"));
+//        }
         initDate();
         adapter=new NewAdapter(newLiveList,getActivity());
         recyclerView.setAdapter(adapter);
@@ -97,7 +99,11 @@ public class NewFragment extends BaseFragment {
             public void onSuccess(ApiResponse apiResponse) {
                 if (apiResponse.getCode()==Api.SUCCESS){
                     String data = apiResponse.getData();
-                    newLiveList.addAll(JSONArray.parseArray(data, NewLiveBean.class));
+                    Log.d("直播列表", "data: "+data.toString());
+                    newLiveList.addAll(JSONArray.parseArray(data, HomeListBeen.class));
+                    adapter.notifyDataSetChanged();
+                    Log.d("直播列表", "newLiveList: "+newLiveList.get(0).toString());
+
                 }
                 swipeRefreshLayout.setRefreshing(false);
             }

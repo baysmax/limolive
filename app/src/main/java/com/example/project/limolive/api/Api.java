@@ -851,14 +851,12 @@ public class Api {
 
     public static void newsDate(String userID,int page, AsyncHttpResponseHandler handler) {
         RequestParams params = new RequestParams();
-        params.put("uid", userID);
         params.put("page", page);
         ApiHttpClient.get(ApiHttpClient.API_URL + Urls.POST_GETUSER_NEWS, params, handler);
     }
 
-    public static void nmzt(String userID, AsyncHttpResponseHandler handler) {
+    public static void nmzt( AsyncHttpResponseHandler handler) {
         RequestParams params = new RequestParams();
-        params.put("uid", userID);
-        ApiHttpClient.get(ApiHttpClient.API_URL + Urls.POST_GETUSER_NEWS, params, handler);
+        ApiHttpClient.get(ApiHttpClient.API_URL + Urls.POST_GETUSER_NMZT, params, handler);
     }
 }
