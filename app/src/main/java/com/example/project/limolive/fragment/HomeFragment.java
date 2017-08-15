@@ -146,6 +146,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,
                 Carousel();
                 loadTime();
                 goodsType();
+                initDate();
                 homePresenter.refresh(swipeRefreshLayout);
             }
         });
@@ -267,22 +268,26 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,
     }
 
     private void initDate() {
-        for (int i=0;i<10;i++){
-            HomeListBeen homeListBeen = new HomeListBeen();
-            HostInformationBeen hostInformationBeen = new HostInformationBeen();
-            hostInformationBeen.setUsername("1_"+i);
-            hostInformationBeen.setAvatar("133213");
-            homeListBeen.setHost(hostInformationBeen);
-            zt_list.add(homeListBeen);
-        }
-//        Api.nmzt(LoginManager.getInstance().getUserID(getContext()),  new ApiResponseHandler(getContext()) {
-//            @Override
-//            public void onSuccess(ApiResponse apiResponse) {
-//                if (apiResponse.getCode()==Api.SUCCESS){
-//                    zt_list.addAll(JSONArray.parseArray(apiResponse.getData(), HomeListBeen.class));
-//                }
-//            }
-//        });
+//        for (int i=0;i<10;i++){
+//            HomeListBeen homeListBeen = new HomeListBeen();
+//            HostInformationBeen hostInformationBeen = new HostInformationBeen();
+//            hostInformationBeen.setUsername("1_"+i);
+//            hostInformationBeen.setAvatar("133213");
+//            homeListBeen.setHost(hostInformationBeen);
+//            zt_list.add(homeListBeen);
+//        }
+        Api.nmzt(new ApiResponseHandler(getContext()) {
+            @Override
+            public void onSuccess(ApiResponse apiResponse) {
+                if (apiResponse.getCode()==Api.SUCCESS){
+                    Log.i("直播列表","apiResponse="+apiResponse.getData());
+                    zt_list.clear();
+                    zt_list.addAll(JSONArray.parseArray(apiResponse.getData(), HomeListBeen.class));
+                    nmztAdapter.notifyDataSetChanged();
+                    Log.i("直播列表","zt_list="+zt_list.get(0).toString());
+                }
+            }
+        });
     }
 
 
