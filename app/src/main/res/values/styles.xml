@@ -144,6 +144,15 @@
         <item name="android:drawablePadding">@dimen/activity_padding_margin8</item>
         <item name="android:layout_marginLeft">@dimen/activity_padding_margin7</item>
     </style>
+    <!--我的下方布局风格-->
+    <style name="bottom_mine_text_views">
+        <item name="android:layout_height">@dimen/mine_bottom_text_height</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:textColor">@color/text_color3</item>
+        <item name="android:textSize">@dimen/text_size2</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:drawablePadding">@dimen/activity_padding_margin8</item>
+    </style>
     <!--下侧图形风格-->
     <style name="setting_text1">
         <item name="android:layout_height">wrap_content</item>

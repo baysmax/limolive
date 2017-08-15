@@ -5,7 +5,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:background="@color/hogn">
+        android:background="@color/white">
 
         <ImageView
             android:layout_centerVertical="true"
@@ -20,8 +20,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="我的钱包"
-            android:textColor="#fff"
+            android:text="充值"
+            android:textColor="#a000"
             android:textSize="18sp" />
 
     </RelativeLayout>

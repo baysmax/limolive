@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -21,6 +22,7 @@ import com.example.project.limolive.activity.HistoryActivity;
 import com.example.project.limolive.activity.MyShopActivity;
 import com.example.project.limolive.activity.MyWalletActivity;
 import com.example.project.limolive.activity.OrderActivity;
+import com.example.project.limolive.activity.PersonInfoActivity;
 import com.example.project.limolive.activity.SettingActivity;
 import com.example.project.limolive.activity.ShoppingCartActivity;
 import com.example.project.limolive.api.Api;
@@ -29,6 +31,7 @@ import com.example.project.limolive.api.ApiResponse;
 import com.example.project.limolive.api.ApiResponseHandler;
 import com.example.project.limolive.helper.LoginManager;
 import com.example.project.limolive.model.LoginModel;
+import com.example.project.limolive.presenter.LoginPresenter;
 import com.example.project.limolive.provider.MineDataProvider;
 import com.example.project.limolive.tencentlive.model.CurLiveInfo;
 import com.example.project.limolive.tencentlive.views.LiveingActivity;
@@ -70,7 +73,10 @@ public class MyFragment extends BaseFragment implements View.OnClickListener{
 	private TextView tv_wait_comment;  //待评价
 	private TextView tv_return_shop;  //退款售后
 	private TextView tv_my_money_num; //主播钻石；
+	private TextView tv_my_money_nums; //主播柠檬币；
 	private TextView tvfansMembers;//粉丝数量
+	private RelativeLayout rl_cz;//充值
+	private ImageView iv_settings;
 
 
 	@Override
@@ -106,6 +112,8 @@ public class MyFragment extends BaseFragment implements View.OnClickListener{
 	protected void initView() {
 		super.initView();
 		loadTitle();
+		rl_cz= (RelativeLayout) findViewById(R.id.rl_cz);
+		iv_settings= (ImageView) findViewById(R.id.iv_settings);
 		ll_my_money= (LinearLayout) findViewById(R.id.ll_my_money);
 		provider=new MineDataProvider(getActivity());
 		tvMembers=(TextView)findViewById(R.id.tv_attention_num);//关注
@@ -119,8 +127,8 @@ public class MyFragment extends BaseFragment implements View.OnClickListener{
 		tv_account_detail= (TextView) findViewById(R.id.tv_account_detail);
 		tv_collection= (TextView) findViewById(R.id.tv_collection);
 		tv_shopping_history= (TextView) findViewById(R.id.tv_shopping_history);
-		tv_my_money_num= (TextView) findViewById(R.id.tv_my_money_num);
-
+		tv_my_money_nums= (TextView) findViewById(R.id.tv_my_money_num);//柠檬币
+		tv_my_money_num= (TextView) findViewById(R.id.tv_my_money_nums);//钻石
 		ll_fans= (LinearLayout) findViewById(R.id.ll_fans);
 		ll_attention= (LinearLayout) findViewById(R.id.ll_attention);
 
@@ -129,6 +137,7 @@ public class MyFragment extends BaseFragment implements View.OnClickListener{
 		tv_wait_comment= (TextView) findViewById(R.id.tv_wait_comment);
 		tv_return_shop= (TextView) findViewById(R.id.tv_return_shop);
 		//显示
+
 		initEvent();
 	}
 
@@ -140,7 +149,7 @@ public class MyFragment extends BaseFragment implements View.OnClickListener{
 		LoginModel loginModel=provider.getMineInfo(LoginManager.getInstance().getPhone(getApplication()));
 		if(loginModel!=null){
 			tv_username.setText(loginModel.getNickname());
-			tv_phone.setText(loginModel.getPhone());
+			tv_phone.setText("手机号:"+loginModel.getPhone());
 			Log.i("头像地址","getAvatar.."+LoginManager.getInstance().getAvatar(getActivity()));
 			Log.i("头像地址","loginModel.getHeadsmall().."+loginModel.getHeadsmall());
 			if (loginModel.getHeadsmall().toString().contains("http://")){
@@ -169,32 +178,32 @@ public class MyFragment extends BaseFragment implements View.OnClickListener{
 								JSONObject parse = (JSONObject) JSON.parse(data);
 								String diamonds_coins = parse.getString("diamonds_coins");
 								Log.i("钻石","diamonds_coins:"+diamonds_coins);
-								tv_my_money_num.setText(diamonds_coins + "");
+								tv_my_money_num.setText(diamonds_coins + "钻石 ");
 							}
 						}
 					});
 		}
 
 
-//		if (NetWorkUtil.isNetworkConnected(getContext())) {
-//			Api.getMemberCoins(LoginManager.getInstance().getUserID(getContext()), new ApiResponseHandler(getContext()) {
-//				@Override
-//				public void onSuccess(ApiResponse apiResponse) {
-//					Log.i("获取成员剩余柠檬币", "apiResponse.." + apiResponse.toString());
-//					if (apiResponse.getCode() == 0) {
-//						JSONObject parse = JSON.parseObject(apiResponse.getData());
-//						String Sellemon_coins = parse.getString("charm");
-//						Log.i("获取成员剩余柠檬币", "1走没有");
-//						tv_my_money_num.setText(Sellemon_coins);
-//					} else {
-//						ToastUtils.showShort(getContext(), apiResponse.getMessage());
-//					}
-//				}
-//			});
-//
-//		} else {
-//			ToastUtils.showShort(getContext(), "网络异常，请检查您的网络~");
-//		}
+		if (NetWorkUtil.isNetworkConnected(getContext())) {
+			Api.getMemberCoins(LoginManager.getInstance().getUserID(getContext()), new ApiResponseHandler(getContext()) {
+				@Override
+				public void onSuccess(ApiResponse apiResponse) {
+					Log.i("获取成员剩余柠檬币", "apiResponse.." + apiResponse.toString());
+					if (apiResponse.getCode() == 0) {
+						JSONObject parse = JSON.parseObject(apiResponse.getData());
+						String Sellemon_coins = parse.getString("charm");
+						Log.i("获取成员剩余柠檬币", "1走没有");
+						tv_my_money_nums.setText(Sellemon_coins);
+					} else {
+						ToastUtils.showShort(getContext(), apiResponse.getMessage());
+					}
+				}
+			});
+
+		} else {
+			ToastUtils.showShort(getContext(), "网络异常，请检查您的网络~");
+		}
 
 	}
 	/**
@@ -250,6 +259,8 @@ public class MyFragment extends BaseFragment implements View.OnClickListener{
 		tv_wait_comment.setOnClickListener(this);
 		tv_return_shop.setOnClickListener(this);
 		ll_my_money.setOnClickListener(this);
+		iv_settings.setOnClickListener(this);
+		rl_cz.setOnClickListener(this);
 	}
 
 	private void loadTitle() {
@@ -282,6 +293,14 @@ public class MyFragment extends BaseFragment implements View.OnClickListener{
 	@Override
 	public void onClick(View v) {
 		switch(v.getId()){
+			case R.id.iv_settings://设置
+				//startActivity(new Intent(getActivity(),SettingActivity.class));
+				Intent personInfo = new Intent(getActivity(), PersonInfoActivity.class);
+				startActivity(personInfo);//个人资料
+				break;
+			case R.id.rl_cz://充值
+				goWallet();
+				break;
 			case R.id.rl_all_order:
 				lookOrder(0);
 				break;

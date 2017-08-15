@@ -6,9 +6,9 @@
     android:orientation="vertical"
     android:background="@color/background1"
     >
-    <include
-        layout="@layout/standard_title_bar"
-        />
+    <!--<include-->
+        <!--layout="@layout/standard_title_bar"-->
+        <!--/>-->
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -27,49 +27,65 @@
                 <RelativeLayout
                     android:id="@+id/rl_img_text"
                     android:layout_width="match_parent"
+                    android:layout_marginTop="@dimen/_15sp"
                     android:layout_height="0dp"
-                    android:layout_weight="2"
+                    android:layout_weight="5"
                     >
                     <com.facebook.drawee.view.SimpleDraweeView
                         android:id="@+id/iv_user_head"
-                        android:layout_width="@dimen/mine_head_size"
-                        android:layout_height="@dimen/mine_head_size"
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"
                         android:layout_marginLeft="@dimen/activity_padding_margin8"
-                        android:layout_centerVertical="true"
+                        android:layout_centerHorizontal="true"
                         fresco:roundAsCircle="true"
                         fresco:roundingBorderColor="@color/white"
                         fresco:roundingBorderWidth="2dp"
                         fresco:backgroundImage="@mipmap/icon_qq_img"
                         android:scaleType="centerCrop"
                         />
+                    <ImageView
+                        android:id="@+id/iv_settings"
+                        android:layout_marginTop="@dimen/_9sp"
+                        android:layout_marginRight="@dimen/_9sp"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentTop="true"
+                        android:src="@drawable/setting"/>
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_toRightOf="@+id/iv_user_head"
-                        android:gravity="center_vertical"
+                        android:layout_below="@+id/iv_user_head"
+                        android:layout_centerHorizontal="true"
+                        android:gravity="center_horizontal"
                         android:orientation="vertical"
                         >
                         <TextView
+                            android:layout_marginTop="3dp"
                             android:id="@+id/tv_username"
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="@dimen/activity_padding_margin8"
                             android:layout_marginRight="@dimen/activity_padding_margin8"
                             android:maxLines="1"
+                            android:text="135468"
                             android:ellipsize="end"
-                            android:textColor="@color/white"
-                            android:textSize="@dimen/text_size1"
+                            android:textColor="@color/text_color1"
+                            android:textSize="@dimen/text_size4"
                             />
+
                         <TextView
                             android:id="@+id/tv_phone"
-                            android:layout_width="match_parent"
+                            android:layout_marginTop="6dp"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:text="1351"
                             android:layout_marginLeft="@dimen/activity_padding_margin8"
                             android:layout_marginRight="@dimen/activity_padding_margin8"
                             android:maxLines="1"
                             android:ellipsize="end"
-                            android:textColor="@color/white"
-                            android:textSize="@dimen/text_size1"
+                            android:textColor="@color/text_color4"
+                            android:textSize="@dimen/text_size2"
                             />
                     </LinearLayout>
 
@@ -78,9 +94,9 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:layout_weight="1"
+                    android:layout_weight="2"
                     android:orientation="horizontal"
-                    android:background="@mipmap/icon_translate_background"
+                    android:background="#fff"
                     >
                     <LinearLayout
                         android:id="@+id/ll_fans"
@@ -90,21 +106,48 @@
                         android:orientation="vertical"
                         android:gravity="center"
                         >
+
                         <TextView
                             android:id="@+id/tv_fans_num"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="center_horizontal"
+                            android:textColor="@color/color_8a8a8a"
+                            android:textSize="@dimen/text_size2" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_horizontal"
                             android:textSize="@dimen/text_size2"
-                            android:textColor="@color/white"
+                            android:textColor="@color/color_8a8a8a"
+                            android:text="@string/mine_fans_title"
+                            />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:id="@+id/ll_attention"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:gravity="center"
+                        >
+
+                        <TextView
+                            android:id="@+id/tv_attention_num"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_horizontal"
+                            android:textSize="@dimen/text_size2"
+                            android:textColor="@color/color_8a8a8a"
                             />
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="center_horizontal"
                             android:textSize="@dimen/text_size2"
-                            android:textColor="@color/white"
-                            android:text="@string/mine_fans_title"
+                            android:textColor="@color/color_8a8a8a"
+                            android:text="@string/mine_attention_title"
                             />
                     </LinearLayout>
                     <View
@@ -128,14 +171,14 @@
                             android:layout_height="wrap_content"
                             android:gravity="center_horizontal"
                             android:textSize="@dimen/text_size2"
-                            android:textColor="@color/white"
+                            android:textColor="@color/color_8a8a8a"
                             />
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="center_horizontal"
                             android:textSize="@dimen/text_size2"
-                            android:textColor="@color/white"
+                            android:textColor="@color/color_8a8a8a"
                             android:text="@string/mine_my_money"
                             />
                     </LinearLayout>
@@ -146,35 +189,11 @@
                         android:layout_marginTop="@dimen/activity_padding_margin4"
                         android:layout_marginBottom="@dimen/activity_padding_margin4"
                         />
-                    <LinearLayout
-                        android:id="@+id/ll_attention"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:orientation="vertical"
-                        android:gravity="center"
-                        >
 
-                        <TextView
-                            android:id="@+id/tv_attention_num"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="center_horizontal"
-                            android:textSize="@dimen/text_size2"
-                            android:textColor="@color/white"
-                            />
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="center_horizontal"
-                            android:textSize="@dimen/text_size2"
-                            android:textColor="@color/white"
-                            android:text="@string/mine_attention_title"
-                            />
-                    </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
             <LinearLayout
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/mine_order_height"
                 android:orientation="vertical"
@@ -250,19 +269,66 @@
                         />
                 </LinearLayout>
             </LinearLayout>
-
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="8dp"
+                android:background="@color/line_color3"
+                />
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_marginTop="@dimen/activity_padding_margin5"
                 android:background="@color/white"
                 >
-                <TextView
-                    android:id="@+id/tv_shopping_car"
-                    style="@style/bottom_mine_text_view"
-                    android:text="@string/mine_shop_cart"
-                    android:drawableLeft="@mipmap/icon_shop_cart"
+                <RelativeLayout
+                    style="@style/bottom_mine_text_view">
+                    <TextView
+                        style="@style/bottom_mine_text_views"
+                        android:text="我的等级"
+                        android:drawableLeft="@drawable/dengji"
+                        />
+                    <TextView
+                        android:id="@+id/tv_grade"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentRight="true"
+                        android:textColor="#aa4b4a4a"
+                        android:layout_centerVertical="true"
+                        android:gravity="center"
+                        android:layout_marginRight="@dimen/_15sp"
+                        android:text="Lv0 "/>
+                </RelativeLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/line_width3"
+                    android:background="@color/line_color1"
+                    android:layout_marginLeft="@dimen/activity_padding_margin8"
+                    />
+                <RelativeLayout
+                    android:id="@+id/rl_cz"
+                    style="@style/bottom_mine_text_view">
+                    <TextView
+                        style="@style/bottom_mine_text_views"
+                        android:text="钻石充值"
+                        android:drawableLeft="@drawable/qianbao"
+                        />
+                    <TextView
+                        android:id="@+id/tv_my_money_nums"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentRight="true"
+                        android:textColor="#aa4b4a4a"
+                        android:layout_centerVertical="true"
+                        android:gravity="center"
+                        android:text="150钻石 "
+                        android:layout_marginRight="@dimen/_15sp"
+                        android:drawableRight="@drawable/jiantouyou"/>
+                </RelativeLayout>
+                <View
+                    android:visibility="gone"
+                    android:layout_width="match_parent"
+                    android:layout_height="8dp"
+                    android:background="@color/line_color3"
                     />
                 <View
                     android:layout_width="match_parent"
@@ -270,20 +336,115 @@
                     android:background="@color/line_color1"
                     android:layout_marginLeft="@dimen/activity_padding_margin8"
                     />
-                <TextView
-                    android:id="@+id/tv_my_shop"
-                    style="@style/bottom_mine_text_view"
-                    android:text="@string/mine_my_shop"
-                    android:drawableLeft="@mipmap/icon_my_shop"
-                    />
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/line_width3"
-                    android:background="@color/line_color1"
-                    android:layout_marginLeft="@dimen/activity_padding_margin8"
-                    />
+                <RelativeLayout
 
+                    style="@style/bottom_mine_text_view">
+                    <TextView
+                        android:id="@+id/tv_my_shop"
+                        style="@style/bottom_mine_text_views"
+                        android:text="我的店铺"
+                        android:drawableLeft="@drawable/dianpu"
+                        android:layout_alignParentStart="true" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentRight="true"
+                        android:textColor="#aa4b4a4a"
+                        android:layout_centerVertical="true"
+                        android:gravity="center"
+                        android:layout_marginRight="@dimen/_15sp"
+                        android:drawableRight="@drawable/jiantouyou"/>
+                </RelativeLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/line_width3"
+                    android:background="@color/line_color1"
+                    android:layout_marginLeft="@dimen/activity_padding_margin8"
+                    />
+                <RelativeLayout
+                    style="@style/bottom_mine_text_view">
+                    <TextView
+                        android:id="@+id/tv_shopping_car"
+                        style="@style/bottom_mine_text_views"
+                        android:text="购物车"
+                        android:drawableLeft="@drawable/gouwuche"
+                        />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentRight="true"
+                        android:textColor="#aa4b4a4a"
+                        android:layout_centerVertical="true"
+                        android:gravity="center"
+                        android:layout_marginRight="@dimen/_15sp"
+                        android:drawableRight="@drawable/jiantouyou"/>
+                </RelativeLayout>
+                <View
+                    android:visibility="gone"
+                    android:layout_width="match_parent"
+                    android:layout_height="8dp"
+                    android:background="@color/line_color3"
+                    />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/line_width3"
+                    android:background="@color/line_color1"
+                    android:layout_marginLeft="@dimen/activity_padding_margin8"
+                    />
+                <RelativeLayout
+                    style="@style/bottom_mine_text_view">
+                    <TextView
+                        style="@style/bottom_mine_text_views"
+                        android:text="官方QQ"
+                        android:drawableLeft="@drawable/lianxi"
+                        />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentRight="true"
+                        android:textColor="#aa4b4a4a"
+                        android:layout_centerVertical="true"
+                        android:gravity="center"
+                        android:text="123456789"
+                        android:layout_marginRight="@dimen/_15sp"/>
+                </RelativeLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/line_width3"
+                    android:background="@color/line_color1"
+                    android:layout_marginLeft="@dimen/activity_padding_margin8"
+                    />
+                <RelativeLayout
+                    style="@style/bottom_mine_text_view">
+                    <TextView
+                        style="@style/bottom_mine_text_views"
+                        android:text="给点建议"
+                        android:drawableLeft="@drawable/jianyi"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentStart="true" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentRight="true"
+                        android:textColor="#aa4b4a4a"
+                        android:layout_centerVertical="true"
+                        android:gravity="center"
+                        android:layout_marginRight="@dimen/_15sp"/>
+                </RelativeLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/line_width3"
+                    android:background="@color/line_color1"
+                    android:layout_marginLeft="@dimen/activity_padding_margin8"
+                    />
+                <View
+                    android:visibility="gone"
+                    android:layout_width="match_parent"
+                    android:layout_height="8dp"
+                    android:background="@color/line_color3"
+                    />
                 <TextView
+                    android:visibility="gone"
                     android:id="@+id/tv_account_detail"
                     style="@style/bottom_mine_text_view"
                     android:text="@string/mine_account_detail"
@@ -291,6 +452,7 @@
                     />
 
                 <View
+                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/line_width3"
                     android:background="@color/line_color1"
@@ -304,24 +466,28 @@
                     android:layout_marginLeft="@dimen/activity_padding_margin8"
                     />-->
                 <TextView
+                    android:visibility="gone"
                     android:id="@+id/tv_collection"
                     style="@style/bottom_mine_text_view"
                     android:text="@string/mine_collection"
                     android:drawableLeft="@mipmap/icon_collection"
                     />
                 <View
+                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/line_width3"
                     android:background="@color/line_color1"
                     android:layout_marginLeft="@dimen/activity_padding_margin8"
                     />
                 <TextView
+                    android:visibility="gone"
                     android:id="@+id/tv_shopping_history"
                     style="@style/bottom_mine_text_view"
                     android:text="@string/mine_shop_history"
                     android:drawableLeft="@mipmap/icon_history"
                     />
                 <View
+                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/line_width3"
                     android:background="@color/line_color1"
