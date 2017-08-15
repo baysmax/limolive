@@ -300,6 +300,10 @@
         <item>推荐</item>
         <item>最新</item>
     </string-array>
+    <string-array name="is_Live">
+        <item>直播中</item>
+        <item>未开播</item>
+    </string-array>
     <!--Dialog-->
     <string name="dialog_change_avatar_title">修改头像</string>
     <string name="dialog_change_avatar_take_photo">拍照</string>

@@ -26,6 +26,7 @@ public class NewAdapter extends RecyclerView.Adapter {
 
     public NewAdapter(List<NewLiveBean> newList, Context context) {
         this.newList = newList;
+
         this.context = context;
     }
     @Override
@@ -40,6 +41,8 @@ public class NewAdapter extends RecyclerView.Adapter {
         holder1.tv_UserName.setText(newLiveBean.getNick());
         if (newLiveBean.isLive()){
             holder1.isLive.setImageDrawable(context.getDrawable(R.drawable.zbz));
+        }else {
+            holder1.isLive.setImageDrawable(context.getDrawable(R.drawable.wkb));
         }
         holder1.tv_dizhi.setText(newLiveBean.getAddess());
         if (newLiveBean.getImg().contains("http://")){
@@ -47,6 +50,13 @@ public class NewAdapter extends RecyclerView.Adapter {
         }else {
             ImageLoader.getInstance().displayImage(ApiHttpClient.API_PIC+newLiveBean.getImg(),holder1.image);
         }
+        holder1.image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //进入直播间点击事件
+            }
+        });
+
 
     }
 

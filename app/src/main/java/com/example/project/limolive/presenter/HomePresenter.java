@@ -4,6 +4,7 @@ package com.example.project.limolive.presenter;
  */
 
 import android.content.Context;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.TextUtils;
 import android.util.Log;
 import android.widget.AbsListView;
@@ -65,13 +66,18 @@ public class HomePresenter extends Presenter implements AbsListView.OnScrollList
             @Override
             public void onSuccess(ApiResponse apiResponse) {
                 if (apiResponse.getCode() == Api.SUCCESS) {
+
                     Log.i("直播列表",apiResponse.toString());
                     handle(isClear, apiResponse.getData());
                 } else {
                     ToastUtils.showShort(context, apiResponse.getMessage());
+                    Log.i("main",apiResponse.getMessage());
                 }
                 if (tellActivity != null) {
                     tellActivity.presenterTakeAction(FRIEND_FORUM_LIST);
+                }
+                if (swipeRefreshLayout!=null){
+                    swipeRefreshLayout.setRefreshing(false);
                 }
             }
         });
@@ -107,6 +113,12 @@ public class HomePresenter extends Presenter implements AbsListView.OnScrollList
 
     public void refresh() {
         page = 1;
+        getDate(true);
+    }
+    SwipeRefreshLayout swipeRefreshLayout;
+    public void refresh(SwipeRefreshLayout swipeRefreshLayout) {
+        page = 1;
+        this.swipeRefreshLayout=swipeRefreshLayout;
         getDate(true);
     }
 

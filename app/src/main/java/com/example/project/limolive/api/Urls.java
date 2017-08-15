@@ -11,6 +11,7 @@ public class Urls {
     public static final String POST_ISBANED = "/Appapi/Ucenter/user_live_disable";  //是否被禁播
     public static final String POST_GETUSER_DIAMONDS = "/Appapi/Ucenter/diamonds_coins";  //获取用户钻石
     public static final String POST_GETUSER_NEWS = "";  //获取最新列表数据
+    public static final String POST_GETUSER_NMZT = "";  //获取柠檬主推列表数据
     public static final String GET_GETSIG = "/appapi/user/getSig";  //用户获取腾讯sig
     public static final String POST_LOGIN = "appapi/user/login";  //登录
     public static final String GET_LIVE_LIST = "appapi/live/live_list";  //直播列表

@@ -196,6 +196,7 @@
             android:background="@color/white">
 
         </com.example.project.limolive.widget.AutoSwipeRefreshLayout>
+
         <android.support.v4.widget.SwipeRefreshLayout
             android:id="@+id/srl_Downs"
             android:layout_width="match_parent"

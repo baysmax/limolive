@@ -1,7 +1,7 @@
 package com.example.project.limolive.fragment;
 
-import android.graphics.Rect;
 import android.os.Bundle;
+
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 
 import com.alibaba.fastjson.JSONArray;
 import com.example.project.limolive.R;
-import com.example.project.limolive.adapter.NewAdapter;
+import com.example.project.limolive.adapter.FollowAdapter;
 import com.example.project.limolive.api.Api;
 import com.example.project.limolive.api.ApiResponse;
 import com.example.project.limolive.api.ApiResponseHandler;
@@ -22,41 +22,50 @@ import com.example.project.limolive.helper.LoginManager;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.project.limolive.R.id.tl_tab_layouts;
+
 /**
  * Created by AAA on 2017/8/14.
  */
 
-public class NewFragment extends BaseFragment {
+public class FollowFragment extends BaseFragment {
     private SwipeRefreshLayout swipeRefreshLayout;
     private RecyclerView recyclerView;
-    private List<NewLiveBean> newLiveList;
+    private List<FollowLiveBeans> newLiveList;
     private int page=1;
     private GridLayoutManager gm;
-    private NewAdapter adapter;
+    private FollowAdapter adapter;
 
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return setContentView(R.layout.fragment_new, inflater, container);
+        View view = setContentView(R.layout.fragment_follow, inflater, container);
+        setRecyclerView();
+        initListener();
+        initDate();
+        return view;
     }
+
     @Override
     protected void initView() {
         super.initView();
-        swipeRefreshLayout= (SwipeRefreshLayout) findViewById(R.id.srl_DownNew);
-        recyclerView= (RecyclerView) findViewById(R.id.rv_new);
-        gm=new GridLayoutManager(getActivity(),2);
-        recyclerView.setLayoutManager(gm);
         newLiveList= new ArrayList<>();
+
+
+
         for (int i=0;i<10;i++){
-            newLiveList.add(new NewLiveBean("","1212","123",true,"背景"));
+            newLiveList.add(new FollowLiveBeans("123","nick","1212","123","","",true));
         }
-        initDate();
-        adapter=new NewAdapter(newLiveList,getActivity());
+    }
+
+    private void setRecyclerView() {
+        recyclerView= (RecyclerView) findViewById(R.id.rv_follows);
+        swipeRefreshLayout= (SwipeRefreshLayout) findViewById(R.id.srl_DownFollow);
+        adapter=new FollowAdapter(newLiveList,getContext());
+        gm=new GridLayoutManager(getContext(),1);
+        recyclerView.setLayoutManager(gm);
         recyclerView.setAdapter(adapter);
-//        int spacingInPixels = getResources().getDimensionPixelSize(R.dimen._9sp);
-//        recyclerView.addItemDecoration(new SpaceItemDecoration(spacingInPixels));
-        initListener();
     }
 
     private void initDate() {
@@ -97,28 +106,11 @@ public class NewFragment extends BaseFragment {
             public void onSuccess(ApiResponse apiResponse) {
                 if (apiResponse.getCode()==Api.SUCCESS){
                     String data = apiResponse.getData();
-                    newLiveList.addAll(JSONArray.parseArray(data, NewLiveBean.class));
+                    newLiveList.addAll(JSONArray.parseArray(data, FollowLiveBeans.class));
                 }
                 swipeRefreshLayout.setRefreshing(false);
             }
         });
     }
-
-    public class SpaceItemDecoration extends RecyclerView.ItemDecoration{
-
-        private int space;
-
-        public SpaceItemDecoration(int space) {
-            this.space = space;
-        }
-
-        @Override
-        public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
-
-            if(parent.getChildPosition(view) != 0)
-                outRect.top = space;
-        }
-    }
-
 
 }

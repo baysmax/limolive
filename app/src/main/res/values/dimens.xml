@@ -12,6 +12,7 @@
     <dimen name="title_view_left_back_padding_right">12.0dip</dimen>
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="_15sp">15sp</dimen>
+    <dimen name="_9sp">3sp</dimen>
     <dimen name="nav_header_vertical_spacing">16dp</dimen>
     <dimen name="nav_header_height">160dp</dimen>
     <dimen name="activity_horizontal_margin">16dp</dimen>

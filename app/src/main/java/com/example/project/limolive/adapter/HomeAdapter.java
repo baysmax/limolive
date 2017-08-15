@@ -13,7 +13,9 @@ import android.widget.TextView;
 import com.example.project.limolive.R;
 import com.example.project.limolive.api.ApiHttpClient;
 import com.example.project.limolive.bean.home.HomeListBeen;
+import com.example.project.limolive.view.RoundCornersImageView;
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.List;
 
@@ -60,7 +62,7 @@ public class HomeAdapter extends BaseAdapter {
         if (convertView == null) {
             convertView = LayoutInflater.from(context).inflate(R.layout.view_home_list_item, parent, false);
             viewHolder = new ViewHolder();
-            viewHolder.draweview = (SimpleDraweeView) convertView.findViewById(draweview);
+            viewHolder.draweview = (RoundCornersImageView) convertView.findViewById(draweview);
             viewHolder.tv_home_grad_item = (TextView) convertView.findViewById(R.id.tv_home_grad_item);
             convertView.setTag(viewHolder);
         } else {
@@ -70,9 +72,9 @@ public class HomeAdapter extends BaseAdapter {
             Log.i("12312312312312", data.get(position).getCover());
             if (null != data.get(position).getCover() && !" ".equals(data.get(position).getCover())) {
                 if (data.get(position).getCover().contains("http")){
-                    viewHolder.draweview.setImageURI(data.get(position).getCover());
+                    ImageLoader.getInstance().displayImage(data.get(position).getCover(),viewHolder.draweview);
                 }else {
-                    viewHolder.draweview.setImageURI(ApiHttpClient.API_PIC + data.get(position).getCover());
+                    ImageLoader.getInstance().displayImage(ApiHttpClient.API_PIC + data.get(position).getCover(),viewHolder.draweview);
                 }
             } else {
                 viewHolder.draweview.setBackgroundResource(R.mipmap.head2);
@@ -84,7 +86,8 @@ public class HomeAdapter extends BaseAdapter {
     }
 
     private class ViewHolder {
-        SimpleDraweeView draweview;
+        RoundCornersImageView draweview;
         TextView tv_home_grad_item;
     }
+
 }

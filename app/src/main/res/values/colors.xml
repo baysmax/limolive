@@ -29,6 +29,7 @@
     <color name="live_tab_title_normal">#5c5c5c</color>
     <!--Theme color-->
     <color name="red_bar">#ffffb010</color>
+    <color name="red_num">#a6706f6f</color>
     <color name="red_bars">#ffffff</color>
     <!--line-->
     <color name="line_color1">#CECECE</color>
@@ -55,8 +56,12 @@
     <color name="list_divider1">#F5F5F5</color>
     <color name="color_999999">#999999</color>
     <color name="color_555555">#555555</color>
+    <color name="color_87555555">#b4555555</color>
     <color name="color_333333">#333333</color>
+    <color name="color_e9ffffff">#e9ffffff</color>
     <color name="color_btnsf">#adffbf00</color>
+    <color name="color_zbz">#fce13d</color>
+    <color name="color_wzb">#00fce13d</color>
     <color name="color_btns">#75545454</color>
     <color name="color_FF9245">#FF9245</color>
     <color name="color_F4F3FB">#F4F3FB</color>

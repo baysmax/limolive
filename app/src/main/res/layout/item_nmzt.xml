@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:layout_marginTop="8dp"
+    android:background="#fff">
+
+    <LinearLayout
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginLeft="3dp"
+        android:layout_marginRight="3dp"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="2"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/zt_iv_avatar"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/dafault_head"/>
+            <TextView
+                android:id="@+id/tv_pm"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="8dp"
+                android:layout_marginRight="8dp"
+                android:text="Top1"
+                android:textSize="8dp"
+                android:gravity="center"
+                android:textColor="#fff"
+                android:layout_width="25dp"
+                android:layout_height="15dp"
+                android:background="@drawable/text_bg"/>
+            <RelativeLayout
+                android:layout_width="150dp"
+                android:layout_height="19dp"
+                android:background="#46000000"
+                android:gravity="center_vertical"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentStart="true">
+
+                <TextView
+                    android:id="@+id/ren"
+                    android:background="@drawable/mys"
+                    android:layout_width="10dp"
+                    android:layout_height="12dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="5dp"
+                    android:gravity="center"
+                    android:layout_alignParentLeft="true"/>
+                <TextView
+                    android:id="@+id/zt_nick"
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="64981"
+                    android:layout_centerVertical="true"
+                    android:textColor="@color/color_e9ffffff"
+                    android:textSize="10sp"
+                    android:layout_toRightOf="@id/ren"/>
+
+            </RelativeLayout>
+        </RelativeLayout>
+    </LinearLayout>
+
+
+</LinearLayout>

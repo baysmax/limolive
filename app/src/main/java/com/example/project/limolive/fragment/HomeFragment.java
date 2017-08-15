@@ -2,6 +2,7 @@ package com.example.project.limolive.fragment;
 
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
@@ -9,6 +10,9 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.GestureDetector;
@@ -16,6 +20,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.EditText;
@@ -26,16 +31,22 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.example.project.limolive.R;
 import com.example.project.limolive.adapter.GoodsTypeAdapter;
+import com.example.project.limolive.adapter.NmztAdapter;
 import com.example.project.limolive.api.Api;
 import com.example.project.limolive.api.ApiHttpClient;
 import com.example.project.limolive.api.ApiResponse;
 import com.example.project.limolive.api.ApiResponseHandler;
 import com.example.project.limolive.baidu_location.BaiDuLocation;
 import com.example.project.limolive.bean.GoodsTypeBeen;
+import com.example.project.limolive.bean.NewLiveBean;
+import com.example.project.limolive.bean.NmztBean;
 import com.example.project.limolive.bean.home.HomeListBeen;
+import com.example.project.limolive.bean.home.HostInformationBeen;
 import com.example.project.limolive.bean.home.LunBoPicBean;
+import com.example.project.limolive.helper.LoginManager;
 import com.example.project.limolive.tencentim.ui.ConversationActivity;
 import com.example.project.limolive.presenter.HomePresenter;
 import com.example.project.limolive.presenter.Presenter;
@@ -63,8 +74,9 @@ import java.util.Timer;
  *         2016/12/13
  */
 public class HomeFragment extends BaseFragment implements View.OnClickListener,
-        SwipeRefreshLayout.OnRefreshListener, Presenter.NotificationToActivity {
-
+        AutoSwipeRefreshLayout.OnRefreshListener, Presenter.NotificationToActivity {
+    private RecyclerView rv_nmzt;
+    private List<HomeListBeen> zt_list;
     private HomePresenter homePresenter;
     private LinearLayout llShouyeAdress, ll_more_columns, mRadioGroup_content, ll_message, ll_column;
     private RelativeLayout rl_column;
@@ -76,6 +88,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,
     private ImageCycleView home_banner;
     private TextView live_title, tv_shouye_all_type;
     private View mGrayLayout;
+    private SwipeRefreshLayout swipeRefreshLayout;
     //屏幕宽度
     private int mScreenWidth = 0;
     // 当前选中的栏目
@@ -125,6 +138,17 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,
     @Override
     protected void initView() {
         super.initView();
+        swipeRefreshLayout= (SwipeRefreshLayout) findViewById(R.id.srl_Downs);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                swipeRefreshLayout.setRefreshing(true);
+                Carousel();
+                loadTime();
+                goodsType();
+                homePresenter.refresh(swipeRefreshLayout);
+            }
+        });
         homePresenter = new HomePresenter(getActivity());
         homePresenter.registerMsgToActivity(this);
         mScreenWidth = getWindowsWidth(getActivity());
@@ -159,6 +183,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,
         initHeader();
         home_gv.setOnScrollListener(homePresenter);
         home_gv.setAdapter(homePresenter.getHomeAdapter());
+
         home_gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -220,6 +245,9 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,
     /**
      * 加载头布局
      */
+    LinearLayoutManager layoutManager;
+    NmztAdapter nmztAdapter;
+
     private void initHeader() {
         View header = LayoutInflater.from(getActivity()).inflate(R.layout.view_home_header, null);
         header.findViewById(R.id.home_banner).setOnClickListener(this);
@@ -227,6 +255,34 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,
         live_title = (TextView) header.findViewById(R.id.live_title);
         home_gv.addHeaderView(header, null, true);
 //        live_title.setText("热门推荐");
+        rv_nmzt= (RecyclerView)header.findViewById(R.id.rv_nmzt);
+        zt_list=new ArrayList<>();
+        layoutManager = new LinearLayoutManager(getContext());
+        layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        rv_nmzt.setLayoutManager(layoutManager);
+        initDate();
+
+        nmztAdapter = new NmztAdapter(zt_list,getContext());
+        rv_nmzt.setAdapter(nmztAdapter);
+    }
+
+    private void initDate() {
+        for (int i=0;i<10;i++){
+            HomeListBeen homeListBeen = new HomeListBeen();
+            HostInformationBeen hostInformationBeen = new HostInformationBeen();
+            hostInformationBeen.setUsername("1_"+i);
+            hostInformationBeen.setAvatar("133213");
+            homeListBeen.setHost(hostInformationBeen);
+            zt_list.add(homeListBeen);
+        }
+//        Api.nmzt(LoginManager.getInstance().getUserID(getContext()),  new ApiResponseHandler(getContext()) {
+//            @Override
+//            public void onSuccess(ApiResponse apiResponse) {
+//                if (apiResponse.getCode()==Api.SUCCESS){
+//                    zt_list.addAll(JSONArray.parseArray(apiResponse.getData(), HomeListBeen.class));
+//                }
+//            }
+//        });
     }
 
 
@@ -317,7 +373,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,
                 if (apiResponse.getCode() == Api.SUCCESS) {
                     allcatgoryBeens = new ArrayList<GoodsTypeBeen>();
                     allcatgoryBeens.addAll(JSON.parseArray(apiResponse.getData(), GoodsTypeBeen.class));
-                    initTabColumn();
+                    //initTabColumn();
                 } else {
                     goodsType();
 //                    ToastUtils.showShort(getActivity(), apiResponse.getMessage());
@@ -334,7 +390,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,
                 if (apiResponse.getCode() == Api.SUCCESS) {
                     allcatgoryBeens = new ArrayList<GoodsTypeBeen>();
                     allcatgoryBeens.addAll(JSON.parseArray(apiResponse.getData(), GoodsTypeBeen.class));
-                    initTabColumn();
+                    //initTabColumn();
                 } else {
                     goodsType();
 //                    ToastUtils.showShort(getActivity(), apiResponse.getMessage());

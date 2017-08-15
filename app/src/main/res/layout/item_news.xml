@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:gravity="center"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:layout_marginTop="8dp"
+    android:background="#fff">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        android:background="@drawable/shape_gray"
+        android:layout_marginLeft="3dp"
+        android:layout_marginRight="3dp"
         android:gravity="center"
         android:orientation="vertical">
 
@@ -22,36 +23,39 @@
 
             <com.example.project.limolive.view.RoundCornersImageView
                 android:id="@+id/draweview"
-                android:layout_width="match_parent"
+                android:layout_width="150dp"
                 android:layout_height="150dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/dafault_head"/>
+                android:src="@drawable/dafault_head" />
+
             <ImageView
                 android:id="@+id/iv_isLive"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentTop="true"
-                android:layout_marginTop="@dimen/_15sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/wkb"/>
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="8dp"
+                android:src="@drawable/wkb" />
         </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="150dp"
             android:layout_height="0dp"
-            android:layout_weight="0.4"
+            android:layout_weight="0.32"
             android:gravity="center_vertical">
 
             <TextView
                 android:id="@+id/ren"
-                android:background="@drawable/ren"
-                android:layout_width="15dp"
-                android:layout_height="15dp"
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                android:layout_alignParentLeft="true"
                 android:layout_marginBottom="5dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="5dp"
-                android:gravity="center"
-                android:layout_alignParentLeft="true"/>
+                android:background="@drawable/ren"
+                android:layout_centerVertical="true"
+                android:gravity="center" />
+
             <TextView
                 android:id="@+id/tv_home_name"
                 android:layout_width="wrap_content"
@@ -59,34 +63,39 @@
                 android:layout_marginBottom="5dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="5dp"
+                android:layout_toRightOf="@id/ren"
+                android:layout_centerVertical="true"
                 android:gravity="center"
                 android:singleLine="true"
                 android:textColor="@color/color_333333"
-                android:textSize="14sp"
-                android:layout_toRightOf="@id/ren"/>
+                android:textSize="14sp" />
+
             <TextView
                 android:id="@+id/tv_home_address_items"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
                 android:layout_marginBottom="5dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="5dp"
+                android:layout_centerVertical="true"
                 android:gravity="center"
                 android:singleLine="true"
                 android:textColor="@color/color_333333"
-                android:textSize="14sp"
-                android:layout_alignParentRight="true"/>
+                android:textSize="14sp" />
+
             <TextView
-                android:background="@drawable/zuobiao"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="12dp"
+                android:layout_height="16dp"
                 android:layout_marginBottom="5dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="5dp"
                 android:layout_toLeftOf="@id/tv_home_address_items"
+                android:background="@drawable/zuobiao"
                 android:gravity="center"
                 android:singleLine="true"
                 android:textColor="@color/color_333333"
+                android:layout_centerVertical="true"
                 android:textSize="14sp" />
         </RelativeLayout>
     </LinearLayout>
