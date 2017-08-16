@@ -1,6 +1,7 @@
 package com.example.project.limolive.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,10 @@ import com.example.project.limolive.R;
 import com.example.project.limolive.api.ApiHttpClient;
 import com.example.project.limolive.bean.NewLiveBean;
 import com.example.project.limolive.bean.home.HomeListBeen;
+import com.example.project.limolive.tencentlive.model.CurLiveInfo;
+import com.example.project.limolive.tencentlive.model.LiveMySelfInfo;
+import com.example.project.limolive.tencentlive.utils.Constants;
+import com.example.project.limolive.tencentlive.views.LiveingActivity;
 import com.example.project.limolive.view.RoundCornersImageView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
@@ -37,7 +42,7 @@ public class NewAdapter extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        HomeListBeen homeListBeen = newList.get(position);
+        final HomeListBeen homeListBeen = newList.get(position);
         NewsHolder holder1= (NewsHolder) holder;
         holder1.tv_UserName.setText(homeListBeen.getHost().getUsername());
         if (!homeListBeen.getWatchCount().equals("null")){
@@ -54,7 +59,37 @@ public class NewAdapter extends RecyclerView.Adapter {
         holder1.image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //进入直播间点击事件
+                if (homeListBeen.getHost().getUid().equals(LiveMySelfInfo.getInstance().getId())) {
+                    Intent intent = new Intent(context, LiveingActivity.class);
+                    intent.putExtra(Constants.ID_STATUS, Constants.HOST);
+                    LiveMySelfInfo.getInstance().setIdStatus(Constants.HOST);
+                    LiveMySelfInfo.getInstance().setJoinRoomWay(false);
+                    CurLiveInfo.setHostID(homeListBeen.getHost().getUid());
+                    CurLiveInfo.setHostName(homeListBeen.getHost().getUsername());
+                    CurLiveInfo.setHostAvator(homeListBeen.getHost().getAvatar());
+                    CurLiveInfo.setHost_phone(homeListBeen.getHost().getPhone());
+                    CurLiveInfo.setRoomNum(homeListBeen.getAvRoomId());
+                    CurLiveInfo.setMembers(Integer.parseInt(homeListBeen.getWatchCount()) + 1); // 添加自己
+                    CurLiveInfo.setAdmires(Integer.parseInt(homeListBeen.getAdmireCount()));
+                    CurLiveInfo.setAddress(homeListBeen.getLbs().getAddress());
+                    CurLiveInfo.setTitle(homeListBeen.getTitle());
+                    context.startActivity(intent);
+                } else {
+                    Intent intent = new Intent(context, LiveingActivity.class);
+                    intent.putExtra(Constants.ID_STATUS, Constants.MEMBER);
+                    LiveMySelfInfo.getInstance().setIdStatus(Constants.MEMBER);
+                    LiveMySelfInfo.getInstance().setJoinRoomWay(false);
+                    CurLiveInfo.setHostID(homeListBeen.getHost().getUid());
+                    CurLiveInfo.setHostName(homeListBeen.getHost().getUsername());
+                    CurLiveInfo.setHostAvator(homeListBeen.getHost().getAvatar());
+                    CurLiveInfo.setRoomNum(homeListBeen.getAvRoomId());
+                    CurLiveInfo.setHost_phone(homeListBeen.getHost().getPhone());
+                    CurLiveInfo.setMembers(Integer.parseInt(homeListBeen.getWatchCount()) + 1); // 添加自己
+                    CurLiveInfo.setAdmires(Integer.parseInt(homeListBeen.getAdmireCount()));
+                    CurLiveInfo.setAddress(homeListBeen.getLbs().getAddress());
+                    CurLiveInfo.setTitle(homeListBeen.getTitle());
+                    context.startActivity(intent);
+                }//进入直播间点击事件
             }
         });
 
