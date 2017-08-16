@@ -90,9 +90,10 @@ public class LiveMallTitleBar extends RelativeLayout {
             titleView.setText(title);
         }
     }
-    public void setTitle(String title,float textSize){
+    public void setTitle(String title,float textSize,int color){
         if(titleView!=null){
             titleView.setTextSize(textSize);
+            titleView.setTextColor(color);
             setTitle(title);
         }
     }

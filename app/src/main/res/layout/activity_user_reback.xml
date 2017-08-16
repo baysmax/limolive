@@ -4,23 +4,31 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/white"
-    >
+    android:weightSum="1">
 
     <include
         layout="@layout/standard_title_bar"
         />
-
-    <EditText
-        android:id="@+id/et_reback"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:background="@null"
-        android:hint="说点什么吧"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:gravity="left|top"
-        android:layout_marginTop="5dp"
-        />
+        android:layout_marginTop="40dp"
+        android:background="@color/color_67c1c0c0"
+        android:layout_weight="0.00">
+        <EditText
+            android:paddingTop="10dp"
+            android:paddingLeft="10dp"
+            android:id="@+id/et_reback"
+            android:layout_width="match_parent"
+            android:layout_height="210dp"
+            android:hint="请详细描述经过，感谢您的支持"
+            android:gravity="left|top"
+
+            />
+    </FrameLayout>
+
 
     <TextView
         android:id="@+id/tv_commit"
@@ -28,10 +36,10 @@
         android:layout_height="40dp"
         android:text="提交"
         android:textColor="@color/white"
-        android:background="@color/red_bar"
+        android:background="@drawable/btns_bg2"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="40dp"
         android:gravity="center"
         android:textSize="18dp"
         />

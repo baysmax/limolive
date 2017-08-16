@@ -49,8 +49,9 @@ public class UserRebackActivity extends BaseActivity implements View.OnClickList
 
 
     private void loadTitle() {
-        setTitleString(getString(R.string.mine_user_reback));
-        setLeftImage(R.mipmap.icon_return);
+        setTitleString(getString(R.string.mine_user_reback),18,R.color.black);
+        setLeftImage(R.drawable.fanhuihei);
+        setBackgroundColor(0xfff);
         setLeftRegionListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

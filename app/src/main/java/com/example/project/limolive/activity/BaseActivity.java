@@ -80,6 +80,7 @@ public class BaseActivity extends AppCompatActivity implements ProfileView, Easy
      * 默认状态栏颜色
      */
     public static final int STATUS_BAR_COLOR_DEFAULT = Color.parseColor("#a0fce13d");
+    //public static final int STATUS_BAR_COLOR_DEFAULT = Color.parseColor("#00000000");
 
     /**
      * 顶部标题栏
@@ -377,6 +378,11 @@ public class BaseActivity extends AppCompatActivity implements ProfileView, Easy
             title_bar_standard.setTitle(titleString);
         }
     }
+    protected void setTitleString(String titleString,float size,int color) {
+        if (title_bar_standard != null) {
+            title_bar_standard.setTitle(titleString,size,color);
+        }
+    }
 
     protected void setTitleString(int resString) {
         if (title_bar_standard != null) {
@@ -390,6 +396,14 @@ public class BaseActivity extends AppCompatActivity implements ProfileView, Easy
     protected void setRightText(String rightText) {
         if (title_bar_standard != null) {
             title_bar_standard.setRightText(rightText);
+        }
+    }
+    /**
+     * 设置背景颜色
+     */
+    protected void setBackgroundColor(int color) {
+        if (title_bar_standard != null) {
+            title_bar_standard.setBackgroundColor(color);
         }
     }
 

@@ -68,7 +68,7 @@
                             android:layout_marginLeft="@dimen/activity_padding_margin8"
                             android:layout_marginRight="@dimen/activity_padding_margin8"
                             android:maxLines="1"
-                            android:text="135468"
+                            android:text=""
                             android:ellipsize="end"
                             android:textColor="@color/text_color1"
                             android:textSize="@dimen/text_size4"
@@ -79,7 +79,7 @@
                             android:layout_marginTop="6dp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="1351"
+                            android:text=""
                             android:layout_marginLeft="@dimen/activity_padding_margin8"
                             android:layout_marginRight="@dimen/activity_padding_margin8"
                             android:maxLines="1"
@@ -417,6 +417,7 @@
                 <RelativeLayout
                     style="@style/bottom_mine_text_view">
                     <TextView
+                        android:id="@+id/tv_jianyi"
                         style="@style/bottom_mine_text_views"
                         android:text="给点建议"
                         android:drawableLeft="@drawable/jianyi"

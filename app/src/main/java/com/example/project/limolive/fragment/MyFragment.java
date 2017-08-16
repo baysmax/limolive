@@ -25,6 +25,7 @@ import com.example.project.limolive.activity.OrderActivity;
 import com.example.project.limolive.activity.PersonInfoActivity;
 import com.example.project.limolive.activity.SettingActivity;
 import com.example.project.limolive.activity.ShoppingCartActivity;
+import com.example.project.limolive.activity.UserRebackActivity;
 import com.example.project.limolive.api.Api;
 import com.example.project.limolive.api.ApiHttpClient;
 import com.example.project.limolive.api.ApiResponse;
@@ -75,8 +76,10 @@ public class MyFragment extends BaseFragment implements View.OnClickListener{
 	private TextView tv_my_money_num; //主播钻石；
 	private TextView tv_my_money_nums; //主播柠檬币；
 	private TextView tvfansMembers;//粉丝数量
+	private TextView tv_jianyi;//用户反馈
 	private RelativeLayout rl_cz;//充值
 	private ImageView iv_settings;
+
 
 
 	@Override
@@ -129,6 +132,7 @@ public class MyFragment extends BaseFragment implements View.OnClickListener{
 		tv_shopping_history= (TextView) findViewById(R.id.tv_shopping_history);
 		tv_my_money_nums= (TextView) findViewById(R.id.tv_my_money_num);//柠檬币
 		tv_my_money_num= (TextView) findViewById(R.id.tv_my_money_nums);//钻石
+		tv_jianyi= (TextView) findViewById(R.id.tv_jianyi);//用户反馈
 		ll_fans= (LinearLayout) findViewById(R.id.ll_fans);
 		ll_attention= (LinearLayout) findViewById(R.id.ll_attention);
 
@@ -261,6 +265,7 @@ public class MyFragment extends BaseFragment implements View.OnClickListener{
 		ll_my_money.setOnClickListener(this);
 		iv_settings.setOnClickListener(this);
 		rl_cz.setOnClickListener(this);
+		tv_jianyi.setOnClickListener(this);
 	}
 
 	private void loadTitle() {
@@ -294,12 +299,15 @@ public class MyFragment extends BaseFragment implements View.OnClickListener{
 	public void onClick(View v) {
 		switch(v.getId()){
 			case R.id.iv_settings://设置
-				//startActivity(new Intent(getActivity(),SettingActivity.class));
+				//startActivity(new Intent(getActivity(),SettingActivity.class)); UserRebackActivity
 				Intent personInfo = new Intent(getActivity(), PersonInfoActivity.class);
 				startActivity(personInfo);//个人资料
 				break;
 			case R.id.rl_cz://充值
 				goWallet();
+				break;
+			case R.id.tv_jianyi://充值
+				startActivity(new Intent(getActivity(), UserRebackActivity.class));//用户反馈
 				break;
 			case R.id.rl_all_order:
 				lookOrder(0);
