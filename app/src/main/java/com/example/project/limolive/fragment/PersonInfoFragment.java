@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.example.project.limolive.R;
 import com.example.project.limolive.activity.ChangeInfoActivity;
+import com.example.project.limolive.activity.LoginActivity;
 import com.example.project.limolive.api.ApiHttpClient;
 import com.example.project.limolive.helper.ActivityHelper;
 import com.example.project.limolive.helper.DialogFactory;
@@ -46,6 +47,7 @@ public class PersonInfoFragment extends BaseFragment implements View.OnClickList
     private TextView tv_user_home;//家乡
     private TextView tv_user_profession;//职业
     private TextView tv_user_address;//地址
+    private TextView tv_login_out;//退出登录
 
     //拍照工具
     private TakePhotoHelper takePhotoHelper;
@@ -75,6 +77,7 @@ public class PersonInfoFragment extends BaseFragment implements View.OnClickList
         tv_user_home= (TextView) findViewById(R.id.tv_user_home);
         tv_user_profession= (TextView) findViewById(R.id.tv_user_profession);
         tv_user_address= (TextView) findViewById(R.id.tv_user_address);
+        tv_login_out= (TextView) findViewById(R.id.tv_login_out);
         initEvent();
     }
 
@@ -86,6 +89,7 @@ public class PersonInfoFragment extends BaseFragment implements View.OnClickList
         findViewById(R.id.rl_user_home).setOnClickListener(this);
         findViewById(R.id.rl_user_sex).setOnClickListener(this);
         findViewById(R.id.rl_user_address).setOnClickListener(this);
+        tv_login_out.setOnClickListener(this);
     }
 
     /**
@@ -130,7 +134,23 @@ public class PersonInfoFragment extends BaseFragment implements View.OnClickList
             case R.id.rl_user_address: //修改地址页面
                 enterChangeActivity(ChangeInfoActivity.ADDRESS);
                 break;
+            case R.id.tv_login_out: //退出登录
+                loginOut();
+                break;
         }
+    }
+    /**
+     * 退出登录，登录见{@link com.example.project.limolive.helper.LoginManager},
+     * {@link com.example.project.limolive.presenter.LoginPresenter}
+     */
+    private void loginOut() {
+        //TODO 退出相关SDK
+        LoginManager.getInstance().loginOut(getApplication());
+        MineDataProvider provider = new MineDataProvider(getApplication());
+        provider.deleteAllTables();
+        provider.reBuildData();
+        getApplication().destroyAllActivity(new Handler());
+        startActivity(new Intent(getActivity(), LoginActivity.class));
     }
 
     /**
