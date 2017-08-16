@@ -68,7 +68,8 @@
                 android:gravity="center"
                 android:singleLine="true"
                 android:textColor="@color/color_333333"
-                android:textSize="14sp" />
+                android:maxEms="5"
+                android:textSize="8sp" />
 
             <TextView
                 android:id="@+id/tv_home_address_items"
@@ -81,8 +82,9 @@
                 android:layout_centerVertical="true"
                 android:gravity="center"
                 android:singleLine="true"
+                android:maxEms="5"
                 android:textColor="@color/color_333333"
-                android:textSize="14sp" />
+                android:textSize="8sp" />
 
             <TextView
                 android:layout_width="12dp"

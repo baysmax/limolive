@@ -69,7 +69,8 @@
                     android:text="64981"
                     android:layout_centerVertical="true"
                     android:textColor="@color/color_e9ffffff"
-                    android:textSize="10sp"
+                    android:maxEms="5"
+                    android:textSize="8sp"
                     android:layout_toRightOf="@id/ren"/>
 
             </RelativeLayout>
