@@ -3,6 +3,7 @@ package com.example.project.limolive.widget;
 import android.content.Context;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -34,6 +35,7 @@ public class AutoSwipeRefreshLayout extends SwipeRefreshLayout {
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
         int action = ev.getAction();
+        Log.i("下拉刷新","SwipeRefreshLayout.AutoSwipeRefreshLayout.onInterceptTouchEvent...ev.getAction()="+ev.getAction());
         switch (action) {
             case MotionEvent.ACTION_DOWN:
                 // 记录手指按下的位置

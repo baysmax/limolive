@@ -3,13 +3,13 @@
     android:id="@+id/titleBar"
     android:layout_width="match_parent"
     android:layout_height="50dp"
-    android:background="@color/btn_red_hover">
+    android:background="@color/btn_text">
     <TextView
         android:id="@+id/menu_return"
         android:textColor="@color/colorTextWhite"
         android:textSize="@dimen/h10"
         android:layout_marginLeft="10dp"
-        android:drawableLeft="@drawable/btn_return"
+        android:drawableLeft="@drawable/btn_returns"
         android:drawablePadding="5dp"
         android:gravity="center_vertical"
         android:layout_width="wrap_content"

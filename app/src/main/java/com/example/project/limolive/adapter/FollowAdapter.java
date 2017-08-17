@@ -52,16 +52,18 @@ public class FollowAdapter  extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         final HomeListBeens homeListBeen = followList.get(position);
-        FollowHolder holder1= (FollowHolder) holder;
+        final FollowHolder holder1= (FollowHolder) holder;
         holder1.iv_follow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                holder1.iv_follow.setEnabled(false);
                 Api.followHandle(LoginManager.getInstance().getUserID(context), homeListBeen.getUid(), new ApiResponseHandler(context) {
                     @Override
                     public void onSuccess(ApiResponse apiResponse) {
                         if (apiResponse.getCode()==Api.SUCCESS){
                             followList.remove(position);
                             notifyDataSetChanged();
+                            holder1.iv_follow.setEnabled(true);
                             ToastUtils.showShort(context,"取消关注成功");
                         }
                     }
@@ -114,6 +116,7 @@ public class FollowAdapter  extends RecyclerView.Adapter {
             holder1.tv_nick.setText(homeListBeen.getNickname());
             holder1.num.setText("0 人观看");
             holder1.tv_mlz.setText("魅力值 "+homeListBeen.getCharm());
+            holder1.isLive.setImageDrawable(context.getDrawable(R.drawable.wkb));
             if (homeListBeen.getHeadsmall().contains("http://")){
                 holder1.avatar.setImageURI(homeListBeen.getHeadsmall());
                 ImageLoader.getInstance().displayImage(homeListBeen.getHeadsmall(),holder1.largeImgs);
@@ -138,11 +141,7 @@ public class FollowAdapter  extends RecyclerView.Adapter {
         }else {
             ImageLoader.getInstance().displayImage(ApiHttpClient.API_PIC+homeListBeen.getCover(),holder1.largeImgs);
         }
-        if (!homeListBeen.getWatchCount().equals("null")){
             holder1.isLive.setImageDrawable(context.getDrawable(R.drawable.zbz));
-        }else {
-            holder1.isLive.setImageDrawable(context.getDrawable(R.drawable.wkb));
-        }
     }
 
     @Override

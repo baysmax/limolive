@@ -12,7 +12,7 @@ public class Urls {
     public static final String POST_GETUSER_DIAMONDS = "/Appapi/Ucenter/diamonds_coins";  //获取用户钻石
     public static final String POST_GETUSER_NEWS = "/Appapi/Live/live_recommend_create_time";  //获取最新列表数据
     public static final String POST_GETUSER_NMZT = "/Appapi/Live/live_recommend_charm";  //获取柠檬主推列表数据
-    public static final String POST_GETUSER_ZPHB = "";  //获取总排行榜数据
+    public static final String POST_GETUSER_ZPHB = "/Appapi/Ucenter/platform_charm_list";  //获取总排行榜数据
     public static final String POST_GETUSER_FOLLOW = "/Appapi/Ucenter/page_ifollow";  //获取关注页面数据
     public static final String POST_GETUSER_SEARCH_HOT = "/Appapi/Live/search_hot";  //搜索热搜(随即10条)接口
     public static final String POST_GETUSER_SEARCH_RECOMMEND = "/Appapi/Live/search_recommend";  //说明	搜索主播推荐(随即5条)

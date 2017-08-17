@@ -886,8 +886,10 @@ public class Api {
      * 总排行榜接口
      * @param handler
      */
-    public static void getRankings(AsyncHttpResponseHandler handler) {
+    public static void getRankings(String uid,String page,AsyncHttpResponseHandler handler) {
         RequestParams params = new RequestParams();
+        params.put("uid",uid);
+        params.put("page",page);
         ApiHttpClient.get(ApiHttpClient.API_URL + Urls.POST_GETUSER_ZPHB, params, handler);
     }
 
