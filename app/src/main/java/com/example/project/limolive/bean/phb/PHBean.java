@@ -8,6 +8,12 @@ public class PHBean {
     private String uid;//用户id
     private String nickname;//昵称
     private String headsmall;//头像
+    private String lemon_coins_sum;//刷柠檬币总和
+    private String mc;
+
+
+
+    private String is_follow;
 
     public PHBean(String uid, String nickname, String headsmall, String lemon_coins_sum, String mc) {
         this.uid = uid;
@@ -17,10 +23,22 @@ public class PHBean {
         this.mc = mc;
     }
 
-    private String lemon_coins_sum;//刷柠檬币总和
+    public PHBean(String uid, String nickname, String headsmall, String lemon_coins_sum, String mc, String is_follow) {
+        this.uid = uid;
+        this.nickname = nickname;
+        this.headsmall = headsmall;
+        this.lemon_coins_sum = lemon_coins_sum;
+        this.mc = mc;
+        this.is_follow = is_follow;
+    }
 
-    private String mc;
+    public String getIs_follow() {
+        return is_follow;
+    }
 
+    public void setIs_follow(String is_follow) {
+        this.is_follow = is_follow;
+    }
     public String getMc() {
         return mc;
     }
@@ -73,6 +91,7 @@ public class PHBean {
                 ", headsmall='" + headsmall + '\'' +
                 ", lemon_coins_sum='" + lemon_coins_sum + '\'' +
                 ", mc='" + mc + '\'' +
+                ", is_follow='" + is_follow + '\'' +
                 '}';
     }
 }

@@ -20,15 +20,15 @@
             android:layout_height="0dp"
             android:layout_weight="2"
             android:gravity="center">
-
-            <ImageView
+            <com.example.project.limolive.view.RoundCornersImageView
                 android:id="@+id/zt_iv_avatar"
                 android:layout_width="115dp"
                 android:layout_height="120dp"
                 android:scaleType="centerCrop"
                 android:src="@drawable/dafault_head"
                 android:layout_alignParentTop="true"
-                android:layout_alignParentStart="true" />
+                android:layout_alignParentStart="true"
+                android:layout_marginTop="6dp" />
             <TextView
                 android:id="@+id/tv_pm"
                 android:layout_alignParentRight="true"

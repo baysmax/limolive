@@ -1,5 +1,6 @@
 package com.example.project.limolive.fragment;
 
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -12,11 +13,14 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.project.limolive.R;
 import com.example.project.limolive.activity.OrderActivity;
+import com.example.project.limolive.activity.RankActivity;
+import com.example.project.limolive.activity.SearchActivity;
 
 import java.lang.reflect.Field;
 
@@ -24,11 +28,12 @@ import java.lang.reflect.Field;
  * Created by AAA on 2017/8/14.
  */
 
-public class HomeFragment2 extends BaseFragment {
+public class HomeFragment2 extends BaseFragment implements View.OnClickListener{
     ViewPager viewPager;
     private BaseFragment fragments[];
     private TextView tabs[];
     private String tab[];
+    private ImageView iv_search,iv_Phb;
     /**
      * 滑动TabLayout
      */
@@ -41,7 +46,10 @@ public class HomeFragment2 extends BaseFragment {
     @Override
     protected void initView() {
         super.initView();
-
+        iv_Phb= (ImageView) findViewById(R.id.iv_Phb);
+        iv_Phb.setOnClickListener(this);
+        iv_search= (ImageView) findViewById(R.id.iv_search);
+        iv_search.setOnClickListener(this);
         tl_tab_layouts= (TabLayout) findViewById(R.id.tl_tab_layouts);
         tl_tab_layouts.setTabTextColors(Color.parseColor("#454545"),Color.parseColor("#a0fce13d"));
         viewPager= (ViewPager) findViewById(R.id.vp_fragment);
@@ -88,6 +96,23 @@ public class HomeFragment2 extends BaseFragment {
         fragments[1]=new HomeFragment();
         fragments[2]=new NewFragment();
     }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.iv_Phb:
+                Intent intent = new Intent();
+                intent.setClass(getContext(),RankActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.iv_search:
+                Intent intent1=new Intent();
+                intent1.setClass(getContext(),SearchActivity.class);
+                startActivity(intent1);
+                break;
+        }
+    }
+
     class FragmentAdapter extends FragmentStatePagerAdapter {
 
         public FragmentAdapter(FragmentManager fm) {

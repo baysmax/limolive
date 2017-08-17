@@ -18,6 +18,7 @@ import com.example.project.limolive.tencentlive.model.CurLiveInfo;
 import com.example.project.limolive.tencentlive.model.LiveMySelfInfo;
 import com.example.project.limolive.tencentlive.utils.Constants;
 import com.example.project.limolive.tencentlive.views.LiveingActivity;
+import com.example.project.limolive.view.RoundCornersImageView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.List;
@@ -105,7 +106,7 @@ public class NmztAdapter extends RecyclerView.Adapter {
         return zt_list.size();
     }
     private class NmztHolder extends RecyclerView.ViewHolder{
-        ImageView avatar;
+        RoundCornersImageView avatar;
         TextView tv_nick,tv_pm;
 
 

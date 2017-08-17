@@ -114,6 +114,13 @@
         <activity
             android:name="com.example.project.limolive.activity.ProductDescriptionActivity"
             android:screenOrientation="portrait" />
+        <!--搜索页面-->
+        <activity
+            android:name="com.example.project.limolive.activity.SearchActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.example.project.limolive.activity.RankActivity"
+            android:screenOrientation="portrait" />
         <!--我的钱包-->
         <activity
             android:name="com.example.project.limolive.activity.MyWalletActivity"

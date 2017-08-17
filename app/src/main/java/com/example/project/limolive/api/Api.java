@@ -849,14 +849,65 @@ public class Api {
         ApiHttpClient.get(ApiHttpClient.API_URL + Urls.POST_GETUSER_DIAMONDS, params, handler);
     }
 
+    /**
+     * 首页最新接口
+     * @param userID
+     * @param page
+     * @param handler
+     */
     public static void newsDate(String userID,int page, AsyncHttpResponseHandler handler) {
         RequestParams params = new RequestParams();
         params.put("page", page);
         ApiHttpClient.get(ApiHttpClient.API_URL + Urls.POST_GETUSER_NEWS, params, handler);
     }
+    /**
+     * 首页最新接口
+     * @param userID
+     * @param page
+     * @param handler
+     */
+    public static void FollowDate(String userID,int page, AsyncHttpResponseHandler handler) {
+        RequestParams params = new RequestParams();
+        params.put("uid", userID);
+        params.put("page", page);
+        ApiHttpClient.get(ApiHttpClient.API_URL + Urls.POST_GETUSER_FOLLOW, params, handler);
+    }
 
+    /**
+     * 首页推荐接口
+     * @param handler
+     */
     public static void nmzt( AsyncHttpResponseHandler handler) {
         RequestParams params = new RequestParams();
         ApiHttpClient.get(ApiHttpClient.API_URL + Urls.POST_GETUSER_NMZT, params, handler);
     }
+
+    /**
+     * 总排行榜接口
+     * @param handler
+     */
+    public static void getRankings(AsyncHttpResponseHandler handler) {
+        RequestParams params = new RequestParams();
+        ApiHttpClient.get(ApiHttpClient.API_URL + Urls.POST_GETUSER_ZPHB, params, handler);
+    }
+
+    public static void search_hot(String userId,AsyncHttpResponseHandler handler) {
+        RequestParams params = new RequestParams();
+        params.put("uid",userId);
+        ApiHttpClient.get(ApiHttpClient.API_URL + Urls.POST_GETUSER_SEARCH_HOT, params, handler);
+    }
+
+    public static void search_recommend(String userId,AsyncHttpResponseHandler handler) {
+        RequestParams params = new RequestParams();
+        params.put("uid",userId);
+        ApiHttpClient.get(ApiHttpClient.API_URL + Urls.POST_GETUSER_SEARCH_RECOMMEND, params, handler);
+    }
+    public static void search(String userId,String search,AsyncHttpResponseHandler handler) {
+        RequestParams params = new RequestParams();
+        params.put("uid",userId);
+        params.put("search",search);
+        ApiHttpClient.get(ApiHttpClient.API_URL + Urls.POST_GETUSER_SEARCH, params, handler);
+    }
+
+
 }

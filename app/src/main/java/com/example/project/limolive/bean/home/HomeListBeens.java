@@ -9,9 +9,45 @@ package com.example.project.limolive.bean.home;
  * 作者：李志超 on 2016/12/14
  */
 
-public class HomeListBeen {
+public class HomeListBeens {
+
+    private String uid;
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
+    //
+    private String nickname;
+
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
+    }
 
 
+
+    public String getHeadsmall() {
+        return headsmall;
+    }
+
+    public void setHeadsmall(String headsmall) {
+        this.headsmall = headsmall;
+    }
+
+    //主播头像
+    private String headsmall;
+
+
+    //主播魅力值
+    private String charm;
     //点赞人数
     private String admireCount;
     //直播房间号码
@@ -32,16 +68,21 @@ public class HomeListBeen {
     private String juli;
     //主播信息
     private HostInformationBeen host;
+
     //位置信息
     private AdressInformationBeen lbs;
 
     //是否关注
     private String is_follow;
 
-    public HomeListBeen() {
+    public HomeListBeens() {
     }
 
-    public HomeListBeen(String admireCount, String avRoomId, String chatRoomId, String cover, String createTime, String timeSpan, String title, String watchCount, String juli, HostInformationBeen host, AdressInformationBeen lbs, String is_follow, String charm) {
+    public HomeListBeens(String uid, String nickname, String headsmall, String charm, String admireCount, String avRoomId, String chatRoomId, String cover, String createTime, String timeSpan, String title, String watchCount, String juli, HostInformationBeen host, AdressInformationBeen lbs, String is_follow) {
+        this.uid = uid;
+        this.nickname = nickname;
+        this.headsmall = headsmall;
+        this.charm = charm;
         this.admireCount = admireCount;
         this.avRoomId = avRoomId;
         this.chatRoomId = chatRoomId;
@@ -54,10 +95,7 @@ public class HomeListBeen {
         this.host = host;
         this.lbs = lbs;
         this.is_follow = is_follow;
-        this.charm = charm;
     }
-
-    private String charm;
 
     public String getCharm() {
         return charm;
@@ -165,8 +203,12 @@ public class HomeListBeen {
 
     @Override
     public String toString() {
-        return "HomeListBeen{" +
-                "admireCount='" + admireCount + '\'' +
+        return "HomeListBeens{" +
+                "uid='" + uid + '\'' +
+                ", nickname='" + nickname + '\'' +
+                ", headsmall='" + headsmall + '\'' +
+                ", charm='" + charm + '\'' +
+                ", admireCount='" + admireCount + '\'' +
                 ", avRoomId='" + avRoomId + '\'' +
                 ", chatRoomId='" + chatRoomId + '\'' +
                 ", cover='" + cover + '\'' +
@@ -178,7 +220,6 @@ public class HomeListBeen {
                 ", host=" + host +
                 ", lbs=" + lbs +
                 ", is_follow='" + is_follow + '\'' +
-                ", charm='" + charm + '\'' +
                 '}';
     }
 }

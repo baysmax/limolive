@@ -19,6 +19,7 @@
             fresco:backgroundImage="@mipmap/icon_qq_img"
             android:scaleType="centerCrop"
             />
+
         <TextView
             android:id="@+id/nick"
             android:layout_toRightOf="@id/avatar"
@@ -37,7 +38,7 @@
             android:layout_below="@id/nick"
             android:text="魅力值 "
             android:layout_marginTop="10dp"
-            android:textColor="#000"
+            android:textColor="#98000000"
             android:textSize="14dp"
             android:layout_marginLeft="5dp"
             android:layout_height="wrap_content"
@@ -77,14 +78,14 @@
         <com.example.project.limolive.view.RoundCornersImageView
             android:id="@+id/rciv_largeImgs"
             android:layout_width="match_parent"
-            android:layout_height="260dp"
-            android:layout_marginRight="14dp"
-            android:layout_marginLeft="14dp"
+            android:layout_height="315dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginLeft="15dp"
             android:layout_marginTop="6dp"
             android:scaleType="centerCrop"
             android:src="@drawable/dafault_head"/>
         <ImageView
-            android:layout_marginLeft="14dp"
+            android:layout_marginLeft="15dp"
             android:id="@+id/iv_isLives"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"

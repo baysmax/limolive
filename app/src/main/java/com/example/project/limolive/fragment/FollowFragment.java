@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,8 @@ import com.example.project.limolive.api.ApiResponse;
 import com.example.project.limolive.api.ApiResponseHandler;
 import com.example.project.limolive.bean.FollowLiveBeans;
 import com.example.project.limolive.bean.NewLiveBean;
+import com.example.project.limolive.bean.home.HomeListBeen;
+import com.example.project.limolive.bean.home.HomeListBeens;
 import com.example.project.limolive.helper.LoginManager;
 
 import java.util.ArrayList;
@@ -31,7 +34,7 @@ import static com.example.project.limolive.R.id.tl_tab_layouts;
 public class FollowFragment extends BaseFragment {
     private SwipeRefreshLayout swipeRefreshLayout;
     private RecyclerView recyclerView;
-    private List<FollowLiveBeans> newLiveList;
+    private List<HomeListBeens> newLiveList;
     private int page=1;
     private GridLayoutManager gm;
     private FollowAdapter adapter;
@@ -54,9 +57,9 @@ public class FollowFragment extends BaseFragment {
 
 
 
-        for (int i=0;i<10;i++){
-            newLiveList.add(new FollowLiveBeans("123","nick","1212","123","","",true));
-        }
+//        for (int i=0;i<10;i++){
+//            newLiveList.add(new FollowLiveBeans("123","nick","1212","123","","",true));
+//        }
     }
 
     private void setRecyclerView() {
@@ -101,12 +104,14 @@ public class FollowFragment extends BaseFragment {
 
     private void getData() {
         swipeRefreshLayout.setRefreshing(true);
-        Api.newsDate(LoginManager.getInstance().getUserID(getActivity()),page, new ApiResponseHandler(getActivity()) {
+        Api.FollowDate(LoginManager.getInstance().getUserID(getActivity()),page, new ApiResponseHandler(getActivity()) {
             @Override
             public void onSuccess(ApiResponse apiResponse) {
                 if (apiResponse.getCode()==Api.SUCCESS){
                     String data = apiResponse.getData();
-                    newLiveList.addAll(JSONArray.parseArray(data, FollowLiveBeans.class));
+                    Log.i("直播列表","data.toString()="+data.toString());
+                    newLiveList.addAll(JSONArray.parseArray(data, HomeListBeens.class));
+                    adapter.notifyDataSetChanged();
                 }
                 swipeRefreshLayout.setRefreshing(false);
             }
