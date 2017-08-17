@@ -34,6 +34,7 @@ import com.example.project.limolive.tencentlive.model.LiveMySelfInfo;
 import com.example.project.limolive.tencentlive.utils.Constants;
 import com.example.project.limolive.tencentlive.views.LiveingActivity;
 import com.example.project.limolive.utils.ToastUtils;
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.ArrayList;
@@ -185,7 +186,7 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
 
         @Override
         public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-            HomeListBeen homeListBeen = resou.get(position);
+            final HomeListBeen homeListBeen = resou.get(position);
             ResouHolder holder1 = (ResouHolder) holder;
             holder1.tv_username.setText(homeListBeen.getHost().getUsername());
             switch (position) {
@@ -206,6 +207,37 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
             holder1.tv_username.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    if (homeListBeen.getHost().getUid().equals(LiveMySelfInfo.getInstance().getId())) {
+                        Intent intent = new Intent(context, LiveingActivity.class);
+                        intent.putExtra(Constants.ID_STATUS, Constants.HOST);
+                        LiveMySelfInfo.getInstance().setIdStatus(Constants.HOST);
+                        LiveMySelfInfo.getInstance().setJoinRoomWay(false);
+                        CurLiveInfo.setHostID(homeListBeen.getHost().getUid());
+                        CurLiveInfo.setHostName(homeListBeen.getHost().getUsername());
+                        CurLiveInfo.setHostAvator(homeListBeen.getHost().getAvatar());
+                        CurLiveInfo.setHost_phone(homeListBeen.getHost().getPhone());
+                        CurLiveInfo.setRoomNum(homeListBeen.getAvRoomId());
+                        CurLiveInfo.setMembers(Integer.parseInt(homeListBeen.getWatchCount()) + 1); // 添加自己
+                        CurLiveInfo.setAdmires(Integer.parseInt(homeListBeen.getAdmireCount()));
+                        CurLiveInfo.setAddress(homeListBeen.getLbs().getAddress());
+                        CurLiveInfo.setTitle(homeListBeen.getTitle());
+                        startActivity(intent);
+                    } else {
+                        Intent intent = new Intent(context, LiveingActivity.class);
+                        intent.putExtra(Constants.ID_STATUS, Constants.MEMBER);
+                        LiveMySelfInfo.getInstance().setIdStatus(Constants.MEMBER);
+                        LiveMySelfInfo.getInstance().setJoinRoomWay(false);
+                        CurLiveInfo.setHostID(homeListBeen.getHost().getUid());
+                        CurLiveInfo.setHostName(homeListBeen.getHost().getUsername());
+                        CurLiveInfo.setHostAvator(homeListBeen.getHost().getAvatar());
+                        CurLiveInfo.setRoomNum(homeListBeen.getAvRoomId());
+                        CurLiveInfo.setHost_phone(homeListBeen.getHost().getPhone());
+                        CurLiveInfo.setMembers(Integer.parseInt(homeListBeen.getWatchCount()) + 1); // 添加自己
+                        CurLiveInfo.setAdmires(Integer.parseInt(homeListBeen.getAdmireCount()));
+                        CurLiveInfo.setAddress(homeListBeen.getLbs().getAddress());
+                        CurLiveInfo.setTitle(homeListBeen.getTitle());
+                        startActivity(intent);
+                    }
                     //跳转直播间
                 }
             });
@@ -243,12 +275,43 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
 
         @Override
         public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-            HomeListBeen homeListBeen = resou.get(position);
+            final HomeListBeen homeListBeen = resou.get(position);
             ResouHolder holder1 = (ResouHolder) holder;
             holder1.tv_resou_names.setText(homeListBeen.getHost().getUsername());
             holder1.tv_resou_names.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    if (homeListBeen.getHost().getUid().equals(LiveMySelfInfo.getInstance().getId())) {
+                        Intent intent = new Intent(context, LiveingActivity.class);
+                        intent.putExtra(Constants.ID_STATUS, Constants.HOST);
+                        LiveMySelfInfo.getInstance().setIdStatus(Constants.HOST);
+                        LiveMySelfInfo.getInstance().setJoinRoomWay(false);
+                        CurLiveInfo.setHostID(homeListBeen.getHost().getUid());
+                        CurLiveInfo.setHostName(homeListBeen.getHost().getUsername());
+                        CurLiveInfo.setHostAvator(homeListBeen.getHost().getAvatar());
+                        CurLiveInfo.setHost_phone(homeListBeen.getHost().getPhone());
+                        CurLiveInfo.setRoomNum(homeListBeen.getAvRoomId());
+                        CurLiveInfo.setMembers(Integer.parseInt(homeListBeen.getWatchCount()) + 1); // 添加自己
+                        CurLiveInfo.setAdmires(Integer.parseInt(homeListBeen.getAdmireCount()));
+                        CurLiveInfo.setAddress(homeListBeen.getLbs().getAddress());
+                        CurLiveInfo.setTitle(homeListBeen.getTitle());
+                        startActivity(intent);
+                    } else {
+                        Intent intent = new Intent(context, LiveingActivity.class);
+                        intent.putExtra(Constants.ID_STATUS, Constants.MEMBER);
+                        LiveMySelfInfo.getInstance().setIdStatus(Constants.MEMBER);
+                        LiveMySelfInfo.getInstance().setJoinRoomWay(false);
+                        CurLiveInfo.setHostID(homeListBeen.getHost().getUid());
+                        CurLiveInfo.setHostName(homeListBeen.getHost().getUsername());
+                        CurLiveInfo.setHostAvator(homeListBeen.getHost().getAvatar());
+                        CurLiveInfo.setRoomNum(homeListBeen.getAvRoomId());
+                        CurLiveInfo.setHost_phone(homeListBeen.getHost().getPhone());
+                        CurLiveInfo.setMembers(Integer.parseInt(homeListBeen.getWatchCount()) + 1); // 添加自己
+                        CurLiveInfo.setAdmires(Integer.parseInt(homeListBeen.getAdmireCount()));
+                        CurLiveInfo.setAddress(homeListBeen.getLbs().getAddress());
+                        CurLiveInfo.setTitle(homeListBeen.getTitle());
+                        startActivity(intent);
+                    }
                     //跳转直播间
                 }
             });
@@ -292,10 +355,10 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
             holder1.tv_nick.setText(homeListBeen.getHost().getUsername());
             holder1.num.setText(homeListBeen.getWatchCount());
 
-            if (homeListBeen.getCover().contains("http://")){
-                ImageLoader.getInstance().displayImage(homeListBeen.getCover(),holder1.largeImgs);
+            if (homeListBeen.getHost().getAvatar().contains("http://")){
+                holder1.avatar.setImageURI(homeListBeen.getHost().getAvatar());
             }else {
-                ImageLoader.getInstance().displayImage(ApiHttpClient.API_PIC+homeListBeen.getCover(),holder1.largeImgs);
+                holder1.avatar.setImageURI(ApiHttpClient.API_PIC+homeListBeen.getHost().getAvatar());
             }
 
             if (homeListBeen.getCover().contains("http://")){
@@ -307,7 +370,7 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
 
             holder1.iv_follow.setVisibility(View.GONE);
             holder1.num.setVisibility(View.GONE);
-            holder1.tv_mlz.setVisibility(View.GONE);
+            holder1.tv_mlz.setText("魅力值 "+homeListBeen.getCharm());
 
             holder1.iv_follow.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -361,7 +424,7 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
 
         private class SearchHolder extends RecyclerView.ViewHolder {
             ImageView isLive, iv_follow;
-            ImageView avatar;
+            SimpleDraweeView avatar;
             ImageView largeImgs;
             TextView tv_nick, tv_mlz, num;
 
