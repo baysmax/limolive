@@ -17,6 +17,7 @@ import com.bumptech.glide.RequestManager;
 import com.example.project.limolive.R;
 import com.example.project.limolive.api.ApiHttpClient;
 import com.example.project.limolive.tencentim.model.FriendInfoBean;
+import com.example.project.limolive.tencentim.widget.CircleImageView;
 
 import java.util.List;
 
@@ -67,7 +68,7 @@ public class BMJLetterListAdapter extends BaseAdapter {
             convertView = mInflater.inflate(R.layout.item_bmj_letter_list, arg2, false);
             myViewHolder.letterText = (TextView) convertView.findViewById(R.id.bmj_tv_letter);
             myViewHolder.contentText = (TextView) convertView.findViewById(R.id.bmj_tv_content);
-            myViewHolder.iv_head_icon = (ImageView) convertView.findViewById(R.id.iv_head_icon);
+            myViewHolder.iv_head_icon = (CircleImageView) convertView.findViewById(R.id.iv_head_icon);
 
             convertView.setTag(myViewHolder);
         } else {
@@ -96,7 +97,7 @@ public class BMJLetterListAdapter extends BaseAdapter {
 
     private class MyViewHolder {
         private TextView letterText;
-        private ImageView iv_head_icon;
+        private CircleImageView iv_head_icon;
         private TextView contentText;
 
     }

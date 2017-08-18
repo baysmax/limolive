@@ -20,14 +20,13 @@
         android:layout_width="match_parent"
         android:layout_height="58dp"
         android:padding="5dp">
-
-        <ImageView
+        <com.example.project.limolive.tencentim.widget.CircleImageView
             android:id="@+id/iv_head_icon"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_alignParentLeft="true"
             android:layout_marginLeft="5dp"
-            android:src="@mipmap/icon_login_head" />
+            android:src="@mipmap/icon_login_head"  />
 
         <TextView
             android:id="@+id/bmj_tv_content"
