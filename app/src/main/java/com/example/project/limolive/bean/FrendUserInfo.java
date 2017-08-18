@@ -27,6 +27,22 @@ public class FrendUserInfo {
         this.follows = follows;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof FrendUserInfo)) return false;
+
+        FrendUserInfo that = (FrendUserInfo) o;
+
+        return phone != null ? phone.equals(that.phone) : that.phone == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        return phone != null ? phone.hashCode() : 0;
+    }
+
     public FrendUserInfo() {
     }
 

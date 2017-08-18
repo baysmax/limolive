@@ -1,6 +1,7 @@
 package com.example.project.limolive.tencentim.model;
 
 import android.content.Context;
+import android.content.Intent;
 
 import com.tencent.TIMConversationType;
 
@@ -48,6 +49,13 @@ public abstract class Conversation implements Comparable {
      * @param context 跳转上下文
      */
     abstract public void navToDetail(Context context);
+
+    /**
+     * 跳转到聊天界面或会话详情
+     *
+     * @param context 跳转上下文
+     */
+    abstract public void navToDetail(Context context,Intent intent);
 
     /**
      * 获取最后一条消息摘要

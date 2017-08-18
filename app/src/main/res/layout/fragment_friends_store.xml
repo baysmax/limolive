@@ -5,7 +5,7 @@
     android:background="@color/color_F4F3FB"
     android:orientation="vertical">
 
-    <include layout="@layout/standard_title_bar" />
+    <!--<include layout="@layout/standard_title_bar" />-->
 
 
     <RelativeLayout

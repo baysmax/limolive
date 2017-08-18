@@ -1,6 +1,7 @@
 package com.example.project.limolive.tencentim.model;
 
 import android.content.Context;
+import android.content.Intent;
 
 import com.example.project.limolive.LiveMallApplication;
 import com.example.project.limolive.R;
@@ -45,14 +46,19 @@ public class NomalConversation extends Conversation {
         return 0;
     }
 
+    @Override
+    public void navToDetail(Context context) {
+        ChatActivity.navToChat(context,identify,type);
+    }
+
     /**
      * 跳转到聊天界面或会话详情
      *
      * @param context 跳转上下文
      */
     @Override
-    public void navToDetail(Context context) {
-        ChatActivity.navToChat(context,identify,type);
+    public void navToDetail(Context context,Intent intent) {
+        ChatActivity.navToChat(context,identify,type,intent);
     }
 
     /**

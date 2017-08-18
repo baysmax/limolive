@@ -30,6 +30,10 @@ public class FriendInfoBean implements Serializable{
 
     private String letter = ""; //字母，转为拼音后在这里添加
 
+    public FriendInfoBean(String phone) {
+        this.phone = phone;
+    }
+
     public FriendInfoBean() {
     }
 
@@ -56,6 +60,22 @@ public class FriendInfoBean implements Serializable{
         this.love_status = love_status;
         this.store_name = store_name;
         this.letter = letter;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof FriendInfoBean)) return false;
+
+        FriendInfoBean that = (FriendInfoBean) o;
+
+        return phone != null ? phone.equals(that.phone) : that.phone == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        return phone != null ? phone.hashCode() : 0;
     }
 
     public String getLetter() {

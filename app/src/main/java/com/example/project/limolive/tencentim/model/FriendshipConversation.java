@@ -66,6 +66,15 @@ public class FriendshipConversation extends Conversation {
         context.startActivity(intent);
     }
 
+    @Override
+    public void navToDetail(Context context, Intent intent) {
+        if (intent==null){
+            intent = new Intent(context, FriendshipManageMessageActivity.class);
+            context.startActivity(intent);
+        }
+
+    }
+
     /**
      * 获取最后一条消息摘要
      */

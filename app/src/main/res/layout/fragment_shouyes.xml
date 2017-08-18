@@ -27,40 +27,6 @@
             app:tabIndicatorHeight="@dimen/line_width5"
             app:tabMode="scrollable"
             />
-        <LinearLayout
-            android:visibility="gone"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/tv_follow"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:textSize="17dp"
-                android:text="关注" />
-
-            <TextView
-                android:id="@+id/tv_recommend"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:textSize="17dp"
-                android:text="推荐" />
-
-            <TextView
-                android:id="@+id/tv_new"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:textSize="17dp"
-                android:text="最新" />
-        </LinearLayout>
 
         <ImageView
             android:id="@+id/iv_search"

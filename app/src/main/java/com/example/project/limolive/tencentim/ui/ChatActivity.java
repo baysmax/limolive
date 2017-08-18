@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -72,11 +73,22 @@ public class ChatActivity extends BaseActivity implements ChatView {
     private String headsmall;
     private Handler handler = new Handler();
     private FriendInfoBean friendInfoBeen;
+    public static void navToChat(Context context, String identify, TIMConversationType type,Intent intent) {
+        if (intent==null){
+            intent = new Intent(context, ChatActivity.class);
+            intent.putExtra("identify", identify);
+            intent.putExtra("type", type);
+            context.startActivity(intent);
+        }else {
+            context.startActivity(intent);
+        }
+    }
     public static void navToChat(Context context, String identify, TIMConversationType type) {
-        Intent intent = new Intent(context, ChatActivity.class);
-        intent.putExtra("identify", identify);
-        intent.putExtra("type", type);
-        context.startActivity(intent);
+            Intent intent = new Intent(context, ChatActivity.class);
+            intent.putExtra("identify", identify);
+            intent.putExtra("type", type);
+            context.startActivity(intent);
+
     }
 
 
@@ -92,13 +104,22 @@ public class ChatActivity extends BaseActivity implements ChatView {
         identify = getIntent().getStringExtra("identify");
         type = (TIMConversationType) getIntent().getSerializableExtra("type");
         name = getIntent().getStringExtra("name");
+        Log.i("会话","identify="+identify);
+        Log.i("会话","type="+type);
+        Log.i("会话","name="+name);
         headsmall = getIntent().getStringExtra("headsmall");
         friendInfoBeen = (FriendInfoBean) getIntent().getExtras().getSerializable("friendInfoBeen");
 
         presenter = new ChatPresenter(this, identify, type);
         input = (MyChatInput) findViewById(R.id.input_panel);
         input.setChatView(this);
-        adapter = new ChatAdapter(this, R.layout.item_message, messageList,headsmall);
+        String headsmalls="";
+        if (friendInfoBeen!=null){
+            Log.i("会话","friendInfoBeen="+friendInfoBeen.toString());
+            headsmalls  = friendInfoBeen.getHeadsmall();
+
+        }
+        adapter = new ChatAdapter(this, R.layout.item_message, messageList,headsmalls);
         listView = (ListView) findViewById(R.id.list);
         listView.setAdapter(adapter);
         listView.setTranscriptMode(ListView.TRANSCRIPT_MODE_NORMAL);

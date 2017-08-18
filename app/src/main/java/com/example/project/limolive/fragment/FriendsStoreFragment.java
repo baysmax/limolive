@@ -64,33 +64,20 @@ public class FriendsStoreFragment extends BaseFragment implements SideBar.OnTouc
     private AutoSwipeRefreshLayout swipe_refresh_tool;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+                             Bundle savedInstanceStates) {
         return setContentView(R.layout.fragment_friends_store, inflater, container);
     }
 
     @Override
     protected void initView() {
         super.initView();
-        loadTitle();
         bmj_lv_letter = (ListView) findViewById(R.id.bmj_lv_letter);
-        View header = ViewGroup.inflate(getActivity(), R.layout.friends_store_header, null);
-        bmj_lv_letter.addHeaderView(header);
         bmj_letter_letter_tip = (TextView) findViewById(R.id.bmj_letter_letter_tip);
         bmj_letter_sidebar = (SideBar) findViewById(R.id.bmj_letter_sidebar);
-        ll_liveOne = (LinearLayout) header.findViewById(R.id.ll_liveOne);
-        ll_liveTwo = (LinearLayout) header.findViewById(R.id.ll_liveTwo);
-        draweview01 = (SimpleDraweeView) header.findViewById(R.id.draweview01);
-        draweview02 = (SimpleDraweeView) header.findViewById(R.id.draweview02);
-        ll_click_more = (LinearLayout) header.findViewById(R.id.ll_click_more);
-        ll_search = (LinearLayout) header.findViewById(R.id.ll_search);//搜索框
         swipe_refresh_tool = (AutoSwipeRefreshLayout) findViewById(R.id.swipe_refresh_tool);
         swipe_refresh_tool.autoRefresh();
-        sy_query = (EditText) header.findViewById(R.id.sy_query);//搜索框edittext
-        tv_01 = (TextView) header.findViewById(R.id.tv_01);
-        tv_02 = (TextView) header.findViewById(R.id.tv_02);
         bmj_letter_sidebar.setTextView(bmj_letter_letter_tip);
         bmj_letter_sidebar.setOnTouchLetterChangedListener(this);
-        BindEvent();
         initData();
         swipe_refresh_tool.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -123,7 +110,6 @@ public class FriendsStoreFragment extends BaseFragment implements SideBar.OnTouc
 
     private void initData() {
         getFriendLists();
-        getLiveLists(null, 1);
         be_Liveing_Beans = new ArrayList<>();
         friendInfoBeens = new ArrayList<>();
         mAdapter = new BMJLetterListAdapter(getActivity(), friendInfoBeens);
@@ -133,7 +119,7 @@ public class FriendsStoreFragment extends BaseFragment implements SideBar.OnTouc
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent();
                 Bundle bundle = new Bundle();
-                bundle.putSerializable("friendInfoBeen", friendInfoBeens.get(position-1));
+                bundle.putSerializable("friendInfoBeen", friendInfoBeens.get(position));
                 intent.putExtras(bundle);
                 intent.setClass(getActivity(), FrendInfoActivity.class);
                 getActivity().startActivity(intent);
