@@ -155,8 +155,10 @@ public class ChatActivity extends BaseActivity implements ChatView {
         // TemplateTitle title = (TemplateTitle) findViewById(R.id.chat_title);
         switch (type) {
             case C2C:
-                setLeftImage(R.mipmap.icon_return);
-                  //  setRightImage(R.drawable.btn_person);
+                setLeftImage(R.drawable.fanhuihei);
+                setTitleString(name,18,R.color.black);
+                setBackgroundColor(0xfff);
+                   //setRightImage(R.drawable.btn_person);
                     setLeftRegionListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -166,7 +168,10 @@ public class ChatActivity extends BaseActivity implements ChatView {
                     if (FriendshipInfo.getInstance().isFriend(identify)) {
                         FriendProfile profile = FriendshipInfo.getInstance().getProfile(identify);
                         // setTitleString(titleStr = profile == null ? identify  :profile.getName());
-                        setTitleString(name);
+                        setTitleString(name,18,R.color.black);
+                        setBackgroundColor(0xfff);
+
+
                      /*   setRightRegionListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
