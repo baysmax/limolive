@@ -130,6 +130,10 @@
         <activity
             android:name="com.example.project.limolive.activity.ProductSortActivity"
             android:screenOrientation="portrait" />
+        <!--宝贝分类-->
+        <activity
+            android:name=".tencentim.ui.ImageViewActivity"
+            android:screenOrientation="portrait" />
         <!--主播的排行榜-->
         <activity android:name="com.example.project.limolive.activity.RanksActivity"
             android:screenOrientation="portrait"/>
