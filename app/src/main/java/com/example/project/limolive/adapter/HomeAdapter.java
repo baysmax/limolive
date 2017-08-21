@@ -64,6 +64,7 @@ public class HomeAdapter extends BaseAdapter {
             viewHolder = new ViewHolder();
             viewHolder.draweview = (RoundCornersImageView) convertView.findViewById(draweview);
             viewHolder.tv_home_grad_item = (TextView) convertView.findViewById(R.id.tv_home_grad_item);
+            viewHolder.tv_numbers = (TextView) convertView.findViewById(R.id.tv_numbers);
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
@@ -80,6 +81,7 @@ public class HomeAdapter extends BaseAdapter {
                 viewHolder.draweview.setBackgroundResource(R.mipmap.head2);
             }
             viewHolder.tv_home_grad_item.setText(data.get(position).getTitle());
+            viewHolder.tv_numbers.setText(data.get(position).getWatchCount());
         }
 
         return convertView;
@@ -88,6 +90,7 @@ public class HomeAdapter extends BaseAdapter {
     private class ViewHolder {
         RoundCornersImageView draweview;
         TextView tv_home_grad_item;
+        TextView tv_numbers;
     }
 
 }

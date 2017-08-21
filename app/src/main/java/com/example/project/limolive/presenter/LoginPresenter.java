@@ -339,6 +339,7 @@ public class LoginPresenter extends Presenter {
                     LoginManager.getInstance().setUserID(context, jsonObject.getString("uid"));
                     LiveMySelfInfo.getInstance().setNickName(jsonObject.getString("nickname"));
                     LiveMySelfInfo.getInstance().setAvatar(jsonObject.getString("avatar"));
+                    LiveMySelfInfo.getInstance().setUser_robot(jsonObject.getString("user_robot"));
                     cashData(localJson);
                     getUserSig(phone);
 

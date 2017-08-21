@@ -18,6 +18,7 @@ public class LiveMySelfInfo {
     private String avatar;      // 头像
     private String sign;      // 签名
     private String CosSig;
+    private String user_robot;//购买机器人数量
     private static boolean isCreateRoom = false;
 
     private boolean bLiveAnimator;  // 渐隐动画
@@ -33,6 +34,14 @@ public class LiveMySelfInfo {
     public static LiveMySelfInfo getInstance() {
 
         return ourInstance;
+    }
+
+    public String getUser_robot() {
+        return user_robot;
+    }
+
+    public void setUser_robot(String user_robot) {
+        this.user_robot = user_robot;
     }
 
     public String getPhone() {

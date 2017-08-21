@@ -24,6 +24,16 @@ public class ThridLogin {
     private String openid;
     private String create_time;
 
+    public String getUser_robot() {
+        return user_robot;
+    }
+
+    public void setUser_robot(String user_robot) {
+        this.user_robot = user_robot;
+    }
+
+    private String user_robot;
+
     public String getUid() {
         return uid;
     }
@@ -189,6 +199,7 @@ public class ThridLogin {
                 ", login_type='" + login_type + '\'' +
                 ", openid='" + openid + '\'' +
                 ", create_time='" + create_time + '\'' +
+                ", user_robot='" + user_robot + '\'' +
                 '}';
     }
 }

@@ -270,6 +270,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                         Log.i("第三方登录","直接登录"+"LoginActivity..."+thridLogin.getPhone());
 
                    //     JSONObject jsonObject = JSON.parseObject(apiResponse.getData());
+                        LiveMySelfInfo.getInstance().setUser_robot(thridLogin.getUser_robot());
                         LiveMySelfInfo.getInstance().setPhone(thridLogin.getPhone());
                         LiveMySelfInfo.getInstance().setId(thridLogin.getUid());
                         LoginManager.getInstance().setUserID(LoginActivity.this,thridLogin.getUid());
