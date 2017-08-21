@@ -18,7 +18,8 @@
     <TextView
         android:id="@+id/title"
         android:textColor="@color/colorTextWhite"
-        android:textSize="@dimen/h12"
+        android:textSize="@dimen/h8"
+        android:text="贡献吧"
         android:layout_centerHorizontal="true"
         android:gravity="center_vertical"
         android:layout_width="wrap_content"
