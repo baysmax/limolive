@@ -472,6 +472,20 @@ public class Api {
         params.put("group_id", group_id);
         ApiHttpClient.get(ApiHttpClient.API_URL + Urls.GROUPMEMBER_LISTINFO, params, handler);
     }
+    /**
+     * 获取直播间用户列表
+     */
+    public static void groupMemberInfo(String uid, String group_id,String page,String rebot_fl, AsyncHttpResponseHandler handler) {
+        RequestParams params = new RequestParams();
+        params.put("uid", uid);
+        params.put("group_id", group_id);
+
+
+        params.put("page", page);
+        params.put("rebot_fl", rebot_fl);
+        Log.i("ApiHttpClient",",uid="+uid+",group_id="+group_id+",page="+page+",rebot_fl="+rebot_fl);
+        ApiHttpClient.get(ApiHttpClient.API_URL + Urls.GROUPMEMBER_LISTINFOS, params, handler);
+    }
 
     /**
      * 直播 关注 取消关注

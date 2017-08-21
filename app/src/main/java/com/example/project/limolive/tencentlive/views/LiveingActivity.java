@@ -68,6 +68,7 @@ import com.example.project.limolive.api.ApiHttpClient;
 import com.example.project.limolive.api.ApiResponse;
 import com.example.project.limolive.api.ApiResponseHandler;
 import com.example.project.limolive.bean.SystemMsgBean;
+import com.example.project.limolive.bean.live.LivesInfoBean;
 import com.example.project.limolive.bean.mine.BlackListBean;
 import com.example.project.limolive.helper.LoginManager;
 import com.example.project.limolive.model.LoginModel;
@@ -2173,15 +2174,19 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
         } else {
             Log.i("成员列表", CurLiveInfo.getChatRoomId().toString());
             Log.i("成员列表", CurLiveInfo.getHostID());
-            Api.groupMemberInfo(LoginManager.getInstance().getUserID(this), CurLiveInfo.getChatRoomId(), new ApiResponseHandler(this) {
+            Api.groupMemberInfo(LoginManager.getInstance().getUserID(this), CurLiveInfo.getChatRoomId(),"1","1", new ApiResponseHandler(this) {
                 @Override
                 public void onSuccess(ApiResponse apiResponse) {
                     Log.i("成员列表", apiResponse.toString());
                     if (apiResponse.getCode() == Api.SUCCESS) {
-                        List<AvMemberInfo> list = JSON.parseArray(apiResponse.getData(), AvMemberInfo.class);
+                        String data = apiResponse.getData();
+                        Log.i("直播","data="+data.toString());
+
+                        LivesInfoBean livesInfoBean = JSON.parseObject(data, LivesInfoBean.class);
+                        List<AvMemberInfo> list = livesInfoBean.getLives();
                         avMemberInfos.clear();
                         avMemberInfos.addAll(list);
-                        Log.i("Main","Menbers="+CurLiveInfo.getAdmires()+",avMemberInfos="+avMemberInfos);
+                        Log.i("Main","Menbers="+CurLiveInfo.getAdmires()+",avMemberInfos="+avMemberInfos.size()+"list="+list.size());
                         CurLiveInfo.setMembers(avMemberInfos.size()+CurLiveInfo.getAdmires());
                         tvMembers.setText(CurLiveInfo.getMembers()+"在线");
                     } else {

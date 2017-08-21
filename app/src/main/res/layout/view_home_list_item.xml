@@ -32,17 +32,18 @@
                 android:layout_marginRight="15dp"
                 android:background="@drawable/text_bg1"
                 android:gravity="center">
+
                 <TextView
-                    android:paddingLeft="3dp"
-                    android:paddingRight="3dp"
                     android:id="@+id/tv_numbers"
-                    android:text=" 2536123"
-                    android:textSize="11dp"
-                    android:gravity="center"
-                    android:textColor="#fff"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:drawableLeft="@drawable/yz"/>
+                    android:drawableLeft="@drawable/yz"
+                    android:gravity="center"
+                    android:paddingLeft="3dp"
+                    android:paddingRight="3dp"
+                    android:text=" 2536123"
+                    android:textColor="#fff"
+                    android:textSize="11dp" />
             </LinearLayout>
 
 

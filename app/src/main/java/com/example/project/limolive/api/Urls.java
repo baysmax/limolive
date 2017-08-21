@@ -61,6 +61,7 @@ public class Urls {
     public static final String RECHARGE = "/appapi/Cart/recharge";  //柠檬订单生成
     public static final String GOOS_ORDER2 = "/appapi/Cart/goods_order2";  // 商品详情确认订单和提交订单
     public static final String GROUPMEMBER_LISTINFO ="/appapi/ucenter/group_member_info";  //获取直播间用户列表
+    public static final String GROUPMEMBER_LISTINFOS ="/Appapi/ucenter/group_member_info";  //获取直播间用户列表
     public static final String FOLLOWHANDLE ="/appapi/ucenter/followHandle";  //关注 取消关注
     public static final String NEARLIVE ="appapi/Ucenter/nearlive";  //附近的直播
     public static final String ADDFRIEND ="/appapi/Ucenter/add_friend";  //加好友

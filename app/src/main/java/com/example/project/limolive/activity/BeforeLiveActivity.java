@@ -1,19 +1,24 @@
 package com.example.project.limolive.activity;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.hardware.Camera;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.MotionEvent;
+import android.view.SurfaceHolder;
+import android.view.SurfaceView;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -45,6 +50,7 @@ import com.tencent.av.sdk.AVContext;
 import com.tencent.ilivesdk.ILiveSDK;
 import com.tencent.ilivesdk.core.ILiveRoomManager;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,7 +58,7 @@ import java.util.List;
  * 作者：hpg on 2016/12/23 10:57
  * 功能：
  */
-public class BeforeLiveActivity extends BaseActivity implements View.OnClickListener, SelectFenleiiPopupWindow.ChangeText {
+public class BeforeLiveActivity extends Activity implements  SurfaceHolder.Callback ,View.OnClickListener, SelectFenleiiPopupWindow.ChangeText {
 
     private boolean bPermission = false;
     private RelativeLayout rl_selectFenlei, rl_addLocation;
@@ -71,11 +77,39 @@ public class BeforeLiveActivity extends BaseActivity implements View.OnClickList
     private int selectPositon;
     private CustomProgressDialog mProgressDialog;
 
+
+    private ImageView back, position;//返回和切换前后置摄像头
+    private SurfaceView surface;
+    private SurfaceHolder holder;
+    private Camera camera;//声明相机
+    private String filepath = "";//照片保存路径
+    private int cameraPosition = 1;//0代表前置摄像头，1代表后置摄像头
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);//设置全屏
+
         super.onCreate(savedInstanceState);
+
+//        ActionBar actionBar = getSupportActionBar();
+//        if (actionBar != null) {
+//            actionBar.hide();
+//        }
+        //requestWindowFeature(Window.FEATURE_NO_TITLE);//没有标题
+
+
+
         sp = SPUtil.getInstance(this);
         setContentView(R.layout.fragment_alive);
+
+        surface= (SurfaceView) findViewById(R.id.surface);
+        surface.setSystemUiVisibility(View.INVISIBLE);
+        holder = surface.getHolder();//获得句柄
+        holder.addCallback(this);//添加回调
+        holder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);//surfaceview不维护自己的缓冲区，等待屏幕渲染引擎将内容推送到用户面前
+
         SharedPreferences pref = getSharedPreferences("data", MODE_PRIVATE);
         boolean living = pref.getBoolean("living", false);
         Log.i("打印版本", "ssss" + AVContext.getVersion());
@@ -129,8 +163,8 @@ public class BeforeLiveActivity extends BaseActivity implements View.OnClickList
     }
 
     protected void initView() {
-        setStatusBarbg(R.drawable.livebg_up);
-        title_bar_standard = (LiveMallTitleBar) findViewById(R.id.title_bar_standard);
+        //setStatusBarbg(R.drawable.status_bar);
+        //title_bar_standard = (LiveMallTitleBar) findViewById(R.id.title_bar_standard);
         iv_out = (ImageView) findViewById(R.id.iv_out);
         et_live_tittle = (EditText) findViewById(R.id.et_live_tittle);
         iv_fenlei = (ImageView) findViewById(R.id.iv_fenlei);
@@ -289,7 +323,7 @@ public class BeforeLiveActivity extends BaseActivity implements View.OnClickList
                     AllcatgoryBeans.clear();
                     AllcatgoryBeans.addAll(list);
                     Log.i("所有分类", AllcatgoryBeans.toString());
-                    hideProgressDialog();
+                    //hideProgressDialog();
                 }
             }
 
@@ -297,7 +331,7 @@ public class BeforeLiveActivity extends BaseActivity implements View.OnClickList
             public void onFailure(String errMessage) {
                 super.onFailure(errMessage);
                 ToastUtils.showCustom(BeforeLiveActivity.this, errMessage, Toast.LENGTH_SHORT);
-                hideProgressDialog();
+                //hideProgressDialog();
             }
         });
     }
@@ -358,4 +392,63 @@ public class BeforeLiveActivity extends BaseActivity implements View.OnClickList
         return false;
     }
 
+    @Override
+    public void surfaceCreated(SurfaceHolder surfaceHolder) {
+
+    }
+
+    @Override
+    public void surfaceChanged(SurfaceHolder surfaceHolder, int i, int i1, int i2) {
+        if(camera == null) {
+            camera = Camera.open();
+            initCaera();
+                try {
+                camera.setPreviewDisplay(holder);//通过surfaceview显示取景画面
+                camera.startPreview();//开始预览
+
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void initCaera() {
+        //切换前后摄像头
+        int cameraCount = 0;
+        Camera.CameraInfo cameraInfo = new Camera.CameraInfo();
+        cameraCount = Camera.getNumberOfCameras();//得到摄像头的个数
+
+        for(int i21 = 0; i21 < cameraCount; i21++   ) {
+            Camera.getCameraInfo(i21, cameraInfo);//得到每一个摄像头的信息
+            if (cameraPosition == 1) {
+                //现在是后置，变更为前置
+                if (cameraInfo.facing == Camera.CameraInfo.CAMERA_FACING_FRONT) {//代表摄像头的方位，CAMERA_FACING_FRONT前置      CAMERA_FACING_BACK后置
+                    camera.stopPreview();//停掉原来摄像头的预览
+                    camera.release();//释放资源
+                    camera = null;//取消原来摄像头
+                    camera = Camera.open(i21);//打开当前选中的摄像头
+                    try {
+                        camera.setPreviewDisplay(holder);//通过surfaceview显示取景画面
+                    } catch (IOException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
+                    camera.setDisplayOrientation(90);//旋转90度
+                    camera.startPreview();//开始预览
+                    cameraPosition = 0;
+                    break;
+                }
+            }
+        }
+    }
+
+    @Override
+    public void surfaceDestroyed(SurfaceHolder surfaceHolder) {
+        camera.stopPreview();
+        camera.release();
+        camera = null;
+        holder = null;
+        surface = null;
+    }
 }
