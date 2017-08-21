@@ -66,7 +66,7 @@ public class FindGoodsFragment extends BaseFragment {
         if (mProgressDialog.isShowing()) {
             mProgressDialog.dismiss();
         }
-        loadTitle();
+        //loadTitle();
         rb_baokuan = new ArrayList<>();
         rb_goods = new ArrayList<>();
         lv_all = (MyListview) findViewById(R.id.lv_all);

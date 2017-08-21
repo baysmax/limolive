@@ -40,6 +40,7 @@
     <color name="text_color2">#000000</color>
     <color name="text_color3">#c8454545</color>
     <color name="text_color4">#807e7e</color>
+    <color name="text_color5">#ff3d3d</color>
     <!--white backgroud-->
     <color name="background1">#F4F3FB</color>
     <color name="background2">#FFFFFF</color>
@@ -96,6 +97,7 @@
     <color name="line_btn">#BBBBBB</color>
     <color name="text_gray1">#777777</color>
     <color name="text_gray2">#767676</color>
+    <color name="text_gray3">#202020</color>
     <color name="text_blue1">#1173CB</color>
     <color name="text_blue2">#1173CA</color>
     <color name="panel_black">#25272A</color>

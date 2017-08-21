@@ -2,10 +2,181 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="mall"/>
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/srl_down_mall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="25dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="15dp"
+                android:gravity="center_vertical">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:src="@drawable/shouyedianzhui"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="10dp"
+                    android:gravity="center"
+                    android:text="爆款推荐"
+                    android:textColor="@color/color_87555555"
+                    android:textSize="16sp" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="175dp"
+                android:orientation="horizontal">
+                <View
+                    android:layout_width="15dp"
+                    android:layout_height="match_parent"/>
+                <LinearLayout
+                    android:id="@+id/ll_shops1"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:layout_height="match_parent">
+                    <ImageView
+                        android:id="@+id/iv_shops1"
+                        android:layout_width="match_parent"
+                        android:layout_height="130dp"
+                        android:src="@drawable/dafault_head"/>
+                    <TextView
+                        android:gravity="center_vertical"
+                        android:paddingLeft="5dp"
+                        android:id="@+id/tv_shop_names1"
+                        android:layout_width="match_parent"
+                        android:layout_height="25dp"
+                        android:textSize="16dp"
+                        android:textColor="@color/text_gray3"
+                        android:text="毛衣"/>
+                    <TextView
+                        android:paddingLeft="5dp"
+                        android:id="@+id/tv_Price1"
+                        android:layout_width="match_parent"
+                        android:gravity="center_vertical"
+                        android:textColor="@color/text_color5"
+                        android:text="￥100"
+                        android:layout_height="20dp" />
+
+                </LinearLayout>
+                <View
+                    android:layout_width="15dp"
+                    android:layout_height="match_parent"/>
+                <LinearLayout
+                    android:id="@+id/ll_shops2"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:layout_height="match_parent">
+                    <ImageView
+                        android:id="@+id/iv_shops2"
+                        android:layout_width="match_parent"
+                        android:layout_height="130dp"
+                        android:src="@drawable/dafault_head"/>
+                    <TextView
+                        android:gravity="center_vertical"
+                        android:paddingLeft="5dp"
+                        android:id="@+id/tv_shop_names2"
+                        android:layout_width="match_parent"
+                        android:layout_height="25dp"
+                        android:textSize="16dp"
+                        android:textColor="@color/text_gray3"
+                        android:text="毛衣"/>
+                    <TextView
+                        android:paddingLeft="5dp"
+                        android:id="@+id/tv_Price2"
+                        android:layout_width="match_parent"
+                        android:gravity="center_vertical"
+                        android:textColor="@color/text_color5"
+                        android:text="￥100"
+                        android:layout_height="20dp" />
+
+                </LinearLayout>
+                <View
+                    android:layout_width="15dp"
+                    android:layout_height="match_parent"/>
+                <LinearLayout
+                    android:id="@+id/ll_shops3"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:layout_height="match_parent">
+                    <ImageView
+                        android:id="@+id/iv_shops3"
+                        android:layout_width="match_parent"
+                        android:layout_height="130dp"
+                        android:src="@drawable/dafault_head"/>
+                    <TextView
+                        android:gravity="center_vertical"
+                        android:paddingLeft="5dp"
+                        android:id="@+id/tv_shop_names3"
+                        android:layout_width="match_parent"
+                        android:layout_height="25dp"
+                        android:textSize="16dp"
+                        android:textColor="@color/text_gray3"
+                        android:text="毛衣"/>
+                    <TextView
+                        android:paddingLeft="5dp"
+                        android:id="@+id/tv_Price3"
+                        android:layout_width="match_parent"
+                        android:gravity="center_vertical"
+                        android:textColor="@color/text_color5"
+                        android:text="￥100"
+                        android:layout_height="20dp" />
+
+                </LinearLayout>
+                <View
+                    android:layout_width="15dp"
+                    android:layout_height="match_parent"/>
+            </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/line_color3"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="25dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="15dp"
+                android:gravity="center_vertical">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:src="@drawable/shouyedianzhui"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="10dp"
+                    android:gravity="center"
+                    android:text="口碑排行"
+                    android:textColor="@color/color_87555555"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_mall"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+            </android.support.v7.widget.RecyclerView>
+        </LinearLayout>
+    </android.support.v4.widget.SwipeRefreshLayout>
+
 
 
 </LinearLayout>
