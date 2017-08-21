@@ -136,7 +136,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
                 break;
             case R.id.iv_shopping: //购物车
-                clickIndex = 3;
+                //clickIndex = 3;
+                Intent intent = new Intent();
+                intent.setClass(MainActivity.this, ShoppingActivity.class);
+                overridePendingTransition(R.anim.push_bottom_in, R.anim.push_bottom_out);
+                startActivity(intent);
                break;
             case R.id.iv_my: //我的
                 clickIndex = 4;
@@ -178,7 +182,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             setDefaultStatusBar();
         } else {
             ll_tabs.setVisibility(View.GONE);
-            setStatusBarbg(R.drawable.livebg_up);
+            setStatusBarbg(R.drawable.status_bar);
         }
     }
 
