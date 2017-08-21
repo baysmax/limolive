@@ -1,5 +1,6 @@
 package com.example.project.limolive.activity;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
@@ -20,11 +21,11 @@ public class RankActivity extends BaseActivity{
     private PhbPersenters persenter;
     private TextView tvTitle,menu_return;
     private RecyclerView lv_PHB;
+    private TextView titles;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ranks);
-
         persenter=new PhbPersenters(this);
 
         initView();
@@ -59,6 +60,7 @@ public class RankActivity extends BaseActivity{
         srl_Down= (SwipeRefreshLayout) findViewById(R.id.srl_Down);
         lv_PHB= (RecyclerView) findViewById(R.id.lv_PHB);
         tvTitle= (TextView) findViewById(R.id.title);
+        tvTitle.setTextColor(Color.rgb(0,0,0));
         tvTitle.setText("贡献榜");
         menu_return= (TextView) findViewById(R.id.menu_return);
     }
