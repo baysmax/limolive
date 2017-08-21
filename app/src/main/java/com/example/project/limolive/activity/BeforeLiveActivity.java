@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.hardware.Camera;
 import android.os.Build;
@@ -15,6 +16,7 @@ import android.support.v4.app.ActivityCompat;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.MotionEvent;
+import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
@@ -100,6 +102,14 @@ public class BeforeLiveActivity extends Activity implements  SurfaceHolder.Callb
         //requestWindowFeature(Window.FEATURE_NO_TITLE);//没有标题
 
 
+       // setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        //SCREEN_ORIENTATION_BEHIND： 继承Activity堆栈中当前Activity下面的那个Activity的方向
+        //SCREEN_ORIENTATION_LANDSCAPE： 横屏(风景照) ，显示时宽度大于高度
+        //SCREEN_ORIENTATION_PORTRAIT： 竖屏 (肖像照) ， 显示时高度大于宽度
+        //SCREEN_ORIENTATION_SENSOR  由重力感应器来决定屏幕的朝向,它取决于用户如何持有设备,当设备被旋转时方向会随之在横屏与竖屏之间变化
+        //SCREEN_ORIENTATION_NOSENSOR： 忽略物理感应器——即显示方向与物理感应器无关，不管用户如何旋转设备显示方向都不会随着改变("unspecified"设置除外)
+        //SCREEN_ORIENTATION_UNSPECIFIED： 未指定，此为默认值，由Android系统自己选择适当的方向，选择策略视具体设备的配置情况而定，因此不同的设备会有不同的方向选择
+        //SCREEN_ORIENTATION_USER： 用户当前的首选方向
 
         sp = SPUtil.getInstance(this);
         setContentView(R.layout.fragment_alive);
@@ -400,7 +410,7 @@ public class BeforeLiveActivity extends Activity implements  SurfaceHolder.Callb
     @Override
     public void surfaceChanged(SurfaceHolder surfaceHolder, int i, int i1, int i2) {
         if(camera == null) {
-            camera = Camera.open();
+            camera = Camera.open(0);
             initCaera();
                 try {
                 camera.setPreviewDisplay(holder);//通过surfaceview显示取景画面
@@ -434,7 +444,8 @@ public class BeforeLiveActivity extends Activity implements  SurfaceHolder.Callb
                         // TODO Auto-generated catch block
                         e.printStackTrace();
                     }
-                    camera.setDisplayOrientation(90);//旋转90度
+                    //camera.setDisplayOrientation(90);//旋转90度
+                    setCameraDisplayOrientation(BeforeLiveActivity.this,0,camera);
                     camera.startPreview();//开始预览
                     cameraPosition = 0;
                     break;
@@ -442,7 +453,29 @@ public class BeforeLiveActivity extends Activity implements  SurfaceHolder.Callb
             }
         }
     }
+    public static void setCameraDisplayOrientation ( Activity activity ,
+                                                     int cameraId , android.hardware.Camera camera ) {
+        android.hardware.Camera.CameraInfo info =
+                new android.hardware.Camera.CameraInfo();
+        android.hardware.Camera.getCameraInfo ( cameraId , info );
+        int rotation = activity.getWindowManager ().getDefaultDisplay ().getRotation ();
+        int degrees = 0 ;
+        switch ( rotation ) {
+            case Surface.ROTATION_0 : degrees = 0 ; break ;
+            case Surface.ROTATION_90 : degrees = 90 ; break ;
+            case Surface.ROTATION_180 : degrees = 180 ; break ;
+            case Surface.ROTATION_270 : degrees = 270 ; break ;
+        }
 
+        int result ;
+        if ( info.facing == Camera.CameraInfo.CAMERA_FACING_FRONT ) {
+            result = ( info.orientation + degrees ) % 360 ;
+            result = ( 360 - result ) % 360 ;   // compensate the mirror
+        } else {   // back-facing
+            result = ( info.orientation - degrees + 360 ) % 360 ;
+        }
+        camera.setDisplayOrientation ( result );
+    }
     @Override
     public void surfaceDestroyed(SurfaceHolder surfaceHolder) {
         camera.stopPreview();
