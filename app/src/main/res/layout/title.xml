@@ -11,15 +11,14 @@
         android:layout_marginLeft="10dp"
         android:drawableLeft="@drawable/btn_returns"
         android:drawablePadding="5dp"
-        android:gravity="center_vertical"
-        android:layout_width="wrap_content"
+        android:gravity="center"
+        android:layout_width="30dp"
         android:layout_height="match_parent" />
 
     <TextView
         android:id="@+id/title"
-        android:textColor="@color/colorTextWhite"
+        android:textColor="@color/color_333333"
         android:textSize="@dimen/h8"
-        android:text="贡献吧"
         android:layout_centerHorizontal="true"
         android:gravity="center_vertical"
         android:layout_width="wrap_content"

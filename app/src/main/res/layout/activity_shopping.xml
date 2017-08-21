@@ -2,12 +2,14 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+    <include android:id="@+id/titless" layout="@layout/title"/>
 
     <FrameLayout
         android:id="@+id/framelayouts"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/ll_tabs" />
+        android:layout_above="@+id/ll_tabs"
+        android:layout_below="@+id/titless"/>
 
     <LinearLayout
 

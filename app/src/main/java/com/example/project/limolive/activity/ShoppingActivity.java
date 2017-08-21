@@ -34,13 +34,29 @@ public class ShoppingActivity extends BaseActivity implements View.OnClickListen
     private TextView[] tab_tv;
     private ImageView tabs[];
 
+    private TextView title,back;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shopping);
+        loadTitle();
         initView();
         initListener();
         initFragment();
+
+    }
+
+    private void loadTitle() {
+        title= (TextView) findViewById(R.id.title);
+        back= (TextView) findViewById(R.id.menu_return);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ShoppingActivity.this.finish();
+            }
+        });
+        title.setText("柠檬商城");
     }
 
     private void initFragment() {
@@ -91,7 +107,6 @@ public class ShoppingActivity extends BaseActivity implements View.OnClickListen
 
     @Override
     public void onClick(View v) {
-        //initDrawable();
         switch (v.getId()){
             case R.id.ll_mall:
                 clickIndex=0;
@@ -110,7 +125,7 @@ public class ShoppingActivity extends BaseActivity implements View.OnClickListen
         loadFragment();
     }
     /**
-     * 加载Fragment R.id.framelayout color_57DDC5
+     * 加载Fragment R.id.framelayouts color_57DDC5
      */
     private void loadFragment() {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
@@ -143,19 +158,5 @@ public class ShoppingActivity extends BaseActivity implements View.OnClickListen
         //tab_tv[currentIndex].setTextColor(0x4b4a4a);
         tabs[clickIndex].setSelected(true);
         tab_tv[clickIndex].setTextColor(0xa0fce13d);
-    }
-
-    private void initDrawable() {
-        tv_mall.setTextColor(0x4b4a4a);
-        iv_mall.setImageDrawable(getDrawable(R.drawable.shangcheng));
-
-        tv_category.setTextColor(0x4b4a4a);
-        iv_category.setImageDrawable(getDrawable(R.drawable.fenlei));
-
-        tv_new.setTextColor(0x4b4a4a);
-        iv_new.setImageDrawable(getDrawable(R.drawable.xinpin));
-
-        tv_shopping.setTextColor(0x4b4a4a);
-        iv_shopping.setImageDrawable(getDrawable(R.drawable.gouwuche));
     }
 }
