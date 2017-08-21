@@ -65,7 +65,7 @@ import static com.example.project.limolive.R.id.iv_hostHead;
  * Created by AAA on 2017/8/17.
  */
 
-class NewsFragment extends BaseFragment  implements ConversationView,FriendshipMessageView {
+public class NewsFragment extends BaseFragment  implements ConversationView,FriendshipMessageView {
 
     private final String TAG = "ConversationActivity";
 
