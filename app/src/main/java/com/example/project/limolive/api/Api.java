@@ -926,4 +926,9 @@ public class Api {
     }
 
 
+    public static void getGoodsList(String userId,String scatgory,AsyncHttpResponseHandler handler) {
+        RequestParams params = new RequestParams();
+        params.put("uid",userId);
+        ApiHttpClient.get(ApiHttpClient.API_URL + Urls.GET_GOODS_CATGORY, params, handler);
+    }
 }

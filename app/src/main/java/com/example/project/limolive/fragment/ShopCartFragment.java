@@ -52,7 +52,7 @@ public class ShopCartFragment extends BaseFragment implements SwipeRefreshLayout
         super.initView();
         shopCartPresenter=new ShopCartPresenter(getActivity());
         shopCartPresenter.registerMsgToActivity(this);
-        loadTitle();
+        //loadTitle();
 
         lv_cart_list= (ListView) findViewById(R.id.lv_cart_list);
 
