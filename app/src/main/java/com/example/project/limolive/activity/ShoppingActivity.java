@@ -16,6 +16,7 @@ import com.example.project.limolive.fragment.BaseFragment;
 import com.example.project.limolive.fragment.CategoryFragment;
 import com.example.project.limolive.fragment.FindGoodsFragment;
 import com.example.project.limolive.fragment.New_Fragment;
+import com.example.project.limolive.fragment.ShopCartFragment;
 import com.example.project.limolive.fragment.ShoppingFragment;
 
 import static com.example.project.limolive.R.id.ll_tabs;
@@ -64,7 +65,8 @@ public class ShoppingActivity extends BaseActivity implements View.OnClickListen
         fragments[0]=new FindGoodsFragment();
         fragments[1]=new CategoryFragment();
         fragments[2]=new New_Fragment();
-        fragments[3]=new ShoppingFragment();
+        fragments[3]=new ShopCartFragment();
+
         loadFragment();
 
     }

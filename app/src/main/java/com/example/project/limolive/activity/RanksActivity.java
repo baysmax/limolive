@@ -35,7 +35,7 @@ public class RanksActivity extends BaseActivity{
         persenter=new PhbPersenter(this);
         initView();
         setListener();
-        persenter.getDate(hostid,userid);
+        persenter.getDate(hostid,userid,srl_Down);
         persenter.setAdapter(lv_PHB);
     }
 
@@ -52,11 +52,8 @@ public class RanksActivity extends BaseActivity{
             @Override
             public void onRefresh() {
                 srl_Down.setRefreshing(true);
-                if (persenter.getDate(hostid,userid)){
-                    if (srl_Down.isRefreshing()){
-                        srl_Down.setRefreshing(false);
-                    }
-                }
+                persenter.getDate(hostid,userid,srl_Down);
+
             }
         });
     }
