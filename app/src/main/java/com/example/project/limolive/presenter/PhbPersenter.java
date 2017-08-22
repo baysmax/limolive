@@ -2,6 +2,7 @@ package com.example.project.limolive.presenter;
 
 
 import android.content.Context;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -35,7 +36,7 @@ public class PhbPersenter extends Presenter{
         this.context=context;
     }
     private boolean result=false;
-    public Boolean getDate(String uid,String hostid){
+    public Boolean getDate(String uid, String hostid, final SwipeRefreshLayout srl){
 
         Api.getRanking(uid, hostid, new ApiResponseHandler(context) {
             @Override
@@ -48,10 +49,21 @@ public class PhbPersenter extends Presenter{
                     list.addAll(lists);
                     adapter.notifyDataSetChanged();
                     Log.i("排行榜数据",list.toString());
-                    result=true;
+                    if (srl!=null&&srl.isRefreshing()){
+                        srl.setRefreshing(false);
+                    }
+                    result = true;
                 }else {
                     result=false;
                     Log.i("排行榜数据","失败");
+                }
+            }
+
+            @Override
+            public void onFailure(String errMessage) {
+                super.onFailure(errMessage);
+                if (srl!=null&&srl.isRefreshing()){
+                    srl.setRefreshing(false);
                 }
             }
         });
