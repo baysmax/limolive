@@ -1,6 +1,7 @@
 package com.example.project.limolive.presenter;
 
 import android.content.Context;
+import android.util.Log;
 import android.widget.ListView;
 
 import com.alibaba.fastjson.JSONArray;
@@ -25,6 +26,7 @@ public class OrderPresenter extends Presenter {
     private List<OrderBean> list;
     private ListView listView;
     private OrderAdapter adapter;
+    private String type;
     public OrderPresenter(Context context) {
         super(context);
     }
@@ -37,9 +39,13 @@ public class OrderPresenter extends Presenter {
      * @param type    订单的类型,不传默认查询所有
      */
     public void getOrder(String user_id,String type){
+        this.type=type;
         Api.getOrder(user_id,type, new ApiResponseHandler(context) {
+
             @Override
             public void onSuccess(ApiResponse apiResponse) {
+
+                Log.i("热门商品类型","apiResponse.getData()"+apiResponse.getData());
                 if (apiResponse.getCode() == Api.SUCCESS) {
                     list.clear();
                     list.addAll(JSONArray.parseArray(apiResponse.getData(),OrderBean.class));
@@ -66,7 +72,7 @@ public class OrderPresenter extends Presenter {
         this.listView = listView;
         list = new ArrayList<>();
         if(adapter ==null){
-            adapter = new OrderAdapter(context,list);
+            adapter = new OrderAdapter(context,list,type);
             listView.setAdapter(adapter);
         }else {
             adapter.notifyDataSetChanged();

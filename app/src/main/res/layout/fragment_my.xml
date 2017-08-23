@@ -193,7 +193,6 @@
                 </LinearLayout>
             </LinearLayout>
             <LinearLayout
-                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/mine_order_height"
                 android:orientation="vertical"

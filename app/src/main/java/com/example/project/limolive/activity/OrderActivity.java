@@ -16,6 +16,7 @@ import com.example.project.limolive.fragment.ReturnShopFragment;
 import com.example.project.limolive.fragment.WaitCommentFragment;
 import com.example.project.limolive.fragment.WaitPayFragment;
 import com.example.project.limolive.fragment.WaitReceiveFragment;
+import com.example.project.limolive.fragment.WaitSendFragment;
 
 /**
  * 订单页面
@@ -69,12 +70,13 @@ public class OrderActivity extends BaseActivity {
         initViewPager();
     }
     private void loadFragments() {
-        fragments=new BaseFragment[5];
+        fragments=new BaseFragment[6];
         fragments[0]=new AllOrderFragment();
         fragments[1]=new WaitPayFragment();
-        fragments[2]=new WaitReceiveFragment();
-        fragments[3]=new WaitCommentFragment();
-        fragments[4]=new ReturnShopFragment();
+        fragments[2]=new WaitSendFragment();
+        fragments[3]=new WaitReceiveFragment();
+        fragments[4]=new WaitCommentFragment();
+        fragments[5]=new ReturnShopFragment();
     }
 
     /**
