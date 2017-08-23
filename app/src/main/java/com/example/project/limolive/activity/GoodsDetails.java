@@ -331,7 +331,7 @@ public class GoodsDetails extends BaseActivity implements View.OnClickListener {
             ToastUtils.showShort(this, NET_UNCONNECT);
             return;
         }
-        Api.addCar(LoginManager.getInstance().getUserID(this), getIntent().getStringExtra("goods_id"), "", new ApiResponseHandler(this) {
+        Api.addCar(LoginManager.getInstance().getUserID(this), getIntent().getStringExtra("goods_id"), "","", new ApiResponseHandler(this) {
             @Override
             public void onSuccess(ApiResponse apiResponse) {
                 hideProgressDialog();

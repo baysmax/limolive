@@ -130,7 +130,8 @@ public class PayReadyActivity extends BaseActivity implements View.OnClickListen
                 } else if ("2".equals(type)) {
                     Recharge(LoginManager.getInstance().getUserID(this), lemon_id);
                 }else if ("3".equals(type)){
-                    ToastUtils.showShort(this,"type="+type);
+                    //ToastUtils.showShort(this,"type="+type);
+
                         String address_id = cobs.getAddressList().getAddress_id();
                         Cart3(LoginManager.getInstance().getUserID(this), address_id, beizhu,ids);
 
@@ -138,27 +139,7 @@ public class PayReadyActivity extends BaseActivity implements View.OnClickListen
             }
     }
 
-    /**
-     * 购物车支付
-     * @param userID
-     * @param address_id
-     * @param remark
-     * @param ids
-     */
-    private void Cart3(String userID, String address_id, String remark, String ids) {
 
-        Api.Cart3(userID,address_id, remark,ids, new ApiResponseHandler(this) {
-            @Override
-            public void onSuccess(ApiResponse apiResponse) {
-                if (apiResponse.getCode()==Api.SUCCESS){
-                    GoodsOrder2Been gob = JSON.parseObject(apiResponse.getData(), GoodsOrder2Been.class);
-                    WXPayUtils wxPayUtils = new WXPayUtils(PayReadyActivity.this, Constant.WXNOTIFY_URL);
-                    wxPayUtils.pay("购物", cobs.getTotalPrice(), gob.getOrder_sn());
-                }
-            }
-        });
-
-    }
 
     /**
      * 选择微信支付
@@ -201,7 +182,29 @@ public class PayReadyActivity extends BaseActivity implements View.OnClickListen
             }
         });
     }
+    /**
+     * 购物车支付
+     * @param userID
+     * @param address_id
+     * @param remark
+     * @param ids
+     */
+    private void Cart3(String userID, String address_id, String remark, String ids) {
 
+        Api.Cart3(userID,address_id, remark,ids,"submit_order", new ApiResponseHandler(this) {
+            @Override
+            public void onSuccess(ApiResponse apiResponse) {
+                Log.i("支付","apiResponse="+apiResponse.toString());
+                if (apiResponse.getCode()==Api.SUCCESS){
+                    GoodsOrder2Been gob = JSON.parseObject(apiResponse.getData(), GoodsOrder2Been.class);
+                    WXPayUtils wxPayUtils = new WXPayUtils(PayReadyActivity.this, Constant.WXNOTIFY_URL);
+                    wxPayUtils.pay("购物", cobs.getTotalPrice(), gob.getOrder_sns());
+                    Log.i("支付","gob="+gob.toString()+"cobs.getTotalPrice()="+cobs.getTotalPrice());
+                }
+            }
+        });
+
+    }
     //钻石订单生成接口
     public void Recharge(String user_id, String lemon_id) {
         Api.Recharge(user_id, lemon_id, new ApiResponseHandler(this) {

@@ -122,7 +122,7 @@ public class LiveBaby_GoodsListAdapter extends BaseAdapter {
             ToastUtils.showShort(context, NET_UNCONNECT);
             return;
         }
-        Api.addCar(LoginManager.getInstance().getUserID(context),goods_id,"", new ApiResponseHandler(context) {
+        Api.addCar(LoginManager.getInstance().getUserID(context),goods_id,"","", new ApiResponseHandler(context) {
             @Override
             public void onSuccess(ApiResponse apiResponse) {
                 mGoodsDetails.hideProgressDialog();

@@ -311,12 +311,13 @@ public class Api {
     /**
      * 购物车结算(未完善)
      */
-    public static void Cart3(String user_id,String address_id,String remark,String ids, AsyncHttpResponseHandler handler) {
+    public static void Cart3(String user_id,String address_id,String remark,String ids,String submit_order, AsyncHttpResponseHandler handler) {
         RequestParams params = new RequestParams();
         params.put("user_id", user_id);
         params.put("address_id", address_id);
         params.put("remark", remark);
         params.put("ids", ids);
+        params.put("act", submit_order);
         ApiHttpClient.get(ApiHttpClient.API_URL + Urls.GET_CART_CART3, params, handler);
     }
 
@@ -433,11 +434,12 @@ public class Api {
     /**
      * 加入购物车
      */
-    public static void addCar(String user_id, String goods_id, String goods_num, AsyncHttpResponseHandler handler) {
+    public static void addCar(String user_id, String goods_id, String goods_num, String standard_size,AsyncHttpResponseHandler handler) {
         RequestParams params = new RequestParams();
         params.put("user_id", user_id);
         params.put("goods_id", goods_id);
         params.put("goods_num", goods_num);
+        params.put("standard_size", standard_size);
         ApiHttpClient.get(ApiHttpClient.API_URL + Urls.ADD_CAR, params, handler);
     }
 
@@ -926,9 +928,11 @@ public class Api {
     }
 
 
-    public static void getGoodsList(String userId,String scatgory,AsyncHttpResponseHandler handler) {
+    public static void getGoodsList(String userId,String scatgory,String page,AsyncHttpResponseHandler handler) {
         RequestParams params = new RequestParams();
         params.put("uid",userId);
+        params.put("cat_id",scatgory);
+        params.put("page",page);
         ApiHttpClient.get(ApiHttpClient.API_URL + Urls.GET_GOODS_CATGORY, params, handler);
     }
 }

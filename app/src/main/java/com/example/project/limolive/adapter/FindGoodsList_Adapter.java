@@ -108,9 +108,10 @@ public class FindGoodsList_Adapter extends BaseAdapter {
             ToastUtils.showShort(mContext, NET_UNCONNECT);
             return;
         }
-        Api.addCar(LoginManager.getInstance().getUserID(mContext),id,"", new ApiResponseHandler(mContext) {
+        Api.addCar(LoginManager.getInstance().getUserID(mContext),id,"1","", new ApiResponseHandler(mContext) {
             @Override
             public void onSuccess(ApiResponse apiResponse) {
+                Log.i("添加购物车","apiResponse="+apiResponse.toString());
                 if (apiResponse.getCode() == Api.SUCCESS) {
                     Intent intent=new Intent(mContext,ShoppingCartActivity.class);
                     mContext.startActivity(intent);

@@ -10,10 +10,21 @@ package com.example.project.limolive.bean;/**
 public class GoodsOrder2Been {
     private String postFee;
 
+    public String getOrder_sns() {
+        return order_sns;
+    }
+
+    public void setOrder_sns(String order_sns) {
+        this.order_sns = order_sns;
+    }
+
+    private String order_sns;
+
     @Override
     public String toString() {
         return "GoodsOrder2Been{" +
                 "postFee='" + postFee + '\'' +
+                ", order_sns='" + order_sns + '\'' +
                 ", payables='" + payables + '\'' +
                 ", goodsFee='" + goodsFee + '\'' +
                 ", order_sn='" + order_sn + '\'' +

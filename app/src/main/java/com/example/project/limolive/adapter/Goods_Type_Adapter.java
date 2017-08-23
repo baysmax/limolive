@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.example.project.limolive.R;
 import com.example.project.limolive.bean.BtnBean;
@@ -67,7 +68,7 @@ public class Goods_Type_Adapter extends RecyclerView.Adapter implements View.OnC
         return list.size();
     }
     private class TypeHolder extends RecyclerView.ViewHolder{
-        Button btn;
+        TextView btn;
         public TypeHolder(View itemView) {
             super(itemView);
             btn=itemView.findViewById(R.id.btn);
