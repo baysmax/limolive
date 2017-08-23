@@ -337,13 +337,13 @@ public class MyFragment extends BaseFragment implements View.OnClickListener{
 				lookOrder(1);
 				break;
 			case R.id.tv_wait_receive:  //待收货
-				lookOrder(2);
-				break;
-			case R.id.tv_wait_comment:  //待评价
 				lookOrder(3);
 				break;
-			case R.id.tv_return_shop:  //售后
+			case R.id.tv_wait_comment:  //待评价
 				lookOrder(4);
+				break;
+			case R.id.tv_return_shop:  //售后
+				lookOrder(5);
 				break;
 			case R.id.ll_my_money:
 				//充值
