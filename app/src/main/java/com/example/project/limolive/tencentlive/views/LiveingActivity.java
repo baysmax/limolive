@@ -316,7 +316,6 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
                 case GUANZHU://同步关注数量
                     //getFollow();
                     break;
-
                 case PAIHANG://更新排行头像
                     groupMemberInfo();
                     break;
@@ -2186,9 +2185,13 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
                         List<AvMemberInfo> list = livesInfoBean.getLives();
                         avMemberInfos.clear();
                         avMemberInfos.addAll(list);
+
                         Log.i("Main","Menbers="+CurLiveInfo.getAdmires()+",avMemberInfos="+avMemberInfos.size()+"list="+list.size());
                         CurLiveInfo.setMembers(avMemberInfos.size()+CurLiveInfo.getAdmires());
                         tvMembers.setText(CurLiveInfo.getMembers()+"在线");
+                        if (!"0".equals(LiveMySelfInfo.getInstance().getUser_robot())){
+                            groupMemberInfos();//用户购买的机器人
+                        }
                     } else {
                         ToastUtils.showShort(LiveingActivity.this, apiResponse.getMessage().toString());
                     }
@@ -2201,6 +2204,37 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
                 }
             });
         }
+    }
+
+    private void groupMemberInfos() {
+        Api.groupMemberInfo(LoginManager.getInstance().getUserID(this), CurLiveInfo.getChatRoomId(), "1", "3", new ApiResponseHandler(this) {
+            @Override
+            public void onSuccess(ApiResponse apiResponse) {
+                Log.i("成员列表", apiResponse.toString());
+                if (apiResponse.getCode() == Api.SUCCESS) {
+                    String data = apiResponse.getData();
+                    Log.i("直播","data="+data.toString());
+
+                    LivesInfoBean livesInfoBean = JSON.parseObject(data, LivesInfoBean.class);
+                    List<AvMemberInfo> list = livesInfoBean.getLives();
+                    avMemberInfos.addAll(list);
+
+                    Log.i("Main","Menbers="+CurLiveInfo.getAdmires()+",avMemberInfos="+avMemberInfos.size()+"list="+list.size());
+                    CurLiveInfo.setMembers(avMemberInfos.size()+CurLiveInfo.getAdmires());
+                    tvMembers.setText(CurLiveInfo.getMembers()+"在线");
+//                    if (!"0".equals(LiveMySelfInfo.getInstance().getUser_robot())){
+//                        groupMemberInfos();//用户购买的机器人
+//                    }
+                } else {
+                    ToastUtils.showShort(LiveingActivity.this, apiResponse.getMessage().toString());
+                }
+                HeadAdapter.notifyDataSetChanged();
+            }
+            @Override
+            public void onFailure(String errMessage) {
+                super.onFailure(errMessage);
+            }
+        });
     }
 
     /**
