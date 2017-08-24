@@ -920,11 +920,30 @@ public class Api {
         params.put("uid",userId);
         ApiHttpClient.get(ApiHttpClient.API_URL + Urls.POST_GETUSER_SEARCH_RECOMMEND, params, handler);
     }
+
+    /**
+     * 主播搜索
+     * @param userId
+     * @param search
+     * @param handler
+     */
     public static void search(String userId,String search,AsyncHttpResponseHandler handler) {
         RequestParams params = new RequestParams();
         params.put("uid",userId);
         params.put("search",search);
         ApiHttpClient.get(ApiHttpClient.API_URL + Urls.POST_GETUSER_SEARCH, params, handler);
+    }
+
+    /**
+     * 商品搜索
+     * @param search
+     * @param handler
+     */
+    public static void searchs(String search,AsyncHttpResponseHandler handler) {
+        RequestParams params = new RequestParams();
+        params.put("name",search);
+        params.put("page","1");
+        ApiHttpClient.get(ApiHttpClient.API_URL + Urls.POST_GOODS_SEARCH, params, handler);
     }
 
 

@@ -113,12 +113,8 @@ public class FindGoodsList_Adapter extends BaseAdapter {
             public void onSuccess(ApiResponse apiResponse) {
                 Log.i("添加购物车","apiResponse="+apiResponse.toString());
                 if (apiResponse.getCode() == Api.SUCCESS) {
-                    Intent intent=new Intent(mContext,ShoppingCartActivity.class);
-                    mContext.startActivity(intent);
-                    ToastUtils.showShort(mContext, apiResponse.getMessage());
+                    ToastUtils.showShort(mContext, "添加成功");
                 } else {
-                    Intent intent=new Intent(mContext,ShoppingCartActivity.class);
-                    mContext.startActivity(intent);
                     ToastUtils.showShort(mContext,"此商品已经在购物车");
                 }
             }

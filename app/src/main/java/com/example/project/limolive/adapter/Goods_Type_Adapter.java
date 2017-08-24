@@ -12,6 +12,7 @@ import com.example.project.limolive.R;
 import com.example.project.limolive.bean.BtnBean;
 import com.example.project.limolive.bean.GoodsTypeBeen;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -20,12 +21,21 @@ import java.util.List;
 
 public class Goods_Type_Adapter extends RecyclerView.Adapter implements View.OnClickListener{
     private OnItemClickListener mOnItemClickListener = null;
+    private List<TextView> tvlist=new ArrayList<>();
 
     @Override
     public void onClick(View v) {
         if (mOnItemClickListener != null) {
             //注意这里使用getTag方法获取position
             mOnItemClickListener.onItemClick(v,(int)v.getTag());
+            for (int i=0;i<tvlist.size();i++){
+                int tag = (int) tvlist.get(i).getTag();
+                if (tag==(int)v.getTag()){
+                    tvlist.get(i).setBackground(context.getDrawable(R.drawable.follow));
+                }else {//@color/line_color3
+                    tvlist.get(i).setBackground(context.getDrawable(R.color.line_color3));
+                }
+            }
         }
     }
 
@@ -52,6 +62,7 @@ public class Goods_Type_Adapter extends RecyclerView.Adapter implements View.OnC
         TypeHolder vh = new TypeHolder(view);
         //将创建的View注册点击事件
         view.setOnClickListener(this);
+
         return vh;
     }
 
@@ -61,7 +72,12 @@ public class Goods_Type_Adapter extends RecyclerView.Adapter implements View.OnC
         BtnBean btnBean = list.get(position);
         TypeHolder holder= (TypeHolder) holder1;
         holder.btn.setText(btnBean.getName());
+        if (position==0){
+            holder.btn.setBackground(context.getDrawable(R.drawable.follow));
+        }
         holder.itemView.setTag(position);
+        holder.btn.setTag(position);
+        tvlist.add(holder.btn);
     }
     @Override
     public int getItemCount() {

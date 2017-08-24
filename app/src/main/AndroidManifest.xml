@@ -122,6 +122,11 @@
         <activity
             android:name="com.example.project.limolive.activity.SearchActivity"
             android:screenOrientation="portrait" />
+        <!--搜索页面-->
+        <activity
+            android:name="com.example.project.limolive.activity.SearchGoodsActivity"
+            android:screenOrientation="portrait" />
+        <!--排行榜页面-->
         <activity
             android:name="com.example.project.limolive.activity.RankActivity"
             android:screenOrientation="portrait" />

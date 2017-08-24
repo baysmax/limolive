@@ -3,17 +3,29 @@ package com.example.project.limolive.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.project.limolive.R;
 import com.example.project.limolive.activity.GoodsDetails;
+import com.example.project.limolive.api.Api;
+import com.example.project.limolive.api.ApiHttpClient;
+import com.example.project.limolive.api.ApiResponse;
+import com.example.project.limolive.api.ApiResponseHandler;
 import com.example.project.limolive.bean.taowu.RecommendBean;
+import com.example.project.limolive.helper.LoginManager;
+import com.example.project.limolive.utils.NetWorkUtil;
+import com.example.project.limolive.utils.ToastUtils;
 
 import java.util.List;
+
+import static com.example.project.limolive.presenter.Presenter.NET_UNCONNECT;
 
 /**
  * Created by AAA on 2017/8/22.
@@ -30,7 +42,7 @@ public class GoodsAdapter extends RecyclerView.Adapter{
     }
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new ReHolder(View.inflate(context, R.layout.goodsmg_item,null));
+        return new ReHolder(View.inflate(context, R.layout.goodsmgs_item,null));
     }
 
     @Override
@@ -49,7 +61,45 @@ public class GoodsAdapter extends RecyclerView.Adapter{
                         .putExtra("goods_id",recommendBean.getGoods_id()));
             }
         });
+        holder.iv_add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                addCar(recommendBean.getCat_id());
+            }
+        });
+        if (TextUtils.isEmpty(recommendBean.getOriginal_img())) {
+            holder.iv_goods_iicon.setImageResource(R.mipmap.goods);
+        } else {
+            //String[] split = rb.getGoods_content().split(";");
+            Log.i("获取普通商品","getOriginal_img"+recommendBean.getOriginal_img());
+            Glide.with(context).load(ApiHttpClient.API_PIC + recommendBean.getOriginal_img()).into( holder.iv_goods_iicon);
+        }
 
+    }
+    private void addCar(String id){
+        /**
+         * 添加购物车
+         */
+        if (!NetWorkUtil.isNetworkConnected(context)) {
+            ToastUtils.showShort(context, NET_UNCONNECT);
+            return;
+        }
+        Api.addCar(LoginManager.getInstance().getUserID(context),id,"1","", new ApiResponseHandler(context) {
+            @Override
+            public void onSuccess(ApiResponse apiResponse) {
+                Log.i("添加购物车","apiResponse="+apiResponse.toString());
+                if (apiResponse.getCode() == Api.SUCCESS) {
+                    ToastUtils.showShort(context, "添加成功");
+                } else {
+                    ToastUtils.showShort(context,"此商品已经在购物车");
+                }
+            }
+            @Override
+            public void onFailure(String errMessage) {
+                ToastUtils.showShort(context, errMessage);
+                super.onFailure(errMessage);
+            }
+        });
     }
 
     @Override
@@ -70,6 +120,7 @@ public class GoodsAdapter extends RecyclerView.Adapter{
             iv_goods_iicon=itemView.findViewById(R.id.iv_goods_iicon);
             tv_name=itemView.findViewById(R.id.tv_name);
             shape=itemView.findViewById(R.id.shape);
+            shape.setVisibility(View.GONE);
             iv_add=itemView.findViewById(R.id.iv_add);
             iv_add.setVisibility(View.VISIBLE);
             tv_kucun.setVisibility(View.GONE);

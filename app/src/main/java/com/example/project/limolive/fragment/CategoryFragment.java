@@ -1,5 +1,6 @@
 package com.example.project.limolive.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -8,10 +9,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.example.project.limolive.R;
+import com.example.project.limolive.activity.SearchGoodsActivity;
 import com.example.project.limolive.adapter.GoodsAdapter;
 import com.example.project.limolive.adapter.GoodsManageAdapter;
 import com.example.project.limolive.adapter.Goods_Type_Adapter;
@@ -41,9 +45,15 @@ public class CategoryFragment extends BaseFragment {
     private LinearLayoutManager lm1;
     private List<BtnBean> typeLsit;
     private Goods_Type_Adapter adapter;
+    private TextView tv_isgone;
+    private RelativeLayout rl_search;
+
 
     private List<RecommendBean> goodsLsit;
     private GoodsAdapter adapter1;
+
+    private int page=1;
+    private String id="";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -56,6 +66,8 @@ public class CategoryFragment extends BaseFragment {
         goodsLsit=new ArrayList<>();
         srl_down_category= (SwipeRefreshLayout) findViewById(R.id.srl_down_category);
         home_banner = (ImageCycleView) findViewById(R.id.home_banners);
+        tv_isgone= (TextView) findViewById(R.id.tv_isgone);
+        rl_search= (RelativeLayout) findViewById(R.id.rl_search);
         initRecyclerView();
         initData();
         Carousel();
@@ -75,6 +87,7 @@ public class CategoryFragment extends BaseFragment {
                     adapter.notifyDataSetChanged();
                     srl_down_category.setRefreshing(false);
                     Log.i("热门商品类型","goodsLsit1="+typeLsit.size());
+                    initDatas(typeLsit.get(0).getId());
                 } else {
                     goodsType();
                 }
@@ -98,6 +111,7 @@ public class CategoryFragment extends BaseFragment {
                     adapter.notifyDataSetChanged();
                     Log.i("热门商品类型","goodsLsit="+typeLsit.size());
                     srl_down_category.setRefreshing(false);
+                    initDatas(typeLsit.get(0).getId());
                 } else {
                     goodsType();
                 }
@@ -126,6 +140,30 @@ public class CategoryFragment extends BaseFragment {
     }
 
     private void setListener() {
+        rv_fm.setOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                int positon = lm1.findLastVisibleItemPosition();
+                if (adapter!=null&&positon==adapter.getItemCount()-1&&newState==RecyclerView.SCROLL_STATE_IDLE){
+                    page++;
+                    initDatas(id,page);
+                }
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+            }
+        });
+        rl_search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent();
+                intent.setClass(getActivity(),SearchGoodsActivity.class);
+                startActivity(intent);
+            }
+        });
         srl_down_category.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -138,23 +176,65 @@ public class CategoryFragment extends BaseFragment {
             public void onItemClick(View view, int position) {
                 //更换显示数据
                 BtnBean btnBean = typeLsit.get(position);
-                String id = btnBean.getId();
-                Api.getGoodsList(LoginManager.getInstance().getUserID(getActivity()), id, new ApiResponseHandler(getActivity()) {
-                    @Override
-                    public void onSuccess(ApiResponse apiResponse) {
-                        if (apiResponse.getCode()==Api.SUCCESS){
-                            goodsLsit.clear();
-                            goodsLsit.addAll(JSONArray.parseArray(apiResponse.getData(),RecommendBean.class));
-
-                            adapter1.notifyDataSetChanged();
-                        }
-                    }
-                });
+                id = btnBean.getId();
+                Log.i("热门商品类型","btnBean="+btnBean.toString());
+                initDatas(id);
             }
+
+
         });
     }
 
+    private void initDatas(String id) {
+        Api.getGoodsList(LoginManager.getInstance().getUserID(getActivity()), id,String.valueOf(page), new ApiResponseHandler(getActivity()) {
+            @Override
+            public void onSuccess(ApiResponse apiResponse) {
+                Log.i("热门商品类型","热门商品类型="+apiResponse.toString());
+                if (apiResponse.getCode()==Api.SUCCESS){
+                    tv_isgone.setVisibility(View.GONE);
+                    rv_fm.setVisibility(View.VISIBLE);
+                    goodsLsit.clear();
+                    adapter1.notifyDataSetChanged();
+                    goodsLsit.addAll(JSONArray.parseArray(apiResponse.getData(),RecommendBean.class));
+                    Log.i("热门商品类型","goodsLsit="+goodsLsit.size());
+                    adapter1.notifyDataSetChanged();
+                }else if(apiResponse.getCode()==-2) {
+                    tv_isgone.setVisibility(View.VISIBLE);
+                    rv_fm.setVisibility(View.GONE);
+                }
+            }
 
+            @Override
+            public void onFailure(String errMessage) {
+                super.onFailure(errMessage);
+                Log.i("热门商品类型","失败");
+            }
+        });
+    }
+    private void initDatas(String id,int page) {
+        Api.getGoodsList(LoginManager.getInstance().getUserID(getActivity()), id,String.valueOf(page), new ApiResponseHandler(getActivity()) {
+            @Override
+            public void onSuccess(ApiResponse apiResponse) {
+                Log.i("热门商品类型","热门商品类型="+apiResponse.toString());
+                if (apiResponse.getCode()==Api.SUCCESS){
+                    tv_isgone.setVisibility(View.GONE);
+                    rv_fm.setVisibility(View.VISIBLE);
+                    goodsLsit.addAll(JSONArray.parseArray(apiResponse.getData(),RecommendBean.class));
+                    Log.i("热门商品类型","goodsLsit="+goodsLsit.size());
+                    adapter1.notifyDataSetChanged();
+                }else if(apiResponse.getCode()==-2) {
+                    tv_isgone.setVisibility(View.VISIBLE);
+                    rv_fm.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onFailure(String errMessage) {
+                super.onFailure(errMessage);
+                Log.i("热门商品类型","失败");
+            }
+        });
+    }
     public void Carousel() {
         final List<LunBoPicBean> lunBoPicBeen = new ArrayList<LunBoPicBean>();
         final List<String> string = new ArrayList<String>();

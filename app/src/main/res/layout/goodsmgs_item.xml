@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:id="@+id/rls"
+    android:background="#fff"
+    android:layout_height="90dp">
+    <View
+        android:layout_width="280dp"
+        android:layout_height="1dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:background="@color/line_color3"/>
+<RelativeLayout
+    android:layout_width="wrap_content"
+    android:layout_height="90dp"
+    android:padding="10dp">
+    <ImageView
+        android:id="@+id/iv_goods_iicon"
+        android:layout_width="70dp"
+        android:layout_centerVertical="true"
+        android:layout_height="70dp"
+        android:src="@mipmap/goods" />
+
+    <RelativeLayout
+        android:layout_marginLeft="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_toRightOf="@+id/iv_goods_iicon">
+
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:maxLines="2"
+            android:text="adsf"
+            android:maxEms="11"
+            android:textColor="#343434"
+            android:ellipsize="end"
+            android:textSize="16dp" />
+    </RelativeLayout>
+
+
+    <TextView
+        android:id="@+id/tv_prices"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_toRightOf="@+id/iv_goods_iicon"
+        android:layout_marginLeft="10dp"
+        android:text="¥"
+        android:textColor="#FF4E35"
+        android:textSize="16dp" />
+    <TextView
+        android:id="@+id/tv_price"
+        android:layout_toRightOf="@+id/tv_prices"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_alignParentBottom="true"
+        android:text="119"
+        android:textColor="#FF4E35"
+        android:textSize="16dp" />
+    <TextView
+        android:id="@+id/tv_kucun"
+        android:layout_toRightOf="@+id/tv_price"
+        android:layout_marginLeft="30dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:text="库存 :"
+        android:textSize="16dp" />
+    <TextView
+        android:id="@+id/tv_repertoryNum"
+        android:layout_toRightOf="@+id/tv_kucun"
+        android:layout_marginLeft="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:text="110"
+        android:textColor="#343434"
+        android:textSize="16dp" />
+
+
+    <ImageView
+        android:id="@+id/shape"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:src="@mipmap/shape1" />
+    <ImageView
+        android:id="@+id/iv_add"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:visibility="gone"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:src="@drawable/add"
+        android:paddingRight="17dp"
+        />
+</RelativeLayout>
+
+</RelativeLayout>
