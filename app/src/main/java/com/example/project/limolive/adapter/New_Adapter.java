@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -34,14 +35,14 @@ public class New_Adapter extends RecyclerView.Adapter {
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new New_Holder(View.inflate(context, R.layout.item_new_find,null));
+        return new New_Holder(View.inflate(context, R.layout.goodsmgs_item2,null));
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder1, int position) {
         New_Holder holder= (New_Holder) holder1;
         final RecommendBean recommendBean = list.get(position);
-        holder.tv_prices.setText(recommendBean.getShop_price());
+        holder.tv_pricesd.setText(recommendBean.getShop_price());
         holder.tv_describe.setText(recommendBean.getGoods_name());
         if (TextUtils.isEmpty(recommendBean.getOriginal_img())) {
             holder.iv_img.setImageResource(R.mipmap.goods);
@@ -68,14 +69,14 @@ public class New_Adapter extends RecyclerView.Adapter {
 
     private class New_Holder extends RecyclerView.ViewHolder {
         ImageView iv_img;
-        TextView tv_describe,tv_prices;
-        LinearLayout ll;
+        TextView tv_describe,tv_pricesd;
+        RelativeLayout ll;
 
         public New_Holder(View itemView) {
             super(itemView);
             iv_img=itemView.findViewById(R.id.iv_img);
             tv_describe=itemView.findViewById(R.id.tv_describe);
-            tv_prices=itemView.findViewById(R.id.tv_prices);
+            tv_pricesd=itemView.findViewById(R.id.tv_pricesd);
             ll=itemView.findViewById(R.id.ll);
         }
     }

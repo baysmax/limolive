@@ -71,7 +71,7 @@ public class New_Fragment extends BaseFragment {
                 int positon = gm.findLastVisibleItemPosition();
                 if (adapter!=null&&positon==adapter.getItemCount()-1&&newState==RecyclerView.SCROLL_STATE_IDLE){
                     page++;
-                    initData();
+                    initDatas();
                 }
             }
 
@@ -106,13 +106,36 @@ public class New_Fragment extends BaseFragment {
             }
         });
     }
+    private void initDatas() {
+        srl_down_new.setRefreshing(true);
+        Api.getGoods(LoginManager.getInstance().getUserID(getActivity()), page, new ApiResponseHandler(getActivity()) {
+            @Override
+            public void onSuccess(ApiResponse apiResponse) {
+                Log.i("获取普通商品","apiResponse"+apiResponse.toString());
+                if (apiResponse.getCode() == Api.SUCCESS) {
+                    srl_down_new.setRefreshing(false);
+                    new_list.addAll(JSON.parseArray(apiResponse.getData(),RecommendBean.class));
+                    adapter.notifyDataSetChanged();
+                } else {
+                    srl_down_new.setRefreshing(false);
+                    ToastUtils.showShort(getActivity(), apiResponse.getMessage());
+                }
+            }
+
+            @Override
+            public void onFailure(String errMessage) {
+                super.onFailure(errMessage);
+                srl_down_new.setRefreshing(false);
+            }
+        });
+    }
 
     private void initRecyclerView() {
         new_list=new ArrayList<>();
 
         srl_down_new= (SwipeRefreshLayout) findViewById(R.id.srl_down_new);
         rv_new= (RecyclerView) findViewById(R.id.rv_new);
-        gm=new GridLayoutManager(getActivity(),2);
+        gm=new GridLayoutManager(getActivity(),1);
         rv_new.setLayoutManager(gm);
         adapter=new New_Adapter(getActivity(),new_list);
         rv_new.setAdapter(adapter);
