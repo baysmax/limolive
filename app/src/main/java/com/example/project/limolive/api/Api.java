@@ -966,7 +966,43 @@ public class Api {
         RequestParams params = new RequestParams();
         params.put("user_id",userID);
         params.put("goods_id",goods_id);
-        ApiHttpClient.get(ApiHttpClient.API_URL + Urls.GET_GOODS_COMMENT_LIST, params, handler);
+        ApiHttpClient.post(ApiHttpClient.API_URL + Urls.GET_GOODS_COMMENT_LIST, params, handler);
+    }
+    /**
+     * 申用户点击我的店铺时,触发事件接口
+     * @param userID
+     */
+    public static void myOrder(String userID, ApiResponseHandler handler) {
+        RequestParams params = new RequestParams();
+        params.put("uid",userID);
+        ApiHttpClient.post(ApiHttpClient.API_URL + Urls.POST_GOODS_MYORDER, params, handler);
+    }
+    /**
+     * 上传身份证号
+     * original_img
+     * @param userID
+     */
+    public static void apply_order(String userID,String real_name,String idcard,List<File> idcard_images,File original_img, ApiResponseHandler handler) {
+        RequestParams params = new RequestParams();
+        params.put("uid",userID);
+        params.put("real_name",real_name);
+        params.put("idcard",idcard);
+        params.put("idcard_images",idcard_images);
+        if (null != idcard_images) {
+            try {
+                for (int i = 0; i < idcard_images.size(); i++) {
+                    params.put(idcard_images.get(i).toString(), idcard_images.get(i));
+                }
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+        try {
+            params.put("original_img",original_img);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        ApiHttpClient.post(ApiHttpClient.API_URL + Urls.POST_GOODS_APPLY, params, handler);
     }
 
     /**
@@ -992,6 +1028,6 @@ public class Api {
         params.put("courier_rank",courier_rank);
         params.put("goods_rank",goods_rank);
         params.put("content",content);
-        ApiHttpClient.get(ApiHttpClient.API_URL + Urls.GET_GOODS_ADD_COM, params, handler);
+        ApiHttpClient.post(ApiHttpClient.API_URL + Urls.GET_GOODS_ADD_COM, params, handler);
     }
 }

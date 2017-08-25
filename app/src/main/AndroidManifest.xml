@@ -130,6 +130,10 @@
         <activity
             android:name="com.example.project.limolive.activity.SearchGoodsActivity"
             android:screenOrientation="portrait" />
+        <!--上传身份证页面-->
+        <activity
+            android:name="com.example.project.limolive.activity.MyApplyActivity"
+            android:screenOrientation="portrait" />
         <!--排行榜页面-->
         <activity
             android:name="com.example.project.limolive.activity.RankActivity"

@@ -19,6 +19,7 @@ import com.example.project.limolive.activity.AccountDetailActivity;
 import com.example.project.limolive.activity.CollectionListActivity;
 import com.example.project.limolive.activity.FansAttentionActivity;
 import com.example.project.limolive.activity.HistoryActivity;
+import com.example.project.limolive.activity.MyApplyActivity;
 import com.example.project.limolive.activity.MyShopActivity;
 import com.example.project.limolive.activity.MyWalletActivity;
 import com.example.project.limolive.activity.OrderActivity;
@@ -399,8 +400,34 @@ public class MyFragment extends BaseFragment implements View.OnClickListener{
 	 * 我的店铺
 	 */
 	private void enterMyShop() {
-		Intent intent=new Intent(getActivity(),MyShopActivity.class);
-		startActivity(intent);
+	if (!NetWorkUtil.isNetworkConnected(getActivity())) {
+			ToastUtils.showShort(getActivity(), NET_UNCONNECT);
+			return;
+		}
+		Api.myOrder(LoginManager.getInstance().getUserID(getActivity()), new ApiResponseHandler(getActivity()) {
+			@Override
+			public void onSuccess(ApiResponse apiResponse) {
+				Log.i("店铺","apiResponse"+apiResponse.toString());
+				if (apiResponse.getCode()==Api.CANCLE){
+					Intent intent=new Intent(getActivity(),MyApplyActivity.class);
+					startActivity(intent);
+				}else {
+					 if (apiResponse.getCode()==-2){
+						ToastUtils.showShort(getActivity(),"审核未通过");
+					}else {
+						 Intent intent=new Intent(getActivity(),MyShopActivity.class);
+						 startActivity(intent);
+					 }
+				}
+			}
+
+			@Override
+			public void onFailure(String errMessage) {
+				Log.i("店铺","errMessage"+errMessage);
+				super.onFailure(errMessage);
+			}
+		});
+
 	}
 
 	/**

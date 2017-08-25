@@ -361,6 +361,7 @@
                     android:layout_marginLeft="@dimen/activity_padding_margin8"
                     />
                 <RelativeLayout
+                    android:visibility="gone"
                     style="@style/bottom_mine_text_view">
                     <TextView
                         android:id="@+id/tv_shopping_car"

@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <Button
+            android:id="@+id/btn_saves"
+            android:text="完成"
+            android:layout_alignParentBottom="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true">
+            <EditText
+                android:id="@+id/idcard"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="12dp"
+                android:inputType="number"
+                android:background="@null"
+                android:hint="请输入身份证号"
+                android:lines="1"
+                android:textColor="@color/text_color4"
+                android:textSize="15dp"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true" />
+            <EditText
+                android:id="@+id/real_name"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="12dp"
+                android:background="@null"
+                android:hint="请输入店铺名称"
+                android:lines="1"
+                android:textColor="@color/text_color4"
+                android:textSize="15dp"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:background="@null"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="15dp"
+                    android:text="上传收款二维码" />
+
+                <ImageView
+                    android:id="@+id/im_product_head"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@mipmap/camera_01" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:background="@color/white"
+                    android:layout_width="match_parent"
+                    android:layout_height="80dp"
+                    android:gravity="center"
+                    android:text="请选择手持身份证正反面照片"/>
+            </RelativeLayout>
+            <HorizontalScrollView
+                android:id="@+id/post_scrollview"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:paddingBottom="@dimen/padding_10"
+                android:scrollbars="none">
+
+                <LinearLayout
+                    android:id="@+id/post_pic_container"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/size_100"
+                    android:orientation="horizontal"
+                    android:paddingLeft="@dimen/padding_10"
+                    android:paddingRight="@dimen/padding_10">
+
+                    <com.example.project.limolive.localalbum.widget.FilterImageView
+                        android:id="@+id/post_add_pic"
+                        android:layout_width="@dimen/size_100"
+                        android:layout_height="@dimen/size_100"
+                        android:src="@drawable/post_add_pic" />
+                </LinearLayout>
+            </HorizontalScrollView>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+</LinearLayout>
