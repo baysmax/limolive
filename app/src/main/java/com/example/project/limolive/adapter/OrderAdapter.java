@@ -1,6 +1,7 @@
 package com.example.project.limolive.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.project.limolive.R;
+import com.example.project.limolive.activity.ProductDescriptionActivity;
+import com.example.project.limolive.activity.PublishProductsActivity;
 import com.example.project.limolive.api.ApiHttpClient;
 import com.example.project.limolive.bean.order.OrderBean;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -70,7 +73,7 @@ public class OrderAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int i, View view, ViewGroup viewGroup) {
+    public View getView(final int i, View view, ViewGroup viewGroup) {
         ViewHolder vh1 = null;
         ViewHolder vh2 = null;
         ViewHolder vh3 = null;
@@ -280,6 +283,17 @@ public class OrderAdapter extends BaseAdapter {
                 if (str.equals("待评价")){
                     vh5.tv_evaluate.setText("评价");
                     vh5.tv_evaluate.setVisibility(View.VISIBLE);
+                    vh5.tv_evaluate.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Intent intent = new Intent(context,ProductDescriptionActivity.class);
+                            intent.putExtra("type","0");
+                            OrderBean orderBean = list.get(i);
+                            String order_id = orderBean.getOrder_id();
+                            intent.putExtra("order_id",order_id);
+                            context.startActivity(intent);
+                        }
+                    });
                 }
                 vh5.type.setText(str);
                 vh5.store.setText(orderBean.getStore_name());

@@ -1,5 +1,9 @@
 package com.example.project.limolive.bean.taowu;
 
+import com.example.project.limolive.bean.StandardBean;
+
+import java.util.List;
+
 /**
  * @author hwj on 2016/12/28.
  */
@@ -50,6 +54,16 @@ public class GoodsContentBean {
         private String prom_id;
         private String province;
         private String is_collect;
+
+        public List<StandardBean> getGoods_standard() {
+            return goods_standard;
+        }
+
+        public void setGoods_standard(List<StandardBean> goods_standard) {
+            this.goods_standard = goods_standard;
+        }
+
+        private List<StandardBean> goods_standard;
 
         public String getIs_collect() {
             return is_collect;
@@ -251,6 +265,7 @@ public class GoodsContentBean {
             this.province = province;
         }
 
+
         @Override
         public String toString() {
             return "GoodInfo{" +
@@ -279,6 +294,7 @@ public class GoodsContentBean {
                     ", prom_id='" + prom_id + '\'' +
                     ", province='" + province + '\'' +
                     ", is_collect='" + is_collect + '\'' +
+                    ", goods_standard=" + goods_standard +
                     '}';
         }
     }

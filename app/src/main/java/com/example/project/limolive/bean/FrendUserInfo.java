@@ -1,10 +1,12 @@
 package com.example.project.limolive.bean;
 
+import java.io.Serializable;
+
 /**
  * 作者：hpg on 2016/12/28 11:01
  * 功能：用户详情 查看朋友资料详情
  */
-public class FrendUserInfo {
+public class FrendUserInfo implements Serializable{
     private String uid;    //用户UID
     private String phone;        //用户手机号码
     private String nickname;     //	用户昵称

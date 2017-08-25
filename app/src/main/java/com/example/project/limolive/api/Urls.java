@@ -23,7 +23,9 @@ public class Urls {
     public static final String GET_LIVE_LIST = "appapi/live/live_list";  //直播列表 ????人数
     public static final String GET_CAROUSEL = "appapi/Goodstype/Carousel";  //获取首页轮播图
     public static final String GET_GOODSTYPE = "appapi/Goodstype/get_goodstype";  //获取商品类型
-    public static final String GET_GOODS_CATGORY = "/Appapi/Goods/categorylist";  //获取商品类型
+    public static final String GET_GOODS_CATGORY = "/Appapi/Goods/categorylist";  //获取商品类型的商品
+    public static final String GET_GOODS_COMMENT_LIST = "/Appapi/Cart/comment_list";  //获取商品评论
+    public static final String GET_GOODS_ADD_COM = "/Appapi/Cart/add_comment";  //添加商品评论
     public static final String POST_HOTGOODSTYPE = "/appapi/Goodcategory/hot_goodscatgory";  //获取热门分类
     public static final String POST_GETADDRESS_LIST = "appapi/Goodstype/getAddressList";  //获取直播列表
     public static final String POST_EDIT_ADDRESS = "appapi/Goodstype/addAddress";  //修改收货地址

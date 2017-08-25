@@ -44,6 +44,8 @@ public class PayReadyActivity extends BaseActivity implements View.OnClickListen
     private boolean wx_boo=false;
     private TextView go_to_pay;
     private String ids;
+    private String tv;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +56,7 @@ public class PayReadyActivity extends BaseActivity implements View.OnClickListen
         if ("1".equals(type)) {
             cob = (CommitOrderBean) getIntent().getSerializableExtra("cob");
             beizhu = getIntent().getStringExtra("beizhu");
+            tv = getIntent().getStringExtra("tv");
         }if ("3".equals(type)){
             cobs= (CommitOrdersBean) getIntent().getSerializableExtra("cobs");
             ids = getIntent().getStringExtra("ids");
@@ -169,7 +172,7 @@ public class PayReadyActivity extends BaseActivity implements View.OnClickListen
 
     //商品详情确认订单和提交订单
     public void goos_Order2(String user_id, String goods_id, String address_id, String goods_num, String remark) {
-        Api.goos_Order2(user_id, goods_id, address_id, goods_num, remark, new ApiResponseHandler(this) {
+        Api.goos_Order2(user_id, goods_id, address_id, goods_num, remark,tv, new ApiResponseHandler(this) {
             @Override
             public void onSuccess(ApiResponse apiResponse) {
                 if (apiResponse.getCode() == Api.SUCCESS) {

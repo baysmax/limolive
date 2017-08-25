@@ -100,6 +100,10 @@
         <activity
             android:name="com.example.project.limolive.activity.LoginActivity"
             android:screenOrientation="portrait" />
+        <!--登录界面-->
+        <activity
+            android:name=".activity.CommentsActivity"
+            android:screenOrientation="portrait" />
         <!--注册界面-->
         <activity
             android:name="com.example.project.limolive.activity.RegisterActivity"

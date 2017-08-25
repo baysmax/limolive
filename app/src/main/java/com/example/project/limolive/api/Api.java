@@ -724,11 +724,12 @@ public class Api {
     /**
      * 点击购买获取商品信息
      */
-    public static void getGoodsInf(String user_id,String goods_id,int goods_num,AsyncHttpResponseHandler handler) {
+    public static void getGoodsInf(String user_id,String goods_id,int goods_num,String tv_resou_names,AsyncHttpResponseHandler handler) {
         RequestParams params = new RequestParams();
         params.put("user_id",user_id);
         params.put("goods_id",goods_id);
         params.put("goods_num",goods_num);
+        params.put("standard_size",tv_resou_names);
         ApiHttpClient.get(ApiHttpClient.API_URL + Urls.GET_GOODS_INF, params, handler);
     }
 
@@ -824,13 +825,14 @@ public class Api {
     /**
      * 商品详情确认订单和提交订单
      */
-    public static void goos_Order2(String user_id, String goods_id, String address_id, String goods_num, String remark, AsyncHttpResponseHandler handler) {
+    public static void goos_Order2(String user_id, String goods_id, String address_id, String goods_num, String remark,String standard_size, AsyncHttpResponseHandler handler) {
         RequestParams params = new RequestParams();
         params.put("user_id", user_id);
         params.put("goods_id", goods_id);
         params.put("address_id", address_id);
         params.put("goods_num", goods_num);
         params.put("remark", remark);
+        params.put("standard_size", standard_size);
         ApiHttpClient.get(ApiHttpClient.API_URL + Urls.GOOS_ORDER2, params, handler);
     }
 
@@ -953,5 +955,43 @@ public class Api {
         params.put("cat_id",scatgory);
         params.put("page",page);
         ApiHttpClient.get(ApiHttpClient.API_URL + Urls.GET_GOODS_CATGORY, params, handler);
+    }
+
+    /**
+     * 商品评论接口
+     * @param userID
+     * @param goods_id
+     */
+    public static void comment_list(String userID, String goods_id, ApiResponseHandler handler) {
+        RequestParams params = new RequestParams();
+        params.put("user_id",userID);
+        params.put("goods_id",goods_id);
+        ApiHttpClient.get(ApiHttpClient.API_URL + Urls.GET_GOODS_COMMENT_LIST, params, handler);
+    }
+
+    /**
+     * 添加评论
+     * @param user_id 用户id
+     * @param order_id 订单id
+     * @param service_rank 商家服务态度评价
+     * @param deliver_rank 物流评价等级
+     * @param courier_rank 快递员评价等级
+     * @param goods_rank 商品评价
+     * @param content 评论内容
+     * @param handler
+     */
+    public static void add_comment(
+            String user_id, String order_id,String service_rank,String deliver_rank
+            ,String courier_rank,String goods_rank,String content
+            , ApiResponseHandler handler) {
+        RequestParams params = new RequestParams();
+        params.put("user_id",user_id);
+        params.put("order_id",order_id);
+        params.put("service_rank",service_rank);
+        params.put("deliver_rank",deliver_rank);
+        params.put("courier_rank",courier_rank);
+        params.put("goods_rank",goods_rank);
+        params.put("content",content);
+        ApiHttpClient.get(ApiHttpClient.API_URL + Urls.GET_GOODS_ADD_COM, params, handler);
     }
 }

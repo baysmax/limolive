@@ -21,6 +21,7 @@
         android:layout_height="wrap_content">
 
         <LinearLayout
+            android:visibility="gone"
             android:id="@+id/detail_kefu"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
@@ -45,6 +46,7 @@
             android:background="#c9c9c9" />
 
         <LinearLayout
+            android:visibility="gone"
             android:id="@+id/detail_store"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
@@ -69,6 +71,7 @@
             android:background="#c9c9c9" />
 
         <LinearLayout
+            android:visibility="gone"
             android:id="@+id/detail_collect"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
@@ -87,20 +90,50 @@
                 android:textColor="#454545" />
 
         </LinearLayout>
+        <!--<LinearLayout-->
+            <!--android:id="@+id/detail_add"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_weight="1"-->
+            <!--android:orientation="horizontal"-->
+            <!--android:background="@mipmap/add_car"-->
+            <!--android:layout_height="match_parent" />-->
+        <!--<LinearLayout-->
+            <!--android:id="@+id/detail_buy"-->
+            <!--android:orientation="horizontal"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_weight="1"-->
+            <!--android:background="@mipmap/goumai"-->
+            <!--android:layout_height="match_parent" />-->
         <LinearLayout
-            android:id="@+id/detail_add"
-            android:layout_width="wrap_content"
-            android:layout_weight="1"
-            android:orientation="horizontal"
-            android:background="@mipmap/add_car"
-            android:layout_height="match_parent" />
-        <LinearLayout
-            android:id="@+id/detail_buy"
-            android:orientation="horizontal"
-            android:layout_width="wrap_content"
-            android:layout_weight="1"
-            android:background="@mipmap/goumai"
-            android:layout_height="match_parent" />
+            android:layout_alignParentBottom="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <Button
+                android:id="@+id/detail_add"
+                android:text="加入购物车"
+                android:textSize="@dimen/_15sp"
+                android:textColor="#fff"
+                android:layout_width="0dp"
+                android:layout_height="45dp"
+                android:layout_weight="1"
+                android:background="@color/red_bar"/>
+            <View
+                android:layout_width="0.2dp"
+                android:layout_height="match_parent"/>
+            <Button
+                android:visibility="gone"
+                android:id="@+id/detail_buy"
+                android:text="立即购买"
+                android:textSize="@dimen/_15sp"
+                android:textColor="#fff"
+                android:layout_width="0dp"
+                android:layout_height="45dp"
+                android:layout_weight="1"
+                android:background="@color/red_bar"/>
+
+        </LinearLayout>
+
 
     </LinearLayout>
 </LinearLayout>

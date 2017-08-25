@@ -59,6 +59,7 @@ public class CommitOrderAdapter extends BaseAdapter {
             vh.count = (TextView) view.findViewById(R.id.commit_item_count);
             vh.kuaidi = (TextView) view.findViewById(R.id.commit_item_kuaidi);
             vh.youhui = (TextView) view.findViewById(R.id.commit_item_youhui);
+            vh.tv_resou_names = (TextView) view.findViewById(R.id.tv_resou_names);
             vh.beizhu = (EditText) view.findViewById(R.id.commit_item_beizhu);
             view.setTag(vh);
         } else {
@@ -70,6 +71,7 @@ public class CommitOrderAdapter extends BaseAdapter {
         ImageLoader.getInstance().displayImage(ApiHttpClient.API_PIC+s.get(0),vh.iv);
         vh.desc.setText(c.getCartList().getGoods_name());
         vh.count.setText("X"+c.getCartList().getGoods_num());
+        vh.tv_resou_names.setText(c.getCartList()+" ");
         if("0".equals(c.getCartList().getIs_free_shipping())){
             vh.kuaidi.setText("快递 不包邮");
         }else {
@@ -79,7 +81,7 @@ public class CommitOrderAdapter extends BaseAdapter {
     }
 
     private class ViewHolder {
-        private TextView store, desc, count, kuaidi, youhui;
+        private TextView store, desc, count, kuaidi, youhui,tv_resou_names;
         private ImageView iv;
         private EditText beizhu;
     }

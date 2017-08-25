@@ -40,10 +40,12 @@ public class CommitOrderActivity extends BaseActivity implements View.OnClickLis
     private LinearLayout commit_order_ll;
     private List<CommitOrderBean> list;
     private CommitOrderAdapter adapter;
+    private String tv;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_commit_order);
+        tv = getIntent().getStringExtra("tv_resou_names");
         initView();
     }
 
@@ -90,7 +92,7 @@ public class CommitOrderActivity extends BaseActivity implements View.OnClickLis
             ToastUtils.showShort(this, NET_UNCONNECT);
             return;
         }
-        Api.getGoodsInf(LoginManager.getInstance().getUserID(this), getIntent().getStringExtra("goods_id"),getIntent().getIntExtra("num",0) ,new ApiResponseHandler(this) {
+        Api.getGoodsInf(LoginManager.getInstance().getUserID(this), getIntent().getStringExtra("goods_id"),getIntent().getIntExtra("num",0),tv ,new ApiResponseHandler(this) {
             @Override
             public void onSuccess(ApiResponse apiResponse) {
                 if (apiResponse.getCode() == Api.SUCCESS) {
@@ -132,6 +134,7 @@ public class CommitOrderActivity extends BaseActivity implements View.OnClickLis
                     intent1.putExtra("cob", c);
                     intent1.putExtra("beizhu", commit_item_beizhu.getText());
                     intent1.putExtra("type", "1");
+                    intent1.putExtra("tv", tv);
                     startActivity(intent1);
                 }
                 break;

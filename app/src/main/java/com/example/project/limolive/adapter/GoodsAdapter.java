@@ -122,7 +122,7 @@ public class GoodsAdapter extends RecyclerView.Adapter{
             shape=itemView.findViewById(R.id.shape);
             shape.setVisibility(View.GONE);
             iv_add=itemView.findViewById(R.id.iv_add);
-            iv_add.setVisibility(View.VISIBLE);
+            //iv_add.setVisibility(View.VISIBLE);
             tv_kucun.setVisibility(View.GONE);
             tv_repertoryNum.setVisibility(View.GONE);
             rl=itemView.findViewById(R.id.rls);

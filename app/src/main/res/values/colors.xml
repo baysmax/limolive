@@ -195,6 +195,7 @@
     <color name="glft_normal_line">#19e6d1d1</color>
     <color name="mb_glft_normal_line">#1cffffff</color>
     <color name="full_transparent">#00000000</color>
+    <color name="bantouming_color" >#fff</color>>
 
 
 </resources>

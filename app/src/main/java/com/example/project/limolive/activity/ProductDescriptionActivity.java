@@ -9,6 +9,7 @@ import android.os.Handler;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
@@ -24,12 +25,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.project.limolive.R;
+import com.example.project.limolive.api.Api;
+import com.example.project.limolive.api.ApiResponse;
+import com.example.project.limolive.api.ApiResponseHandler;
+import com.example.project.limolive.helper.LoginManager;
 import com.example.project.limolive.localalbum.common.ImageUtils;
 import com.example.project.limolive.localalbum.common.LocalImageHelper;
 import com.example.project.limolive.localalbum.ui.LocalAlbum;
 import com.example.project.limolive.localalbum.widget.AlbumViewPager;
 import com.example.project.limolive.localalbum.widget.FilterImageView;
 import com.example.project.limolive.localalbum.widget.MatrixImageView;
+import com.example.project.limolive.utils.ToastUtils;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.display.SimpleBitmapDisplayer;
@@ -74,13 +80,18 @@ public class ProductDescriptionActivity extends BaseActivity implements View.OnC
     private ImageView left_arrow;
     private Button btn_complete;
 
-
+    private EditText service_rank,deliver_rank,courier_rank,goods_rank;
+    String type="";
+    String order_id="";
+    private View post_scrollview;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // TODO Auto-generated method stub
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product_description);
+        type = getIntent().getStringExtra("type");
+        order_id = getIntent().getStringExtra("order_id");
         imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
         //设置ImageLoader参数
         options = new DisplayImageOptions.Builder()
@@ -112,7 +123,12 @@ public class ProductDescriptionActivity extends BaseActivity implements View.OnC
         mHeaderBar = findViewById(R.id.album_item_header_bar);
         delete = (ImageView) findViewById(R.id.header_bar_photo_delete);
         editContainer = findViewById(R.id.post_edit_container);
-        pagerContainer = findViewById(R.id.pagerview);
+        service_rank = (EditText) findViewById(R.id.service_rank);
+        deliver_rank = (EditText) findViewById(R.id.deliver_rank);
+        courier_rank = (EditText) findViewById(R.id.courier_rank);
+        goods_rank = (EditText) findViewById(R.id.goods_rank);
+        post_scrollview=findViewById(R.id.post_scrollview);
+
         delete.setVisibility(View.VISIBLE);
 
         btn_complete = (Button) findViewById(R.id.btn_complete);
@@ -146,6 +162,16 @@ public class ProductDescriptionActivity extends BaseActivity implements View.OnC
 //            public void afterTextChanged(Editable content) {
 //            }
 //        });
+        if ("0".equals(type)){
+            post_scrollview.setVisibility(View.GONE);
+        }else {
+            service_rank.setVisibility(View.GONE);
+            deliver_rank.setVisibility(View.GONE);
+            courier_rank.setVisibility(View.GONE);
+            goods_rank.setVisibility(View.GONE);
+        }
+
+
     }
 
     private void initData() {
@@ -185,6 +211,7 @@ public class ProductDescriptionActivity extends BaseActivity implements View.OnC
             case R.id.left_arrow:
                 if (!"".equals(mContent.getText())){
                     des = mContent.getText().toString();
+
                 }
                 finish();
                 break;
@@ -193,7 +220,45 @@ public class ProductDescriptionActivity extends BaseActivity implements View.OnC
                 if (!"".equals(mContent.getText())){
                     des = mContent.getText().toString();
                 }
-                finish();
+                if ("0".equals(type)){
+                    if (TextUtils.isEmpty(service_rank.getText().toString())){
+                        ToastUtils.showShort(this,"请输入商家评价数字 0-5");
+                        return;
+                    }
+                    if (TextUtils.isEmpty(deliver_rank.getText().toString())){
+                        ToastUtils.showShort(this,"请输入物流评价数字 0-5");
+                        return;
+                    }
+                    if (TextUtils.isEmpty(courier_rank.getText().toString())){
+                        ToastUtils.showShort(this,"请输入快递员评价数字 0-5");
+                        return;
+                    }
+                    if (TextUtils.isEmpty(goods_rank.getText().toString())){
+                        ToastUtils.showShort(this,"请输入商品评价数字 0-5");
+                        return;
+                    }
+                    if (TextUtils.isEmpty(mContent.getText().toString())){
+                        ToastUtils.showShort(this,"请输入评论");
+                        return;
+                    }
+                    Api.add_comment(LoginManager.getInstance().getUserID(this), order_id
+                            , service_rank.getText().toString()
+                            , deliver_rank.getText().toString()
+                            , courier_rank.getText().toString()
+                            , goods_rank.getText().toString()
+                            , mContent.getText().toString(),
+                            new ApiResponseHandler(this) {
+                                @Override
+                                public void onSuccess(ApiResponse apiResponse) {
+                                    if (apiResponse.getCode()==Api.SUCCESS){
+                                        ToastUtils.showShort(ProductDescriptionActivity.this,"完成评论");
+                                        finish();
+                                    }
+
+                                }
+                            });
+                }
+
                 break;
 
             default:
@@ -363,7 +428,11 @@ public class ProductDescriptionActivity extends BaseActivity implements View.OnC
      * 设置顶部标题栏颜色属性
      */
     private void loadTitle() {
-        setTitleString(getString(R.string.publish_product_detail));
+        if ("0".equals(type)){
+            setTitleString("商品评论");
+        }else {
+            setTitleString(getString(R.string.publish_product_detail));
+        }
         setLeftImage(R.mipmap.icon_return);
         setRightImage(R.mipmap.fenlei);
         setLeftRegionListener(new View.OnClickListener() {

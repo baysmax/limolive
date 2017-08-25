@@ -11,6 +11,7 @@ public class CommitOrderBean implements Serializable {
     private CartList cartList;
     private String totalPrice;
 
+
     public class AddressList implements Serializable {
         private String address;
         private String address_id;
@@ -211,6 +212,14 @@ public class CommitOrderBean implements Serializable {
         private String store_name;
         private String uid;
         private String weight;
+        private String standard_size;
+        public String getTv_resou_names() {
+            return standard_size;
+        }
+
+        public void setTv_resou_names(String standard_size) {
+            this.standard_size = standard_size;
+        }
 
         public String getCat_id() {
             return cat_id;
@@ -436,4 +445,5 @@ public class CommitOrderBean implements Serializable {
     public void setTotalPrice(String totalPrice) {
         this.totalPrice = totalPrice;
     }
+
 }
