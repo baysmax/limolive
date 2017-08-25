@@ -31,7 +31,7 @@ public class Goods_Type_Adapter extends RecyclerView.Adapter implements View.OnC
             for (int i=0;i<tvlist.size();i++){
                 int tag = (int) tvlist.get(i).getTag();
                 if (tag==(int)v.getTag()){
-                    tvlist.get(i).setBackground(context.getDrawable(R.drawable.follow));
+                    tvlist.get(i).setBackground(context.getDrawable(R.mipmap.category));
                 }else {//@color/line_color3
                     tvlist.get(i).setBackground(context.getDrawable(R.color.line_color3));
                 }
@@ -73,7 +73,7 @@ public class Goods_Type_Adapter extends RecyclerView.Adapter implements View.OnC
         TypeHolder holder= (TypeHolder) holder1;
         holder.btn.setText(btnBean.getName());
         if (position==0){
-            holder.btn.setBackground(context.getDrawable(R.drawable.follow));
+            holder.btn.setBackground(context.getDrawable(R.mipmap.category));
         }
         holder.itemView.setTag(position);
         holder.btn.setTag(position);
