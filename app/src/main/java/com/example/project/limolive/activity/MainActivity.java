@@ -135,7 +135,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 });
 
                 break;
-            case R.id.iv_shopping: //购物车
+            case R.id.iv_shopping: //购物
                 //clickIndex = 3;
                 Intent intent = new Intent();
                 intent.setClass(MainActivity.this, ShoppingActivity.class);

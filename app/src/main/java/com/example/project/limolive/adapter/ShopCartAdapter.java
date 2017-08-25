@@ -1,6 +1,7 @@
 package com.example.project.limolive.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -8,11 +9,18 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.project.limolive.R;
+import com.example.project.limolive.api.Api;
 import com.example.project.limolive.api.ApiHttpClient;
+import com.example.project.limolive.api.ApiResponse;
+import com.example.project.limolive.api.ApiResponseHandler;
 import com.example.project.limolive.bean.ShopCartBean;
+import com.example.project.limolive.helper.LoginManager;
+import com.example.project.limolive.utils.ToastUtils;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.List;
+
+import static com.example.project.limolive.presenter.ShopCartPresenter.LIST_REFRESH;
 
 /**
  * 购物车
@@ -23,10 +31,13 @@ import java.util.List;
 public class ShopCartAdapter extends CommonAdapter<ShopCartBean> implements View.OnClickListener{
 
     private CartButtonListener listener;
+    private Context context;
+    //private List<ShopCartBean> mDatas;
 
 
     public ShopCartAdapter(Context context, List<ShopCartBean> mDatas) {
         super(context, mDatas, R.layout.item_shop_cart);
+        this.context=context;
     }
 
     @Override
@@ -35,7 +46,7 @@ public class ShopCartAdapter extends CommonAdapter<ShopCartBean> implements View
     }
 
     private void attachView(ViewHolder helper, View view,int position) {
-        ShopCartBean item=mDatas.get(position);
+        final ShopCartBean item=mDatas.get(position);
         ImageView iv_good_select=null;
         SimpleDraweeView iv_good_image=null;
         TextView tv_goods_name=null;
@@ -43,24 +54,46 @@ public class ShopCartAdapter extends CommonAdapter<ShopCartBean> implements View
         TextView tv_number_show=null;
         Button btn_add=null;
         TextView tv_goods_price=null;
+        TextView tv_del=null;
+
         if(helper!=null){
             iv_good_select = helper.getView(R.id.iv_good_select);
             iv_good_image = helper.getView(R.id.iv_good_image);
             tv_goods_name= helper.getView(R.id.tv_goods_name);
             btn_reduce= helper.getView(R.id.btn_reduce);
             tv_number_show= helper.getView(R.id.tv_number_show);
+            tv_del = (TextView) helper.getView(R.id.tv_del);
             btn_add = helper.getView(R.id.btn_add);
             tv_goods_price= helper.getView(R.id.tv_goods_price);
         }else if(view!=null){
             iv_good_select = (ImageView) view.findViewById(R.id.iv_good_select);
             iv_good_image = (SimpleDraweeView) view.findViewById(R.id.iv_good_image);
             tv_goods_name = (TextView) view.findViewById(R.id.tv_goods_name);
+            tv_del = (TextView) view.findViewById(R.id.tv_del);
             btn_reduce = (Button) view.findViewById(R.id.btn_reduce);
             tv_number_show = (TextView) view.findViewById(R.id.tv_number_show);
             btn_add = (Button) view.findViewById(R.id.btn_add);
             tv_goods_price = (TextView) view.findViewById(R.id.tv_goods_price);
         }
+        tv_del.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Api.deleteCart(LoginManager.getInstance().getUserID(context), item.getId()
+                        , new ApiResponseHandler(context) {
+                            @Override
+                            public void onSuccess(ApiResponse apiResponse) {
+                                Log.i("购物车","apiResponse="+apiResponse.toString()+"tem.getGoods_id()="+item.getId());
+                                if (apiResponse.getCode() == Api.SUCCESS) {
+                                    mDatas.remove(item);
+                                    ShopCartAdapter.this.notifyDataSetChanged();
+                                } else {
+                                    ToastUtils.showShort(context, apiResponse.getMessage());
+                                }
 
+                            }
+                        });
+            }
+        });
         if(iv_good_select!=null){
             if(item.getIsSelect()==0){  //未选择
                 iv_good_select.setSelected(false);
