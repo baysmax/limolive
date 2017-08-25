@@ -181,11 +181,15 @@ public class ProductDescriptionActivity extends BaseActivity implements View.OnC
 
     @Override
     public void onBackPressed() {
-        if (pagerContainer.getVisibility() != View.VISIBLE) {
-            //showSaveDialog();
-        } else {
-            hideViewPager();
+        if (pagerContainer!=null){
+            if (pagerContainer.getVisibility() != View.VISIBLE) {
+                //showSaveDialog();
+            } else {
+                hideViewPager();
+            }
         }
+        finish();
+
     }
 
 
