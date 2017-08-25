@@ -41,6 +41,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
 import com.example.project.limolive.R;
 import com.example.project.limolive.adapter.GoodsContentAdapter;
+import com.example.project.limolive.adapter.GoodsManageAdapter;
 import com.example.project.limolive.adapter.MoreLiveingAdapter;
 import com.example.project.limolive.api.Api;
 import com.example.project.limolive.api.ApiHttpClient;
@@ -104,7 +105,7 @@ public class GoodsDetails extends BaseActivity implements View.OnClickListener {
     private List<RankBean> com_list;
     private Button btn_add_cart,go_shopping;
     private RelativeLayout rl_no_more;
-    private LinearLayout ll_more;
+    private LinearLayout ll_more,ll_Goods_sd;
 
 
     @Override
@@ -116,6 +117,10 @@ public class GoodsDetails extends BaseActivity implements View.OnClickListener {
         monitor();
 
     }
+
+    /**
+     * 弹出对话框
+     */
     Dialog bottomDialog;
     private void show1() {//Dialog
         bottomDialog = new Dialog(this, R.style.BottomDialog);
@@ -241,6 +246,16 @@ public class GoodsDetails extends BaseActivity implements View.OnClickListener {
 
         rl_no_more= header.findViewById(R.id.rl_no_more);//没有评论
         ll_more= header.findViewById(R.id.ll_more);//评论外部布局
+        ll_Goods_sd= header.findViewById(R.id.ll_Goods_sd);//商家信息外部布局
+        ll_Goods_sd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent();
+                intent.setClass(GoodsDetails.this,GoodsManagsActivity.class);
+                intent.putExtra("uid",gb.getGoodInfo().getUid());
+                startActivity(intent);
+            }
+        });
 
 
         tv_spac=(TextView) header.findViewById(R.id.tv_spac);//规格

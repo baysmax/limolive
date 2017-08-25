@@ -256,6 +256,8 @@
         <activity android:name="com.example.project.limolive.activity.HistoryActivity" />
         <!--收藏列表-->
         <activity android:name="com.example.project.limolive.activity.CollectionListActivity" />
+        <!--店家商品-->
+        <activity android:name="com.example.project.limolive.activity.GoodsManagsActivity" />
         <!--购物车-->
         <activity android:name="com.example.project.limolive.activity.ShoppingCartActivity" />
 
