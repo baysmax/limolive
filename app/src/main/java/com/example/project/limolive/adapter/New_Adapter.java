@@ -35,14 +35,14 @@ public class New_Adapter extends RecyclerView.Adapter {
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new New_Holder(View.inflate(context, R.layout.goodsmgs_item2,null));
+        return new New_Holder(View.inflate(context, R.layout.item_new_find,null));
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder1, int position) {
         New_Holder holder= (New_Holder) holder1;
         final RecommendBean recommendBean = list.get(position);
-        holder.tv_pricesd.setText(recommendBean.getShop_price());
+        holder.tv_pricesd.setText("￥ "+recommendBean.getShop_price());
         holder.tv_describe.setText(recommendBean.getGoods_name());
         if (TextUtils.isEmpty(recommendBean.getOriginal_img())) {
             holder.iv_img.setImageResource(R.mipmap.goods);
@@ -70,13 +70,13 @@ public class New_Adapter extends RecyclerView.Adapter {
     private class New_Holder extends RecyclerView.ViewHolder {
         ImageView iv_img;
         TextView tv_describe,tv_pricesd;
-        RelativeLayout ll;
+        LinearLayout ll;
 
         public New_Holder(View itemView) {
             super(itemView);
             iv_img=itemView.findViewById(R.id.iv_img);
             tv_describe=itemView.findViewById(R.id.tv_describe);
-            tv_pricesd=itemView.findViewById(R.id.tv_pricesd);
+            tv_pricesd=itemView.findViewById(R.id.tv_prices);
             ll=itemView.findViewById(R.id.ll);
         }
     }

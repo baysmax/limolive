@@ -135,7 +135,7 @@ public class New_Fragment extends BaseFragment {
 
         srl_down_new= (SwipeRefreshLayout) findViewById(R.id.srl_down_new);
         rv_new= (RecyclerView) findViewById(R.id.rv_new);
-        gm=new GridLayoutManager(getActivity(),1);
+        gm=new GridLayoutManager(getActivity(),2);
         rv_new.setLayoutManager(gm);
         adapter=new New_Adapter(getActivity(),new_list);
         rv_new.setAdapter(adapter);
