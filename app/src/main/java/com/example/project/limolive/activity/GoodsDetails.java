@@ -177,7 +177,7 @@ public class GoodsDetails extends BaseActivity implements View.OnClickListener {
     }
 
     private void initRv() {
-        tv_adapter=new TvAdapter(this,list);
+
         rv_spec.setLayoutManager(new GridLayoutManager(this,3));
         rv_spec.addItemDecoration(new SpaceItemDecoration(getResources().getDimensionPixelSize(R.dimen._15sp)));
         rv_spec.setAdapter(tv_adapter);
@@ -234,6 +234,7 @@ public class GoodsDetails extends BaseActivity implements View.OnClickListener {
         list=new ArrayList<>();
         url = new ArrayList<>();
         com_list=new ArrayList();
+        tv_adapter=new TvAdapter(this,list);
         lv_myListview = (MyListview) findViewById(R.id.lv_myListview);
         detail_kefu = (LinearLayout) findViewById(R.id.detail_kefu);
         detail_store = (LinearLayout) findViewById(R.id.detail_store);
@@ -344,6 +345,8 @@ public class GoodsDetails extends BaseActivity implements View.OnClickListener {
                     gb = JSON.parseObject(apiResponse.getData(), GoodsContentBean.class);
                     initUserInfo(gb.getGoodInfo().getUid());
                     list.addAll(gb.getGoodInfo().getGoods_standard());
+                    Log.i("获取商品详情", "gb.getGoodInfo().getGoods_standard().." + gb.getGoodInfo().getGoods_standard().size());
+                    tv_adapter.notifyDataSetChanged();
                     if (!TextUtils.isEmpty(gb.getGoodInfo().getOriginal_img())) {
                        // String[] split = gb.getGoodInfo().getGoods_content().split(";");
                         Glide.with(GoodsDetails.this).load(ApiHttpClient.API_PIC + gb.getGoodInfo().getOriginal_img()).into(header_pic);
@@ -721,7 +724,8 @@ public class GoodsDetails extends BaseActivity implements View.OnClickListener {
         public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
             final StandardBean standardBean = resou.get(position);
             final ResouHolder holder1 = (ResouHolder) holder;
-            holder1.tv_resou_names.setText(standardBean.getGoods_size());
+            holder1.tv_resou_names.setText(standardBean.getGood_size());
+            Log.i("获取商品详情","standardBean="+standardBean.toString());
             tv_list.add(holder1.tv_resou_names);
             holder1.tv_resou_names.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -731,7 +735,7 @@ public class GoodsDetails extends BaseActivity implements View.OnClickListener {
                     }
                     holder1.tv_resou_names.setBackground(context.getDrawable(R.drawable.button_bg1));
                     tv = holder1.tv_resou_names.getText().toString();
-                    tv_spac.setText("已选择: "+standardBean.getGoods_size());
+                    tv_spac.setText("已选择: "+standardBean.getGood_size());
                 }
             });
         }

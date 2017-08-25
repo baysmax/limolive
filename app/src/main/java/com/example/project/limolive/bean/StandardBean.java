@@ -5,35 +5,36 @@ package com.example.project.limolive.bean;
  */
 
 public class StandardBean {
-    private String goods_id;
-    private String goods_size;
+    private String good_id;
+    private String good_size;
     private String s_id;
+
     private String store_count;
 
     @Override
     public String toString() {
         return "StandardBean{" +
-                "goods_id='" + goods_id + '\'' +
-                ", goods_size='" + goods_size + '\'' +
+                "good_id='" + good_id + '\'' +
+                ", good_size='" + good_size + '\'' +
                 ", s_id='" + s_id + '\'' +
                 ", store_count='" + store_count + '\'' +
                 '}';
     }
 
-    public String getGoods_id() {
-        return goods_id;
+    public String getGood_id() {
+        return good_id;
     }
 
-    public void setGoods_id(String goods_id) {
-        this.goods_id = goods_id;
+    public void setGood_id(String good_id) {
+        this.good_id = good_id;
     }
 
-    public String getGoods_size() {
-        return goods_size;
+    public String getGood_size() {
+        return good_size;
     }
 
-    public void setGoods_size(String goods_size) {
-        this.goods_size = goods_size;
+    public void setGood_size(String good_size) {
+        this.good_size = good_size;
     }
 
     public String getS_id() {
