@@ -1,10 +1,14 @@
 package com.example.project.limolive.activity;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Environment;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +21,7 @@ import com.example.project.limolive.R;
 import com.example.project.limolive.api.Api;
 import com.example.project.limolive.api.ApiResponse;
 import com.example.project.limolive.api.ApiResponseHandler;
+import com.example.project.limolive.bean.GoodsStandard;
 import com.example.project.limolive.fragment.BaseFragment;
 import com.example.project.limolive.helper.DialogFactory;
 import com.example.project.limolive.helper.LoginManager;
@@ -68,7 +73,7 @@ public class PublishProductsFragment extends BaseFragment implements View.OnClic
     //商品描述图片
     private List<File> listpics;
     private File headsmall;
-
+    private RelativeLayout rl_size;
 
 
 
@@ -85,6 +90,8 @@ public class PublishProductsFragment extends BaseFragment implements View.OnClic
         im_product_head = (RoundImageView) findViewById(R.id.im_product_head);
         rl_des = (RelativeLayout) findViewById(R.id.rl_des);
         rl_sort = (RelativeLayout) findViewById(R.id.rl_sort);
+        rl_size = (RelativeLayout) findViewById(R.id.rl_size);
+        rl_size.setOnClickListener(this);
         button = (Button) findViewById(R.id.button);
         et_product_title = (EditText) findViewById(R.id.et_product_title);
         et_product_price = (EditText) findViewById(R.id.et_product_price);
@@ -107,6 +114,9 @@ public class PublishProductsFragment extends BaseFragment implements View.OnClic
         switch (view.getId()){
             case R.id.im_product_head:
                 changeUserHead();
+                break;
+            case R.id.rl_size:
+                setSize();
                 break;
             //宝贝描述
             case  R.id.rl_des:
@@ -140,7 +150,10 @@ public class PublishProductsFragment extends BaseFragment implements View.OnClic
                     ToastUtils.showShort(getActivity(),"请输入商品现有库存");
                     return;
                 }
-
+                if (sizeList.size()==0){
+                    ToastUtils.showShort(getActivity(),"请输入商品规格");
+                    return;
+                }
 
 //                Log.e("picString",ProductDescriptionActivity.picString.size()+"");
 
@@ -171,13 +184,68 @@ public class PublishProductsFragment extends BaseFragment implements View.OnClic
                         et_product_title.getText().toString(),
                         et_product_price.getText().toString(),
                         et_product_storge.getText().toString(),
-                        ProductDescriptionActivity.des,listpics);
+                        ProductDescriptionActivity.des,listpics,sizeList);
                 break;
 
 
 
 
         }
+
+    }
+    private EditText et_size,et_num;
+    private Button btn_fig,btn_save;
+    private Dialog dialogs;
+    private List<GoodsStandard> sizeList=new ArrayList();
+    private void setSize() {
+        View view = View.inflate(getContext(), R.layout.dialogs, null);
+        et_size = view.findViewById(R.id.et_size);
+        et_num = view.findViewById(R.id.et_num);
+        btn_save = view.findViewById(R.id.btn_save);
+        btn_fig = view.findViewById(R.id.btn_fig);
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
+                .setTitle("请输入商品规格信息")
+                .setView(view);
+        dialogs = builder.show();
+        btn_fig.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialogs.dismiss();
+            }
+        });
+        btn_save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String size = et_size.getText().toString();
+                String num = et_num.getText().toString();
+                if (TextUtils.isEmpty(size)){
+                    ToastUtils.showShort(getActivity(),"商品规格不能为空");
+                    return;
+                }
+                if (TextUtils.isEmpty(num)){
+                    ToastUtils.showShort(getActivity(),"商品数量不能为空");
+                    return;
+                }
+                sizeList.add(new GoodsStandard(size,num));
+                ToastUtils.showShort(getActivity(),size+":"+num);
+                et_size.setText("");
+                et_num.setText("");
+                et_num.setHint("");
+                et_size.setHint("");
+            }
+        });
+//                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialogInterface, int i) {
+//                    }
+//                })
+//                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialogInterface, int i) {
+//                        dialog.dismiss();
+//                    }
+//                }
+
 
     }
 
@@ -189,15 +257,14 @@ public class PublishProductsFragment extends BaseFragment implements View.OnClic
      */
     private void publishProduct(String uid, String cat_id, File headsmall,
                                 String goods_name, String shop_price, String store_count,
-                                String goods_remark, List<File> goods_content){
-
+                                String goods_remark, List<File> goods_content,List<GoodsStandard> sizeList){
         if (NetWorkUtil.isNetworkConnected(getActivity())){
 
-            Api.sendProducts(uid, cat_id, headsmall, goods_name, shop_price, store_count, goods_remark, goods_content, new ApiResponseHandler(getActivity()) {
+            Api.sendProducts(uid, cat_id, headsmall, goods_name, shop_price, store_count, goods_remark, goods_content,sizeList, new ApiResponseHandler(getActivity()) {
 
                 @Override
                 public void onSuccess(ApiResponse apiResponse) {
-
+                    Log.i("店铺","apiResponse"+apiResponse.toString());
                     if (apiResponse.getCode() == 0){
 
                         hideProgressDialog();
@@ -285,7 +352,7 @@ public class PublishProductsFragment extends BaseFragment implements View.OnClic
                     Bitmap photo = bundle.getParcelable("data");
                     im_product_head.setImageBitmap(photo);
                     try {
-                        saveFile(photo,"headsmall.jpg");
+                        saveFile(photo,"headsmalls.jpg");
                     } catch (IOException e) {
                         e.printStackTrace();
                     }

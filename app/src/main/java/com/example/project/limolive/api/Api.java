@@ -3,6 +3,7 @@ package com.example.project.limolive.api;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.example.project.limolive.bean.GoodsStandard;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
@@ -563,7 +564,7 @@ public class Api {
      */
     public static void sendProducts(String uid, String cat_id, File headsmall,
                                     String goods_name, String shop_price, String store_count,
-                                    String goods_remark, List<File> goods_content,AsyncHttpResponseHandler handler){
+                                    String goods_remark, List<File> goods_content, List<GoodsStandard> sizeList,AsyncHttpResponseHandler handler){
 
         RequestParams params = new RequestParams();
         params.put("uid",uid);
@@ -571,8 +572,9 @@ public class Api {
         params.put("goods_name",goods_name);
         params.put("shop_price",shop_price);
         params.put("store_count",store_count);
-        params.put("goods_remark",goods_remark);
+        //params.put("goods_remark",goods_remark);
         params.put("goods_content",goods_content);
+        params.put("goods_standard",sizeList);
 
         try {
             params.put("original_img",headsmall);

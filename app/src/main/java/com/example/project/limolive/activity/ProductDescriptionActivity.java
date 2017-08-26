@@ -227,6 +227,7 @@ public class ProductDescriptionActivity extends BaseActivity implements View.OnC
                 if (!"".equals(mContent.getText())){
                     des = mContent.getText().toString();
                 }
+
                 if ("0".equals(type)){
                     if (TextUtils.isEmpty(service_rank.getText().toString())){
                         ToastUtils.showShort(this,"请输入商家评价数字 0-5");
@@ -266,6 +267,8 @@ public class ProductDescriptionActivity extends BaseActivity implements View.OnC
 
                                 }
                             });
+                }else {
+                    finish();
                 }
 
                 break;
