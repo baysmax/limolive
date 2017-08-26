@@ -45,7 +45,7 @@ public class OrderPresenter extends Presenter {
             @Override
             public void onSuccess(ApiResponse apiResponse) {
 
-                Log.i("热门商品类型","apiResponse.getData()"+apiResponse.getData());
+                Log.i("热门商品类型","apiResponse.getData()"+apiResponse.toString());
                 if (apiResponse.getCode() == Api.SUCCESS) {
                     list.clear();
                     list.addAll(JSONArray.parseArray(apiResponse.getData(),OrderBean.class));

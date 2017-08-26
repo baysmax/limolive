@@ -80,6 +80,16 @@ public class OrderBean {
         private String remark;
         private String sku;
 
+        public String getGood_standard_size() {
+            return good_standard_size;
+        }
+
+        public void setGood_standard_size(String good_standard_size) {
+            this.good_standard_size = good_standard_size;
+        }
+
+        private String good_standard_size;
+
         public String getBar_code() {
             return bar_code;
         }

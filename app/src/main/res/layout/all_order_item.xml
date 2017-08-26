@@ -31,69 +31,75 @@
             android:textColor="#f00"
             android:textSize="15sp" />
     </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:baselineAligned="false">
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
-            android:background="@android:color/white">
-
-            <ImageView
-                android:id="@+id/commit_item_iv"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:padding="5dp" />
-
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_weight="1"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/commit_item_desc"
+        <FrameLayout
+            android:background="#00e9e9e9"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_margin="6dp"
+                android:background="@color/line_color3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:baselineAligned="false">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
-                android:ellipsize="end"
-                android:maxLines="2"
-                android:text="某某家的小店fsrgds噶饿死哥个哇塞给我滚噶爽歪歪sag个哇撒个哇 "
-                android:textColor="#454545"
-                android:textSize="15sp" />
+                android:background="@android:color/white">
 
-            <TextView
-                android:id="@+id/commit_item_count"
-                android:layout_width="match_parent"
+                <ImageView
+                    android:id="@+id/commit_item_iv"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:padding="5dp" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="5dp"
-                android:gravity="right"
-                android:text="X1"
-                android:textColor="#454545"
-                android:textSize="15sp" />
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
+                android:orientation="vertical">
 
-        </LinearLayout>
-    </LinearLayout>
+                <TextView
+                    android:id="@+id/commit_item_desc"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:ellipsize="end"
+                    android:maxLines="2"
+                    android:text="某某家的小店fsrgds噶饿死哥个哇塞给我滚噶爽歪歪sag个哇撒个哇 "
+                    android:textColor="#454545"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/commit_item_count"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="5dp"
+                    android:gravity="right"
+                    android:text="X1"
+                    android:textColor="#454545"
+                    android:textSize="15sp" />
+
+            </LinearLayout>
+        </LinearLayout></FrameLayout>
+
 
 
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="@dimen/line_width3"
-        android:background="#808080" />
+        android:layout_height="0.2dp"
+        android:background="#67808080" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -158,7 +164,30 @@
                 android:textSize="12sp" />
 
         </LinearLayout>
+        <LinearLayout
+            android:id="@+id/ll1"
+            android:layout_width="80dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="10dp"
+            android:layout_toLeftOf="@id/ll"
+            android:layout_marginRight="10dp"
+            android:gravity="center">
+            <TextView
+                android:id="@+id/tv_evaluate1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="评价"
+                android:gravity="center"
+                android:background="@drawable/btns_bg_my"
+                android:textColor="#f00"
+                android:textSize="12sp" />
+
+        </LinearLayout>
 
     </RelativeLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.2dp"
+        android:background="#808080" />
 
 </LinearLayout>

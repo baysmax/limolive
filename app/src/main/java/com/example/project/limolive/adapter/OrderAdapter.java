@@ -1,20 +1,33 @@
 package com.example.project.limolive.adapter;
 
+import android.app.AlertDialog;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.project.limolive.R;
+import com.example.project.limolive.activity.CommitOrderActivity;
+import com.example.project.limolive.activity.GoodsDetails;
 import com.example.project.limolive.activity.ProductDescriptionActivity;
 import com.example.project.limolive.activity.PublishProductsActivity;
+import com.example.project.limolive.api.Api;
 import com.example.project.limolive.api.ApiHttpClient;
+import com.example.project.limolive.api.ApiResponse;
+import com.example.project.limolive.api.ApiResponseHandler;
 import com.example.project.limolive.bean.order.OrderBean;
+import com.example.project.limolive.helper.LoginManager;
+import com.example.project.limolive.utils.ToastUtils;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.List;
@@ -28,6 +41,7 @@ public class OrderAdapter extends BaseAdapter {
     private List<OrderBean> list;
     private OrderBean orderBean;
     private String type="";
+    AlertDialog dialog = null;
 
     public OrderAdapter(Context context, List<OrderBean> list,String type) {
         this.context = context;
@@ -95,6 +109,8 @@ public class OrderAdapter extends BaseAdapter {
                     vh1.count = (TextView) view.findViewById(R.id.commit_item_count);
                     vh1.price = (TextView) view.findViewById(R.id.price);
                     vh1.tv_evaluate=view.findViewById(R.id.tv_evaluate);
+                    vh1.tv_evaluate1=view.findViewById(R.id.tv_evaluate1);
+                    vh1.tv_evaluate1.setVisibility(View.GONE);
                     vh1.tv_evaluate.setVisibility(View.GONE);
                     view.setTag(vh1);
                     break;
@@ -110,6 +126,8 @@ public class OrderAdapter extends BaseAdapter {
                     vh2.type=view.findViewById(R.id.tv_type);
                     vh2.tv_evaluate=view.findViewById(R.id.tv_evaluate);
                     vh2.tv_evaluate.setVisibility(View.GONE);
+                    vh2.tv_evaluate1=view.findViewById(R.id.tv_evaluate1);
+                    vh2.tv_evaluate1.setVisibility(View.GONE);
                     view.setTag(vh2);
                     break;
                 case 2://待发货
@@ -124,6 +142,8 @@ public class OrderAdapter extends BaseAdapter {
                     vh3.type=view.findViewById(R.id.tv_type);
                     vh3.tv_evaluate=view.findViewById(R.id.tv_evaluate);
                     vh3.tv_evaluate.setVisibility(View.GONE);
+                    vh3.tv_evaluate1=view.findViewById(R.id.tv_evaluate1);
+                    vh3.tv_evaluate1.setVisibility(View.GONE);
                     view.setTag(vh3);
                     break;
                 case 3://待收货
@@ -138,6 +158,8 @@ public class OrderAdapter extends BaseAdapter {
                     vh4.type=view.findViewById(R.id.tv_type);
                     vh4.tv_evaluate=view.findViewById(R.id.tv_evaluate);
                     vh4.tv_evaluate.setVisibility(View.GONE);
+                    vh4.tv_evaluate1=view.findViewById(R.id.tv_evaluate1);
+                    vh4.tv_evaluate1.setVisibility(View.GONE);
                     view.setTag(vh4);
                     break;
                 case 4://待评价
@@ -152,6 +174,8 @@ public class OrderAdapter extends BaseAdapter {
                     vh5.type=view.findViewById(R.id.tv_type);
                     vh5.tv_evaluate=view.findViewById(R.id.tv_evaluate);
                     vh5.tv_evaluate.setVisibility(View.GONE);
+                    vh5.tv_evaluate1=view.findViewById(R.id.tv_evaluate1);
+                    vh5.tv_evaluate1.setVisibility(View.GONE);
                     view.setTag(vh5);
                     break;
                 case 5://售后
@@ -166,6 +190,8 @@ public class OrderAdapter extends BaseAdapter {
                     vh6.type=(TextView) view.findViewById(R.id.tv_type);
                     vh6.tv_evaluate=view.findViewById(R.id.tv_evaluate);
                     vh6.tv_evaluate.setVisibility(View.GONE);
+                    vh6.tv_evaluate1=view.findViewById(R.id.tv_evaluate1);
+                    vh6.tv_evaluate1.setVisibility(View.GONE);
                     view.setTag(vh6);
                     break;
             }
@@ -227,17 +253,105 @@ public class OrderAdapter extends BaseAdapter {
                 if (str.equals("待评价")){
                     vh1.tv_evaluate.setText("评价");
                     vh1.tv_evaluate.setVisibility(View.VISIBLE);
+                    vh1.tv_evaluate.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Intent intent = new Intent(context,ProductDescriptionActivity.class);
+                            intent.putExtra("type","0");
+                            OrderBean orderBean = list.get(i);
+                            String order_id = orderBean.getOrder_id();
+                            intent.putExtra("order_id",order_id);
+                            context.startActivity(intent);
+                        }
+                    });
                 }else if ("已完成".equals(str)){
                     vh1.tv_evaluate.setText("退货申请");
                     vh1.tv_evaluate.setVisibility(View.VISIBLE);
+                    final ViewHolder finalVh2 = vh1;
+                    vh1.tv_evaluate.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            final EditText editText = new EditText(context);
+
+                            AlertDialog.Builder builder = new AlertDialog.Builder(context)
+                                    .setTitle("请输入退货理由")
+                                    .setIcon(android.R.drawable.ic_dialog_info)
+                                    .setView(editText)
+                                    .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                            orderReturn(editText.getText().toString(), finalVh2.tv_evaluate);
+                                        }
+                                    })
+                                    .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                               dialog.dismiss();
+                                        }
+                                    });
+                            dialog = builder.show();
+
+                        }
+                    });
                 }else if ("待支付".equals(str)){
                     vh1.tv_evaluate.setText("去支付");
                     vh1.tv_evaluate.setVisibility(View.VISIBLE);
+                    vh1.tv_evaluate.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Intent order = new Intent(context, CommitOrderActivity.class);
+                            order.putExtra("goods_id", orderBean.getGoods_list().get(0).getGoods_id());
+                            order.putExtra("num", orderBean.getGoods_list().get(0).getGoods_num());
+                            order.putExtra("tv_resou_names", orderBean.getGoods_list().get(0).getGood_standard_size());
+                            context.startActivity(order);
+                        }
+                    });
                 }else if (str.equals("待发货")){
-                vh1.tv_evaluate.setText("查看物流");
-                vh1.tv_evaluate.setVisibility(View.VISIBLE);
+                    vh1.tv_evaluate.setText("提醒发货");
+                    vh1.tv_evaluate.setVisibility(View.VISIBLE);
+                    final ViewHolder finalVh = vh1;
+                    vh1.tv_evaluate.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            finalVh.tv_evaluate.setText("已提醒");
+                        }
+                    });
+                }else if ("待收货".equals(str)){
+                    vh1.tv_evaluate1.setVisibility(View.VISIBLE);
+                    vh1.tv_evaluate1.setText("查看物流");
+                    vh1.tv_evaluate1.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            ClipboardManager cm = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+                            // 创建普通字符型ClipData
+                            ClipData mClipData = ClipData.newPlainText("Label", orderBean.getShipping_code());
+                            // 将ClipData内容放到系统剪贴板里。
+                            cm.setPrimaryClip(mClipData);
+                            ToastUtils.showShort(context,"订单信息已复制到粘贴板");
+                        }
+                    });
+                    vh1.tv_evaluate.setText("确认收货");
+                    vh1.tv_evaluate.setVisibility(View.VISIBLE);
+                    final ViewHolder finalVh3 = vh1;
+                    vh1.tv_evaluate.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Api.orderConfirm(LoginManager.getInstance().getUserID(context)
+                                    ,orderBean.getOrder_id()
+                                    , new ApiResponseHandler(context) {
+                                @Override
+                                public void onSuccess(ApiResponse apiResponse) {
+                                    Log.i("订单",apiResponse.toString());
+                                    if (apiResponse.getCode()==0){
+                                        ToastUtils.showShort(context,"成功");
+                                        finalVh3.tv_evaluate.setText("已确认收货");
+                                    }
+                                }
+                            });
+                        }
+                    });
                 }else {
-                    vh3.tv_evaluate.setVisibility(View.GONE);
+                    vh1.tv_evaluate.setVisibility(View.GONE);
                 }
                 vh1.type.setText(str);
                 vh1.store.setText(orderBean.getStore_name());
@@ -250,6 +364,17 @@ public class OrderAdapter extends BaseAdapter {
                 if (str.equals("待支付")){
                     vh2.tv_evaluate.setText("去支付");
                     vh2.tv_evaluate.setVisibility(View.VISIBLE);
+                    vh2.tv_evaluate.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                                Intent order = new Intent(context, CommitOrderActivity.class);
+                                order.putExtra("goods_id", orderBean.getGoods_list().get(0).getGoods_id());
+                                order.putExtra("num", orderBean.getGoods_list().get(0).getGoods_num());
+                                order.putExtra("tv_resou_names", orderBean.getGoods_list().get(0).getGood_standard_size());
+                                context.startActivity(order);
+
+                        }
+                    });
                 }
                 vh2.type.setText(str);
                 vh2.store.setText(orderBean.getStore_name());
@@ -259,8 +384,29 @@ public class OrderAdapter extends BaseAdapter {
                 break;
             case 2://待发货
                 if (str.equals("待发货")){
-                    vh3.tv_evaluate.setText("查看物流");
+                    vh3.tv_evaluate1.setVisibility(View.VISIBLE);
+                    vh3.tv_evaluate1.setText("查看物流");
+                    vh3.tv_evaluate1.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            ClipboardManager cm = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+                            // 创建普通字符型ClipData
+                            ClipData mClipData = ClipData.newPlainText("Label", orderBean.getShipping_code());
+                            // 将ClipData内容放到系统剪贴板里。
+                            cm.setPrimaryClip(mClipData);
+                            ToastUtils.showShort(context,"订单信息已复制到粘贴板");
+                        }
+                    });
+
+                    vh3.tv_evaluate.setText("提醒发货");
                     vh3.tv_evaluate.setVisibility(View.VISIBLE);
+                    final ViewHolder finalVh4 = vh3;
+                    vh3.tv_evaluate.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                                    finalVh4.tv_evaluate.setText("已提醒");
+                        }
+                    });
                 }
                 vh3.type.setText(str);
                 vh3.store.setText(orderBean.getStore_name());
@@ -270,8 +416,26 @@ public class OrderAdapter extends BaseAdapter {
                 break;
             case 3://待收货
                 if (str.equals("待收货")){
-                    vh4.tv_evaluate.setText("查看物流");
+                    vh4.tv_evaluate.setText("确认收货");
                     vh4.tv_evaluate.setVisibility(View.VISIBLE);
+                    final ViewHolder finalVh3 = vh4;
+                    vh4.tv_evaluate.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Api.orderConfirm(LoginManager.getInstance().getUserID(context)
+                                    ,orderBean.getOrder_id()
+                                    , new ApiResponseHandler(context) {
+                                @Override
+                                public void onSuccess(ApiResponse apiResponse) {
+                                    Log.i("订单",apiResponse.toString());
+                                    if (apiResponse.getCode()==0){
+                                        ToastUtils.showShort(context,"成功");
+                                        finalVh3.tv_evaluate.setText("已确认收货");
+                                    }
+                                }
+                            });
+                        }
+                    });
                 }
                 vh4.type.setText(str);
                 vh4.store.setText(orderBean.getStore_name());
@@ -306,6 +470,32 @@ public class OrderAdapter extends BaseAdapter {
                 if ("已完成".equals(str)){
                     vh6.tv_evaluate.setText("退货申请");
                     vh6.tv_evaluate.setVisibility(View.VISIBLE);
+                    final ViewHolder finalVh1 = vh6;
+                    vh6.tv_evaluate.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            final EditText editText = new EditText(context);
+
+                            AlertDialog.Builder builder = new AlertDialog.Builder(context)
+                                    .setTitle("请输入")
+                                    .setIcon(android.R.drawable.ic_dialog_info)
+                                    .setView(editText)
+                                    .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                            orderReturn(editText.getText().toString(), finalVh1.tv_evaluate);
+                                        }
+                                    })
+                                    .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                            dialog.dismiss();
+                                        }
+                                    });
+                            dialog = builder.show();
+
+                        }
+                    });
                 }
                 vh6.store.setText(orderBean.getStore_name());
                 ImageLoader.getInstance().displayImage(ApiHttpClient.API_PIC + orderBean.getGoods_list().get(0).getOriginal_img(), vh1.iv);
@@ -316,8 +506,36 @@ public class OrderAdapter extends BaseAdapter {
         return view;
     }
 
+    private void orderReturn(String reason, final TextView textView) {
+        Api.orderReturn(LoginManager.getInstance().getUserID(context)
+                , orderBean.getOrder_id()
+                , orderBean.getOrder_sn()
+                , orderBean.getOrder_sn()
+                , orderBean.getGoods_list().get(0).getGoods_id()
+                , "0"
+                , reason
+                , orderBean.getGoods_list().get(0).getGood_standard_size()
+                , new ApiResponseHandler(context) {
+                    @Override
+                    public void onSuccess(ApiResponse apiResponse) {
+                        int code = apiResponse.getCode();
+                        switch (code){
+                            case 0:
+                                ToastUtils.showShort(context,"退货申请成功");
+                                break;
+                            case -2:
+                                ToastUtils.showShort(context,"退货申请失败");
+                                break;
+                            case -3:
+                                ToastUtils.showShort(context,"已申请过");
+                                break;
+                        }
+                    }
+                });
+    }
+
     private class ViewHolder {
-        private TextView store, desc, count, price,type,tv_evaluate;
+        private TextView store, desc, count, price,type,tv_evaluate,tv_evaluate1;
         private ImageView iv;
     }
 }

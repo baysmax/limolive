@@ -184,7 +184,7 @@ public class MyApplyFragment extends BaseFragment implements View.OnClickListene
                     }
 
 
-                    if(dialog.isShowing()){
+                    if(dialog!=null&&dialog.isShowing()){
                         dialog.dismiss();
                     }
                 }
@@ -256,10 +256,10 @@ public class MyApplyFragment extends BaseFragment implements View.OnClickListene
             ToastUtils.showShort(getActivity(),"请输入正确的身份证号码");
             return;
         }
-//        if (listpics.size()<2){
-//            ToastUtils.showShort(getActivity(),"请选择两张照片");
-//            return;
-//        }
+        if (listpics.size()<2){
+            ToastUtils.showShort(getActivity(),"请选择两张照片");
+            return;
+        }
         for (int i = 0; i < listpics.size(); i++) {
             Log.i("店铺",listpics.get(i).toString());
         }

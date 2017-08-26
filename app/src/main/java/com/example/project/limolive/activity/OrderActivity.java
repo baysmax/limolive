@@ -70,13 +70,13 @@ public class OrderActivity extends BaseActivity {
         initViewPager();
     }
     private void loadFragments() {
-        fragments=new BaseFragment[6];
+        fragments=new BaseFragment[5];
         fragments[0]=new AllOrderFragment();
         fragments[1]=new WaitPayFragment();
         fragments[2]=new WaitSendFragment();
         fragments[3]=new WaitReceiveFragment();
         fragments[4]=new WaitCommentFragment();
-        fragments[5]=new ReturnShopFragment();
+        //fragments[5]=new ReturnShopFragment();
     }
 
     /**

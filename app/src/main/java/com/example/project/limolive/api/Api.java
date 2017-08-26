@@ -978,6 +978,35 @@ public class Api {
         ApiHttpClient.post(ApiHttpClient.API_URL + Urls.POST_GOODS_MYORDER, params, handler);
     }
     /**
+     * 申请退款/退换货接口
+     * @param user_id（买家id）
+     * @param order_id（订单id）
+     * @param order_sn（订单编号）
+     * @param goods_id（商品id）
+     * @param type（0退货，1换货）
+     * @param reason（退货原因）
+     * @param uid（卖家id）
+     * @param spec_key（规格）
+     */
+    public static void orderReturn(String user_id,String order_id,String order_sn,
+                                   String goods_id,
+                                   String type,
+                                   String reason,
+                                   String uid,
+                                   String spec_key,
+                                   ApiResponseHandler handler) {
+        RequestParams params = new RequestParams();
+        params.put("user_id",user_id);
+        params.put("order_id",order_id);
+        params.put("order_sn",order_sn);
+        params.put("goods_id",goods_id);
+        params.put("type",type);
+        params.put("reason",reason);
+        params.put("uid",uid);
+        params.put("spec_key",spec_key);
+        ApiHttpClient.post(ApiHttpClient.API_URL + Urls.POST_GOODS_ORDER_RETURN, params, handler);
+    }
+    /**
      * 上传身份证号
      * original_img
      * @param userID
@@ -991,6 +1020,7 @@ public class Api {
         if (null != idcard_images) {
             try {
                 for (int i = 0; i < idcard_images.size(); i++) {
+//                    Log.i("pictures.size()","idcard_images.get(i).toString()="+idcard_images.get(i).toString());
                     params.put(idcard_images.get(i).toString(), idcard_images.get(i));
                 }
             } catch (FileNotFoundException e) {
@@ -1029,5 +1059,13 @@ public class Api {
         params.put("goods_rank",goods_rank);
         params.put("content",content);
         ApiHttpClient.post(ApiHttpClient.API_URL + Urls.GET_GOODS_ADD_COM, params, handler);
+    }
+
+    public static void orderConfirm(String uid,String goods_id,ApiResponseHandler handler) {
+        Log.i("订单","uid="+uid+"goods_id="+goods_id);
+        RequestParams params = new RequestParams();
+        params.put("user_id",uid);
+        params.put("order_id",goods_id);
+        ApiHttpClient.post(ApiHttpClient.API_URL + Urls.GET_GOODS_ORDER_CONFIRM, params, handler);
     }
 }

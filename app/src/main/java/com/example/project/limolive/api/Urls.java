@@ -20,6 +20,7 @@ public class Urls {
     public static final String POST_GOODS_SEARCH = "/Appapi/Goodcategory/search";  //搜索商品
     public static final String POST_GOODS_MYORDER = "/Appapi/Myorder/my_order";  //申用户点击我的店铺时,触发事件接口
     public static final String POST_GOODS_APPLY = "/Appapi/Myorder/apply_order";  //申请店铺接口
+    public static final String POST_GOODS_ORDER_RETURN = "/Appapi/Cart/order_return";  //申请店铺接口
     public static final String GET_GETSIG = "/appapi/user/getSig";  //用户获取腾讯sig
     public static final String POST_LOGIN = "appapi/user/login";  //登录
     public static final String GET_LIVE_LIST = "appapi/live/live_list";  //直播列表 ????人数
@@ -28,6 +29,7 @@ public class Urls {
     public static final String GET_GOODS_CATGORY = "/Appapi/Goods/categorylist";  //获取商品类型的商品
     public static final String GET_GOODS_COMMENT_LIST = "/Appapi/Cart/comment_list";  //获取商品评论
     public static final String GET_GOODS_ADD_COM = "/Appapi/Cart/add_comment";  //添加商品评论
+    public static final String GET_GOODS_ORDER_CONFIRM = "/Appapi/Cart/orderConfirm";  //确认收货
     public static final String POST_HOTGOODSTYPE = "/appapi/Goodcategory/hot_goodscatgory";  //获取热门分类
     public static final String POST_GETADDRESS_LIST = "appapi/Goodstype/getAddressList";  //获取直播列表
     public static final String POST_EDIT_ADDRESS = "appapi/Goodstype/addAddress";  //修改收货地址

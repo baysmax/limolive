@@ -84,6 +84,7 @@ public class ProductDescriptionActivity extends BaseActivity implements View.OnC
     String type="";
     String order_id="";
     private View post_scrollview;
+    private TextView textView19;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,6 +92,7 @@ public class ProductDescriptionActivity extends BaseActivity implements View.OnC
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product_description);
         type = getIntent().getStringExtra("type");
+        Log.i("订单","type="+type);
         order_id = getIntent().getStringExtra("order_id");
         imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
         //设置ImageLoader参数
@@ -128,6 +130,7 @@ public class ProductDescriptionActivity extends BaseActivity implements View.OnC
         courier_rank = (EditText) findViewById(R.id.courier_rank);
         goods_rank = (EditText) findViewById(R.id.goods_rank);
         post_scrollview=findViewById(R.id.post_scrollview);
+
 
         delete.setVisibility(View.VISIBLE);
 
@@ -245,11 +248,13 @@ public class ProductDescriptionActivity extends BaseActivity implements View.OnC
                         ToastUtils.showShort(this,"请输入评论");
                         return;
                     }
+
+
                     Api.add_comment(LoginManager.getInstance().getUserID(this), order_id
-                            , service_rank.getText().toString()
-                            , deliver_rank.getText().toString()
-                            , courier_rank.getText().toString()
-                            , goods_rank.getText().toString()
+                            , paseInt(service_rank.getText().toString())
+                            , paseInt(deliver_rank.getText().toString())
+                            , paseInt(courier_rank.getText().toString())
+                            , paseInt(goods_rank.getText().toString())
                             , mContent.getText().toString(),
                             new ApiResponseHandler(this) {
                                 @Override
@@ -268,6 +273,13 @@ public class ProductDescriptionActivity extends BaseActivity implements View.OnC
             default:
                 break;
         }
+    }
+
+    private String paseInt(String s) {
+        int i = Integer.parseInt(s);
+        i=i+1;
+        i=i%5;
+        return String.valueOf(i);
     }
 
 
@@ -432,19 +444,13 @@ public class ProductDescriptionActivity extends BaseActivity implements View.OnC
      * 设置顶部标题栏颜色属性
      */
     private void loadTitle() {
+        textView19= (TextView) findViewById(R.id.textView19);
         if ("0".equals(type)){
-            setTitleString("商品评论");
+            textView19.setText("商品评论");
         }else {
-            setTitleString(getString(R.string.publish_product_detail));
+            textView19.setText(getString(R.string.publish_product_detail));
         }
-        setLeftImage(R.mipmap.icon_return);
-        setRightImage(R.mipmap.fenlei);
-        setLeftRegionListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+
     }
 
 

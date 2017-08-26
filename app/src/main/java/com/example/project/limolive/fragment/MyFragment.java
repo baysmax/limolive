@@ -344,7 +344,7 @@ public class MyFragment extends BaseFragment implements View.OnClickListener{
 				lookOrder(4);
 				break;
 			case R.id.tv_return_shop:  //售后
-				lookOrder(5);
+				lookOrder(0);
 				break;
 			case R.id.ll_my_money:
 				//充值
