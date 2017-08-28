@@ -224,6 +224,10 @@
         <activity
             android:name="com.example.project.limolive.activity.SettingActivity"
             android:screenOrientation="portrait" />
+        <!--店家订单-->
+        <activity
+            android:name="com.example.project.limolive.activity.AllOrderActivity"
+            android:screenOrientation="portrait" />
         <!--个人资料-->
         <activity
             android:name="com.example.project.limolive.activity.PersonInfoActivity"

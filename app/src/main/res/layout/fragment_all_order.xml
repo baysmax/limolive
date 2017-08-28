@@ -1,9 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
     <include
-        layout="@layout/view_non_data"
+        layout="@layout/standard_title_bar"
+        />
+    <com.androidkun.xtablayout.XTabLayout
+        android:id="@+id/tl_tab_layout"
+        android:layout_gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:xTabDisplayNum="3"
+        app:xTabIndicatorColor="@color/red_bar"
+        app:xTabIndicatorHeight="@dimen/line_width5"
+        app:xTabMode="scrollable"
+        >
+    </com.androidkun.xtablayout.XTabLayout>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/vp_fragments"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         />
 </LinearLayout>

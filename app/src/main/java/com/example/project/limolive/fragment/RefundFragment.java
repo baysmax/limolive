@@ -19,11 +19,10 @@ import com.example.project.limolive.widget.AutoSwipeRefreshLayout;
 import static com.example.project.limolive.presenter.ShopCartPresenter.CART_LIST_OVER;
 
 /**
- * 已完成
- * @author ZL on 2016/12/14.
+ * Created by AAA on 2017/8/26.
  */
 
-public class WaitCommentFragment extends BaseFragment implements Presenter.NotificationToActivity{
+public class RefundFragment extends BaseFragment implements Presenter.NotificationToActivity {
 
     private ListView listView;
     private AutoSwipeRefreshLayout swipe_refresh_tool;
@@ -33,7 +32,6 @@ public class WaitCommentFragment extends BaseFragment implements Presenter.Notif
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        //return setContentView(R.layout.fragment_all_order,inflater,container);
         view = setContentView(R.layout.order, inflater, container);
         return view;
     }
@@ -52,7 +50,7 @@ public class WaitCommentFragment extends BaseFragment implements Presenter.Notif
         swipe_refresh_tool.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                presenter.getOrder(LoginManager.getInstance().getUserID(getActivity()), "FINISH");
+                presenter.getOrder(LoginManager.getInstance().getUserID(getActivity()), "");
             }
         });
     }

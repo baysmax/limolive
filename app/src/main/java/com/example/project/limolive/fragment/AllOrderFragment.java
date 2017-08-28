@@ -24,7 +24,7 @@ import static com.example.project.limolive.presenter.ShopCartPresenter.CART_LIST
  * @author ZL on 2016/12/14.
  */
 
-public class AllOrderFragment extends BaseFragment implements Presenter.NotificationToActivity {
+public class  AllOrderFragment extends BaseFragment implements Presenter.NotificationToActivity {
 
     private ListView listView;
     private AutoSwipeRefreshLayout swipe_refresh_tool;

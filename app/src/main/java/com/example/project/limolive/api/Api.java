@@ -722,6 +722,15 @@ public class Api {
         params.put("type",type);
         ApiHttpClient.get(ApiHttpClient.API_URL + Urls.GET_ORDER, params, handler);
     }
+    /**
+     * 按类型查订单
+     */
+    public static void myOrder_order(String user_id,String type,AsyncHttpResponseHandler handler) {
+        RequestParams params = new RequestParams();
+        params.put("user_id",user_id);
+        params.put("type",type);
+        ApiHttpClient.post(ApiHttpClient.API_URL + Urls.POST_ORDER, params, handler);
+    }
 
     /**
      * 点击购买获取商品信息
@@ -1069,5 +1078,20 @@ public class Api {
         params.put("user_id",uid);
         params.put("order_id",goods_id);
         ApiHttpClient.post(ApiHttpClient.API_URL + Urls.GET_GOODS_ORDER_CONFIRM, params, handler);
+    }
+
+    public static void myorder_shipping(String goods_id,String shipping_code,String shipping_name,ApiResponseHandler handler) {
+        RequestParams params = new RequestParams();
+        params.put("order_id",goods_id);
+        params.put("shipping_code",shipping_code);
+        params.put("shipping_name",shipping_name);
+        ApiHttpClient.post(ApiHttpClient.API_URL + Urls.GET_GOODS_ORDER_SHIPPING, params, handler);
+    }
+
+    public static void myorder_sell_up(String uid,String status,ApiResponseHandler handler) {
+        RequestParams params = new RequestParams();
+        params.put("uid",uid);
+        params.put("status",status);
+        ApiHttpClient.post(ApiHttpClient.API_URL + Urls.GET_GOODS_ORDER_MYORER_SELL_UP, params, handler);
     }
 }

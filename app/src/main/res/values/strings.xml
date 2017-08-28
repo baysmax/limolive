@@ -294,6 +294,14 @@
         <item>待评价</item>
         <!--<item>售后</item>-->
     </string-array>
+    <string-array name="order_types">
+        <item>全部</item>
+        <item>待发货</item>
+        <!--<item>已发货</item>-->
+        <!--<item>退款中</item>-->
+        <item>已完成</item>
+        <!--<item>售后</item>-->
+    </string-array>
     <!--首页-->
     <string name="sy_title">我的订单</string>
     <string-array name="sy_type">

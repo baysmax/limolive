@@ -29,6 +29,8 @@ public class Urls {
     public static final String GET_GOODS_CATGORY = "/Appapi/Goods/categorylist";  //获取商品类型的商品
     public static final String GET_GOODS_COMMENT_LIST = "/Appapi/Cart/comment_list";  //获取商品评论
     public static final String GET_GOODS_ADD_COM = "/Appapi/Cart/add_comment";  //添加商品评论
+    public static final String GET_GOODS_ORDER_MYORER_SELL_UP = "/Appapi/Cart/myorder_sell_up";  //确认收货
+    public static final String GET_GOODS_ORDER_SHIPPING = "/Appapi/Myorder/myorder_shipping";  //审核通过
     public static final String GET_GOODS_ORDER_CONFIRM = "/Appapi/Cart/orderConfirm";  //确认收货
     public static final String POST_HOTGOODSTYPE = "/appapi/Goodcategory/hot_goodscatgory";  //获取热门分类
     public static final String POST_GETADDRESS_LIST = "appapi/Goodstype/getAddressList";  //获取直播列表
@@ -96,6 +98,7 @@ public class Urls {
 
 
     public static final String GET_ORDER ="/appapi/Cart/getOrderList";  //按类型查询订单
+    public static final String POST_ORDER ="/Appapi/Myorder/myorder_order";  //按类型查询订单
     public static final String GET_GOODS_INF ="/appapi/Cart/goods_order";  //点击购买获取商品信息
     public static final String GIFT_COINLIST ="/appapi/Ucenter/coinLists";  //柠檬币充值列接口
     public static final String GIFT_SEND ="/Appapi/Ucenter/sendgift";  //送礼物接口

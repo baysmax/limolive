@@ -18,6 +18,7 @@
         android:layout_height="wrap_content">
 
         <LinearLayout
+            android:id="@+id/lls"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
@@ -26,12 +27,13 @@
 
             <!--待付款-->
             <RelativeLayout
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="48dp">
 
                 <TextView
                     android:id="@+id/textView12"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
@@ -72,7 +74,7 @@
 
                 <TextView
                     android:id="@+id/textView13"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
@@ -108,12 +110,13 @@
 
             <!--已发货-->
             <RelativeLayout
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="48dp">
 
                 <TextView
                     android:id="@+id/textView14"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
@@ -148,12 +151,13 @@
 
             <!--退款中-->
             <RelativeLayout
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="48dp">
 
                 <TextView
                     android:id="@+id/textView16"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
@@ -193,14 +197,14 @@
 
                 <TextView
                     android:id="@+id/textView15"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="2dp"
                     android:padding="10dp"
-                    android:text="@string/wait_for_comment"
+                    android:text="已完成"
                     android:textColor="@color/colorTextBlack"
                     android:textSize="16dp" />
 
@@ -216,7 +220,7 @@
                     android:drawablePadding="5dp"
                     android:drawableRight="@mipmap/right_arrow"
                     android:padding="10dp"
-                    android:text=""
+                    android:text="件"
                     android:textColor="@color/colorTextBlack"
                     android:textSize="16dp" />
             </RelativeLayout>
@@ -275,14 +279,14 @@
 
                 <TextView
                     android:id="@+id/textView18"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="2dp"
                     android:padding="10dp"
-                    android:text="@string/orders"
+                    android:text="全部"
                     android:textColor="@color/colorTextBlack"
                     android:textSize="16dp" />
 

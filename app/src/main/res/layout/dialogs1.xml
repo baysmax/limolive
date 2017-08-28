@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="160dp"
+        android:orientation="vertical"
+        android:gravity="center_vertical">
+        <RelativeLayout
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="48dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="14dp"
+                android:layout_marginStart="14dp"
+                android:text="物流商家"
+                android:textColor="@color/text_color3"
+                android:textSize="15dp" />
+
+            <EditText
+                android:id="@+id/et_size"
+                android:layout_width="130dp"
+                android:gravity="center"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="12dp"
+                android:background="@color/line_color3"
+                android:hint=""
+                android:lines="1"
+                android:textColor="@color/text_color4"
+                android:textSize="15dp"
+                android:padding="5dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_alignParentEnd="true"
+                />
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="48dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="14dp"
+                android:layout_marginStart="14dp"
+                android:text="物流单号"
+                android:textColor="@color/text_color3"
+                android:textSize="15dp" />
+
+            <EditText
+
+                android:id="@+id/et_num"
+                android:layout_width="130dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="12dp"
+                android:background="@color/line_color3"
+                android:gravity="center"
+                android:hint=""
+                android:lines="1"
+                android:inputType="number"
+                android:textColor="@color/text_color4"
+                android:textSize="15dp"
+                android:padding="5dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_alignParentEnd="true"
+                />
+        </RelativeLayout>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/btn_fig"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:text="完成"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+</LinearLayout>

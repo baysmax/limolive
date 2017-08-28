@@ -1,8 +1,10 @@
 package com.example.project.limolive.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
@@ -11,6 +13,7 @@ import com.example.project.limolive.api.Api;
 import com.example.project.limolive.api.ApiResponse;
 import com.example.project.limolive.api.ApiResponseHandler;
 import com.example.project.limolive.bean.mine.DealManageBean;
+import com.example.project.limolive.fragment.AllOrderFragment;
 import com.example.project.limolive.helper.LoginManager;
 import com.example.project.limolive.utils.NetWorkUtil;
 import com.example.project.limolive.utils.ToastUtils;
@@ -20,7 +23,7 @@ import com.example.project.limolive.utils.ToastUtils;
  * 交易管理
  */
 
-public class TradeManagementActivity extends BaseActivity {
+public class TradeManagementActivity extends BaseActivity implements View.OnClickListener {
 
 
     private Context context;
@@ -30,19 +33,30 @@ public class TradeManagementActivity extends BaseActivity {
     private TextView tv_storge_num,tv_send_num,tv_already_send_num,tv_reback_money_ing,tv_wait_for_comment,tv_orders;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trade_manegement);
         initView();
+        initListener();
+    }
+
+    private void initListener() {
+        tv_storge_num.setOnClickListener(this);
+        tv_send_num.setOnClickListener(this);
+        tv_already_send_num.setOnClickListener(this);
+        tv_reback_money_ing.setOnClickListener(this);
+        tv_wait_for_comment.setOnClickListener(this);
+        tv_orders.setOnClickListener(this);
+
+
+
     }
 
 
     private void initView(){
         context = this;
         loadTitle();
-
 
         tv_storge_num = (TextView) findViewById(R.id.tv_storge_num);
         tv_send_num = (TextView) findViewById(R.id.tv_send_num);
@@ -134,6 +148,44 @@ public class TradeManagementActivity extends BaseActivity {
 
     }
 
+    /**
+     *    //待付款 代发货  已发货  退款中   待评价  订单总额
+     private TextView tv_storge_num,tv_send_num,tv_already_send_num,tv_reback_money_ing,tv_wait_for_comment,tv_orders;
+     * @param view
+     */
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.tv_storge_num://待付款
+                //goOrder(0);
+
+                break;
+            case R.id.tv_send_num://待发货·
+                goOrder(1);
+                break;
+            case R.id.tv_already_send_num://已发货
+                //goOrder(2);
+                break;
+            case R.id.tv_reback_money_ing://已完成
+                //goOrder(3);
+                goOrder(2);
+                break;
+            case R.id.tv_wait_for_comment://已完成
 
 
+                break;
+            case R.id.tv_orders://全部·
+                goOrder(0);
+                break;
+
+        }
+
+    }
+
+    private void goOrder(int i) {
+        Intent intent = new Intent();
+        intent.putExtra("type",i);
+        intent.setClass(TradeManagementActivity.this,AllOrderActivity.class);
+        startActivity(intent);
+    }
 }

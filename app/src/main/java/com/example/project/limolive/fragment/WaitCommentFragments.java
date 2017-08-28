@@ -12,22 +12,21 @@ import android.widget.TextView;
 import com.example.project.limolive.R;
 import com.example.project.limolive.helper.LoginManager;
 import com.example.project.limolive.presenter.OrderPresenter;
-import com.example.project.limolive.presenter.OrderPresenters;
 import com.example.project.limolive.presenter.Presenter;
 import com.example.project.limolive.widget.AutoSwipeRefreshLayout;
 
 import static com.example.project.limolive.presenter.ShopCartPresenter.CART_LIST_OVER;
 
 /**
- * 已完成
+ * 待评价
  * @author ZL on 2016/12/14.
  */
 
-public class WaitCommentFragment extends BaseFragment implements Presenter.NotificationToActivity{
+public class WaitCommentFragments extends BaseFragment implements Presenter.NotificationToActivity{
 
     private ListView listView;
     private AutoSwipeRefreshLayout swipe_refresh_tool;
-    private OrderPresenters presenter;
+    private OrderPresenter presenter;
     private TextView tv;
     private View view;
 
@@ -44,7 +43,7 @@ public class WaitCommentFragment extends BaseFragment implements Presenter.Notif
         listView = (ListView) findViewById(R.id.listView);
         tv = (TextView) findViewById(R.id.tv);
         swipe_refresh_tool = (AutoSwipeRefreshLayout) findViewById(R.id.swipe_refresh_tool);
-        presenter = new OrderPresenters(getActivity());
+        presenter = new OrderPresenter(getActivity());
         presenter.registerMsgToActivity(this);
         presenter.setAdapter(listView);
         swipe_refresh_tool.setColorSchemeColors(Color.parseColor("#31D5BA"));
@@ -52,7 +51,7 @@ public class WaitCommentFragment extends BaseFragment implements Presenter.Notif
         swipe_refresh_tool.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                presenter.getOrder(LoginManager.getInstance().getUserID(getActivity()), "FINISH");
+                presenter.getOrder(LoginManager.getInstance().getUserID(getActivity()), "WAITCCOMMENT");
             }
         });
     }

@@ -23,7 +23,7 @@ import static com.example.project.limolive.presenter.ShopCartPresenter.CART_LIST
  * @author hwj on 2016/12/14.
  */
 
-public class WaitSendFragment extends BaseFragment implements Presenter.NotificationToActivity{
+public class  WaitSendFragment extends BaseFragment implements Presenter.NotificationToActivity{
 
     private ListView listView;
     private AutoSwipeRefreshLayout swipe_refresh_tool;
