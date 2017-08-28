@@ -214,6 +214,7 @@ public class LocalAlbumDetail extends BaseActivity implements MatrixImageView.On
                 break;
             case R.id.album_finish:
             case R.id.header_finish:
+                AppManager.getAppManager().finishActivity(LocalAlbumDetail.class);
                 AppManager.getAppManager().finishActivity(LocalAlbum.class);
                 LocalImageHelper.getInstance().setResultOk(true);
                 finish();
