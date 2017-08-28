@@ -43,6 +43,7 @@ import com.example.project.limolive.tencentlive.presenters.InitBusinessHelper;
 import com.example.project.limolive.tencentlive.utils.Constants;
 import com.example.project.limolive.tencentlive.views.LiveingActivity;
 import com.example.project.limolive.utils.NetWorkUtil;
+import com.example.project.limolive.utils.PhoneInfo;
 import com.example.project.limolive.utils.SPUtil;
 import com.example.project.limolive.utils.ToastUtils;
 import com.example.project.limolive.view.CustomProgressDialog;
@@ -301,6 +302,7 @@ public class BeforeLiveActivity extends Activity implements  SurfaceHolder.Callb
     @Override
     protected void onResume() {
         super.onResume();
+        //initCaer();
         ILiveRoomManager.getInstance().onResume();
     }
 
@@ -409,8 +411,12 @@ public class BeforeLiveActivity extends Activity implements  SurfaceHolder.Callb
 
     @Override
     public void surfaceChanged(SurfaceHolder surfaceHolder, int i, int i1, int i2) {
+        initCaer();
+    }
+
+    private void initCaer() {
         if(camera == null) {
-            camera = Camera.open(0);
+            camera = Camera.open();
             initCaera();
                 try {
                 camera.setPreviewDisplay(holder);//通过surfaceview显示取景画面
@@ -444,8 +450,15 @@ public class BeforeLiveActivity extends Activity implements  SurfaceHolder.Callb
                         // TODO Auto-generated catch block
                         e.printStackTrace();
                     }
-                    //camera.setDisplayOrientation(90);//旋转90度
-                    setCameraDisplayOrientation(BeforeLiveActivity.this,0,camera);
+                    Log.i("直播", "手机型号="+PhoneInfo.getPhoneBrand());
+                    if ("Xiaomi".equals(PhoneInfo.getPhoneBrand())
+                            ||"xiaomi".equals(PhoneInfo.getPhoneBrand())
+                            ||"MIUI".equals(PhoneInfo.getPhoneBrand())){
+                        camera.setDisplayOrientation(270);//旋转90度
+                    }else {
+                        camera.setDisplayOrientation(90);
+                    }
+                    //setCameraDisplayOrientation(BeforeLiveActivity.this,0,camera);
                     camera.startPreview();//开始预览
                     cameraPosition = 0;
                     break;
