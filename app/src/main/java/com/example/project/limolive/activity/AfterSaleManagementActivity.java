@@ -39,10 +39,6 @@ public class AfterSaleManagementActivity extends BaseActivity implements View.On
     public void onClick(View v) {
         switch (v.getId()){
             case  R.id.rl_after_sale_num:
-                Intent intent = new Intent();
-                intent.setClass(this,AfterSaleActivity.class);
-                intent.putExtra("type","0");
-                startActivity(intent);
                 break;
         }
     }
