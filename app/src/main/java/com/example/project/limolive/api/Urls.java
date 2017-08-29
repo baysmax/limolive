@@ -29,7 +29,10 @@ public class Urls {
     public static final String GET_GOODS_CATGORY = "/Appapi/Goods/categorylist";  //获取商品类型的商品
     public static final String GET_GOODS_COMMENT_LIST = "/Appapi/Cart/comment_list";  //获取商品评论
     public static final String GET_GOODS_ADD_COM = "/Appapi/Cart/add_comment";  //添加商品评论
-    public static final String GET_GOODS_ORDER_MYORER_SELL_UP = "/Appapi/Cart/myorder_sell_up";  //确认收货
+    public static final String GET_GOODS_ORDER_MYORER_SELL_UP = "/Appapi/Cart/myorder_sell_up";  //退货审核
+    public static final String GET_GOODS_ORDER_ORDER_RETURN_WL_ADD = "/Appapi/Cart/order_return_wl_add";  //退货审核
+    public static final String GET_GOODS_ORDER_MYORER_SELL_AFTER = "/Appapi/Myorder/myorder_sell_after";  //售后列表
+    public static final String GET_GOODS_ORDER_ORDER_RETURN_LIST = "/Appapi/Cart/order_return_list";  //申请退换货显示接口
     public static final String GET_GOODS_ORDER_SHIPPING = "/Appapi/Myorder/myorder_shipping";  //审核通过
     public static final String GET_GOODS_ORDER_CONFIRM = "/Appapi/Cart/orderConfirm";  //确认收货
     public static final String POST_HOTGOODSTYPE = "/appapi/Goodcategory/hot_goodscatgory";  //获取热门分类

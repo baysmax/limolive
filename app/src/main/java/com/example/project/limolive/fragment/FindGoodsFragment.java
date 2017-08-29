@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 
 import com.alibaba.fastjson.JSON;
@@ -107,6 +108,30 @@ public class FindGoodsFragment extends BaseFragment {
                 startActivity(new Intent(getActivity(), GoodsDetails.class).putExtra("goods_id",rb_goods.get(position-1).getGoods_id()));
             }
         });
+        lv_all.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                if (visibleItemCount + firstVisibleItem == totalItemCount) {
+                    View lastVisibleItemView = lv_all.getChildAt(totalItemCount - firstVisibleItem - 1);
+                    if (lastVisibleItemView != null && lastVisibleItemView.getBottom() == view.getHeight()) {
+                        // 滑动到了底部
+                        fAdapter.setLastItemVisible(true);
+                        if (fAdapter.getLastItemVisible()){
+                            page++;
+                            getGoods();
+                        }
+                    } else {
+                        fAdapter.setLastItemVisible(false);
+                    }
+                } else {
+                    fAdapter.setLastItemVisible(false);
+                }
+            }
+        });
 
 
 
@@ -180,7 +205,9 @@ public class FindGoodsFragment extends BaseFragment {
                 Log.i("获取普通商品","apiResponse"+apiResponse.toString());
                 if (apiResponse.getCode() == Api.SUCCESS) {
                     swipe_refresh_tool.setRefreshing(false);
-                    rb_goods.clear();
+                    if (page==1){
+                        rb_goods.clear();
+                    }
                     rb_goods.addAll(JSON.parseArray(apiResponse.getData(),RecommendBean.class));
                     fAdapter.notifyDataSetChanged();
                 } else {

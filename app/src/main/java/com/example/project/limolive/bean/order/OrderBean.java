@@ -7,7 +7,15 @@ import java.util.List;
  */
 
 public class OrderBean {
+    public String getId() {
+        return id;
+    }
 
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    private String id;
     private String add_time;
     private String address;
     private String admin_note;

@@ -134,6 +134,10 @@
         <activity
             android:name="com.example.project.limolive.activity.MyApplyActivity"
             android:screenOrientation="portrait" />
+        <!--售后页面-->
+        <activity
+            android:name="com.example.project.limolive.activity.AfterSaleActivity"
+            android:screenOrientation="portrait" />
         <!--排行榜页面-->
         <activity
             android:name="com.example.project.limolive.activity.RankActivity"

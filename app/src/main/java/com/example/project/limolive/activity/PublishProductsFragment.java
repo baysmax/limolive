@@ -258,6 +258,7 @@ public class PublishProductsFragment extends BaseFragment implements View.OnClic
     private void publishProduct(String uid, String cat_id, File headsmall,
                                 String goods_name, String shop_price, String store_count,
                                 String goods_remark, List<File> goods_content,List<GoodsStandard> sizeList){
+
         if (NetWorkUtil.isNetworkConnected(getActivity())){
 
             Api.sendProducts(uid, cat_id, headsmall, goods_name, shop_price, store_count, goods_remark, goods_content,sizeList, new ApiResponseHandler(getActivity()) {

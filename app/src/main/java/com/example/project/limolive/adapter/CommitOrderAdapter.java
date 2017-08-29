@@ -71,7 +71,7 @@ public class CommitOrderAdapter extends BaseAdapter {
         ImageLoader.getInstance().displayImage(ApiHttpClient.API_PIC+s.get(0),vh.iv);
         vh.desc.setText(c.getCartList().getGoods_name());
         vh.count.setText("X"+c.getCartList().getGoods_num());
-        vh.tv_resou_names.setText(c.getCartList()+" ");
+        vh.tv_resou_names.setText(c.getCartList().getTv_resou_names());
         if("0".equals(c.getCartList().getIs_free_shipping())){
             vh.kuaidi.setText("快递 不包邮");
         }else {

@@ -510,10 +510,10 @@ public class OrderAdapter extends BaseAdapter {
         Api.orderReturn(LoginManager.getInstance().getUserID(context)
                 , orderBean.getOrder_id()
                 , orderBean.getOrder_sn()
-                , orderBean.getOrder_sn()
                 , orderBean.getGoods_list().get(0).getGoods_id()
                 , "0"
                 , reason
+                , orderBean.getUid()
                 , orderBean.getGoods_list().get(0).getGood_standard_size()
                 , new ApiResponseHandler(context) {
                     @Override

@@ -3,6 +3,8 @@ package com.example.project.limolive.api;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.parser.ParserConfig;
 import com.example.project.limolive.bean.GoodsStandard;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -565,7 +567,9 @@ public class Api {
     public static void sendProducts(String uid, String cat_id, File headsmall,
                                     String goods_name, String shop_price, String store_count,
                                     String goods_remark, List<File> goods_content, List<GoodsStandard> sizeList,AsyncHttpResponseHandler handler){
-
+        JSONArray jsonArray = (JSONArray) JSONArray.toJSON(sizeList,new ParserConfig());
+        String json = jsonArray.toString();
+        Log.i("店铺","json="+json);
         RequestParams params = new RequestParams();
         params.put("uid",uid);
         params.put("cat_id",cat_id);
@@ -574,8 +578,7 @@ public class Api {
         params.put("store_count",store_count);
         //params.put("goods_remark",goods_remark);
         params.put("goods_content",goods_content);
-        params.put("goods_standard",sizeList);
-
+        params.put("goods_standard",json);
         try {
             params.put("original_img",headsmall);
 //            Log.e("headsmall",headsmall.toString());
@@ -1072,6 +1075,13 @@ public class Api {
         ApiHttpClient.post(ApiHttpClient.API_URL + Urls.GET_GOODS_ADD_COM, params, handler);
     }
 
+    /**
+     * 确认收货接口
+     * @param uid
+     * @param goods_id
+     * @param handler
+     */
+
     public static void orderConfirm(String uid,String goods_id,ApiResponseHandler handler) {
         Log.i("订单","uid="+uid+"goods_id="+goods_id);
         RequestParams params = new RequestParams();
@@ -1079,6 +1089,14 @@ public class Api {
         params.put("order_id",goods_id);
         ApiHttpClient.post(ApiHttpClient.API_URL + Urls.GET_GOODS_ORDER_CONFIRM, params, handler);
     }
+
+    /**
+     * 商家发货接口
+     * @param goods_id
+     * @param shipping_code
+     * @param shipping_name
+     * @param handler
+     */
 
     public static void myorder_shipping(String goods_id,String shipping_code,String shipping_name,ApiResponseHandler handler) {
         RequestParams params = new RequestParams();
@@ -1088,10 +1106,54 @@ public class Api {
         ApiHttpClient.post(ApiHttpClient.API_URL + Urls.GET_GOODS_ORDER_SHIPPING, params, handler);
     }
 
+    /**
+     * 退货申请接口
+     * @param uid
+     * @param status
+     * @param handler
+     */
     public static void myorder_sell_up(String uid,String status,ApiResponseHandler handler) {
         RequestParams params = new RequestParams();
         params.put("uid",uid);
         params.put("status",status);
         ApiHttpClient.post(ApiHttpClient.API_URL + Urls.GET_GOODS_ORDER_MYORER_SELL_UP, params, handler);
+    }
+    /**
+     * 退货申请接口
+     * user_id（买家id）、id（退货id）、shipping_name（物流名称）、shipping_code（物流单号）
+     */
+    public static void order_return_add(String user_id,String id,String shipping_name,String shipping_code,ApiResponseHandler handler) {
+        RequestParams params = new RequestParams();
+        params.put("user_id",user_id);
+        params.put("id",id);
+        params.put("shipping_name",shipping_name);
+        params.put("shipping_code",shipping_code);
+        ApiHttpClient.post(ApiHttpClient.API_URL + Urls.GET_GOODS_ORDER_ORDER_RETURN_WL_ADD, params, handler);
+    }
+
+    /**
+     * 商家售后接口
+     * @param uid
+     * @param p
+     * @param handler
+     */
+    public static void myOrderSellAfter(String uid, String p, ApiResponseHandler handler) {
+        RequestParams params = new RequestParams();
+        params.put("uid",uid);
+        params.put("p",p);
+        ApiHttpClient.post(ApiHttpClient.API_URL + Urls.GET_GOODS_ORDER_MYORER_SELL_AFTER, params, handler);
+    }
+
+    /**
+     * 卖家售后列表
+     * @param uid
+     * @param p
+     * @param handler
+     */
+    public static void myOrderReturnList(String uid, String p, ApiResponseHandler handler) {
+        RequestParams params = new RequestParams();
+        params.put("uid",uid);
+        params.put("p",p);
+        ApiHttpClient.post(ApiHttpClient.API_URL + Urls.GET_GOODS_ORDER_ORDER_RETURN_LIST, params, handler);
     }
 }

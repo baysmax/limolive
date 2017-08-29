@@ -36,6 +36,7 @@ public class FindGoodsList_Adapter extends BaseAdapter {
     private Context mContext;
     private LayoutInflater mInflater;
     private List<RecommendBean> list;
+    private boolean lastItemVisible=false;
     //private RecommendBean rb;
 
     public FindGoodsList_Adapter(Context mContext, List<RecommendBean> list) {
@@ -124,6 +125,14 @@ public class FindGoodsList_Adapter extends BaseAdapter {
                 super.onFailure(errMessage);
             }
         });
+    }
+
+    public void setLastItemVisible(boolean lastItemVisible) {
+        this.lastItemVisible = lastItemVisible;
+    }
+
+    public boolean getLastItemVisible() {
+        return lastItemVisible;
     }
 
     class ViewHolder {
