@@ -19,11 +19,11 @@ public class AfterSaleActivity extends BaseActivity{
         setContentView(R.layout.activity_after_sale);
         initView();
         String type = getIntent().getStringExtra("type");
-        if ("0".equals(type)){
+        if ("0".equals(type)){//商家售后
 
             AfterSaleFragment mAfterSaleFragment=new AfterSaleFragment();
             loadFragment(mAfterSaleFragment,R.id.fragment_container);
-        }else {
+        }else {//买家售后
             AfterSaleFragments mAfterSaleFragment=new AfterSaleFragments();
             loadFragment(mAfterSaleFragment,R.id.fragment_container);
         }
