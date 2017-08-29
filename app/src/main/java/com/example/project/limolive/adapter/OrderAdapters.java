@@ -275,16 +275,27 @@ public class OrderAdapters extends BaseAdapter {
             ToastUtils.showShort(context,"物流商家名称为空");
             return;
         }
-        Api.myorder_shipping(orderBean.getOrder_id(), shipping_code, shipping_name, new ApiResponseHandler(context) {
+        Api.myorder_shipping(LoginManager.getInstance().getUserID(context),orderBean.getOrder_id(), shipping_code, shipping_name, new ApiResponseHandler(context) {
             @Override
             public void onSuccess(ApiResponse apiResponse) {
+                Log.i("订单",apiResponse.toString());
                 if (apiResponse.getCode()==Api.SUCCESS){
                     tv.setText("已发货");
                     tv1.setText("已发货");
-                    if (dialogs!=null){
-                        dialogs.dismiss();
-                    }
+
                 }
+                if (dialogs!=null&&dialogs.isShowing()){
+                    dialogs.dismiss();
+                }
+            }
+
+            @Override
+            public void onFailure(String errMessage) {
+                super.onFailure(errMessage);
+                if (dialogs!=null&&dialogs.isShowing()){
+                    dialogs.dismiss();
+                }
+
             }
         });
     }
