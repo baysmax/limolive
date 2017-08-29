@@ -16,6 +16,12 @@ public class OrderBean {
     }
 
     private String id;
+    private String type;
+    private String status;
+    private String status_id;
+    private String addtime;
+    private String reason;
+    private String imgs;
     private String add_time;
     private String address;
     private String admin_note;
@@ -641,5 +647,53 @@ public class OrderBean {
 
     public void setOrder_status_type(String order_status_type) {
         this.order_status_type = order_status_type;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getStatus_id() {
+        return status_id;
+    }
+
+    public void setStatus_id(String status_id) {
+        this.status_id = status_id;
+    }
+
+    public String getAddtime() {
+        return addtime;
+    }
+
+    public void setAddtime(String addtime) {
+        this.addtime = addtime;
+    }
+
+    public String getReason() {
+        return reason;
+    }
+
+    public void setReason(String reason) {
+        this.reason = reason;
+    }
+
+    public String getImgs() {
+        return imgs;
+    }
+
+    public void setImgs(String imgs) {
+        this.imgs = imgs;
     }
 }

@@ -18,6 +18,7 @@ import com.example.project.limolive.fragment.RefundFragment;
 import com.example.project.limolive.fragment.ShippedFragment;
 import com.example.project.limolive.fragment.ShopCartFragment;
 import com.example.project.limolive.fragment.WaitCommentFragment;
+import com.example.project.limolive.fragment.WaitCommentFragments;
 import com.example.project.limolive.fragment.WaitPayFragment;
 import com.example.project.limolive.fragment.WaitReceiveFragment;
 import com.example.project.limolive.fragment.WaitSendFragment;

@@ -14,6 +14,7 @@ import com.example.project.limolive.helper.LoginManager;
 import com.example.project.limolive.presenter.OrderPresenters;
 import com.example.project.limolive.presenter.OrderPresenters1;
 import com.example.project.limolive.presenter.Presenter;
+import com.example.project.limolive.view.MyListViews;
 import com.example.project.limolive.widget.AutoSwipeRefreshLayout;
 
 import static com.example.project.limolive.presenter.ShopCartPresenter.CART_LIST_OVER;
@@ -23,11 +24,12 @@ import static com.example.project.limolive.presenter.ShopCartPresenter.CART_LIST
  */
 
 public class AfterSaleFragment  extends BaseFragment implements Presenter.NotificationToActivity{
-    private ListView listView;
+    private MyListViews listView;
     private AutoSwipeRefreshLayout swipe_refresh_tool;
     private OrderPresenters1 presenter;
     private TextView tv;
     private View view;
+    private int page;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -39,7 +41,7 @@ public class AfterSaleFragment  extends BaseFragment implements Presenter.Notifi
     @Override
     protected void initView() {
         super.initView();
-        listView = (ListView) findViewById(R.id.listView);
+        listView = (MyListViews) findViewById(R.id.listView);
         tv = (TextView) findViewById(R.id.tv);
         swipe_refresh_tool = (AutoSwipeRefreshLayout) findViewById(R.id.swipe_refresh_tool);
         presenter = new OrderPresenters1(getActivity());
@@ -50,7 +52,15 @@ public class AfterSaleFragment  extends BaseFragment implements Presenter.Notifi
         swipe_refresh_tool.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                presenter.getOrder(LoginManager.getInstance().getUserID(getActivity()), "1");
+                page=1;
+                presenter.getOrder(LoginManager.getInstance().getUserID(getActivity()), String.valueOf(page));
+            }
+        });
+        listView.setiLoadListener(new MyListViews.ILoadListener() {
+            @Override
+            public void onLoad() {
+                page++;
+                presenter.getOrder(LoginManager.getInstance().getUserID(getActivity()), String.valueOf(page));
             }
         });
     }

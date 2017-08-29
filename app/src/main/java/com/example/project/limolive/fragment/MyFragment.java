@@ -16,6 +16,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.example.project.limolive.R;
 import com.example.project.limolive.activity.AccountDetailActivity;
+import com.example.project.limolive.activity.AfterSaleActivity;
 import com.example.project.limolive.activity.CollectionListActivity;
 import com.example.project.limolive.activity.FansAttentionActivity;
 import com.example.project.limolive.activity.HistoryActivity;
@@ -344,7 +345,9 @@ public class MyFragment extends BaseFragment implements View.OnClickListener{
 				lookOrder(4);
 				break;
 			case R.id.tv_return_shop:  //售后
-				lookOrder(0);
+				Intent intent = new Intent(getActivity(), AfterSaleActivity.class);
+				intent.putExtra("type","1");
+				startActivity(intent);
 				break;
 			case R.id.ll_my_money:
 				//充值

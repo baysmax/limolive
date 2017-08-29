@@ -14,6 +14,7 @@ import com.example.project.limolive.fragment.AllOrderFragment;
 import com.example.project.limolive.fragment.BaseFragment;
 import com.example.project.limolive.fragment.ReturnShopFragment;
 import com.example.project.limolive.fragment.WaitCommentFragment;
+import com.example.project.limolive.fragment.WaitCommentFragments;
 import com.example.project.limolive.fragment.WaitPayFragment;
 import com.example.project.limolive.fragment.WaitReceiveFragment;
 import com.example.project.limolive.fragment.WaitSendFragment;
@@ -75,7 +76,7 @@ public class OrderActivity extends BaseActivity {
         fragments[1]=new WaitPayFragment();
         fragments[2]=new WaitSendFragment();
         fragments[3]=new WaitReceiveFragment();
-        fragments[4]=new WaitCommentFragment();
+        fragments[4]=new WaitCommentFragments();
         //fragments[5]=new ReturnShopFragment();
     }
 

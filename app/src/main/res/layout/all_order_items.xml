@@ -164,6 +164,26 @@
                 android:textSize="12sp" />
 
         </LinearLayout>
+        <LinearLayout
+            android:id="@+id/ll1"
+            android:layout_toLeftOf="@id/ll"
+            android:layout_width="80dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:gravity="center">
+            <TextView
+                android:visibility="gone"
+                android:id="@+id/tv_evaluate1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="查看物流"
+                android:gravity="center"
+                android:background="@drawable/btns_bg_my"
+                android:textColor="#f00"
+                android:textSize="12sp" />
+
+        </LinearLayout>
 
 
     </RelativeLayout>

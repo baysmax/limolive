@@ -81,10 +81,11 @@ public class ProductDescriptionActivity extends BaseActivity implements View.OnC
     private Button btn_complete;
 
     private EditText service_rank,deliver_rank,courier_rank,goods_rank;
-    String type="";
-    String order_id="";
+    private String type="";
+    private String order_id="";
     private View post_scrollview;
     private TextView textView19;
+    private String goods_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,6 +95,7 @@ public class ProductDescriptionActivity extends BaseActivity implements View.OnC
         type = getIntent().getStringExtra("type");
         Log.i("订单","type="+type);
         order_id = getIntent().getStringExtra("order_id");
+        goods_id = getIntent().getStringExtra("goods_id");
         imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
         //设置ImageLoader参数
         options = new DisplayImageOptions.Builder()
@@ -251,7 +253,7 @@ public class ProductDescriptionActivity extends BaseActivity implements View.OnC
                     }
 
 
-                    Api.add_comment(LoginManager.getInstance().getUserID(this), order_id
+                    Api.add_comment(goods_id,LoginManager.getInstance().getUserID(this), order_id
                             , paseInt(service_rank.getText().toString())
                             , paseInt(deliver_rank.getText().toString())
                             , paseInt(courier_rank.getText().toString())
@@ -260,8 +262,9 @@ public class ProductDescriptionActivity extends BaseActivity implements View.OnC
                             new ApiResponseHandler(this) {
                                 @Override
                                 public void onSuccess(ApiResponse apiResponse) {
+                                    Log.i("订单","add_comment="+apiResponse.toString());
                                     if (apiResponse.getCode()==Api.SUCCESS){
-                                        ToastUtils.showShort(ProductDescriptionActivity.this,"完成评论");
+                                        ToastUtils.showShort(ProductDescriptionActivity.this,"评论成功");
                                         finish();
                                     }
 

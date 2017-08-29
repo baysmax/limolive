@@ -92,7 +92,10 @@ public class MyShopActivity extends BaseActivity implements View.OnClickListener
                 break;
             //售后管理
             case R.id.tv_after_management:
-                intent = new Intent(this,AfterSaleManagementActivity.class);
+
+                intent = new Intent(this,AfterSaleActivity.class);
+                intent.putExtra("type","0");
+
                 startActivity(intent);
                 break;
             //商品管理

@@ -200,26 +200,20 @@ public class OrderAdapter extends BaseAdapter {
         } else {
             switch (type) {
                 case 0:
-                    Log.i("热门商品类型","type="+type);
                     vh1 = (ViewHolder) view.getTag();
                     break;
                 case 1:
-                    Log.i("热门商品类型","type="+type);
                     vh2 = (ViewHolder) view.getTag();
                     break;
                 case 2:
-                    Log.i("热门商品类型","type="+type);
                     vh3 = (ViewHolder) view.getTag();
                     break;
                 case 3:
-                    Log.i("热门商品类型","type="+type);
                     vh4 = (ViewHolder) view.getTag();
                     break;
                 case 4:
-                    Log.i("热门商品类型","type="+type);
                     vh5 = (ViewHolder) view.getTag();
                 case 5:
-                    Log.i("热门商品类型","type="+type);
                     vh6 = (ViewHolder) view.getTag();
                     break;
 
@@ -258,9 +252,9 @@ public class OrderAdapter extends BaseAdapter {
                         public void onClick(View view) {
                             Intent intent = new Intent(context,ProductDescriptionActivity.class);
                             intent.putExtra("type","0");
-                            OrderBean orderBean = list.get(i);
                             String order_id = orderBean.getOrder_id();
                             intent.putExtra("order_id",order_id);
+                            intent.putExtra("goods_id",orderBean.getGoods_list().get(0).getGoods_id());
                             context.startActivity(intent);
                         }
                     });
@@ -515,6 +509,7 @@ public class OrderAdapter extends BaseAdapter {
                 , reason
                 , orderBean.getUid()
                 , orderBean.getGoods_list().get(0).getGood_standard_size()
+                , orderBean.getGoods_price()
                 , new ApiResponseHandler(context) {
                     @Override
                     public void onSuccess(ApiResponse apiResponse) {
@@ -529,6 +524,9 @@ public class OrderAdapter extends BaseAdapter {
                             case -3:
                                 ToastUtils.showShort(context,"已申请过");
                                 break;
+                        }
+                        if (dialog!=null&&dialog.isShowing()){
+                            dialog.dismiss();
                         }
                     }
                 });

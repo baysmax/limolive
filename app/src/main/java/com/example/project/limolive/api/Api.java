@@ -1007,7 +1007,7 @@ public class Api {
                                    String type,
                                    String reason,
                                    String uid,
-                                   String spec_key,
+                                   String spec_key,String order_pay,
                                    ApiResponseHandler handler) {
         RequestParams params = new RequestParams();
         params.put("user_id",user_id);
@@ -1018,6 +1018,7 @@ public class Api {
         params.put("reason",reason);
         params.put("uid",uid);
         params.put("spec_key",spec_key);
+        params.put("order_pay",order_pay);
         ApiHttpClient.post(ApiHttpClient.API_URL + Urls.POST_GOODS_ORDER_RETURN, params, handler);
     }
     /**
@@ -1060,12 +1061,13 @@ public class Api {
      * @param content 评论内容
      * @param handler
      */
-    public static void add_comment(
+    public static void add_comment(String goods_id,
             String user_id, String order_id,String service_rank,String deliver_rank
             ,String courier_rank,String goods_rank,String content
             , ApiResponseHandler handler) {
         RequestParams params = new RequestParams();
         params.put("user_id",user_id);
+        params.put("goods_id",goods_id);
         params.put("order_id",order_id);
         params.put("service_rank",service_rank);
         params.put("deliver_rank",deliver_rank);
@@ -1108,15 +1110,17 @@ public class Api {
     }
 
     /**
-     * 退货申请接口
+     * 退货审核接口
      * @param uid
      * @param status
      * @param handler
      */
-    public static void myorder_sell_up(String uid,String status,ApiResponseHandler handler) {
+    public static void myorder_sell_up(String id,String uid,String status,ApiResponseHandler handler) {
         RequestParams params = new RequestParams();
         params.put("uid",uid);
+        params.put("id",id);
         params.put("status",status);
+        Log.i("售后","id="+id+",uid="+uid+",status="+status);
         ApiHttpClient.post(ApiHttpClient.API_URL + Urls.GET_GOODS_ORDER_MYORER_SELL_UP, params, handler);
     }
     /**
@@ -1125,6 +1129,7 @@ public class Api {
      */
     public static void order_return_add(String user_id,String id,String shipping_name,String shipping_code,ApiResponseHandler handler) {
         RequestParams params = new RequestParams();
+        Log.i("售后","user_id="+user_id+",id="+id+",shipping_name="+shipping_name+"shipping_code"+shipping_code);
         params.put("user_id",user_id);
         params.put("id",id);
         params.put("shipping_name",shipping_name);
@@ -1146,14 +1151,14 @@ public class Api {
     }
 
     /**
-     * 卖家售后列表
+     * 买家售后列表
      * @param uid
      * @param p
      * @param handler
      */
     public static void myOrderReturnList(String uid, String p, ApiResponseHandler handler) {
         RequestParams params = new RequestParams();
-        params.put("uid",uid);
+        params.put("user_id",uid);
         params.put("p",p);
         ApiHttpClient.post(ApiHttpClient.API_URL + Urls.GET_GOODS_ORDER_ORDER_RETURN_LIST, params, handler);
     }
