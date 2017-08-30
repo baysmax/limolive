@@ -80,7 +80,8 @@
         <!--主页-->
         <activity
             android:name="com.example.project.limolive.activity.MainActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:launchMode="singleTask"/>
         <!--所有Activity的基类-->
         <activity android:name="com.example.project.limolive.activity.BaseActivity" />
         <!--开屏页-->

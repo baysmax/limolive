@@ -107,6 +107,7 @@ import com.example.project.limolive.tencentlive.views.customviews.MembersDialog;
 import com.example.project.limolive.utils.ToastUtils;
 import com.example.project.limolive.view.HostInfoPopupWindow;
 import com.example.project.limolive.view.ManberInfoPopupWindow;
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.tencent.TIMCallBack;
 import com.tencent.TIMConversation;
 import com.tencent.TIMConversationType;
@@ -231,6 +232,8 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
 
     private int startnmb=0,stopnmb=0;
     private RelativeLayout rl_anim;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -923,13 +926,20 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
         });
     }
 
-    private TextView mDetailTime, mDetailAdmires, mDetailWatchCount, btn_save, btn_delete,tv_get_NMB;
+    private TextView mDetailTime, mDetailAdmires, mDetailWatchCount, btn_save, btn_delete,tv_get_NMB,tv_user_name,tv_share;
     private ImageView iv_chat, iv_qq, iv_weibo, iv_colect;
+    private SimpleDraweeView iv_user_head;
 
     private void initDetailDailog() {
         mDetailDialog = new Dialog(this, R.style.dialog);
-        mDetailDialog.setContentView(R.layout.dialog_live_detail);
+        mDetailDialog.setContentView(R.layout.dialog_live_details);
         mDetailTime = (TextView) mDetailDialog.findViewById(R.id.tv_time);
+
+        tv_user_name = (TextView) mDetailDialog.findViewById(R.id.tv_user_name);
+        tv_share = (TextView) mDetailDialog.findViewById(R.id.tv_share);
+        iv_user_head = (SimpleDraweeView) mDetailDialog.findViewById(R.id.iv_user_head);
+        setNameAvatar();
+
         mDetailAdmires = (TextView) mDetailDialog.findViewById(R.id.tv_admires);
         tv_get_NMB=(TextView) mDetailDialog.findViewById(R.id.tv_get_NMB);//————————————————————
         mDetailWatchCount = (TextView) mDetailDialog.findViewById(R.id.tv_members);
@@ -942,6 +952,17 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
         iv_colect = (ImageView) mDetailDialog.findViewById(R.id.iv_colect);
 
         mDetailDialog.setCancelable(false);
+        tv_share.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mDetailDialog.dismiss();
+                LiveingActivity.this.finish();
+                Intent intent = new Intent();
+                intent.setClass(LiveingActivity.this, MainActivity.class);
+                intent.putExtra("share","share");
+                startActivity(intent);
+            }
+        });
 
         TextView btn_sure = (TextView) mDetailDialog.findViewById(R.id.btn_sure);
         btn_sure.setOnClickListener(new View.OnClickListener() {
@@ -971,6 +992,17 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
             }
         });
     }
+
+    private void setNameAvatar() {
+        tv_user_name.setText(LiveMySelfInfo.getInstance().getNickName());
+        if (LiveMySelfInfo.getInstance().getAvatar().toString().contains("http://")) {
+            iv_user_head.setImageURI(LiveMySelfInfo.getInstance().getAvatar());
+        } else {
+            iv_user_head.setImageURI(ApiHttpClient.API_PIC+LiveMySelfInfo.getInstance().getAvatar());
+        }
+
+    }
+
 
     /**
      * 成员状态变更
@@ -2236,7 +2268,6 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
             }
         });
     }
-
     /**
      * 分享
      */

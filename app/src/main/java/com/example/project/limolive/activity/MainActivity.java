@@ -26,12 +26,18 @@ import com.example.project.limolive.fragment.HomeFragment2;
 import com.example.project.limolive.fragment.MyFragment;
 import com.example.project.limolive.helper.LoginManager;
 import com.example.project.limolive.tencentlive.presenters.LiveHelper;
+import com.example.project.limolive.tencentlive.views.LiveingActivity;
 import com.example.project.limolive.utils.ToastUtils;
 import com.pgyersdk.crash.PgyCrashManager;
 import com.pgyersdk.update.PgyUpdateManager;
 import com.pgyersdk.update.UpdateManagerListener;
 import com.tencent.TIMCallBack;
 import com.tencent.TIMFriendshipManager;
+import com.umeng.socialize.ShareAction;
+import com.umeng.socialize.UMShareListener;
+import com.umeng.socialize.bean.SHARE_MEDIA;
+import com.umeng.socialize.media.UMImage;
+import com.umeng.socialize.media.UMWeb;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -64,7 +70,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         setChangIMHead();
         PgyCrashManager.register(this);
         PgyUpdateManager.register(this,getString(R.string.file_provider));
-      //  checkUp();
+
+        //  checkUp();
     }
 
     private void tellService() {
@@ -150,6 +157,16 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             return;
         }
         loadFragment();
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        this.setIntent(intent);
+        String share = intent.getStringExtra("share");
+        if ("share".equals(share)){
+            share();
+        }
     }
 
     private void showDialogs(String banDate) {
@@ -336,4 +353,46 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                     }
                 });
     }
+    /**
+     * 分享
+     */
+    private void share() {
+        UMImage thumb = new UMImage(this, R.mipmap.logo);
+        UMWeb web = new UMWeb("https://www.pgyer.com/Ko1C");
+        web.setTitle("柠檬直播");//标题
+        web.setThumb(thumb);  //缩略图
+        web.setDescription("大家好,我正在直播哦，喜欢我的朋友赶紧来哦");//描述
+        new ShareAction(this)
+                .setDisplayList(SHARE_MEDIA.WEIXIN, SHARE_MEDIA.SINA, SHARE_MEDIA.QQ)
+                .withMedia(web)
+                .setCallback(umShareListener).open();
+    }
+
+    private UMShareListener umShareListener = new UMShareListener() {
+        @Override
+        public void onStart(SHARE_MEDIA platform) {
+            //分享开始的回调
+        }
+
+        @Override
+        public void onResult(SHARE_MEDIA platform) {
+            Log.d("plat", "platform" + platform);
+
+            Toast.makeText(MainActivity.this, platform + " 分享成功啦", Toast.LENGTH_SHORT).show();
+
+        }
+
+        @Override
+        public void onError(SHARE_MEDIA platform, Throwable t) {
+            Toast.makeText(MainActivity.this, platform + " 分享失败啦", Toast.LENGTH_SHORT).show();
+            if (t != null) {
+                Log.d("throw", "throw:" + t.getMessage());
+            }
+        }
+
+        @Override
+        public void onCancel(SHARE_MEDIA platform) {
+            Toast.makeText(MainActivity.this, platform + " 分享取消了", Toast.LENGTH_SHORT).show();
+        }
+    };
 }
