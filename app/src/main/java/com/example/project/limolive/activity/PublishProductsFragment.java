@@ -2,11 +2,15 @@ package com.example.project.limolive.activity;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,6 +19,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.project.limolive.R;
@@ -74,7 +79,7 @@ public class PublishProductsFragment extends BaseFragment implements View.OnClic
     private List<File> listpics;
     private File headsmall;
     private RelativeLayout rl_size;
-
+    private TextView tv_sort;
 
 
     @Override
@@ -92,6 +97,7 @@ public class PublishProductsFragment extends BaseFragment implements View.OnClic
         rl_sort = (RelativeLayout) findViewById(R.id.rl_sort);
         rl_size = (RelativeLayout) findViewById(R.id.rl_size);
         rl_size.setOnClickListener(this);
+        tv_sort= (TextView) findViewById(R.id.tv_sort);
         button = (Button) findViewById(R.id.button);
         et_product_title = (EditText) findViewById(R.id.et_product_title);
         et_product_price = (EditText) findViewById(R.id.et_product_price);
@@ -126,7 +132,7 @@ public class PublishProductsFragment extends BaseFragment implements View.OnClic
             //商品分类
             case R.id.rl_sort:
                 intent = new Intent(getActivity(),ProductSortActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent,11101);
                 break;
             //发布
             case R.id.button:
@@ -196,13 +202,20 @@ public class PublishProductsFragment extends BaseFragment implements View.OnClic
     private EditText et_size,et_num;
     private Button btn_fig,btn_save;
     private Dialog dialogs;
+    private RecyclerView rv_btn_size;
+    private SizeAdapter adapter;
     private List<GoodsStandard> sizeList=new ArrayList();
     private void setSize() {
         View view = View.inflate(getContext(), R.layout.dialogs, null);
+
         et_size = view.findViewById(R.id.et_size);
         et_num = view.findViewById(R.id.et_num);
         btn_save = view.findViewById(R.id.btn_save);
         btn_fig = view.findViewById(R.id.btn_fig);
+        rv_btn_size = view.findViewById(R.id.rv_btn_size);
+        rv_btn_size.setLayoutManager(new LinearLayoutManager(getActivity()));
+        adapter = new SizeAdapter(getActivity(), sizeList);
+        rv_btn_size.setAdapter(adapter);
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
                 .setTitle("请输入商品规格信息")
                 .setView(view);
@@ -227,11 +240,12 @@ public class PublishProductsFragment extends BaseFragment implements View.OnClic
                     return;
                 }
                 sizeList.add(new GoodsStandard(size,num));
-                ToastUtils.showShort(getActivity(),size+":"+num);
+                //ToastUtils.showShort(getActivity(),size+":"+num);
                 et_size.setText("");
                 et_num.setText("");
                 et_num.setHint("");
                 et_size.setHint("");
+                adapter.notifyDataSetChanged();
             }
         });
 //                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
@@ -334,7 +348,10 @@ public class PublishProductsFragment extends BaseFragment implements View.OnClic
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (requestCode){
-
+            case 11101://回调显示分类信息
+                String productsort = ProductSortActivity.productsort;
+                tv_sort.setText(productsort);
+                break;
             case TakePhotoHelper.REQUEST_IMAGE_CAPTURE: //拍照
                 takePhotoHelper.handleSavedImage(this);
                 break;
@@ -388,7 +405,52 @@ public class PublishProductsFragment extends BaseFragment implements View.OnClic
 
         headsmall = new File(path+fileName);
     }
+    class SizeAdapter extends RecyclerView.Adapter{
+        private Context context;
 
+        public SizeAdapter(Context context, List<GoodsStandard> list) {
+            this.context = context;
+            this.list = list;
+        }
+
+        private List<GoodsStandard>  list;
+
+        @Override
+        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            return new SizeHolder(View.inflate(context,R.layout.item_size,null));
+        }
+
+        @Override
+        public void onBindViewHolder(RecyclerView.ViewHolder holder1, final int position) {
+            GoodsStandard goodsStandard = list.get(position);
+            SizeHolder holder= (SizeHolder) holder1;
+
+            holder.tv_size_name.setText("型号名称:"+goodsStandard.getGood_size());
+            holder.tv_size_num.setText("型号数量:"+goodsStandard.getStore_count());
+            holder.tv_del.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    list.remove(position);
+                    notifyDataSetChanged();
+                }
+            });
+
+        }
+
+        @Override
+        public int getItemCount() {
+            return list.size();
+        }
+        class SizeHolder extends RecyclerView.ViewHolder{
+            TextView tv_size_name,tv_size_num,tv_del;
+            public SizeHolder(View itemView) {
+                super(itemView);
+                tv_size_name=itemView.findViewById(R.id.tv_size_name);
+                tv_size_num=itemView.findViewById(R.id.tv_size_num);
+                tv_del=itemView.findViewById(R.id.tv_del);
+            }
+        }
+    }
 
 
 

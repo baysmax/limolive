@@ -60,6 +60,7 @@ public class ProductSortActivity extends BaseActivity implements View.OnClickLis
                 productsort = listAll.get(i).getType_name();
                 productsortid = listAll.get(i).getId();
 //                Log.e("选取内容",listAll.get(i).getType_name()+"id:" + listAll.get(i).getId());
+                setResult(RESULT_OK);
                 finish();
 
 
