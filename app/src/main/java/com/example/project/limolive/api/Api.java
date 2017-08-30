@@ -1162,4 +1162,9 @@ public class Api {
         params.put("p",p);
         ApiHttpClient.post(ApiHttpClient.API_URL + Urls.GET_GOODS_ORDER_ORDER_RETURN_LIST, params, handler);
     }
+    public static void myStore(String uid, ApiResponseHandler handler) {
+        RequestParams params = new RequestParams();
+        params.put("uid",uid);
+        ApiHttpClient.post(ApiHttpClient.API_URL + Urls.POST_GOODS_MY_STORE, params, handler);
+    }
 }

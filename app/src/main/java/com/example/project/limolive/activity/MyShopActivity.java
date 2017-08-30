@@ -2,12 +2,19 @@ package com.example.project.limolive.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.example.project.limolive.R;
+import com.example.project.limolive.api.Api;
 import com.example.project.limolive.api.ApiHttpClient;
+import com.example.project.limolive.api.ApiResponse;
+import com.example.project.limolive.api.ApiResponseHandler;
+import com.example.project.limolive.bean.StoreBean;
 import com.example.project.limolive.helper.LoginManager;
 import com.example.project.limolive.model.LoginModel;
 import com.example.project.limolive.provider.MineDataProvider;
@@ -110,11 +117,27 @@ public class MyShopActivity extends BaseActivity implements View.OnClickListener
      * 配置数据
      */
     private void setData() {
-        LoginModel loginModel=provider.getMineInfo(LoginManager.getInstance().getPhone(getApplication()));
-        if(loginModel!=null){
-            tv_shop_name.setText(loginModel.getStore_name());
-            iv_user_head.setImageURI(ApiHttpClient.API_PIC+loginModel.getHeadsmall());
-        }
+        //LoginModel loginModel=provider.getMineInfo(LoginManager.getInstance().getPhone(getApplication()));
+        Api.myStore(LoginManager.getInstance().getUserID(this), new ApiResponseHandler(this) {
+            @Override
+            public void onSuccess(ApiResponse apiResponse) {
+                Log.i("店铺","apiResponse="+apiResponse.toString());
+                if (apiResponse.getCode()==Api.SUCCESS){
+                    String data = apiResponse.getData();
+                    StoreBean storeBean = JSON.parseObject(data, StoreBean.class);
+                    tv_shop_name.setText(storeBean.getNickname());
+                    if (storeBean.getHeadsmall().toString().contains("http://")){
+                        iv_user_head.setImageURI(storeBean.getHeadsmall());
+                    }else {
+                        iv_user_head.setImageURI(ApiHttpClient.API_PIC+storeBean.getHeadsmall());
+                    }
+                }
+            }
+        });
+//        if(loginModel!=null){
+//            tv_shop_name.setText(loginModel.getStore_name());
+//            iv_user_head.setImageURI(ApiHttpClient.API_PIC+loginModel.getHeadsmall());
+//        }
     }
 
     private void loadTitle() {
