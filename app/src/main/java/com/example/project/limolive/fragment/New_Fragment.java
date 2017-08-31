@@ -118,7 +118,7 @@ public class New_Fragment extends BaseFragment {
                     adapter.notifyDataSetChanged();
                 } else {
                     srl_down_new.setRefreshing(false);
-                    ToastUtils.showShort(getActivity(), apiResponse.getMessage());
+                    //ToastUtils.showShort(getActivity(), apiResponse.getMessage());
                 }
             }
 
