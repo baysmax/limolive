@@ -78,6 +78,8 @@ public class OrderAdapters1 extends BaseAdapter {
             vh1.iv = (ImageView) view.findViewById(R.id.commit_item_iv);
             vh1.desc = (TextView) view.findViewById(R.id.commit_item_desc);
             vh1.count = (TextView) view.findViewById(R.id.commit_item_count);
+            vh1.Shipping_code = (TextView) view.findViewById(R.id.Shipping_code);
+            vh1.Shipping_code.setVisibility(View.GONE);
             vh1.price = (TextView) view.findViewById(R.id.price);
             vh1.tv_evaluate=view.findViewById(R.id.tv_evaluate);
             vh1.tv_evaluate.setVisibility(View.GONE);
@@ -127,6 +129,8 @@ public class OrderAdapters1 extends BaseAdapter {
             vh1.tv_evaluate.setVisibility(View.VISIBLE);
             vh1.type.setText(str);
             if (!"0".equals(orderBean.getShipping_code())){
+                vh1.Shipping_code.setVisibility(View.VISIBLE);
+                vh1.Shipping_code.setText("物流单号:"+orderBean.getShipping_code());
                 vh1.tv_evaluate.setText("确认收货");
                 final ViewHolder finalVh1 = vh1;
                 vh1.tv_evaluate.setOnClickListener(new View.OnClickListener() {
@@ -146,7 +150,8 @@ public class OrderAdapters1 extends BaseAdapter {
                     }
                 });
                 vh1.type.setText("对方已发货");
-                vh1.tv_evaluate1.setVisibility(View.GONE);
+                vh1.tv_evaluate1.setVisibility(View.VISIBLE);
+                vh1.tv_evaluate1.setText("查看物流");
 
                 vh1.tv_evaluate1.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -222,7 +227,7 @@ public class OrderAdapters1 extends BaseAdapter {
 //    }
 
     private class ViewHolder {
-        private TextView store, desc, count, price,type,tv_evaluate,tv_evaluate1;
+        private TextView store, desc, count, price,type,tv_evaluate,tv_evaluate1,Shipping_code;
         private ImageView iv;
     }
 }
