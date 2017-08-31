@@ -484,6 +484,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
             }
         });
 
+
         baby_btn = (TextView) findViewById(R.id.baby_btn);//宝贝
         BtnSwitch = (TextView) findViewById(R.id.switch_cam);//相机前后摄像头
         BtnBeauty = (TextView) findViewById(R.id.beauty_btn);//美颜
@@ -576,7 +577,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
             ids.add(CurLiveInfo.getHostID());
             showHeadIcon(mHeadIcon, CurLiveInfo.getHostAvator());
             if (!(CurLiveInfo.getMembers()>8000)){
-                CurLiveInfo.setMembers(CurLiveInfo.getMembers()+40);
+                nums.add("0");
             }
            /* mHostLayout = (LinearLayout) findViewById(R.id.head_up_layout);
             mHostLayout.setOnClickListener(this);*/
@@ -2387,6 +2388,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
                         isSucc=!isSucc;
                         CurLiveInfo.setMembers(avMemberInfos.size()+CurLiveInfo.getAdmires());
                     }
+                    Log.i("直播",livesInfoBean.getPage().getPage()+","+livesInfoBean.getPage().getPageCount());
                     if (!livesInfoBean.getPage().getPage().equals(livesInfoBean.getPage().getPageCount())){
                         page_id++;
                         groupMemberInfos1();
@@ -2464,6 +2466,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
                 Log.i("成员列表", "收到广播");
                     page_id=1;
                     groupMemberInfo1(String.valueOf(page_id),"1");//观众加载观众列表显示
+                    groupMemberInfo1(String.valueOf(page_id),"2");//观众加载观众列表显示
             }
         }
     }
@@ -2489,7 +2492,8 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
                             avMemberInfos.clear();
                         }
                         if (!livesInfoBean.getPage().getPage().equals(livesInfoBean.getPage().getPageCount())){
-                            groupMemberInfo1(String.valueOf(page_id+1),"2");
+                            page_id++;
+                            groupMemberInfo1(String.valueOf(page_id),"2");
                         }
                         avMemberInfos.addAll(list);
                         tvMembers.setText(CurLiveInfo.getMembers()+"在线");
