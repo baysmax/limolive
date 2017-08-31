@@ -212,7 +212,7 @@ public class FindGoodsFragment extends BaseFragment {
                     fAdapter.notifyDataSetChanged();
                 } else {
                     swipe_refresh_tool.setRefreshing(false);
-                    ToastUtils.showShort(getActivity(), apiResponse.getMessage());
+                    //ToastUtils.showShort(getActivity(), apiResponse.getMessage());
                 }
                 if (mProgressDialog.isShowing()) {
                     mProgressDialog.dismiss();
