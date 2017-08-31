@@ -864,7 +864,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
      */
     @Override
     public void enterRoomComplete(int id_status, boolean isSucc) {
-        Toast.makeText(LiveingActivity.this, "进入房间  " + id_status + " 成功 " + isSucc, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(LiveingActivity.this, "进入房间  " + id_status + " 成功 " + isSucc, Toast.LENGTH_SHORT).show();
         //必须得进入房间之后才能初始化UI
         //mEnterRoomHelper.initAvUILayer(avView);
         bInAvRoom = true;
