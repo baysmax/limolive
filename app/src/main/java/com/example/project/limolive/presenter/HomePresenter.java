@@ -70,7 +70,7 @@ public class HomePresenter extends Presenter implements AbsListView.OnScrollList
                     Log.i("直播列表",apiResponse.toString());
                     handle(isClear, apiResponse.getData());
                 } else {
-                    ToastUtils.showShort(context, apiResponse.getMessage());
+                    //ToastUtils.showShort(context, apiResponse.getMessage());
                     Log.i("main",apiResponse.getMessage());
                 }
                 if (tellActivity != null) {
