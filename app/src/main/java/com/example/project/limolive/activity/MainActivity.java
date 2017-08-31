@@ -49,6 +49,7 @@ import org.json.JSONObject;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener {
     private ImageView tabs[];
+    private LinearLayout tabs_ll[];
     private TextView tab_tv[];
     private BaseFragment fragments[];
     public static final String changFragment = "FRAGMENTCHANGETOHOME";
@@ -65,7 +66,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         tellService();
         checkUp();
         initView();
-        monitor();
         setChangIMname();
         setChangIMHead();
         PgyCrashManager.register(this);
@@ -78,18 +78,21 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         LiveHelper.tellstartExitRoom(getApplication());
     }
 
-    private void monitor() {
-
-            tabs[0].setOnClickListener(this);
-            tabs[1].setOnClickListener(this);
-            tabs[2].setOnClickListener(this);
-            tabs[3].setOnClickListener(this);
-            tabs[4].setOnClickListener(this);
-    }
-
     private void initView() {
         tabs = new ImageView[5];
         tab_tv=new TextView[5];
+        tabs_ll=new LinearLayout[5];
+
+        tabs_ll[0] = (LinearLayout) findViewById(R.id.ll_home);
+        tabs_ll[1] = (LinearLayout) findViewById(R.id.ll_friendshop);
+        tabs_ll[2] = (LinearLayout) findViewById(R.id.ll_live);
+        tabs_ll[3] = (LinearLayout) findViewById(R.id.ll_shopping);
+        tabs_ll[4] = (LinearLayout) findViewById(R.id.ll_my);
+        for (int i = 0; i < tabs_ll.length; i++) {
+            tabs_ll[i].setOnClickListener(this);
+        }
+
+
         tabs[0] = (ImageView) findViewById(R.id.iv_home);
         tabs[1] = (ImageView) findViewById(R.id.iv_friendshop);
         tabs[2] = (ImageView) findViewById(R.id.iv_live);
@@ -118,13 +121,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     public void onClick(View v) {
         isHideStatus = false;
         switch (v.getId()) {
-            case R.id.iv_home: //主页
+            case R.id.ll_home: //主页
                 clickIndex = 0;
                 break;
-            case R.id.iv_friendshop: //朋友商铺
+            case R.id.ll_friendshop: //朋友商铺
                 clickIndex = 1;
                 break;
-            case R.id.iv_live: //直播
+            case R.id.ll_live: //直播
                 tabs[2].setEnabled(false);
                 Api.isBaned(LoginManager.getInstance().getUserID(MainActivity.this), new ApiResponseHandler(MainActivity.this) {
                     @Override
@@ -142,14 +145,14 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 });
 
                 break;
-            case R.id.iv_shopping: //购物
+            case R.id.ll_shopping: //购物
                 //clickIndex = 3;
                 Intent intent = new Intent();
                 intent.setClass(MainActivity.this, ShoppingActivity.class);
                 overridePendingTransition(R.anim.push_bottom_in, R.anim.push_bottom_out);
                 startActivity(intent);
                break;
-            case R.id.iv_my: //我的
+            case R.id.ll_my: //我的
                 clickIndex = 4;
                 break;
         }
