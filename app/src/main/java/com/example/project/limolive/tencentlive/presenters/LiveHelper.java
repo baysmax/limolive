@@ -73,6 +73,7 @@ import java.util.Observer;
 import static com.example.project.limolive.presenter.Presenter.NET_UNCONNECT;
 import static com.example.project.limolive.tencentlive.utils.Constants.PRESENT_MSG;
 import static com.example.project.limolive.tencentlive.views.LiveingActivity.GETMENBERINFO;
+import static com.example.project.limolive.tencentlive.views.LiveingActivity.GETMENBERINFOS;
 import static com.example.project.limolive.tencentlive.views.LiveingActivity.GUANZHU;
 import static com.example.project.limolive.tencentlive.views.LiveingActivity.NIMOBI;
 import static com.example.project.limolive.tencentlive.views.LiveingActivity.PAIHANG;
@@ -154,6 +155,7 @@ public class LiveHelper extends Presenter implements ILiveRoomOption.onRoomDisco
             @Override
             public void onSuccess(Object data) {
                 CurLiveInfo.setCurrentRequestCount(0);
+                Log.i("直播","data=。。"+data.toString());
                 //通知结束
                 notifyServerLiveEnd();
                 if (null != mLiveView) {
@@ -626,8 +628,9 @@ public class LiveHelper extends Presenter implements ILiveRoomOption.onRoomDisco
                 ILiveLog.d(TAG, "ILVB-DBG|startEnterRoom->join room sucess");
                 mLiveView.enterRoomComplete(LiveMySelfInfo.getInstance().getIdStatus(), true);
                 //成功了 发送广播 获取成员信息
+                Log.i("直播","data=j。。"+data.toString());
                 Intent intent = new Intent();
-                intent.setAction(GETMENBERINFO);
+                intent.setAction(GETMENBERINFOS);
                 mContext.sendBroadcast(intent);
             }
 
@@ -790,7 +793,7 @@ public class LiveHelper extends Presenter implements ILiveRoomOption.onRoomDisco
                         mHandler.sendMessage(msg1);
 
                         break;
-                    case Constants.AVIMCMD_EXITLIVE:
+                    case Constants.AVIMCMD_EXITLIVE://用户退出房间
                         //mLiveView.refreshText("quite live", sendId);
                         if (mLiveView != null)
                             mLiveView.memberQuit(identifier, nickname);

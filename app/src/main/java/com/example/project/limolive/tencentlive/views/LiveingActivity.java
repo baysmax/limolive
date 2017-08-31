@@ -114,6 +114,7 @@ import com.tencent.TIMConversationType;
 import com.tencent.TIMCustomElem;
 import com.tencent.TIMElem;
 import com.tencent.TIMGroupManager;
+import com.tencent.TIMGroupMemberInfo;
 import com.tencent.TIMManager;
 import com.tencent.TIMMessage;
 import com.tencent.TIMTextElem;
@@ -125,6 +126,7 @@ import com.tencent.ilivesdk.ILiveCallBack;
 import com.tencent.ilivesdk.ILiveConstants;
 import com.tencent.ilivesdk.ILiveSDK;
 import com.tencent.ilivesdk.core.ILiveRoomManager;
+import com.tencent.ilivesdk.core.impl.ILVBRoom;
 import com.tencent.ilivesdk.view.AVRootView;
 import com.tencent.ilivesdk.view.AVVideoView;
 import com.tencent.livesdk.ILVLiveManager;
@@ -138,6 +140,7 @@ import com.umeng.socialize.media.UMWeb;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -192,7 +195,9 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
     private List<AvMemberInfo> avMemberInfos;
     private MembersHeadAdapter HeadAdapter;
     public static String GETMENBERINFO = "GETMENBERINFO";
+    public static String GETMENBERINFOS = "GETMENBERINFOS";
     public MyReceiver myReceiver;
+    public MyReceiver1 myReceiver1;
     public InputMethodManager manager;
     public boolean isStop = false;
     private Dialog dialog1;
@@ -227,6 +232,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
     public static final int PAIHANG = 6666;
     public static final int GETSYSMSG = 77777;
     public static final int GIFT_STOP_ADMIN = 88888;
+    public static final int UNTADE_NUM = 99999;
     private int score = 0;
     ArrayList<SystemMsgBean> sysMsgList=null;
 
@@ -251,6 +257,12 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
         filter.addAction(GETMENBERINFO);
         registerReceiver(myReceiver, filter);
 
+        //注册广播接收者
+        myReceiver1 = new MyReceiver1();
+        IntentFilter filter1 = new IntentFilter();
+        filter.addAction(GETMENBERINFOS);
+        registerReceiver(myReceiver1, filter);
+
         liwu = (Animation) AnimationUtils.loadAnimation(this, R.anim.liwu);
 
         //   enter = (Animation) AnimationUtils.loadAnimation(this, R.anim.act_open_enter);
@@ -262,6 +274,9 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
         mLiveHelper.startEnterRoom();
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
         mLiveHelper.getSystemMsg();
+        isTrue=true;
+        t.start();
+        t1.start();
 
     }
 
@@ -320,7 +335,10 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
                     //getFollow();
                     break;
                 case PAIHANG://更新排行头像
-                    groupMemberInfo();
+                    groupMemberInfos1();
+                    break;
+                case UNTADE_NUM://更新人数
+                    tvMembers.setText(CurLiveInfo.getMembers()+"在线");
                     break;
             }
             return false;
@@ -557,7 +575,9 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
             List<String> ids = new ArrayList<>();
             ids.add(CurLiveInfo.getHostID());
             showHeadIcon(mHeadIcon, CurLiveInfo.getHostAvator());
-
+            if (!(CurLiveInfo.getMembers()>8000)){
+                CurLiveInfo.setMembers(CurLiveInfo.getMembers()+40);
+            }
            /* mHostLayout = (LinearLayout) findViewById(R.id.head_up_layout);
             mHostLayout.setOnClickListener(this);*/
         }
@@ -727,7 +747,9 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
         unregisterReceiver(myReceiver);
         isStop = true;
         watchCount = 0;
+        isTrue=false;
         super.onDestroy();
+
         if (null != mHearBeatTimer) {
             mHearBeatTimer.cancel();
             mHearBeatTimer = null;
@@ -1005,11 +1027,13 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
 
 
     /**
-     * 成员状态变更
+     * 成员状态变更 加入或退出房间
      *
      * @param id
      * @param name
      */
+    List<String> nums=new ArrayList<>();//进入
+    List<String> nums1=new ArrayList<>();//退出
     @Override
     public void memberJoin(String id, String name) {
         SxbLog.d(TAG, LogConstants.ACTION_VIEWER_ENTER_ROOM + LogConstants.DIV + LiveMySelfInfo.getInstance().getId() + LogConstants.DIV + "on member join" +
@@ -1017,19 +1041,121 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
         watchCount++;
         Log.i("进入房间", "id" + id + "   " + "name" + name + "    " + "watchCount" + watchCount);
         refreshTextListView(TextUtils.isEmpty(name) ? id : name, "进入房间", Constants.MEMBER_ENTER);
+        nums.add("0");
 
         CurLiveInfo.setMembers(CurLiveInfo.getMembers() + 1);
+
         //zaixian_member.setText("" + CurLiveInfo.getMembers());
         tvMembers.setText(CurLiveInfo.getMembers()+"在线");
 
     }
+    boolean is=false;//锁
+    boolean isTrue=true;
+    Thread t=new Thread(){
+        @Override
+        public void run() {
+            for (;isTrue;){
+                int j=100;
+//                if (CurLiveInfo.getMembers()<8000){
+                    if (nums.size()>0){
+                        int members = CurLiveInfo.getMembers();
+                        try {
+                            if (is==false){
+//                                Log.i("直播","进入is="+is);
+                                is=true;
+//                                Log.i("直播","进入is="+is);
+                                for (;j>0;j--){
+//                                    Log.i("直播","进入j="+j);
+                                    int members1 = CurLiveInfo.getMembers();
+                                        CurLiveInfo.setMembers(members1 +1);
+                                        Message msg = Message.obtain();
+                                        msg.what = UNTADE_NUM;
+                                        mHandler.sendMessage(msg);
+
+//                                    Log.i("直播","进入结束=(members1-members)="+(members1-members));
+                                    if ((members1-members)>=40){
+                                        members=0;
+                                        members1=0;
+                                        j=0;
+                                        is=false;
+//                                        Log.i("直播","进入结束=is="+is);
+                                        if (nums.size()>0){
+                                            nums.remove(0);
+                                        }
+                                    }
+                                    Thread.sleep(1000);
+                                }
+                            }
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+//                }else {
+//                    if (nums.size()>0){
+//                        nums.remove(0);
+//                    }
+//                }
+            }
+        }
+    };
+    Thread t1=new Thread(){
+        @Override
+        public void run() {
+            for (;isTrue;){
+
+                int j=100;
+//                if (CurLiveInfo.getMembers()<8000){
+                    if (nums1.size()>0){
+//                        Log.i("直播","退出is="+is);
+                        int members = CurLiveInfo.getMembers();
+                        try {
+                            if (is==false){
+//                                Log.i("直播","退出，is="+is);
+                                is=true;
+//                                Log.i("直播","退出，is="+is);
+                                for (;j>0;j--){
+
+//                                    Log.i("直播","退出，j="+j);
+                                    int members1 = CurLiveInfo.getMembers();
+                                        CurLiveInfo.setMembers(members1 - 1);
+                                        Message msg = Message.obtain();
+                                        msg.what = UNTADE_NUM;
+                                        mHandler.sendMessage(msg);
+
+                                    if ((members-members1)>=40){
+//                                        Log.i("直播","退出结束=is="+is);
+                                        members=0;
+                                        members1=0;
+                                        j=0;
+                                        is=false;
+//                                        Log.i("直播","退出结束=is="+is);
+                                        if (nums1.size()>0){
+                                            nums1.remove(0);
+                                        }
+                                    }
+                                    Thread.sleep(1000);
+                                }
+                            }
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+//                }else {
+//                    if (nums1.size()>0){
+//                        nums1.remove(0);
+//                    }
+//                }
+
+            }
+        }
+    };
 
     @Override
     public void memberQuit(String id, String name) {
         watchCount--;
+        nums1.add("0");
         Log.i("退出房间", "id" + id + "   " + "name" + name + "    " + "watchCount" + watchCount);
         refreshTextListView(TextUtils.isEmpty(name) ? id : name, "退出房间", Constants.MEMBER_EXIT);
-
         if (CurLiveInfo.getMembers() > 0) {
             CurLiveInfo.setMembers(CurLiveInfo.getMembers() - 1);
             //zaixian_member.setText("" + CurLiveInfo.getMembers());
@@ -2219,11 +2345,17 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
                         avMemberInfos.addAll(list);
 
                         Log.i("Main","Menbers="+CurLiveInfo.getAdmires()+",avMemberInfos="+avMemberInfos.size()+"list="+list.size());
-                        CurLiveInfo.setMembers(avMemberInfos.size()+CurLiveInfo.getAdmires());
-                        tvMembers.setText(CurLiveInfo.getMembers()+"在线");
-                        if (!"0".equals(LiveMySelfInfo.getInstance().getUser_robot())){
-                            groupMemberInfos();//用户购买的机器人
+                        String user_robot = LiveMySelfInfo.getInstance().getUser_robot();
+                        if (user_robot!=null&&user_robot.length()>0&&!"".equals(user_robot)){
+                            int i = Integer.parseInt(user_robot);
+                            CurLiveInfo.setMembers(avMemberInfos.size()+CurLiveInfo.getAdmires()+i);
+                        }else {
+                            CurLiveInfo.setMembers(avMemberInfos.size()+CurLiveInfo.getAdmires());
                         }
+                        tvMembers.setText(CurLiveInfo.getMembers()+"在线");
+//                        if (!"0".equals(LiveMySelfInfo.getInstance().getUser_robot())){
+//                            groupMemberInfos();//用户购买的机器人
+//                        }
                     } else {
                         ToastUtils.showShort(LiveingActivity.this, apiResponse.getMessage().toString());
                     }
@@ -2237,9 +2369,10 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
             });
         }
     }
-
-    private void groupMemberInfos() {
-        Api.groupMemberInfo(LoginManager.getInstance().getUserID(this), CurLiveInfo.getChatRoomId(), "1", "3", new ApiResponseHandler(this) {
+    private int page_id=1;
+    private boolean isSucc=true;
+    private void groupMemberInfos1() {
+        Api.groupMemberInfo(LoginManager.getInstance().getUserID(this), CurLiveInfo.getChatRoomId(), String.valueOf(page_id), "2", new ApiResponseHandler(this) {
             @Override
             public void onSuccess(ApiResponse apiResponse) {
                 Log.i("成员列表", apiResponse.toString());
@@ -2250,13 +2383,15 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
                     LivesInfoBean livesInfoBean = JSON.parseObject(data, LivesInfoBean.class);
                     List<AvMemberInfo> list = livesInfoBean.getLives();
                     avMemberInfos.addAll(list);
-
-                    Log.i("Main","Menbers="+CurLiveInfo.getAdmires()+",avMemberInfos="+avMemberInfos.size()+"list="+list.size());
-                    CurLiveInfo.setMembers(avMemberInfos.size()+CurLiveInfo.getAdmires());
-                    tvMembers.setText(CurLiveInfo.getMembers()+"在线");
-//                    if (!"0".equals(LiveMySelfInfo.getInstance().getUser_robot())){
-//                        groupMemberInfos();//用户购买的机器人
-//                    }
+                    if(isSucc){
+                        isSucc=!isSucc;
+                        CurLiveInfo.setMembers(avMemberInfos.size()+CurLiveInfo.getAdmires());
+                    }
+                    if (!livesInfoBean.getPage().getPage().equals(livesInfoBean.getPage().getPageCount())){
+                        page_id++;
+                        groupMemberInfos1();
+                    }
+                    //tvMembers.setText(CurLiveInfo.getMembers()+"在线");
                 } else {
                     ToastUtils.showShort(LiveingActivity.this, apiResponse.getMessage().toString());
                 }
@@ -2317,10 +2452,61 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
             if (action.equals("GETMENBERINFO")) {
-                Log.i("成员列表", "收到广播");
-                groupMemberInfo();
+                    groupMemberInfo();//主播加载观众列表显示
             }
         }
+    }
+    public class MyReceiver1 extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            if (action.equals("GETMENBERINFOS")) {
+                Log.i("成员列表", "收到广播");
+                    page_id=1;
+                    groupMemberInfo1(String.valueOf(page_id),"1");//观众加载观众列表显示
+            }
+        }
+    }
+
+    private void groupMemberInfo1(final String page, String type) {
+        if (!NetWorkUtil.isNetworkConnected(this)) {
+            ToastUtils.showShort(this, NET_UNCONNECT);
+            return;
+        } else {
+            Log.i("成员列表", CurLiveInfo.getChatRoomId().toString());
+            Log.i("成员列表", CurLiveInfo.getHostID());
+            Api.groupMemberInfo(LoginManager.getInstance().getUserID(this), CurLiveInfo.getChatRoomId(),page,type, new ApiResponseHandler(this) {
+                @Override
+                public void onSuccess(ApiResponse apiResponse) {
+                    Log.i("成员列表", apiResponse.toString());
+                    if (apiResponse.getCode() == Api.SUCCESS) {
+                        String data = apiResponse.getData();
+                        Log.i("直播","data="+data.toString());
+
+                        LivesInfoBean livesInfoBean = JSON.parseObject(data, LivesInfoBean.class);
+                        List<AvMemberInfo> list = livesInfoBean.getLives();
+                        if ("1".equals(page)){
+                            avMemberInfos.clear();
+                        }
+                        if (!livesInfoBean.getPage().getPage().equals(livesInfoBean.getPage().getPageCount())){
+                            groupMemberInfo1(String.valueOf(page_id+1),"2");
+                        }
+                        avMemberInfos.addAll(list);
+                        tvMembers.setText(CurLiveInfo.getMembers()+"在线");
+//
+                    } else {
+                        ToastUtils.showShort(LiveingActivity.this, apiResponse.getMessage().toString());
+                    }
+                    HeadAdapter.notifyDataSetChanged();
+                }
+
+                @Override
+                public void onFailure(String errMessage) {
+                    super.onFailure(errMessage);
+                }
+            });
+        }
+
     }
 
     @Override

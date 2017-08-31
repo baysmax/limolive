@@ -1,5 +1,6 @@
 package com.example.project.limolive.bean.live;
 
+import com.example.project.limolive.bean.Page;
 import com.example.project.limolive.tencentlive.model.AvMemberInfo;
 
 import java.util.List;
@@ -12,9 +13,9 @@ public class LivesInfoBean {
     private List<AvMemberInfo> lives;
     private String pageCount;
 
-    private String page;
+    private Page page;
 
-    public LivesInfoBean(List<AvMemberInfo> lives, String pageCount, String page) {
+    public LivesInfoBean(List<AvMemberInfo> lives, String pageCount, Page page) {
         this.lives = lives;
         this.pageCount = pageCount;
         this.page = page;
@@ -39,11 +40,11 @@ public class LivesInfoBean {
         this.pageCount = pageCount;
     }
 
-    public String getPage() {
+    public Page getPage() {
         return page;
     }
 
-    public void setPage(String page) {
+    public void setPage(Page page) {
         this.page = page;
     }
 
