@@ -77,6 +77,7 @@ public class MyFragment extends BaseFragment implements View.OnClickListener{
 	private TextView tv_return_shop;  //退款售后
 	private TextView tv_my_money_num; //主播钻石；
 	private TextView tv_my_money_nums; //主播柠檬币；
+	private TextView tv_grade; //等级
 	private TextView tvfansMembers;//粉丝数量
 	private TextView tv_jianyi;//用户反馈
 	private RelativeLayout rl_cz;//充值
@@ -133,6 +134,7 @@ public class MyFragment extends BaseFragment implements View.OnClickListener{
 		tv_collection= (TextView) findViewById(R.id.tv_collection);
 		tv_shopping_history= (TextView) findViewById(R.id.tv_shopping_history);
 		tv_my_money_nums= (TextView) findViewById(R.id.tv_my_money_num);//柠檬币
+		tv_grade= (TextView) findViewById(R.id.tv_grade);//等级
 		tv_my_money_num= (TextView) findViewById(R.id.tv_my_money_nums);//钻石
 		tv_jianyi= (TextView) findViewById(R.id.tv_jianyi);//用户反馈
 		ll_fans= (LinearLayout) findViewById(R.id.ll_fans);
@@ -152,6 +154,7 @@ public class MyFragment extends BaseFragment implements View.OnClickListener{
 	 */
 	private void setData() {
 		getSelCoins();
+		getGrade();
 		LoginModel loginModel=provider.getMineInfo(LoginManager.getInstance().getPhone(getApplication()));
 		if(loginModel!=null){
 			tv_username.setText(loginModel.getNickname());
@@ -166,6 +169,27 @@ public class MyFragment extends BaseFragment implements View.OnClickListener{
 
 		}
 	}
+
+	private void getGrade() {
+		if (!NetWorkUtil.isNetworkConnected(getActivity())) {
+			ToastUtils.showShort(getActivity(), NET_UNCONNECT);
+			return;
+		}else {
+			Api.live_grade(LoginManager.getInstance().getPhone(getActivity()),
+					new ApiResponseHandler(getActivity()) {
+						@Override
+						public void onSuccess(ApiResponse apiResponse) {
+							if (apiResponse.getCode()==Api.SUCCESS){
+								String data = apiResponse.getData();
+								JSONObject parse = (JSONObject) JSON.parse(data);
+								String diamonds_coins = parse.getString("grade");
+								tv_grade.setText("Lv"+diamonds_coins);
+							}
+						}
+					});
+		}
+	}
+
 	/*********
 	 * 获取观众自己钻石
 	 */
