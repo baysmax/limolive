@@ -38,6 +38,7 @@ public class MyShopActivity extends BaseActivity implements View.OnClickListener
         tv_trade_management;
 
     private Intent intent;
+    private TextView tv1_webhtml;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -60,6 +61,8 @@ public class MyShopActivity extends BaseActivity implements View.OnClickListener
 
         //发布宝贝
         shop_bottom_list_text = (TextView)findViewById(R.id.tv_publish_product);
+        //开店须知
+        tv1_webhtml = (TextView)findViewById(R.id.tv1_webhtml);
         //交易管理
         tv_trade_management = (TextView) findViewById(R.id.tv_trade_management);
         //联系客服
@@ -76,6 +79,8 @@ public class MyShopActivity extends BaseActivity implements View.OnClickListener
         tv_contact_custerm.setOnClickListener(this);
         tv_after_management.setOnClickListener(this);
         rl_goodsMG.setOnClickListener(this);
+        tv1_webhtml.setOnClickListener(this);
+
     }
 
 
@@ -85,6 +90,11 @@ public class MyShopActivity extends BaseActivity implements View.OnClickListener
             //发布宝贝
             case R.id.tv_publish_product:
                 intent = new Intent(this,PublishProductsActivity.class);
+                startActivity(intent);
+                break;
+            //发布宝贝
+            case R.id.tv1_webhtml:
+                intent = new Intent(this,LoadHtmlActivity.class);
                 startActivity(intent);
                 break;
             //交易管理

@@ -273,6 +273,8 @@
         <activity android:name="com.example.project.limolive.activity.GoodsManagsActivity" />
         <!--购物车-->
         <activity android:name="com.example.project.limolive.activity.ShoppingCartActivity" />
+        <!--开店须知页面-->
+        <activity android:name="com.example.project.limolive.activity.LoadHtmlActivity" />
 
         <!--交易管理-->
         <activity
