@@ -204,6 +204,12 @@ public class OrderAdapters extends BaseAdapter {
                     vh1.type.setText(str);
                 }
                 vh1.store.setText(orderBean.getStore_name());
+                if (orderBean.getGoods_list()!=null&&orderBean.getGoods_list().size()>0){
+                    ImageLoader.getInstance().displayImage(ApiHttpClient.API_PIC + orderBean.getGoods_list().get(0).getOriginal_img(), vh1.iv);
+                    vh1.desc.setText(orderBean.getGoods_list().get(0).getGoods_name());
+                    vh1.count.setText("X" +orderBean.getGoods_list().get(0).getGoods_num());
+                    vh1.price.setText("共"+orderBean.getGoods_list().get(0).getGoods_num()+"件  合计￥"+orderBean.getTotal_amount());
+                }
                 ImageLoader.getInstance().displayImage(ApiHttpClient.API_PIC + orderBean.getGoods_list().get(0).getOriginal_img(), vh1.iv);
                 vh1.desc.setText(orderBean.getGoods_list().get(0).getGoods_name());
                 vh1.count.setText("X" +orderBean.getGoods_list().get(0).getGoods_num());
@@ -224,21 +230,26 @@ public class OrderAdapters extends BaseAdapter {
                         }
                     });
                 }
+                if (orderBean.getGoods_list()!=null&&orderBean.getGoods_list().size()>0){
+                    vh2.store.setText(orderBean.getStore_name());
+                    ImageLoader.getInstance().displayImage(ApiHttpClient.API_PIC + orderBean.getGoods_list().get(0).getOriginal_img(), vh1.iv);
+                    vh2.desc.setText(orderBean.getGoods_list().get(0).getGoods_name());
+                    vh2.count.setText("X" +orderBean.getGoods_list().get(0).getGoods_num());
+                }
 
-                vh2.store.setText(orderBean.getStore_name());
-                ImageLoader.getInstance().displayImage(ApiHttpClient.API_PIC + orderBean.getGoods_list().get(0).getOriginal_img(), vh1.iv);
-                vh2.desc.setText(orderBean.getGoods_list().get(0).getGoods_name());
-                vh2.count.setText("X" +orderBean.getGoods_list().get(0).getGoods_num());
                 break;
             case 2://已完成
                 if (str.equals("已完成")){
                     vh3.type.setText(str);
                     vh3.tv_evaluate.setVisibility(View.GONE);
                 }
-                vh3.store.setText(orderBean.getStore_name());
-                ImageLoader.getInstance().displayImage(ApiHttpClient.API_PIC + orderBean.getGoods_list().get(0).getOriginal_img(), vh1.iv);
-                vh3.desc.setText(orderBean.getGoods_list().get(0).getGoods_name());
-                vh3.count.setText("X" +orderBean.getGoods_list().get(0).getGoods_num());
+                if (orderBean.getGoods_list()!=null&&orderBean.getGoods_list().size()>0){
+
+                    vh3.store.setText(orderBean.getStore_name());
+                    ImageLoader.getInstance().displayImage(ApiHttpClient.API_PIC + orderBean.getGoods_list().get(0).getOriginal_img(), vh1.iv);
+                    vh3.desc.setText(orderBean.getGoods_list().get(0).getGoods_name());
+                    vh3.count.setText("X" +orderBean.getGoods_list().get(0).getGoods_num());
+                }
                 break;
         }
         return view;

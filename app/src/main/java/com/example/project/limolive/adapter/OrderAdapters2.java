@@ -123,11 +123,13 @@ public class OrderAdapters2 extends BaseAdapter {
             vh1.tv_evaluate.setVisibility(View.VISIBLE);
             vh1.type.setText(str);
         }
-        vh1.store.setText(this.orderBean.getStore_name());
-        ImageLoader.getInstance().displayImage(ApiHttpClient.API_PIC + this.orderBean.getGoods_list().get(0).getOriginal_img(), vh1.iv);
-        vh1.desc.setText(this.orderBean.getGoods_list().get(0).getGoods_name());
-        vh1.count.setText("X" + this.orderBean.getGoods_list().get(0).getGoods_num());
-        vh1.price.setText("￥"+this.orderBean.getGoods_list().get(0).getGoods_price());
+        if (orderBean.getGoods_list()!=null&&orderBean.getGoods_list().size()>0){
+            vh1.store.setText(this.orderBean.getStore_name());
+            ImageLoader.getInstance().displayImage(ApiHttpClient.API_PIC + this.orderBean.getGoods_list().get(0).getOriginal_img(), vh1.iv);
+            vh1.desc.setText(this.orderBean.getGoods_list().get(0).getGoods_name());
+            vh1.count.setText("X" + this.orderBean.getGoods_list().get(0).getGoods_num());
+            vh1.price.setText("￥"+this.orderBean.getGoods_list().get(0).getGoods_price());
+        }
         return view;
     }
 
