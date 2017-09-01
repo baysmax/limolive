@@ -153,7 +153,7 @@ public class MyShopActivity extends BaseActivity implements View.OnClickListener
     private void loadTitle() {
         setTitleString(getString(R.string.my_store));
         setLeftImage(R.mipmap.icon_return);
-        setRightImage(R.mipmap.fenlei);
+        //setRightImage(R.mipmap.fenlei);
         setLeftRegionListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
