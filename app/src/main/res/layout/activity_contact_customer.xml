@@ -77,7 +77,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="18dp"
-                android:text="官方客服QQ:2778998008"
+                android:text="官方客服QQ:383906253"
                 android:textColor="@color/colorTextBlack"
                 android:layout_marginLeft="8dp"
                 android:layout_centerVertical="true"
