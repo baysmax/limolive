@@ -1041,7 +1041,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
                 LogConstants.DIV + "进入房间" + id);
         watchCount++;
         Log.i("进入房间", "id" + id + "   " + "name" + name + "    " + "watchCount" + watchCount);
-        refreshTextListView(TextUtils.isEmpty(name) ? id : name, "进入房间", Constants.MEMBER_ENTER);
+        refreshTextListView(TextUtils.isEmpty(name) ? id : name, "进入房间", Constants.MEMBER_ENTER,id);
         nums.add("0");
 
         CurLiveInfo.setMembers(CurLiveInfo.getMembers() + 1);
@@ -1156,7 +1156,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
         watchCount--;
         nums1.add("0");
         Log.i("退出房间", "id" + id + "   " + "name" + name + "    " + "watchCount" + watchCount);
-        refreshTextListView(TextUtils.isEmpty(name) ? id : name, "退出房间", Constants.MEMBER_EXIT);
+        refreshTextListView(TextUtils.isEmpty(name) ? id : name, "退出房间", Constants.MEMBER_EXIT,id);
         if (CurLiveInfo.getMembers() > 0) {
             CurLiveInfo.setMembers(CurLiveInfo.getMembers() - 1);
             //zaixian_member.setText("" + CurLiveInfo.getMembers());
@@ -1167,7 +1167,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
     @Override
     public void hostLeave(String id, String name) {
         Log.i("监控主播退出了房间", "hostLeave");
-        refreshTextListView("主播：", "暂时离开", Constants.HOST_LEAVE);
+        refreshTextListView("主播：", "暂时离开", Constants.HOST_LEAVE,id);
         //主播离开
         quiteLivePassively();
         bDelayQuit = false;
@@ -1213,7 +1213,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
     @Override
     public void hostBack(String id, String name) {
         Log.i("监控主播退出了房间", "hostBack");
-        refreshTextListView(TextUtils.isEmpty(name) ? id : name, "回到房间", Constants.HOST_BACK);
+        refreshTextListView(TextUtils.isEmpty(name) ? id : name, "回到房间", Constants.HOST_BACK,id);
     }
 
     private float getBeautyProgress(int progress) {
@@ -1239,8 +1239,13 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
     @Override
     public void refreshText(String text, String name) {
         if (text != null) {
-            refreshTextListView(name, text, Constants.TEXT_TYPE);
+            //refreshTextListView(name, text, Constants.TEXT_TYPE);
         }
+    }
+
+    @Override
+    public void refreshText(String text, String name, String phone) {
+        refreshTextListView(name, text,phone, Constants.TEXT_TYPE);
     }
 
     @Override
@@ -2073,11 +2078,39 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
      * @param context 内容
      * @param type    类型 （上线线消息和 聊天消息）
      */
-    public void refreshTextListView(String name, String context, int type) {
+    public void refreshTextListView(String name, String context, int type,String phone) {
         ChatEntity entity = new ChatEntity();
         entity.setSenderName(name);
         entity.setContext(context);
         entity.setType(type);
+        entity.setSend_phone(phone);
+        //mArrayListChatEntity.add(entity);
+        notifyRefreshListView(entity);
+        //mChatMsgListAdapter.notifyDataSetChanged();
+
+        mListViewMsgItems.setVisibility(View.VISIBLE);
+        SxbLog.d(TAG, "refreshTextListView height " + mListViewMsgItems.getHeight());
+
+        if (mListViewMsgItems.getCount() > 1) {
+            if (true)
+                mListViewMsgItems.setSelection(0);
+            else
+                mListViewMsgItems.setSelection(mListViewMsgItems.getCount() - 1);
+        }
+    }
+    /**
+     * 消息刷新显示
+     *
+     * @param name    发送者
+     * @param context 内容
+     * @param type    类型 （上线线消息和 聊天消息）
+     */
+    public void refreshTextListView(String name, String context,String phone, int type) {
+        ChatEntity entity = new ChatEntity();
+        entity.setSenderName(name);
+        entity.setContext(context);
+        entity.setType(type);
+        entity.setSend_phone(phone);
         //mArrayListChatEntity.add(entity);
         notifyRefreshListView(entity);
         //mChatMsgListAdapter.notifyDataSetChanged();
@@ -2155,9 +2188,9 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
                         SxbLog.w(TAG, "get avatar:" + user.getFaceUrl());
                         Log.i("进入房间", "updateUserInfo" + user.toString());
                         if (!TextUtils.isEmpty(user.getNickName())) {
-                            refreshTextListView(user.getNickName(), "进入房间", Constants.MEMBER_ENTER);
+                            refreshTextListView(user.getNickName(), "进入房间", Constants.MEMBER_ENTER,user.getIdentifier());
                         } else {
-                            refreshTextListView(user.getIdentifier(), "进入房间", Constants.MEMBER_ENTER);
+                            refreshTextListView(user.getIdentifier(), "进入房间", Constants.MEMBER_ENTER,user.getIdentifier());
                         }
                     }
                     break;

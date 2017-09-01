@@ -22,6 +22,7 @@ public class Urls {
     public static final String POST_GOODS_APPLY = "/Appapi/Myorder/apply_order";  //申请店铺接口
     public static final String POST_GOODS_ORDER_RETURN = "/Appapi/Cart/order_return";  //申请店铺接口
     public static final String POST_GOODS_MY_STORE = "/Appapi/Goods/MyStore";  //我的店铺
+    public static final String POST_LIVE_GRADE = "/Appapi/Live/live_grade";  //等级接口
     public static final String GET_GETSIG = "/appapi/user/getSig";  //用户获取腾讯sig
     public static final String POST_LOGIN = "appapi/user/login";  //登录
     public static final String GET_LIVE_LIST = "appapi/live/live_list";  //直播列表 ????人数

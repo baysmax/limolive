@@ -171,7 +171,7 @@ public class InputTextMsgDialog extends Dialog {
                     TIMTextElem textElem = (TIMTextElem) elem;
                     if (data.isSelf()) {
                         if (mVideoPlayActivity != null)
-                            mVideoPlayActivity.refreshText(textElem.getText(), LiveMySelfInfo.getInstance().getNickName());
+                            mVideoPlayActivity.refreshText(textElem.getText(), LiveMySelfInfo.getInstance().getNickName(),LiveMySelfInfo.getInstance().getPhone());
 //                        handleTextMessage(elem, MySelfInfo.getInstance().getNickName());
                     } else {
                         TIMUserProfile sendUser = data.getSenderProfile();
@@ -181,8 +181,9 @@ public class InputTextMsgDialog extends Dialog {
                         } else {
                             name = data.getSender();
                         }
+
                         if (mVideoPlayActivity != null)
-                            mVideoPlayActivity.refreshText(textElem.getText(), name);
+                            mVideoPlayActivity.refreshText(textElem.getText(), name,LiveMySelfInfo.getInstance().getPhone());
                     }
                 }
                 SxbLog.d(TAG, "sendGroupMessage->success");

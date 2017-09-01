@@ -20,12 +20,20 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.example.project.limolive.R;
+import com.example.project.limolive.api.Api;
+import com.example.project.limolive.api.ApiHttpClient;
+import com.example.project.limolive.api.ApiResponse;
+import com.example.project.limolive.api.ApiResponseHandler;
+import com.example.project.limolive.bean.LvGrade;
 import com.example.project.limolive.tencentlive.model.ChatEntity;
 import com.example.project.limolive.tencentlive.model.LiveMySelfInfo;
 import com.example.project.limolive.tencentlive.utils.Constants;
 import com.example.project.limolive.tencentlive.utils.SxbLog;
 import com.example.project.limolive.tencentlive.views.customviews.CustomTextView;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -163,6 +171,8 @@ public class ChatMsgListAdapter extends BaseAdapter implements AbsListView.OnScr
                     convertView = layoutInflater.inflate(R.layout.item_chatmsg, null);
                     holder.textItem = (LinearLayout) convertView.findViewById(R.id.text_item);
                     holder.sendContext = (CustomTextView) convertView.findViewById(R.id.sendcontext);
+                    holder.sendContext_lv = (TextView) convertView.findViewById(R.id.sendContext_lv);
+                    holder.iv_Lv_img = (ImageView) convertView.findViewById(R.id.iv_Lv_img);
                     convertView.setTag(R.id.tag_first, holder);
                     break;
                 case PRESENT_TYPE:  //送花消息
@@ -171,6 +181,8 @@ public class ChatMsgListAdapter extends BaseAdapter implements AbsListView.OnScr
                     convertView = (LinearLayout) layoutInflater1.inflate(R.layout.chat_item_present, null);
                     present_holder.present_text = (TextView) convertView.findViewById(R.id.tv_chatcontent_present);
                     present_holder.present_name = (TextView) convertView.findViewById(R.id.msg_name_present);
+                    present_holder.msg_Lv_grade = (TextView) convertView.findViewById(R.id.msg_Lv_grade);
+                    present_holder.iv_Lv_img = (ImageView) convertView.findViewById(R.id.iv_Lv_img);
                     present_holder.msg_present = (ImageView) convertView.findViewById(R.id.msg_present);
                     convertView.setTag(present_holder);
                     break;
@@ -190,7 +202,13 @@ public class ChatMsgListAdapter extends BaseAdapter implements AbsListView.OnScr
                 if (mCreateAnimator && LiveMySelfInfo.getInstance().isbLiveAnimator()) {
                     playViewAnimator(convertView, position, item);
                 }
-
+                if (item.getSenderName().equals("系统通知")){
+                    holder.iv_Lv_img.setVisibility(View.GONE);
+                    holder.sendContext_lv.setVisibility(View.GONE);
+                }else {
+                    holder.iv_Lv_img.setVisibility(View.VISIBLE);
+                    holder.sendContext_lv.setVisibility(View.VISIBLE);
+                }
                 spanString = new SpannableString(item.getSenderName() + " : " + item.getContext());
                 Log.e("sdadsadsdss", "___" + item.getSenderName() + "___" + item.toString());
                 if (item.getType() != Constants.TEXT_TYPE) {
@@ -209,6 +227,9 @@ public class ChatMsgListAdapter extends BaseAdapter implements AbsListView.OnScr
                 holder.sendContext.setText(spanString);
                 // 设置控件实际宽度以便计算列表项实际高度
                 holder.sendContext.fixViewWidth(mListView.getWidth());
+                live_grade(item.getSend_phone(),holder);
+
+                //Log.i("等级","listMessage"+listMessage.get(position).toString());
                 break;
             case PRESENT_TYPE:  //送花消息
                 if (listMessage.get(position).getPresenr_type().equals("0")) {
@@ -258,24 +279,74 @@ public class ChatMsgListAdapter extends BaseAdapter implements AbsListView.OnScr
                 } else if (listMessage.get(position).getPresenr_type().equals("22")) {
                     present_holder.msg_present.setImageResource(R.drawable.present_22);
                 }
+                //present_holder.msg_Lv_grade.setText();
+                Log.i("等级","listMessage"+listMessage.get(position).toString());
                 present_holder.present_name.setText(listMessage.get(position).getPresent_name() + " :");
                 present_holder.present_text.setText("送出了");
+                live_grade(listMessage.get(position).getSend_phone(),present_holder);
                 break;
         }
         return convertView;
+    }
+
+    /**
+     * 加载发送者等级
+     */
+    private void live_grade(String phone, final ViewHolder holder) {
+        Api.live_grade(phone, new ApiResponseHandler(context) {
+            @Override
+            public void onSuccess(ApiResponse apiResponse) {
+                Log.i("等级","lv-"+apiResponse.toString());
+                if (apiResponse.getCode()==Api.SUCCESS){
+                    LvGrade lvGrade = JSONObject.parseObject(apiResponse.getData(), LvGrade.class);
+                    holder.sendContext_lv.setText(lvGrade.getGrade());
+                    if (lvGrade.getImg().contains("http")){
+                        ImageLoader.getInstance().displayImage(lvGrade.getImg(),holder.iv_Lv_img);
+                    }else {
+                        ImageLoader.getInstance().displayImage(ApiHttpClient.API_PIC+lvGrade.getImg(),holder.iv_Lv_img);
+                    }
+                    }
+
+                }
+        });
+    }
+    /**
+     * 加载发送者等级
+     */
+    private void live_grade(String phone, final ViewHolderP holder) {
+        Api.live_grade(phone, new ApiResponseHandler(context) {
+            @Override
+            public void onSuccess(ApiResponse apiResponse) {
+                Log.i("等级","lv-"+apiResponse.toString());
+                if (apiResponse.getCode()==Api.SUCCESS){
+                    LvGrade lvGrade = JSONObject.parseObject(apiResponse.getData(), LvGrade.class);
+                    holder.msg_Lv_grade.setText(lvGrade.getGrade());
+                    if (lvGrade.getImg().contains("http")){
+                        ImageLoader.getInstance().displayImage(lvGrade.getImg(),holder.iv_Lv_img);
+                    }else {
+                        ImageLoader.getInstance().displayImage(ApiHttpClient.API_PIC+lvGrade.getImg(),holder.iv_Lv_img);
+                    }
+                    }
+
+                }
+        });
     }
 
 
     static class ViewHolder {
         public LinearLayout textItem;
         public CustomTextView sendContext;
+        public TextView sendContext_lv;
+        public ImageView iv_Lv_img;
 
     }
 
     static class ViewHolderP {
-        TextView present_text;
-        ImageView msg_present;
-        TextView present_name;
+        TextView present_text;//送出了
+        ImageView msg_present;//礼物
+        ImageView iv_Lv_img;//礼物
+        TextView present_name;//昵称
+        TextView msg_Lv_grade;//等级
     }
 
     /**

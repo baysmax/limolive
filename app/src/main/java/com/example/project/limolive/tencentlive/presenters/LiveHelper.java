@@ -712,16 +712,17 @@ public class LiveHelper extends Presenter implements ILiveRoomOption.onRoomDisco
                 //最后处理文本消息
                 if (type == TIMElemType.Text) {
                     if (currMsg.isSelf()) {
-                        handleTextMessage(elem, LiveMySelfInfo.getInstance().getNickName());
+                        handleTextMessage(elem, LiveMySelfInfo.getInstance().getNickName(),sendId);
                     } else {
                         String nickname;
                         Log.i("处理文字消息","currMsg.getSenderProfile()"+currMsg.getSenderProfile().toString());
+                        Log.i("处理文字消息","sendid()"+sendId);
                         if (currMsg.getSenderProfile() != null && (!currMsg.getSenderProfile().getNickName().equals(""))) {
                             nickname = currMsg.getSenderProfile().getNickName();
                         } else {
                             nickname = sendId;
                         }
-                        handleTextMessage(elem, nickname);
+                        handleTextMessage(elem, nickname,sendId);
                     }
                 }
             }
@@ -734,10 +735,11 @@ public class LiveHelper extends Presenter implements ILiveRoomOption.onRoomDisco
      * @param elem
      * @param name
      */
-    private void handleTextMessage(TIMElem elem, String name) {
+    private void handleTextMessage(TIMElem elem, String name,String id) {
         TIMTextElem textElem = (TIMTextElem) elem;
 
-        mLiveView.refreshText(textElem.getText(), name);
+
+        mLiveView.refreshText(textElem.getText(), name,id);
     }
 
     /**
@@ -903,6 +905,7 @@ public class LiveHelper extends Presenter implements ILiveRoomOption.onRoomDisco
                     en.setMessage_type(present_i);
                     en.setPresent_name(present_name);
                     en.setPresenr_type(present_type);
+                    en.setSend_phone(identifier);
                     LiveingActivity.mArrayListPresent.add(en);
                     LiveingActivity.mArrayListChatEntity.add(en);
                     LiveingActivity.mChatMsgListAdapter.notifyDataSetChanged();

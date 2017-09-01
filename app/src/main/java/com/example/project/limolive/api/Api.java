@@ -1167,4 +1167,10 @@ public class Api {
         params.put("uid",uid);
         ApiHttpClient.post(ApiHttpClient.API_URL + Urls.POST_GOODS_MY_STORE, params, handler);
     }
+
+    public static void live_grade(String phone, ApiResponseHandler handler) {
+        RequestParams params = new RequestParams();
+        params.put("phone",phone);
+        ApiHttpClient.post(ApiHttpClient.API_URL + Urls.POST_LIVE_GRADE, params, handler);
+    }
 }

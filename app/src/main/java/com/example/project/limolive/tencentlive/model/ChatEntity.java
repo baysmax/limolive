@@ -11,15 +11,34 @@ public class ChatEntity {
 
 	//自定义消息类型
 	private String message_type;
+	private String send_phone;
 	private String present_name;
 	private String presenr_type;
+
+
+
+
 
 
 	public ChatEntity() {
 		// TODO Auto-generated constructor stub
 	}
 
+	public String getGrpSendName() {
+		return grpSendName;
+	}
 
+	public void setGrpSendName(String grpSendName) {
+		this.grpSendName = grpSendName;
+	}
+
+	public String getSend_phone() {
+		return send_phone;
+	}
+
+	public void setSend_phone(String send_phone) {
+		this.send_phone = send_phone;
+	}
 	public String getMessage_type() {
 		return message_type;
 	}
@@ -51,7 +70,7 @@ public class ChatEntity {
 	public void setSenderName(String grpSendName) {
 		this.grpSendName = grpSendName;
 	}
-		
+
 
 
 	public String getContext() {
@@ -70,5 +89,17 @@ public class ChatEntity {
 	public void setType(int type) {
 		this.type = type;
 	}
-	
+
+	@Override
+	public String toString() {
+		return "ChatEntity{" +
+				"grpSendName='" + grpSendName + '\'' +
+				", context='" + context + '\'' +
+				", type=" + type +
+				", message_type='" + message_type + '\'' +
+				", send_phone='" + send_phone + '\'' +
+				", present_name='" + present_name + '\'' +
+				", presenr_type='" + presenr_type + '\'' +
+				'}';
+	}
 }
