@@ -2,12 +2,9 @@ package com.example.project.limolive.activity;
 
 import android.Manifest;
 import android.app.Activity;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.hardware.Camera;
 import android.os.Build;
@@ -48,7 +45,6 @@ import com.example.project.limolive.utils.SPUtil;
 import com.example.project.limolive.utils.ToastUtils;
 import com.example.project.limolive.view.CustomProgressDialog;
 import com.example.project.limolive.view.SelectFenleiiPopupWindow;
-import com.example.project.limolive.widget.LiveMallTitleBar;
 import com.tencent.av.sdk.AVContext;
 import com.tencent.ilivesdk.ILiveSDK;
 import com.tencent.ilivesdk.core.ILiveRoomManager;
@@ -430,6 +426,7 @@ public class BeforeLiveActivity extends Activity implements  SurfaceHolder.Callb
     }
 
     private void initCaera() {
+
         //切换前后摄像头
         int cameraCount = 0;
         Camera.CameraInfo cameraInfo = new Camera.CameraInfo();
@@ -444,6 +441,10 @@ public class BeforeLiveActivity extends Activity implements  SurfaceHolder.Callb
                     camera.release();//释放资源
                     camera = null;//取消原来摄像头
                     camera = Camera.open(i21);//打开当前选中的摄像头
+                    Camera.Parameters parameters = camera.getParameters();
+                    Camera.Size preSize = getCloselyPreSize(true, surface.getWidth(), surface.getHeight(), parameters.getSupportedPreviewSizes());
+                    parameters.setPreviewSize(preSize.width, preSize.height);
+                    camera.setParameters(parameters);
                     try {
                         camera.setPreviewDisplay(holder);//通过surfaceview显示取景画面
                     } catch (IOException e) {
@@ -465,6 +466,49 @@ public class BeforeLiveActivity extends Activity implements  SurfaceHolder.Callb
                 }
             }
         }
+    }
+    /**
+     * 通过对比得到与宽高比最接近的预览尺寸（如果有相同尺寸，优先选择）
+     *
+     * @param isPortrait 是否竖屏
+     * @param surfaceWidth 需要被进行对比的原宽
+     * @param surfaceHeight 需要被进行对比的原高
+     * @param preSizeList 需要对比的预览尺寸列表
+     * @return 得到与原宽高比例最接近的尺寸
+     */
+    public   Camera.Size getCloselyPreSize(boolean isPortrait, int surfaceWidth, int surfaceHeight, List<Camera.Size> preSizeList) {
+        int reqTmpWidth;
+        int reqTmpHeight;
+        // 当屏幕为垂直的时候需要把宽高值进行调换，保证宽大于高
+        if (isPortrait) {
+            reqTmpWidth = surfaceHeight;
+            reqTmpHeight = surfaceWidth;
+        } else {
+            reqTmpWidth = surfaceWidth;
+            reqTmpHeight = surfaceHeight;
+        }
+        //先查找preview中是否存在与surfaceview相同宽高的尺寸
+        for(Camera.Size size : preSizeList){
+            if((size.width == reqTmpWidth) && (size.height == reqTmpHeight)){
+                return size;
+            }
+        }
+
+        // 得到与传入的宽高比最接近的size
+        float reqRatio = ((float) reqTmpWidth) / reqTmpHeight;
+        float curRatio, deltaRatio;
+        float deltaRatioMin = Float.MAX_VALUE;
+        Camera.Size retSize = null;
+        for (Camera.Size size : preSizeList) {
+            curRatio = ((float) size.width) / size.height;
+            deltaRatio = Math.abs(reqRatio - curRatio);
+            if (deltaRatio < deltaRatioMin) {
+                deltaRatioMin = deltaRatio;
+                retSize = size;
+            }
+        }
+
+        return retSize;
     }
     public static void setCameraDisplayOrientation ( Activity activity ,
                                                      int cameraId , android.hardware.Camera camera ) {
