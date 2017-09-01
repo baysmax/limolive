@@ -363,10 +363,13 @@ public class OrderAdapter extends BaseAdapter {
                 }
                 vh1.type.setText(str);
                 vh1.store.setText(orderBean.getStore_name());
-                ImageLoader.getInstance().displayImage(ApiHttpClient.API_PIC + orderBean.getGoods_list().get(0).getOriginal_img(), vh1.iv);
-                vh1.desc.setText(orderBean.getGoods_list().get(0).getGoods_name());
-                vh1.count.setText("X" +orderBean.getGoods_list().get(0).getGoods_num());
-                vh1.price.setText("共"+orderBean.getGoods_list().get(0).getGoods_num()+"件  合计￥"+orderBean.getTotal_amount());
+                if (orderBean.getGoods_list()!=null&&orderBean.getGoods_list().size()>0){
+                    ImageLoader.getInstance().displayImage(ApiHttpClient.API_PIC + orderBean.getGoods_list().get(0).getOriginal_img(), vh1.iv);
+                    vh1.desc.setText(orderBean.getGoods_list().get(0).getGoods_name());
+                    vh1.count.setText("X" +orderBean.getGoods_list().get(0).getGoods_num());
+                    vh1.price.setText("共"+orderBean.getGoods_list().get(0).getGoods_num()+"件  合计￥"+orderBean.getTotal_amount());
+                }
+
                 break;
             case 1://待支付
                 if (str.equals("待支付")){
