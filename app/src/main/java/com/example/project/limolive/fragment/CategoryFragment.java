@@ -176,7 +176,7 @@ public class CategoryFragment extends BaseFragment {
             public void onItemClick(View view, int position) {
                 //更换显示数据
                 BtnBean btnBean = typeLsit.get(position);
-                id = btnBean.getId();
+                id = btnBean.getType_id();
                 Log.i("热门商品类型","btnBean="+btnBean.toString());
                 initDatas(id);
             }
