@@ -79,6 +79,15 @@ public class HomePresenter extends Presenter implements AbsListView.OnScrollList
                 if (swipeRefreshLayout!=null){
                     swipeRefreshLayout.setRefreshing(false);
                 }
+
+            }
+
+            @Override
+            public void onFailure(String errMessage) {
+                super.onFailure(errMessage);
+                if (swipeRefreshLayout!=null){
+                    swipeRefreshLayout.setRefreshing(false);
+                }
             }
         });
     }

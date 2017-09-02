@@ -50,7 +50,7 @@ public class ShopCartFragment extends BaseFragment implements SwipeRefreshLayout
     @Override
     protected void initView() {
         super.initView();
-        shopCartPresenter=new ShopCartPresenter(getActivity());
+        shopCartPresenter=new ShopCartPresenter(getActivity(),swipe_cart);
         shopCartPresenter.registerMsgToActivity(this);
         //loadTitle();
 

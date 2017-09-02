@@ -115,6 +115,12 @@ public class FollowFragment extends BaseFragment {
                 }
                 swipeRefreshLayout.setRefreshing(false);
             }
+
+            @Override
+            public void onFailure(String errMessage) {
+                super.onFailure(errMessage);
+                swipeRefreshLayout.setRefreshing(false);
+            }
         });
     }
 

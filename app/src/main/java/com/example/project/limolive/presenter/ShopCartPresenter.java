@@ -22,6 +22,7 @@ import com.example.project.limolive.helper.DialogFactory;
 import com.example.project.limolive.helper.LoginManager;
 import com.example.project.limolive.utils.NetWorkUtil;
 import com.example.project.limolive.utils.ToastUtils;
+import com.example.project.limolive.widget.AutoSwipeRefreshLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,10 +57,12 @@ public class ShopCartPresenter extends Presenter implements ShopCartAdapter.Cart
 
     private ListView listView;
     private boolean isEditGood = false;//是否开启编辑模式
+    private AutoSwipeRefreshLayout swipe_cart;
 
 
-    public ShopCartPresenter(Context context) {
+    public ShopCartPresenter(Context context,AutoSwipeRefreshLayout swipe_cart) {
         super(context);
+        this.swipe_cart=swipe_cart;
     }
 
     public ListAdapter getAdapter() {
@@ -116,11 +119,22 @@ public class ShopCartPresenter extends Presenter implements ShopCartAdapter.Cart
                     public void onSuccess(ApiResponse apiResponse) {
                         if (apiResponse.getCode() == Api.SUCCESS) {
                             handleData(apiResponse.getData());
+                            if (swipe_cart!=null){
+                                swipe_cart.setRefreshing(false);
+                            }
                         } else {
                             ToastUtils.showShort(context, apiResponse.getMessage());
                         }
                         if (tellActivity != null) {
                             tellActivity.presenterTakeAction(CART_LIST_OVER);
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(String errMessage) {
+                        super.onFailure(errMessage);
+                        if (swipe_cart!=null){
+                            swipe_cart.setRefreshing(false);
                         }
                     }
                 });
