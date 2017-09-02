@@ -54,6 +54,7 @@ public class CategoryFragment extends BaseFragment {
 
     private int page=1;
     private String id="";
+    private SwipeRefreshLayout swl_fm;//分类刷新
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -87,7 +88,7 @@ public class CategoryFragment extends BaseFragment {
                     adapter.notifyDataSetChanged();
                     srl_down_category.setRefreshing(false);
                     Log.i("热门商品类型","goodsLsit1="+typeLsit.size());
-                    initDatas(typeLsit.get(0).getId());
+                    initDatas(typeLsit.get(0).getType_id(),page);
                 } else {
                     goodsType();
                 }
@@ -111,7 +112,7 @@ public class CategoryFragment extends BaseFragment {
                     adapter.notifyDataSetChanged();
                     Log.i("热门商品类型","goodsLsit="+typeLsit.size());
                     srl_down_category.setRefreshing(false);
-                    initDatas(typeLsit.get(0).getId());
+                    initDatas(typeLsit.get(0).getType_id(),page);
                 } else {
                     goodsType();
                 }
@@ -130,6 +131,7 @@ public class CategoryFragment extends BaseFragment {
         lm1=new LinearLayoutManager(getActivity());
         rv_btn= (RecyclerView) findViewById(R.id.rv_btn);
         rv_fm= (RecyclerView) findViewById(R.id.rv_fm);
+        swl_fm= (SwipeRefreshLayout) findViewById(R.id.swl_fm);
 
         rv_btn.setLayoutManager(lm);
         rv_fm.setLayoutManager(lm1);
@@ -140,12 +142,20 @@ public class CategoryFragment extends BaseFragment {
     }
 
     private void setListener() {
+        swl_fm.setRefreshing(true);
+        swl_fm.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                swl_fm.setRefreshing(true);
+                initDatas(id,page);
+            }
+        });
         rv_fm.setOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
                 int positon = lm1.findLastVisibleItemPosition();
-                if (adapter!=null&&positon==adapter.getItemCount()-1&&newState==RecyclerView.SCROLL_STATE_IDLE){
+                if (adapter!=null&&positon==adapter.getItemCount()-2/*&&newState==RecyclerView.SCROLL_STATE_IDLE*/){
                     page++;
                     initDatas(id,page);
                 }
@@ -178,29 +188,41 @@ public class CategoryFragment extends BaseFragment {
                 BtnBean btnBean = typeLsit.get(position);
                 id = btnBean.getType_id();
                 Log.i("热门商品类型","btnBean="+btnBean.toString());
-                initDatas(id);
+                page=1;
+                initDatas(id,page);
             }
 
 
         });
     }
-
-    private void initDatas(String id) {
+    private void initDatas(String id, final int page) {
         Api.getGoodsList(LoginManager.getInstance().getUserID(getActivity()), id,String.valueOf(page), new ApiResponseHandler(getActivity()) {
             @Override
             public void onSuccess(ApiResponse apiResponse) {
-                Log.i("热门商品类型","热门商品类型="+apiResponse.toString());
                 if (apiResponse.getCode()==Api.SUCCESS){
                     tv_isgone.setVisibility(View.GONE);
                     rv_fm.setVisibility(View.VISIBLE);
-                    goodsLsit.clear();
+                    if (page==1){
+                        goodsLsit.clear();
+                    }
+
                     adapter1.notifyDataSetChanged();
-                    goodsLsit.addAll(JSONArray.parseArray(apiResponse.getData(),RecommendBean.class));
+                    List<RecommendBean> list = JSONArray.parseArray(apiResponse.getData(), RecommendBean.class);
+                    if (list!=null&&list.size()>0){
+                        goodsLsit.addAll(list);
+                        adapter1.notifyDataSetChanged();
+                    }else {
+                        ToastUtils.showShort(getActivity(),"没有更多了");
+                    }
                     Log.i("热门商品类型","goodsLsit="+goodsLsit.size());
-                    adapter1.notifyDataSetChanged();
+                    if (swl_fm!=null&&swl_fm.isRefreshing()){
+                        swl_fm.setRefreshing(false);
+                    }
                 }else if(apiResponse.getCode()==-2) {
-                    tv_isgone.setVisibility(View.VISIBLE);
-                    rv_fm.setVisibility(View.GONE);
+                    if(goodsLsit!=null&&goodsLsit.size()==0){
+                        tv_isgone.setVisibility(View.VISIBLE);
+                        rv_fm.setVisibility(View.GONE);
+                    }
                 }
             }
 
@@ -208,30 +230,9 @@ public class CategoryFragment extends BaseFragment {
             public void onFailure(String errMessage) {
                 super.onFailure(errMessage);
                 Log.i("热门商品类型","失败");
-            }
-        });
-    }
-    private void initDatas(String id,int page) {
-        Api.getGoodsList(LoginManager.getInstance().getUserID(getActivity()), id,String.valueOf(page), new ApiResponseHandler(getActivity()) {
-            @Override
-            public void onSuccess(ApiResponse apiResponse) {
-                Log.i("热门商品类型","热门商品类型="+apiResponse.toString());
-                if (apiResponse.getCode()==Api.SUCCESS){
-                    tv_isgone.setVisibility(View.GONE);
-                    rv_fm.setVisibility(View.VISIBLE);
-                    goodsLsit.addAll(JSONArray.parseArray(apiResponse.getData(),RecommendBean.class));
-                    Log.i("热门商品类型","goodsLsit="+goodsLsit.size());
-                    adapter1.notifyDataSetChanged();
-                }else if(apiResponse.getCode()==-2) {
-                    tv_isgone.setVisibility(View.VISIBLE);
-                    rv_fm.setVisibility(View.GONE);
+                if (swl_fm!=null&&swl_fm.isRefreshing()){
+                    swl_fm.setRefreshing(false);
                 }
-            }
-
-            @Override
-            public void onFailure(String errMessage) {
-                super.onFailure(errMessage);
-                Log.i("热门商品类型","失败");
             }
         });
     }
