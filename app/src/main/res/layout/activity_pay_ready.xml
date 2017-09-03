@@ -126,7 +126,7 @@
             android:id="@+id/pay_check_box_wx"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/circle_pay_unselect"
+            android:background="@drawable/circle_pay_select"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="12dp"

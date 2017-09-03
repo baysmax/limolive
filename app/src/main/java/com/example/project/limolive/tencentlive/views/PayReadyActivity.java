@@ -65,6 +65,7 @@ public class PayReadyActivity extends BaseActivity implements View.OnClickListen
             lemon_id = getIntent().getStringExtra("lemon_id");
         }
         setUpView();
+        selectWx();
     }
 
     private void setUpView() {
