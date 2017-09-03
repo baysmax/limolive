@@ -214,6 +214,17 @@ public class CommitOrdersBean implements Serializable {
             private String uid;
             private String user_id;
 
+            public String getGood_standard_size() {
+                return good_standard_size;
+            }
+
+            public void setGood_standard_size(String good_standard_size) {
+                this.good_standard_size = good_standard_size;
+            }
+
+            private String good_standard_size;
+
+
             public String getAdd_time() {
                 return add_time;
             }
@@ -349,6 +360,7 @@ public class CommitOrdersBean implements Serializable {
             public void setUser_id(String user_id) {
                 this.user_id = user_id;
             }
+
             @Override
             public String toString() {
                 return "Datas{" +
@@ -369,6 +381,7 @@ public class CommitOrdersBean implements Serializable {
                         ", sku='" + sku + '\'' +
                         ", uid='" + uid + '\'' +
                         ", user_id='" + user_id + '\'' +
+                        ", good_standard_size='" + good_standard_size + '\'' +
                         '}';
             }
         }

@@ -72,6 +72,7 @@ public class CommitOrdersAdapter extends BaseAdapter {
             vh.count = (TextView) view.findViewById(R.id.commit_item_count);
             vh.kuaidi = (TextView) view.findViewById(R.id.commit_item_kuaidi);
             vh.youhui = (TextView) view.findViewById(R.id.commit_item_youhui);
+            vh.tv_resou_names = (TextView) view.findViewById(R.id.tv_resou_names);
             vh.beizhu = (EditText) view.findViewById(R.id.commit_item_beizhu);
             vh.beizhu.addTextChangedListener(new TextWatcher() {
                 @Override
@@ -98,6 +99,7 @@ public class CommitOrdersAdapter extends BaseAdapter {
         ImageLoader.getInstance().displayImage(ApiHttpClient.API_PIC+dateList.get(i).getOriginal_img(),vh.iv);
         vh.desc.setText(dateList.get(i).getGoods_name());
         vh.count.setText("X"+dateList.get(i).getGoods_num());
+        vh.tv_resou_names.setText(dateList.get(i).getGood_standard_size());
         if("0.00".equals(dateList.get(i).getShiping_price())){
             vh.kuaidi.setText("快递 不包邮");
         }else {
@@ -107,7 +109,7 @@ public class CommitOrdersAdapter extends BaseAdapter {
     }
 
     private class ViewHolder {
-        private TextView store, desc, count, kuaidi, youhui;
+        private TextView store, desc, count, kuaidi, youhui,tv_resou_names;
         private ImageView iv;
         private EditText beizhu;
     }
