@@ -1566,7 +1566,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
         mPagerList = new ArrayList<BasePager>();
         mPagerList.add(new Page_one(this));
         mPagerList.add(new Page_two(this));
-        mPagerList.add(new Page_three(this));
+        //mPagerList.add(new Page_three(this));
         ContentAdapter contentAdapter = new ContentAdapter();
         page_prient.setAdapter(contentAdapter);
         page_prient.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -1595,7 +1595,6 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
 
         live_room_gift_pay = (TextView) viewd.findViewById(R.id.live_room_gift_pay);//点击充值
         live_room_gift_money = (TextView) viewd.findViewById(R.id.live_room_gift_money);//柠檬币
-        iv_giftGiveing_button = (Button) viewd.findViewById(R.id.iv_giftGiveing_button);
         getSelCoins();//观众的钻石
         live_room_gift_sendname.setText("主播: " + CurLiveInfo.getHostName());
         live_room_gift_pay.setOnClickListener(new View.OnClickListener() {

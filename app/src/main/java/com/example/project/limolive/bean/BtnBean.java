@@ -8,6 +8,16 @@ public class BtnBean {
     private String id;
     private String name;
 
+    public String getType_id() {
+        return type_id;
+    }
+
+    public void setType_id(String type_id) {
+        this.type_id = type_id;
+    }
+
+    private String type_id;
+
     public BtnBean() {
     }
 
@@ -34,9 +44,9 @@ public class BtnBean {
     @Override
     public String toString() {
         return "BtnBean{" +
-                "id=" + id +
+                "id='" + id + '\'' +
                 ", name='" + name + '\'' +
+                ", type_id='" + type_id + '\'' +
                 '}';
     }
-
 }

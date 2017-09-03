@@ -25,9 +25,15 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="#ffffff"
-                android:layout_marginTop="10dp"
-                android:text="15柠檬币"/>
+                android:layout_marginTop="6dp"
+                android:textSize="16sp"
+                android:textColor="#000"
+                android:text="拍手"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:text="1钻石"/>
         </LinearLayout>
         <LinearLayout
             android:id="@+id/present_checked_10"
@@ -46,9 +52,15 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="#ffffff"
-                android:layout_marginTop="10dp"
-                android:text="15柠檬币"/>
+                android:layout_marginTop="6dp"
+                android:textSize="16sp"
+                android:textColor="#000"
+                android:text="干杯"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:text="5钻石"/>
         </LinearLayout>
         <LinearLayout
             android:id="@+id/present_checked_11"
@@ -67,9 +79,15 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="#ffffff"
-                android:layout_marginTop="10dp"
-                android:text="20柠檬币"/>
+                android:layout_marginTop="6dp"
+                android:textSize="16sp"
+                android:textColor="#000"
+                android:text="糖果"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:text="10钻石"/>
         </LinearLayout>
         <LinearLayout
             android:id="@+id/present_checked_12"
@@ -88,9 +106,15 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="#ffffff"
-                android:layout_marginTop="10dp"
-                android:text="30柠檬币"/>
+                android:layout_marginTop="6dp"
+                android:textSize="16sp"
+                android:textColor="#000"
+                android:text="1314"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:text="200钻石"/>
         </LinearLayout>
     </LinearLayout>
     <LinearLayout
@@ -115,9 +139,15 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="#ffffff"
-                android:layout_marginTop="10dp"
-                android:text="50柠檬币"/>
+                android:layout_marginTop="6dp"
+                android:textSize="16sp"
+                android:textColor="#000"
+                android:text="招财猪"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:text="166钻石"/>
         </LinearLayout>
         <LinearLayout
             android:id="@+id/present_checked_14"
@@ -136,9 +166,15 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="#ffffff"
-                android:layout_marginTop="10dp"
-                android:text="50柠檬币"/>
+                android:layout_marginTop="6dp"
+                android:textSize="16sp"
+                android:textColor="#000"
+                android:text="生日蛋糕"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:text="200钻石"/>
         </LinearLayout>
         <LinearLayout
             android:id="@+id/present_checked_15"
@@ -157,9 +193,15 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="#ffffff"
-                android:layout_marginTop="10dp"
-                android:text="60柠檬币"/>
+                android:layout_marginTop="6dp"
+                android:textSize="16sp"
+                android:textColor="#000"
+                android:text="城堡"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:text="300钻石"/>
         </LinearLayout>
         <LinearLayout
             android:id="@+id/present_checked_16"
@@ -178,9 +220,15 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="#ffffff"
-                android:layout_marginTop="10dp"
-                android:text="60柠檬币"/>
+                android:layout_marginTop="6dp"
+                android:textSize="16sp"
+                android:textColor="#000"
+                android:text="跑车"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:text="300钻石"/>
         </LinearLayout>
     </LinearLayout>
     <LinearLayout

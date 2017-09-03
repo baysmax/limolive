@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animation-list
+    android:oneshot="true"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@drawable/magic" android:duration="100" />
+    <item android:drawable="@drawable/magic1" android:duration="100" />
+    <item android:drawable="@drawable/magic2" android:duration="100" />
+    <item android:drawable="@drawable/magic3" android:duration="100" />
+    <item android:drawable="@drawable/magic4" android:duration="100" />
+    <item android:drawable="@drawable/magic5" android:duration="100" />
+    <item android:drawable="@drawable/magic6" android:duration="100" />
+    <item android:drawable="@drawable/magic7" android:duration="100" />
+    <item android:drawable="@drawable/magic8" android:duration="100" />
+    <item android:drawable="@drawable/magic9" android:duration="100" />
+    <item android:drawable="@drawable/magic10" android:duration="100" />
+    <item android:drawable="@drawable/magic11" android:duration="100" />
+    <item android:drawable="@drawable/magic12" android:duration="100" />
+    <item android:drawable="@drawable/magic13" android:duration="100" />
+    <item android:drawable="@drawable/magic14" android:duration="100" />
+</animation-list>

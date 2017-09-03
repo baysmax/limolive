@@ -36,7 +36,7 @@ public class Page_two extends BasePager {
         present_checked_8.setBackgroundResource(R.color.full_transparent);
         present_checked_1.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v) {//拍手 1钻
                 present_checked_1.setBackgroundResource(R.drawable.present_chat);
                 present_checked_2.setBackgroundResource(R.color.full_transparent);
                 present_checked_3.setBackgroundResource(R.color.full_transparent);
@@ -47,12 +47,12 @@ public class Page_two extends BasePager {
                 present_checked_8.setBackgroundResource(R.color.full_transparent);
                 sp.setString("present_num_show","0");
                 sp.setString("p_type","8");
-                sp.setString("score","15");
+                sp.setString("score","1");
             }
         });
         present_checked_2.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v) {//干杯 5钻
                 present_checked_2.setBackgroundResource(R.drawable.present_chat);
                 present_checked_1.setBackgroundResource(R.color.full_transparent);
                 present_checked_3.setBackgroundResource(R.color.full_transparent);
@@ -63,12 +63,12 @@ public class Page_two extends BasePager {
                 present_checked_8.setBackgroundResource(R.color.full_transparent);
                 sp.setString("present_num_show","0");
                 sp.setString("p_type","9");
-                sp.setString("score","15");
+                sp.setString("score","5");
             }
         });
         present_checked_3.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v) {//糖果 10钻
                 present_checked_3.setBackgroundResource(R.drawable.present_chat);
                 present_checked_2.setBackgroundResource(R.color.full_transparent);
                 present_checked_1.setBackgroundResource(R.color.full_transparent);
@@ -79,12 +79,12 @@ public class Page_two extends BasePager {
                 present_checked_8.setBackgroundResource(R.color.full_transparent);
                 sp.setString("present_num_show","0");
                 sp.setString("p_type","10");
-                sp.setString("score","20");
+                sp.setString("score","10");
             }
         });
         present_checked_4.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v) {//1314 200钻
 
                 present_checked_4.setBackgroundResource(R.drawable.present_chat);
                 present_checked_2.setBackgroundResource(R.color.full_transparent);
@@ -96,12 +96,12 @@ public class Page_two extends BasePager {
                 present_checked_8.setBackgroundResource(R.color.full_transparent);
                 sp.setString("present_num_show","0");
                 sp.setString("p_type","11");
-                sp.setString("score","30");
+                sp.setString("score","200");
             }
         });
         present_checked_5.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v) {//招财猪 166
                 present_checked_5.setBackgroundResource(R.drawable.present_chat);
                 present_checked_2.setBackgroundResource(R.color.full_transparent);
                 present_checked_3.setBackgroundResource(R.color.full_transparent);
@@ -112,12 +112,12 @@ public class Page_two extends BasePager {
                 present_checked_8.setBackgroundResource(R.color.full_transparent);
                 sp.setString("present_num_show","0");
                 sp.setString("p_type","12");
-                sp.setString("score","50");
+                sp.setString("score","166");
             }
         });
         present_checked_6.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v) {//生日蛋糕 200钻
                 present_checked_6.setBackgroundResource(R.drawable.present_chat);
                 present_checked_2.setBackgroundResource(R.color.full_transparent);
                 present_checked_3.setBackgroundResource(R.color.full_transparent);
@@ -128,12 +128,12 @@ public class Page_two extends BasePager {
                 present_checked_8.setBackgroundResource(R.color.full_transparent);
                 sp.setString("present_num_show","0");
                 sp.setString("p_type","13");
-                sp.setString("score","50");
+                sp.setString("score","200");
             }
         });
         present_checked_7.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v) {//城堡 300钻
                 present_checked_7.setBackgroundResource(R.drawable.present_chat);
                 present_checked_2.setBackgroundResource(R.color.full_transparent);
                 present_checked_3.setBackgroundResource(R.color.full_transparent);
@@ -144,12 +144,12 @@ public class Page_two extends BasePager {
                 present_checked_8.setBackgroundResource(R.color.full_transparent);
                 sp.setString("present_num_show","0");
                 sp.setString("p_type","14");
-                sp.setString("score","60");
+                sp.setString("score","300");
             }
         });
         present_checked_8.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v) {// 跑车 300钻
                 present_checked_8.setBackgroundResource(R.drawable.present_chat);
                 present_checked_2.setBackgroundResource(R.color.full_transparent);
                 present_checked_3.setBackgroundResource(R.color.full_transparent);
@@ -160,7 +160,7 @@ public class Page_two extends BasePager {
                 present_checked_1.setBackgroundResource(R.color.full_transparent);
                 sp.setString("present_num_show","0");
                 sp.setString("p_type","15");
-                sp.setString("score","60");
+                sp.setString("score","300");
             }
         });
     }
