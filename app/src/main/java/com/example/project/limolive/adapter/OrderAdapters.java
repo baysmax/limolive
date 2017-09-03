@@ -101,6 +101,7 @@ public class OrderAdapters extends BaseAdapter {
                     vh1.desc = (TextView) view.findViewById(R.id.commit_item_desc);
                     vh1.count = (TextView) view.findViewById(R.id.commit_item_count);
                     vh1.price = (TextView) view.findViewById(R.id.price);
+                    vh1.order_codes = (TextView) view.findViewById(R.id.order_codes);
                     vh1.tv_evaluate=view.findViewById(R.id.tv_evaluate);
                     vh1.tv_evaluate.setVisibility(View.GONE);
                     view.setTag(vh1);
@@ -113,6 +114,7 @@ public class OrderAdapters extends BaseAdapter {
                     vh2.desc = (TextView) view.findViewById(R.id.commit_item_desc);
                     vh2.count = (TextView) view.findViewById(R.id.commit_item_count);
                     vh2.price = (TextView) view.findViewById(R.id.price);
+                    vh2.order_codes = (TextView) view.findViewById(R.id.order_codes);
                     vh2.type=view.findViewById(R.id.tv_type);
                     vh2.tv_evaluate=view.findViewById(R.id.tv_evaluate);
                     vh2.tv_evaluate.setVisibility(View.GONE);
@@ -126,6 +128,7 @@ public class OrderAdapters extends BaseAdapter {
                     vh3.desc = (TextView) view.findViewById(R.id.commit_item_desc);
                     vh3.count = (TextView) view.findViewById(R.id.commit_item_count);
                     vh3.price = (TextView) view.findViewById(R.id.price);
+                    vh3.order_codes = (TextView) view.findViewById(R.id.order_codes);
                     vh3.type=view.findViewById(R.id.tv_type);
                     vh3.tv_evaluate=view.findViewById(R.id.tv_evaluate);
                     vh3.tv_evaluate.setVisibility(View.GONE);
@@ -204,16 +207,13 @@ public class OrderAdapters extends BaseAdapter {
                     vh1.type.setText(str);
                 }
                 vh1.store.setText(orderBean.getStore_name());
-                if (orderBean.getGoods_list()!=null&&orderBean.getGoods_list().size()>0){
+                if (orderBean!=null&&orderBean.getGoods_list()!=null&&orderBean.getGoods_list().size()>0){
                     ImageLoader.getInstance().displayImage(ApiHttpClient.API_PIC + orderBean.getGoods_list().get(0).getOriginal_img(), vh1.iv);
                     vh1.desc.setText(orderBean.getGoods_list().get(0).getGoods_name());
                     vh1.count.setText("X" +orderBean.getGoods_list().get(0).getGoods_num());
                     vh1.price.setText("共"+orderBean.getGoods_list().get(0).getGoods_num()+"件  合计￥"+orderBean.getTotal_amount());
+                    vh1.order_codes.setText("订单编号:"+orderBean.getOrder_id());
                 }
-                ImageLoader.getInstance().displayImage(ApiHttpClient.API_PIC + orderBean.getGoods_list().get(0).getOriginal_img(), vh1.iv);
-                vh1.desc.setText(orderBean.getGoods_list().get(0).getGoods_name());
-                vh1.count.setText("X" +orderBean.getGoods_list().get(0).getGoods_num());
-                vh1.price.setText("共"+orderBean.getGoods_list().get(0).getGoods_num()+"件  合计￥"+orderBean.getTotal_amount());
                 break;
 
             case 1://待发货
@@ -235,6 +235,7 @@ public class OrderAdapters extends BaseAdapter {
                     ImageLoader.getInstance().displayImage(ApiHttpClient.API_PIC + orderBean.getGoods_list().get(0).getOriginal_img(), vh1.iv);
                     vh2.desc.setText(orderBean.getGoods_list().get(0).getGoods_name());
                     vh2.count.setText("X" +orderBean.getGoods_list().get(0).getGoods_num());
+                    vh2.order_codes.setText("订单编号:"+orderBean.getOrder_id());
                 }
 
                 break;
@@ -249,6 +250,7 @@ public class OrderAdapters extends BaseAdapter {
                     ImageLoader.getInstance().displayImage(ApiHttpClient.API_PIC + orderBean.getGoods_list().get(0).getOriginal_img(), vh1.iv);
                     vh3.desc.setText(orderBean.getGoods_list().get(0).getGoods_name());
                     vh3.count.setText("X" +orderBean.getGoods_list().get(0).getGoods_num());
+                    vh3.order_codes.setText("订单编号:"+orderBean.getOrder_id());
                 }
                 break;
         }
@@ -340,7 +342,7 @@ public class OrderAdapters extends BaseAdapter {
 //    }
 
     private class ViewHolder {
-        private TextView store, desc, count, price,type,tv_evaluate;
+        private TextView store, desc, count, price,type,tv_evaluate,order_codes;
         private ImageView iv;
     }
 }

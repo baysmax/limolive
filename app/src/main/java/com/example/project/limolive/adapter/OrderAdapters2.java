@@ -74,6 +74,7 @@ public class OrderAdapters2 extends BaseAdapter {
             vh1.iv = (ImageView) view.findViewById(R.id.commit_item_iv);
             vh1.desc = (TextView) view.findViewById(R.id.commit_item_desc);
             vh1.count = (TextView) view.findViewById(R.id.commit_item_count);
+            vh1.order_codes = (TextView) view.findViewById(R.id.order_codes);
             vh1.price = (TextView) view.findViewById(R.id.price);
             vh1.tv_evaluate=view.findViewById(R.id.tv_evaluate);
             vh1.tv_evaluate.setVisibility(View.GONE);
@@ -129,6 +130,7 @@ public class OrderAdapters2 extends BaseAdapter {
             vh1.desc.setText(this.orderBean.getGoods_list().get(0).getGoods_name());
             vh1.count.setText("X" + this.orderBean.getGoods_list().get(0).getGoods_num());
             vh1.price.setText("￥"+this.orderBean.getGoods_list().get(0).getGoods_price());
+            vh1.order_codes.setText("订单编号:"+orderBean.getOrder_id());
         }
         return view;
     }
@@ -183,7 +185,7 @@ public class OrderAdapters2 extends BaseAdapter {
     }
 
     private class ViewHolder {
-        private TextView store, desc, count, price,type,tv_evaluate;
+        private TextView store, desc, count, price,type,tv_evaluate,order_codes;
         private ImageView iv;
     }
 }
