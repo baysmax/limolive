@@ -15,6 +15,7 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.project.limolive.R;
@@ -82,6 +83,8 @@ public class OrderAdapters1 extends BaseAdapter {
             vh1.order_codes = (TextView) view.findViewById(R.id.order_codes);
             vh1.Shipping_code.setVisibility(View.GONE);
             vh1.price = (TextView) view.findViewById(R.id.price);
+            vh1.rl = (RelativeLayout) view.findViewById(R.id.rl);
+            vh1.rl.setVisibility(View.GONE);
             vh1.tv_evaluate=view.findViewById(R.id.tv_evaluate);
             vh1.tv_evaluate.setVisibility(View.GONE);
             vh1.tv_evaluate1=view.findViewById(R.id.tv_evaluate1);
@@ -233,5 +236,6 @@ public class OrderAdapters1 extends BaseAdapter {
     private class ViewHolder {
         private TextView store, desc, count, price,type,tv_evaluate,tv_evaluate1,Shipping_code,order_codes;
         private ImageView iv;
+        RelativeLayout rl;
     }
 }

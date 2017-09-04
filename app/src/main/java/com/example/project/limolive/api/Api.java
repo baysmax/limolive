@@ -1173,4 +1173,11 @@ public class Api {
         params.put("phone",phone);
         ApiHttpClient.post(ApiHttpClient.API_URL + Urls.POST_LIVE_GRADE, params, handler);
     }
+
+    public static void Cart4(String user_id,String order_sn, ApiResponseHandler handler) {
+        RequestParams params = new RequestParams();
+        params.put("order_sn",order_sn);
+        params.put("user_id",user_id);
+        ApiHttpClient.post(ApiHttpClient.API_URL + Urls.POST_CART4, params, handler);
+    }
 }

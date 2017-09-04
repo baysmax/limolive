@@ -1,5 +1,6 @@
 package com.example.project.limolive.adapter;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ClipData;
 import android.content.ClipboardManager;
@@ -16,6 +17,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.example.project.limolive.R;
 import com.example.project.limolive.activity.CommitOrderActivity;
 import com.example.project.limolive.activity.GoodsDetails;
@@ -25,8 +28,12 @@ import com.example.project.limolive.api.Api;
 import com.example.project.limolive.api.ApiHttpClient;
 import com.example.project.limolive.api.ApiResponse;
 import com.example.project.limolive.api.ApiResponseHandler;
+import com.example.project.limolive.bean.PayOrder;
 import com.example.project.limolive.bean.order.OrderBean;
 import com.example.project.limolive.helper.LoginManager;
+import com.example.project.limolive.pay.wx.WXPayUtils;
+import com.example.project.limolive.tencentlive.views.PayReadyActivity;
+import com.example.project.limolive.utils.Constant;
 import com.example.project.limolive.utils.ToastUtils;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
@@ -311,11 +318,7 @@ public class OrderAdapter extends BaseAdapter {
                     vh1.tv_evaluate.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            Intent order = new Intent(context, CommitOrderActivity.class);
-                            order.putExtra("goods_id", orderBean.getGoods_list().get(0).getGoods_id());
-                            order.putExtra("num", orderBean.getGoods_list().get(0).getGoods_num());
-                            order.putExtra("tv_resou_names", orderBean.getGoods_list().get(0).getGood_standard_size());
-                            context.startActivity(order);
+                            Cart4();
                         }
                     });
                 }else if (str.equals("待发货")){
@@ -374,7 +377,7 @@ public class OrderAdapter extends BaseAdapter {
                     vh1.desc.setText(orderBean.getGoods_list().get(0).getGoods_name());
                     vh1.count.setText("X" +orderBean.getGoods_list().get(0).getGoods_num());
                     vh1.price.setText("共"+orderBean.getGoods_list().get(0).getGoods_num()+"件  合计￥"+orderBean.getTotal_amount());
-                    vh1.order_codes.setText("订单编号:"+orderBean.getOrder_id());
+                    vh1.order_codes.setText("订单编号:"+orderBean.getOrder_sn());
                 }
 
                 break;
@@ -385,12 +388,7 @@ public class OrderAdapter extends BaseAdapter {
                     vh2.tv_evaluate.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                                Intent order = new Intent(context, CommitOrderActivity.class);
-                                order.putExtra("goods_id", orderBean.getGoods_list().get(0).getGoods_id());
-                                order.putExtra("num", orderBean.getGoods_list().get(0).getGoods_num());
-                                order.putExtra("tv_resou_names", orderBean.getGoods_list().get(0).getGood_standard_size());
-                                context.startActivity(order);
-
+                            Cart4();
                         }
                     });
                 }
@@ -400,7 +398,7 @@ public class OrderAdapter extends BaseAdapter {
                     ImageLoader.getInstance().displayImage(ApiHttpClient.API_PIC + orderBean.getGoods_list().get(0).getOriginal_img(), vh1.iv);
                     vh2.desc.setText(orderBean.getGoods_list().get(0).getGoods_name());
                     vh2.count.setText("X" +orderBean.getGoods_list().get(0).getGoods_num());
-                    vh2.order_codes.setText("订单编号:"+orderBean.getOrder_id());
+                    vh2.order_codes.setText("订单编号:"+orderBean.getOrder_sn());
                 }
                 break;
             case 2://待发货
@@ -435,7 +433,7 @@ public class OrderAdapter extends BaseAdapter {
                     ImageLoader.getInstance().displayImage(ApiHttpClient.API_PIC + orderBean.getGoods_list().get(0).getOriginal_img(), vh1.iv);
                     vh3.desc.setText(orderBean.getGoods_list().get(0).getGoods_name());
                     vh3.count.setText("X" +orderBean.getGoods_list().get(0).getGoods_num());
-                    vh3.order_codes.setText("订单编号:"+orderBean.getOrder_id());
+                    vh3.order_codes.setText("订单编号:"+orderBean.getOrder_sn());
                 }
 
                 break;
@@ -470,7 +468,7 @@ public class OrderAdapter extends BaseAdapter {
                     ImageLoader.getInstance().displayImage(ApiHttpClient.API_PIC + orderBean.getGoods_list().get(0).getOriginal_img(), vh1.iv);
                     vh4.desc.setText(orderBean.getGoods_list().get(0).getGoods_name());
                     vh4.count.setText("X" +orderBean.getGoods_list().get(0).getGoods_num());
-                    vh4.order_codes.setText("订单编号:"+orderBean.getOrder_id());
+                    vh4.order_codes.setText("订单编号:"+orderBean.getOrder_sn());
                 }
                 break;
             case 4://待评价
@@ -495,7 +493,7 @@ public class OrderAdapter extends BaseAdapter {
                     ImageLoader.getInstance().displayImage(ApiHttpClient.API_PIC + orderBean.getGoods_list().get(0).getOriginal_img(), vh1.iv);
                     vh5.desc.setText(orderBean.getGoods_list().get(0).getGoods_name());
                     vh5.count.setText("X" +orderBean.getGoods_list().get(0).getGoods_num());
-                    vh5.order_codes.setText("订单编号:"+orderBean.getOrder_id());
+                    vh5.order_codes.setText("订单编号:"+orderBean.getOrder_sn());
                 }
 
                 break;
@@ -537,11 +535,27 @@ public class OrderAdapter extends BaseAdapter {
                     ImageLoader.getInstance().displayImage(ApiHttpClient.API_PIC + orderBean.getGoods_list().get(0).getOriginal_img(), vh1.iv);
                     vh6.desc.setText(orderBean.getGoods_list().get(0).getGoods_name());
                     vh6.count.setText("X" +orderBean.getGoods_list().get(0).getGoods_num());
-                    vh6.order_codes.setText("订单编号:"+orderBean.getOrder_id());
+                    vh6.order_codes.setText("订单编号:"+orderBean.getOrder_sn());
                 }
                 break;
         }
         return view;
+    }
+
+    private void Cart4() {
+        Api.Cart4(LoginManager.getInstance().getUserID(context), orderBean.getOrder_sn(), new ApiResponseHandler(context) {
+            @Override
+            public void onSuccess(ApiResponse apiResponse) {
+                if (apiResponse.getCode()==Api.SUCCESS){
+                    PayOrder payOrder = JSON.parseObject(apiResponse.getData(), PayOrder.class);
+                    WXPayUtils wxPayUtils = new WXPayUtils((Activity)context, Constant.WXNOTIFY_URL);
+                    wxPayUtils.pay("购物",payOrder.getOrder_amount(), payOrder.getOrder_sn());
+                    Log.i("支付","api.."+apiResponse.toString());
+                }else {
+                    ToastUtils.showShort(context,"支付失败");
+                }
+            }
+        });
     }
 
     private void orderReturn(String reason, final TextView textView) {
