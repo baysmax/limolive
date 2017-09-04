@@ -106,7 +106,7 @@
                 android:visibility="gone"
                 android:id="@+id/post_content"
                 android:layout_width="fill_parent"
-                android:layout_height="200dip"
+                android:layout_height="50dip"
                 android:background="#ffffff"
                 android:gravity="top"
                 android:hint="说点什么吧..."

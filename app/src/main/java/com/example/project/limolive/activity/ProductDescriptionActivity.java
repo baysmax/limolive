@@ -169,7 +169,9 @@ public class ProductDescriptionActivity extends BaseActivity implements View.OnC
 //        });
         if ("0".equals(type)){
             post_scrollview.setVisibility(View.GONE);
+            mContent.setVisibility(View.VISIBLE);
         }else {
+            mContent.setVisibility(View.GONE);
             service_rank.setVisibility(View.GONE);
             deliver_rank.setVisibility(View.GONE);
             courier_rank.setVisibility(View.GONE);
