@@ -28,12 +28,12 @@
                 android:layout_marginTop="6dp"
                 android:textSize="16sp"
                 android:textColor="#000"
-                android:text="拍手"/>
+                android:text="亲亲"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="1dp"
-                android:text="1钻石"/>
+                android:text="2钻石"/>
         </LinearLayout>
         <LinearLayout
             android:id="@+id/present_checked_10"
@@ -55,12 +55,12 @@
                 android:layout_marginTop="6dp"
                 android:textSize="16sp"
                 android:textColor="#000"
-                android:text="干杯"/>
+                android:text="玫瑰花"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="1dp"
-                android:text="5钻石"/>
+                android:text="6钻石"/>
         </LinearLayout>
         <LinearLayout
             android:id="@+id/present_checked_11"
@@ -74,7 +74,7 @@
                 android:layout_height="wrap_content"
                 android:button="@null"
                 android:clickable="false"
-                android:background="@drawable/present_10"
+                android:background="@drawable/presents_10"
                 />
             <TextView
                 android:layout_width="wrap_content"
@@ -82,12 +82,12 @@
                 android:layout_marginTop="6dp"
                 android:textSize="16sp"
                 android:textColor="#000"
-                android:text="糖果"/>
+                android:text="西瓜"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="1dp"
-                android:text="10钻石"/>
+                android:text="8钻石"/>
         </LinearLayout>
         <LinearLayout
             android:id="@+id/present_checked_12"
@@ -101,7 +101,7 @@
                 android:layout_height="wrap_content"
                 android:button="@null"
                 android:clickable="false"
-                android:background="@drawable/present_11"
+                android:background="@drawable/present_12"
                 />
             <TextView
                 android:layout_width="wrap_content"
@@ -109,12 +109,12 @@
                 android:layout_marginTop="6dp"
                 android:textSize="16sp"
                 android:textColor="#000"
-                android:text="1314"/>
+                android:text="招财猪"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="1dp"
-                android:text="200钻石"/>
+                android:text="12钻石"/>
         </LinearLayout>
     </LinearLayout>
     <LinearLayout
@@ -134,7 +134,7 @@
                 android:layout_height="wrap_content"
                 android:button="@null"
                 android:clickable="false"
-                android:background="@drawable/present_12"
+                android:background="@drawable/present_13"
                 />
             <TextView
                 android:layout_width="wrap_content"
@@ -142,12 +142,12 @@
                 android:layout_marginTop="6dp"
                 android:textSize="16sp"
                 android:textColor="#000"
-                android:text="招财猪"/>
+                android:text="生日快乐"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="1dp"
-                android:text="166钻石"/>
+                android:text="120钻石"/>
         </LinearLayout>
         <LinearLayout
             android:id="@+id/present_checked_14"
@@ -157,33 +157,6 @@
             android:orientation="vertical">
             <CheckBox
                 android:id="@+id/present_6"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:button="@null"
-                android:clickable="false"
-                android:background="@drawable/present_13"
-                />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="6dp"
-                android:textSize="16sp"
-                android:textColor="#000"
-                android:text="生日蛋糕"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="1dp"
-                android:text="200钻石"/>
-        </LinearLayout>
-        <LinearLayout
-            android:id="@+id/present_checked_15"
-            android:layout_width="90dp"
-            android:gravity="center"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-            <CheckBox
-                android:id="@+id/present_7"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:button="@null"
@@ -201,16 +174,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="1dp"
-                android:text="300钻石"/>
+                android:text="660钻石"/>
         </LinearLayout>
         <LinearLayout
-            android:id="@+id/present_checked_16"
+            android:id="@+id/present_checked_15"
             android:layout_width="90dp"
             android:gravity="center"
             android:layout_height="wrap_content"
             android:orientation="vertical">
             <CheckBox
-                android:id="@+id/present_8"
+                android:id="@+id/present_7"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:button="@null"
@@ -228,7 +201,34 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="1dp"
-                android:text="300钻石"/>
+                android:text="888钻石"/>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/present_checked_16"
+            android:layout_width="90dp"
+            android:gravity="center"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <CheckBox
+                android:id="@+id/present_8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@null"
+                android:clickable="false"
+                android:background="@drawable/present_11"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:textSize="16sp"
+                android:textColor="#000"
+                android:text="1314"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:text="1314钻石"/>
         </LinearLayout>
     </LinearLayout>
     <LinearLayout
@@ -237,7 +237,7 @@
         android:gravity="center">
         <ImageView
             android:layout_width="50dp"
-            android:layout_height="20dp"
-            android:src="@drawable/banner_2"/>
+            android:layout_height="10dp"
+            android:src="@drawable/banners_2"/>
     </LinearLayout>
 </LinearLayout>

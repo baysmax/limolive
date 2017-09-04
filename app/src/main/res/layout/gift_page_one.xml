@@ -2,120 +2,134 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="wrap_content">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="103dp"
         android:gravity="center"
         android:orientation="horizontal">
+
         <LinearLayout
             android:id="@+id/present_checked_1"
             android:layout_width="90dp"
-            android:gravity="center"
             android:layout_height="wrap_content"
+            android:gravity="center"
             android:orientation="vertical">
+
             <CheckBox
                 android:id="@+id/present_1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:button="@null"
-                android:clickable="false"
                 android:background="@drawable/present_1"
-                />
+                android:button="@null"
+                android:clickable="false" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
-                android:textSize="16sp"
+                android:text="飞吻"
                 android:textColor="#000"
-                android:text="飞吻"/>
+                android:textSize="16sp" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="1dp"
-                android:text="1钻石"/>
+                android:text="1钻石" />
         </LinearLayout>
+
         <LinearLayout
             android:id="@+id/present_checked_2"
             android:layout_width="90dp"
-            android:gravity="center"
             android:layout_height="wrap_content"
+            android:gravity="center"
             android:orientation="vertical">
+
             <CheckBox
                 android:id="@+id/present_2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:button="@null"
-                android:clickable="false"
                 android:background="@drawable/present_2"
-                />
+                android:button="@null"
+                android:clickable="false" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
-                android:textSize="16sp"
+                android:text="么么哒"
                 android:textColor="#000"
-                android:text="么么哒"/>
+                android:textSize="16sp" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="1dp"
-                android:text="5钻石"/>
+                android:text="5钻石" />
         </LinearLayout>
+
         <LinearLayout
             android:id="@+id/present_checked_3"
             android:layout_width="90dp"
-            android:gravity="center"
             android:layout_height="wrap_content"
+            android:gravity="center"
             android:orientation="vertical">
+
             <CheckBox
                 android:id="@+id/present_3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:button="@null"
-                android:clickable="false"
                 android:background="@drawable/present_3"
-                />
+                android:button="@null"
+                android:clickable="false" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
-                android:textSize="16sp"
+                android:text="红包"
                 android:textColor="#000"
-                android:text="红包"/>
+                android:textSize="16sp" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="1dp"
-                android:text="10钻石"/>
+                android:text="8钻石" />
         </LinearLayout>
+
         <LinearLayout
             android:id="@+id/present_checked_4"
             android:layout_width="90dp"
-            android:gravity="center"
             android:layout_height="wrap_content"
+            android:gravity="center"
             android:orientation="vertical">
+
             <CheckBox
                 android:id="@+id/present_4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="@drawable/present_10"
                 android:button="@null"
-                android:clickable="false"
-                android:background="@drawable/present_4"
-                />
+                android:clickable="false" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
-                android:textSize="16sp"
+                android:text="糖果"
                 android:textColor="#000"
-                android:text="爱心"/>
+                android:textSize="16sp" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="1dp"
-                android:text="30钻石"/>
+                android:text="10钻石" />
         </LinearLayout>
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="103dp"
@@ -146,7 +160,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="1dp"
-                android:text="66钻石"/>
+                android:text="30钻石"/>
         </LinearLayout>
         <LinearLayout
             android:id="@+id/present_checked_6"
@@ -160,7 +174,7 @@
                 android:layout_height="wrap_content"
                 android:button="@null"
                 android:clickable="false"
-                android:background="@drawable/present_6"
+                android:background="@drawable/present_4"
                 />
             <TextView
                 android:layout_width="wrap_content"
@@ -168,12 +182,12 @@
                 android:layout_marginTop="6dp"
                 android:textSize="16sp"
                 android:textColor="#000"
-                android:text="告白气球"/>
+                android:text="爱心"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="1dp"
-                android:text="70钻石"/>
+                android:text="50钻石"/>
         </LinearLayout>
         <LinearLayout
             android:id="@+id/present_checked_7"
@@ -200,7 +214,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="1dp"
-                android:text="30钻石"/>
+                android:text="60钻石"/>
         </LinearLayout>
         <LinearLayout
             android:id="@+id/present_checked_8"
@@ -236,7 +250,7 @@
         android:gravity="center">
         <ImageView
             android:layout_width="50dp"
-            android:layout_height="20dp"
-            android:src="@drawable/banner_1"/>
+            android:layout_height="10dp"
+            android:src="@drawable/banners_1"/>
     </LinearLayout>
 </LinearLayout>

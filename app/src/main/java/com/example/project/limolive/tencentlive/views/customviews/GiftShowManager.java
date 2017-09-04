@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Handler;
 import android.os.Message;
+import android.provider.Settings;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
@@ -33,6 +34,7 @@ import com.example.project.limolive.tencentlive.utils.GlideCircleTransform;
 import com.example.project.limolive.tencentlive.utils.UIUtils;
 import com.example.project.limolive.tencentlive.views.CircleImageView;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
@@ -89,6 +91,7 @@ public class GiftShowManager {
                 case REMOVE_GIFT:
                     ImageView img= (ImageView) msg.obj;
                     rl_anim.removeView(img);
+                    System.gc();
                     break;
                 case SHOW_GIFT_FLAG://如果是处理显示礼物的消息
                     Log.i("handler收到的","msg..."+msg.toString());
@@ -114,160 +117,159 @@ public class GiftShowManager {
                         public void onAnimationRepeat(Animation animation) {
                         }
                     });
+                    try{
+                        if (giftView == null) {//获取的礼物的实体，判断送的人不在显示
 
-                    if (giftView == null) {//获取的礼物的实体，判断送的人不在显示
+                            //首先需要判断下Gift ViewGroup下面的子View是否超过两个
+                            int count = giftCon.getChildCount();
+                            if (count >= 2) {//如果正在显示的礼物的个数超过两个，那么就移除最后一次更新时间比较长的
 
-                        //首先需要判断下Gift ViewGroup下面的子View是否超过两个
-                        int count = giftCon.getChildCount();
-                        if (count >= 2) {//如果正在显示的礼物的个数超过两个，那么就移除最后一次更新时间比较长的
+                                View giftView1 = giftCon.getChildAt(0);
+                                ImageView im1 = (ImageView) giftView1.findViewById(R.id.big_present_toa_2);
+                                TextView nameTv1 = (TextView) giftView1.findViewById(R.id.name);
+                                long lastTime1 = (long) nameTv1.getTag();
 
-                            View giftView1 = giftCon.getChildAt(0);
-                            ImageView im1 = (ImageView) giftView1.findViewById(R.id.big_present_toa_2);
-                            TextView nameTv1 = (TextView) giftView1.findViewById(R.id.name);
-                            long lastTime1 = (long) nameTv1.getTag();
+                                View giftView2 = giftCon.getChildAt(1);
+                                ImageView im2 = (ImageView) giftView2.findViewById(R.id.big_present_toa_2);
+                                TextView nameTv2 = (TextView) giftView2.findViewById(R.id.name);
+                                long lastTime2 = (long) nameTv2.getTag();
+                                Message rmMsg = new Message();
+                                if (lastTime1 > lastTime2) {//如果第二个View显示的时间比较长
+                                    rmMsg.obj = 1; //从队列中获取
 
-                            View giftView2 = giftCon.getChildAt(1);
-                            ImageView im2 = (ImageView) giftView2.findViewById(R.id.big_present_toa_2);
-                            TextView nameTv2 = (TextView) giftView2.findViewById(R.id.name);
-                            long lastTime2 = (long) nameTv2.getTag();
-                            Message rmMsg = new Message();
-                            if (lastTime1 > lastTime2) {//如果第二个View显示的时间比较长
-                                rmMsg.obj = 1; //从队列中获取
-
-                            } else {//如果第一个View显示的时间长
-                                rmMsg.obj = 0;  //显示礼物
+                                } else {//如果第一个View显示的时间长
+                                    rmMsg.obj = 0;  //显示礼物
+                                }
+                                rmMsg.what = REMOVE_GIFT_VIEW; // 移除view
+                                handler.sendMessage(rmMsg);
                             }
-                            rmMsg.what = REMOVE_GIFT_VIEW; // 移除view
-                            handler.sendMessage(rmMsg);
-                        }
 
 
-                        //获取礼物的View的布局
-                        giftView = LayoutInflater.from(cxt).inflate(R.layout.gift_item, null);
-                        giftView.setTag(userId+showVo.getType());
-                        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                        lp.topMargin = 10;
-                        giftView.setLayoutParams(lp);
+                            //获取礼物的View的布局
+                            giftView = LayoutInflater.from(cxt).inflate(R.layout.gift_item, null);
+                            giftView.setTag(userId+showVo.getType());
+                            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                            lp.topMargin = 10;
+                            giftView.setLayoutParams(lp);
 
-                        //显示礼物的数量
-                        final MagicTextView giftNum = (MagicTextView) giftView.findViewById(R.id.gift_num);
-                        giftNum.setTag(num);
-                        giftNum.setText("X" + num);
-                        TextView tv = (TextView) giftView.findViewById(R.id.name);
-                        TextView tv_n = (TextView) giftView.findViewById(R.id.tv_presentcontent_2);
-                       im = (ImageView) giftView.findViewById(R.id.big_present_toa_2);
-                        im.setTag(showVo.getType());
-                        CircleImageView civ = (CircleImageView) giftView.findViewById(R.id.tv_chat_head_image_present_2);
-                        tv.setText(showVo.getName());
-                        tv.setTag(System.currentTimeMillis());
-                      //  Picasso.with(cxt).load(HttpUtil.IMAGE_URL + showVo.getHeard()).into(civ);
-                        showHeadIcon(civ,showVo.getHeard());
-                        if (showVo.getType().equals("0")) {
-                            im.setImageResource(R.drawable.present_1);
-                            tv_n.setText("赠送主播");
-                        } else if (showVo.getType().equals("1")) {
-                            im.setImageResource(R.drawable.present_2);
-                            tv_n.setText("赠送主播");
-                        } else if (showVo.getType().equals("2")) {
-                            im.setImageResource(R.drawable.present_3);//红包
+                            //显示礼物的数量
+                            final MagicTextView giftNum = (MagicTextView) giftView.findViewById(R.id.gift_num);
+                            giftNum.setTag(num);
+                            giftNum.setText("X" + num);
+                            TextView tv = (TextView) giftView.findViewById(R.id.name);
+                            TextView tv_n = (TextView) giftView.findViewById(R.id.tv_presentcontent_2);
+                            im = (ImageView) giftView.findViewById(R.id.big_present_toa_2);
+                            im.setTag(showVo.getType());
+                            CircleImageView civ = (CircleImageView) giftView.findViewById(R.id.tv_chat_head_image_present_2);
+                            tv.setText(showVo.getName());
+                            tv.setTag(System.currentTimeMillis());
+                            //  Picasso.with(cxt).load(HttpUtil.IMAGE_URL + showVo.getHeard()).into(civ);
+                            showHeadIcon(civ,showVo.getHeard());
+                            if (showVo.getType().equals("0")) {
+                                im.setImageResource(R.drawable.present_1);
+                                tv_n.setText("赠送主播");
+                            } else if (showVo.getType().equals("1")) {
+                                im.setImageResource(R.drawable.present_2);
+                                tv_n.setText("赠送主播");
+                            } else if (showVo.getType().equals("2")) {
+                                im.setImageResource(R.drawable.present_3);//红包
 
-                            tv_n.setText("赠送主播");
-                        } else if (showVo.getType().equals("3")) {
-                            im.setImageResource(R.drawable.present_4);//飞心
-                            showGiftMax(new ImageView(cxt),R.drawable.animation_flying,R.anim.translate_flying);
-                            tv_n.setText("赠送主播");
-                        } else if (showVo.getType().equals("4")) {
-                            im.setImageResource(R.drawable.present_5);//666
-                            showGiftMax(new ImageView(cxt),R.drawable.animation_666,R.anim.translate4);
-                            tv_n.setText("赠送主播");
-                        } else if (showVo.getType().equals("5")) {
-                            im.setImageResource(R.drawable.present_6);//告白气球 love
-                            showGiftMax(new ImageView(cxt),R.drawable.animation_love,R.anim.translate_love);
-                            tv_n.setText("赠送主播");
-                        } else if (showVo.getType().equals("6")) {
-                            im.setImageResource(R.drawable.present_7);//魔棒
-                            showGiftMax(new ImageView(cxt),R.drawable.animation_magic,R.anim.translate_magic);
-                            tv_n.setText("赠送主播");
-                        } else if (showVo.getType().equals("7")) {
-                            im.setImageResource(R.drawable.present_8);//钻戒
-                            showGiftMax(new ImageView(cxt),R.drawable.animation_ring,R.anim.translate_ring);
-                            tv_n.setText("赠送主播");
-                        }else if (showVo.getType().equals("8")) {
-                            im.setImageResource(R.drawable.present_0);
-                            tv_n.setText("赠送主播");
-                        }else if (showVo.getType().equals("9")) {
-                            im.setImageResource(R.drawable.present_9);
-                            tv_n.setText("赠送主播");
-                        }else if (showVo.getType().equals("10")) {
-                            im.setImageResource(R.drawable.present_10);
-                            tv_n.setText("赠送主播");
-                        }else if (showVo.getType().equals("11")) {//1314
-                            im.setImageResource(R.drawable.present_11);
-                            final ImageView imageView = new ImageView(cxt);
-                            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
-                                    RelativeLayout.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-                            imageView.setLayoutParams(params);
-                            imageView.setBackgroundResource(R.drawable.animation_1314);
-                            Animation animation = AnimationUtils.loadAnimation(cxt, R.anim.translate3);
-                            imageView.startAnimation(animation);
-                            animation.setAnimationListener(new Animation.AnimationListener() {
-                                @Override
-                                public void onAnimationStart(Animation animation) {
+                                tv_n.setText("赠送主播");
+                            } else if (showVo.getType().equals("3")) {
+                                im.setImageResource(R.drawable.present_10);//糖果
+                                tv_n.setText("赠送主播");
+                            } else if (showVo.getType().equals("4")) {
+                                im.setImageResource(R.drawable.present_5);//666
+                                showGiftMax(new ImageView(cxt),R.drawable.animation_666,R.anim.translate4);
+                                tv_n.setText("赠送主播");
+                            } else if (showVo.getType().equals("5")) {
+                                im.setImageResource(R.drawable.present_4);//飞心 love
+                                //showGiftMax(new ImageView(cxt),R.drawable.animation_love,R.anim.translate_love);
+                                showGiftMax(new ImageView(cxt),R.drawable.animation_flying,R.anim.translate_flying);
+                                tv_n.setText("赠送主播");
+                            } else if (showVo.getType().equals("6")) {
+                                im.setImageResource(R.drawable.present_7);//魔棒
+                                showGiftMax(new ImageView(cxt),R.drawable.animation_magic,R.anim.translate_magic);
+                                tv_n.setText("赠送主播");
+                            } else if (showVo.getType().equals("7")) {
+                                im.setImageResource(R.drawable.present_8);//钻戒
+                                showGiftMax(new ImageView(cxt),R.drawable.animation_ring,R.anim.translate_ring);
+                                tv_n.setText("赠送主播");
+                            }else if (showVo.getType().equals("8")) {
+                                im.setImageResource(R.drawable.present_0);
+                                tv_n.setText("赠送主播");
+                            }else if (showVo.getType().equals("9")) {
+                                im.setImageResource(R.drawable.present_9);
+                                tv_n.setText("赠送主播");
+                            }else if (showVo.getType().equals("10")) {
+                                im.setImageResource(R.drawable.presents_10);
+                                tv_n.setText("赠送主播");
+                            }else if (showVo.getType().equals("11")) {//猪
+                                im.setImageResource(R.drawable.present_12);
+                                tv_n.setText("赠送主播");
+                            }else if (showVo.getType().equals("12")) {
+                                im.setImageResource(R.drawable.present_13);//蛋糕
+                                showGiftMax(new ImageView(cxt),R.drawable.animation_cake,R.anim.translate_cake);
+                                tv_n.setText("赠送主播");
+                            }else if (showVo.getType().equals("13")) {
+                                im.setImageResource(R.drawable.present_14);//城堡
+                                showGiftMax(new ImageView(cxt),R.drawable.animation_castle,R.anim.translate_castle);
+                                tv_n.setText("赠送主播");
+                            }else if (showVo.getType().equals("14")) {
+                                im.setImageResource(R.drawable.present_15);//跑车
+                                showBigluwu(new ImageView(cxt),R.drawable.animation_qiche,R.anim.translate,cxt,rl_anim);
+                                tv_n.setText("赠送主播");
+                            }else if (showVo.getType().equals("15")) {
+                                im.setImageResource(R.drawable.present_11);//1314
+                                //showGiftMax(new ImageView(cxt),R.drawable.animation_big,R.anim.translate_big);
+                                final ImageView imageView = new ImageView(cxt);
+                                RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
+                                        RelativeLayout.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+                                imageView.setLayoutParams(params);
+                                imageView.setBackgroundResource(R.drawable.animation_1314);
+                                Animation animation = AnimationUtils.loadAnimation(cxt, R.anim.translate3);
+                                imageView.startAnimation(animation);
+                                animation.setAnimationListener(new Animation.AnimationListener() {
+                                    @Override
+                                    public void onAnimationStart(Animation animation) {
 
-                                }
+                                    }
 
-                                @Override
-                                public void onAnimationEnd(Animation animation) {
-                                    Message ms = Message.obtain();
-                                    ms.what=REMOVE_GIFT;
-                                    ms.obj=imageView;
-                                    handler.sendMessage(ms);
-                                }
+                                    @Override
+                                    public void onAnimationEnd(Animation animation) {
+                                        Message ms = Message.obtain();
+                                        ms.what=REMOVE_GIFT;
+                                        ms.obj=imageView;
+                                        handler.sendMessage(ms);
+                                    }
 
-                                @Override
-                                public void onAnimationRepeat(Animation animation) {
+                                    @Override
+                                    public void onAnimationRepeat(Animation animation) {
 
-                                }
-                            });
-                            rl_anim.addView(imageView);
-                            AnimationDrawable anim = (AnimationDrawable) imageView.getBackground();
-                            anim.start();
-                            imageLists.add(imageView);
-
-                            tv_n.setText("赠送主播");
-                        }else if (showVo.getType().equals("12")) {
-                            im.setImageResource(R.drawable.present_12);//猪
-                            showGiftMax(new ImageView(cxt),R.drawable.animation_big,R.anim.translate_big);
-                            tv_n.setText("赠送主播");
-                        }else if (showVo.getType().equals("13")) {
-                            im.setImageResource(R.drawable.present_13);//蛋糕
-                            showGiftMax(new ImageView(cxt),R.drawable.animation_cake,R.anim.translate_cake);
-                            tv_n.setText("赠送主播");
-                        }else if (showVo.getType().equals("14")) {
-                            im.setImageResource(R.drawable.present_14);//城堡
-                            showGiftMax(new ImageView(cxt),R.drawable.animation_castle,R.anim.translate_castle);
-                            tv_n.setText("赠送主播");
-                        }else if (showVo.getType().equals("15")) {
-                            im.setImageResource(R.drawable.present_15);//跑车
-                            showBigluwu(new ImageView(cxt),R.drawable.animation_qiche,R.anim.translate,cxt,rl_anim);
-                            tv_n.setText("赠送主播");
-                        }else if (showVo.getType().equals("16")) {
-                            im.setImageResource(R.drawable.present_16);
-                            tv_n.setText("赠送主播");
-                        }else if (showVo.getType().equals("17")) {
-                            im.setImageResource(R.drawable.present_17);
-                            tv_n.setText("赠送主播");
-                        }else if (showVo.getType().equals("18")) {
-                            im.setImageResource(R.drawable.present_18);
-                            tv_n.setText("赠送主播");
-                        }else if (showVo.getType().equals("19")) {
-                            im.setImageResource(R.drawable.present_19);
-                            tv_n.setText("赠送主播");
-                        }else if (showVo.getType().equals("20")) {
-                            im.setImageResource(R.drawable.present_20);
-                            tv_n.setText("赠送主播");
-                        }else if (showVo.getType().equals("21")) {
-                            im.setImageResource(R.drawable.present_21);//飞机
+                                    }
+                                });
+                                rl_anim.addView(imageView);
+                                AnimationDrawable anim = (AnimationDrawable) imageView.getBackground();
+                                anim.start();
+                                imageLists.add(imageView);
+                                tv_n.setText("赠送主播");
+                            }else if (showVo.getType().equals("16")) {
+                                im.setImageResource(R.drawable.present_16);
+                                tv_n.setText("赠送主播");
+                            }else if (showVo.getType().equals("17")) {
+                                im.setImageResource(R.drawable.present_17);
+                                tv_n.setText("赠送主播");
+                            }else if (showVo.getType().equals("18")) {
+                                im.setImageResource(R.drawable.present_18);
+                                tv_n.setText("赠送主播");
+                            }else if (showVo.getType().equals("19")) {
+                                im.setImageResource(R.drawable.present_19);
+                                tv_n.setText("赠送主播");
+                            }else if (showVo.getType().equals("20")) {
+                                im.setImageResource(R.drawable.present_20);
+                                tv_n.setText("赠送主播");
+                            }else if (showVo.getType().equals("21")) {
+                                im.setImageResource(R.drawable.present_21);//飞机
 //                            final ImageView imageView = new ImageView(cxt);
 //                            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
 //                                    400, 200);
@@ -297,41 +299,54 @@ public class GiftShowManager {
 //                            rl_anim.addView(imageView);
 //                            AnimationDrawable a = (AnimationDrawable) imageView.getBackground();
 //                            a.start();
-                            tv_n.setText("赠送主播");
-                        }else if (showVo.getType().equals("22")) {
-                            im.setImageResource(R.drawable.present_22);
-                            tv_n.setText("赠送主播");
+                                tv_n.setText("赠送主播");
+                            }else if (showVo.getType().equals("22")) {
+                                im.setImageResource(R.drawable.present_22);
+                                tv_n.setText("赠送主播");
+                            }
+                            //将礼物的View添加到礼物的ViewGroup中
+                            giftCon.addView(giftView);
+
+                            giftView.startAnimation(inAnim);//播放礼物View出现的动
+                            handler.sendEmptyMessageDelayed(111,500);
+                            inAnim.setAnimationListener(new Animation.AnimationListener() {
+                                @Override
+                                public void onAnimationStart(Animation animation) {
+                                }
+
+                                @Override
+                                public void onAnimationEnd(Animation animation) {
+                                    giftNum.startAnimation(giftNumAnim);
+                                }
+
+                                @Override
+                                public void onAnimationRepeat(Animation animation) {
+                                }
+                            });
+                        } else {//如果送的礼物正在显示（只是修改下数量）
+                            //显示礼物的数量
+                            final MagicTextView giftNum = (MagicTextView) giftView.findViewById(R.id.gift_num);
+                            int showNum = (int) giftNum.getTag() + num;
+                            giftNum.setText("X" + (showNum));
+                            giftNum.setTag(showNum);
+                            TextView tv = (TextView) giftView.findViewById(R.id.name);
+                            tv.setTag(System.currentTimeMillis());
+
+                            giftNum.startAnimation(giftNumAnim);
                         }
-                        //将礼物的View添加到礼物的ViewGroup中
-                        giftCon.addView(giftView);
-
-                        giftView.startAnimation(inAnim);//播放礼物View出现的动
-                        handler.sendEmptyMessageDelayed(111,500);
-                        inAnim.setAnimationListener(new Animation.AnimationListener() {
-                            @Override
-                            public void onAnimationStart(Animation animation) {
-                            }
-
-                            @Override
-                            public void onAnimationEnd(Animation animation) {
-                                giftNum.startAnimation(giftNumAnim);
-                            }
-
-                            @Override
-                            public void onAnimationRepeat(Animation animation) {
-                            }
-                        });
-                    } else {//如果送的礼物正在显示（只是修改下数量）
-                        //显示礼物的数量
-                        final MagicTextView giftNum = (MagicTextView) giftView.findViewById(R.id.gift_num);
-                        int showNum = (int) giftNum.getTag() + num;
-                        giftNum.setText("X" + (showNum));
-                        giftNum.setTag(showNum);
-                        TextView tv = (TextView) giftView.findViewById(R.id.name);
-                        tv.setTag(System.currentTimeMillis());
-
-                        giftNum.startAnimation(giftNumAnim);
+                    }catch (OutOfMemoryError e){
+                         System.gc();
                     }
+
+                    BitmapFactory.Options options = new BitmapFactory.Options();
+                    options.inInputShareable = true;
+                    options.inPurgeable = true;
+                    options.inJustDecodeBounds = false;
+                    options.inPreferredConfig = Bitmap.Config.RGB_565;
+                    //options.inSampleSize = 3; // width，hight设为原来的1/3
+//获取资源图片流
+                    InputStream is = cxt.getResources().openRawResource(R.drawable.animation_qiche);
+                    BitmapFactory.decodeStream(is,null,options);
                     break;
                 case GET_QUEUE_GIFT://如果是从队列中获取礼物实体的消息
                     GiftVo vo = queue.poll();

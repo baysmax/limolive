@@ -746,11 +746,11 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
     @Override
     protected void onDestroy() {
         unregisterReceiver(myReceiver);
+        unregisterReceiver(myReceiver1);
         isStop = true;
         watchCount = 0;
         isTrue=false;
         super.onDestroy();
-
         if (null != mHearBeatTimer) {
             mHearBeatTimer.cancel();
             mHearBeatTimer = null;

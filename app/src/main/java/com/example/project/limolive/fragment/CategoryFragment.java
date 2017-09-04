@@ -223,6 +223,9 @@ public class CategoryFragment extends BaseFragment {
                         tv_isgone.setVisibility(View.VISIBLE);
                         rv_fm.setVisibility(View.GONE);
                     }
+                    if (swl_fm!=null&&swl_fm.isRefreshing()){
+                        swl_fm.setRefreshing(false);
+                    }
                 }
             }
 
