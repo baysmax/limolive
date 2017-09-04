@@ -28,6 +28,9 @@
     <item android:drawable="@drawable/love23" android:duration="60" />
     <item android:drawable="@drawable/love24" android:duration="60" />
     <item android:drawable="@drawable/love25" android:duration="60" />
+    <item android:drawable="@drawable/love25" android:duration="60" />
+    <item android:drawable="@drawable/love25" android:duration="60" />
+    <item android:drawable="@drawable/love25" android:duration="60" />
 
 
 </animation-list>

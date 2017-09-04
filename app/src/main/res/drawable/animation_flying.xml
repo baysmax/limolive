@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animation-list
+    android:oneshot="true"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@drawable/loves1" android:duration="70" />
+    <item android:drawable="@drawable/loves2" android:duration="70" />
+    <item android:drawable="@drawable/loves3" android:duration="70" />
+    <item android:drawable="@drawable/loves4" android:duration="70" />
+    <item android:drawable="@drawable/loves5" android:duration="70" />
+    <item android:drawable="@drawable/loves6" android:duration="70" />
+    <item android:drawable="@drawable/loves5" android:duration="70" />
+    <item android:drawable="@drawable/loves4" android:duration="70" />
+    <item android:drawable="@drawable/loves3" android:duration="70" />
+    <item android:drawable="@drawable/loves2" android:duration="70" />
+    <item android:drawable="@drawable/loves1" android:duration="70" />
+    <item android:drawable="@drawable/loves2" android:duration="70" />
+    <item android:drawable="@drawable/loves3" android:duration="70" />
+    <item android:drawable="@drawable/loves4" android:duration="70" />
+    <item android:drawable="@drawable/loves5" android:duration="70" />
+    <item android:drawable="@drawable/loves6" android:duration="70" />
+    <item android:drawable="@drawable/loves5" android:duration="70" />
+    <item android:drawable="@drawable/loves4" android:duration="70" />
+    <item android:drawable="@drawable/loves3" android:duration="70" />
+    <item android:drawable="@drawable/loves2" android:duration="70" />
+    <item android:drawable="@drawable/loves1" android:duration="70" />
+
+</animation-list>

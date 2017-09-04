@@ -39,6 +39,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.LinkedBlockingQueue;
 
+import static com.example.project.limolive.R.id.confrim_btn;
 import static com.example.project.limolive.R.id.imageView;
 import static com.example.project.limolive.R.id.rl_anim;
 import static com.example.project.limolive.R.id.rl_main;
@@ -173,6 +174,7 @@ public class GiftShowManager {
                             tv_n.setText("赠送主播");
                         } else if (showVo.getType().equals("3")) {
                             im.setImageResource(R.drawable.present_4);//飞心
+                            showGiftMax(new ImageView(cxt),R.drawable.animation_flying,R.anim.translate_flying);
                             tv_n.setText("赠送主播");
                         } else if (showVo.getType().equals("4")) {
                             im.setImageResource(R.drawable.present_5);//666
@@ -235,9 +237,11 @@ public class GiftShowManager {
                             tv_n.setText("赠送主播");
                         }else if (showVo.getType().equals("12")) {
                             im.setImageResource(R.drawable.present_12);//猪
+                            showGiftMax(new ImageView(cxt),R.drawable.animation_big,R.anim.translate_big);
                             tv_n.setText("赠送主播");
                         }else if (showVo.getType().equals("13")) {
                             im.setImageResource(R.drawable.present_13);//蛋糕
+                            showGiftMax(new ImageView(cxt),R.drawable.animation_cake,R.anim.translate_cake);
                             tv_n.setText("赠送主播");
                         }else if (showVo.getType().equals("14")) {
                             im.setImageResource(R.drawable.present_14);//城堡

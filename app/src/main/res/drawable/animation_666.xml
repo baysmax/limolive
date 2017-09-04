@@ -2,19 +2,19 @@
 <animation-list
     android:oneshot="true"
     xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:drawable="@drawable/a666_1" android:duration="50" />
-    <item android:drawable="@drawable/a666_2" android:duration="50" />
-    <item android:drawable="@drawable/a666_3" android:duration="50" />
-    <item android:drawable="@drawable/a666_4" android:duration="50" />
-    <item android:drawable="@drawable/a666_5" android:duration="50" />
-    <item android:drawable="@drawable/a666_6" android:duration="50" />
-    <item android:drawable="@drawable/a666_7" android:duration="50" />
-    <item android:drawable="@drawable/a666_8" android:duration="50" />
-    <item android:drawable="@drawable/a666_9" android:duration="50" />
-    <item android:drawable="@drawable/a666_10" android:duration="50" />
-    <item android:drawable="@drawable/a666_11" android:duration="50" />
-    <item android:drawable="@drawable/a666_12" android:duration="50" />
-    <item android:drawable="@drawable/a666_13" android:duration="50" />
-    <item android:drawable="@drawable/a666_14" android:duration="50" />
-    <item android:drawable="@drawable/a666_15" android:duration="50" />
+    <item android:drawable="@drawable/a666_1" android:duration="70" />
+    <item android:drawable="@drawable/a666_2" android:duration="70" />
+    <item android:drawable="@drawable/a666_3" android:duration="70" />
+    <item android:drawable="@drawable/a666_4" android:duration="70" />
+    <item android:drawable="@drawable/a666_5" android:duration="70" />
+    <item android:drawable="@drawable/a666_6" android:duration="70" />
+    <item android:drawable="@drawable/a666_7" android:duration="70" />
+    <item android:drawable="@drawable/a666_8" android:duration="70" />
+    <item android:drawable="@drawable/a666_9" android:duration="70" />
+    <item android:drawable="@drawable/a666_10" android:duration="70" />
+    <item android:drawable="@drawable/a666_11" android:duration="70" />
+    <item android:drawable="@drawable/a666_12" android:duration="70" />
+    <item android:drawable="@drawable/a666_13" android:duration="70" />
+    <item android:drawable="@drawable/a666_14" android:duration="70" />
+    <item android:drawable="@drawable/a666_15" android:duration="70" />
 </animation-list>
