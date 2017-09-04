@@ -117,6 +117,8 @@ public class OrderAdapter extends BaseAdapter {
                     vh1.Shipping_code = (TextView) view.findViewById(R.id.Shipping_code);
                     vh1.order_codes = (TextView) view.findViewById(R.id.order_codes);
                     vh1.price = (TextView) view.findViewById(R.id.price);
+                    vh1.tv_address = (TextView) view.findViewById(R.id.tv_address);
+                    vh1.tv_address.setVisibility(View.GONE);
                     vh1.tv_evaluate=view.findViewById(R.id.tv_evaluate);
                     vh1.tv_evaluate1=view.findViewById(R.id.tv_evaluate1);
                     vh1.tv_evaluate1.setVisibility(View.GONE);
@@ -141,6 +143,8 @@ public class OrderAdapter extends BaseAdapter {
                     vh2.tv_evaluate.setVisibility(View.GONE);
                     vh2.tv_evaluate1=view.findViewById(R.id.tv_evaluate1);
                     vh2.tv_evaluate1.setVisibility(View.GONE);
+                    vh2.tv_address = (TextView) view.findViewById(R.id.tv_address);
+                    vh2.tv_address.setVisibility(View.GONE);
                     view.setTag(vh2);
                     break;
                 case 2://待发货
@@ -160,6 +164,8 @@ public class OrderAdapter extends BaseAdapter {
                     vh3.tv_evaluate.setVisibility(View.GONE);
                     vh3.tv_evaluate1=view.findViewById(R.id.tv_evaluate1);
                     vh3.tv_evaluate1.setVisibility(View.GONE);
+                    vh3.tv_address = (TextView) view.findViewById(R.id.tv_address);
+                    vh3.tv_address.setVisibility(View.GONE);
                     view.setTag(vh3);
                     break;
                 case 3://待收货
@@ -179,6 +185,8 @@ public class OrderAdapter extends BaseAdapter {
                     vh4.tv_evaluate.setVisibility(View.GONE);
                     vh4.tv_evaluate1=view.findViewById(R.id.tv_evaluate1);
                     vh4.tv_evaluate1.setVisibility(View.GONE);
+                    vh4.tv_address = (TextView) view.findViewById(R.id.tv_address);
+                    vh4.tv_address.setVisibility(View.GONE);
                     view.setTag(vh4);
                     break;
                 case 4://待评价
@@ -198,6 +206,8 @@ public class OrderAdapter extends BaseAdapter {
                     vh5.tv_evaluate.setVisibility(View.GONE);
                     vh5.tv_evaluate1=view.findViewById(R.id.tv_evaluate1);
                     vh5.tv_evaluate1.setVisibility(View.GONE);
+                    vh5.tv_address = (TextView) view.findViewById(R.id.tv_address);
+                    vh5.tv_address.setVisibility(View.GONE);
                     view.setTag(vh5);
                     break;
                 case 5://售后
@@ -217,6 +227,8 @@ public class OrderAdapter extends BaseAdapter {
                     vh6.tv_evaluate.setVisibility(View.GONE);
                     vh6.tv_evaluate1=view.findViewById(R.id.tv_evaluate1);
                     vh6.tv_evaluate1.setVisibility(View.GONE);
+                    vh6.tv_address = (TextView) view.findViewById(R.id.tv_address);
+                    vh6.tv_address.setVisibility(View.GONE);
                     view.setTag(vh6);
                     break;
             }
@@ -332,8 +344,10 @@ public class OrderAdapter extends BaseAdapter {
                         }
                     });
                 }else if ("待收货".equals(str)){
-                    vh1.Shipping_code.setVisibility(View.VISIBLE);
-                    vh1.Shipping_code.setText("物流公司："+orderBean.getShipping_name()+" 物流单号:"+orderBean.getShipping_code());
+                    if (!"".equals(orderBean.getShipping_code())&&!"".equals(orderBean.getShipping_name())){
+                        vh1.Shipping_code.setVisibility(View.VISIBLE);
+                        vh1.Shipping_code.setText("物流公司: "+orderBean.getShipping_name()+"\n物流单号: "+orderBean.getShipping_code());
+                    }
                     vh1.tv_evaluate1.setVisibility(View.VISIBLE);
                     vh1.tv_evaluate1.setText("查看物流");
                     vh1.tv_evaluate1.setOnClickListener(new View.OnClickListener() {
@@ -372,12 +386,17 @@ public class OrderAdapter extends BaseAdapter {
                 }
                 vh1.type.setText(str);
                 vh1.store.setText(orderBean.getStore_name());
+                if (!"".equals(orderBean.getAddress())){
+                    vh1.tv_address.setVisibility(View.VISIBLE);
+                    vh1.tv_address.setText("收货地址: "+orderBean.getAddress());
+
+                }
                 if (orderBean.getGoods_list()!=null&&orderBean.getGoods_list().size()>0){
                     ImageLoader.getInstance().displayImage(ApiHttpClient.API_PIC + orderBean.getGoods_list().get(0).getOriginal_img(), vh1.iv);
                     vh1.desc.setText(orderBean.getGoods_list().get(0).getGoods_name());
                     vh1.count.setText("X" +orderBean.getGoods_list().get(0).getGoods_num());
                     vh1.price.setText("共"+orderBean.getGoods_list().get(0).getGoods_num()+"件  合计￥"+orderBean.getTotal_amount());
-                    vh1.order_codes.setText("订单编号:"+orderBean.getOrder_sn());
+                    vh1.order_codes.setText("订单编号: "+orderBean.getOrder_sn());
                 }
 
                 break;
@@ -394,15 +413,21 @@ public class OrderAdapter extends BaseAdapter {
                 }
                 vh2.type.setText(str);
                 vh2.store.setText(orderBean.getStore_name());
+                if (!"".equals(orderBean.getAddress())){
+                    vh2.tv_address.setVisibility(View.VISIBLE);
+                    vh2.tv_address.setText("收货地址: "+orderBean.getAddress());
+
+                }
                 if (orderBean!=null&&orderBean.getGoods_list()!=null&&orderBean.getGoods_list().size()>0){
                     ImageLoader.getInstance().displayImage(ApiHttpClient.API_PIC + orderBean.getGoods_list().get(0).getOriginal_img(), vh1.iv);
                     vh2.desc.setText(orderBean.getGoods_list().get(0).getGoods_name());
                     vh2.count.setText("X" +orderBean.getGoods_list().get(0).getGoods_num());
-                    vh2.order_codes.setText("订单编号:"+orderBean.getOrder_sn());
+                    vh2.order_codes.setText("订单编号: "+orderBean.getOrder_sn());
                 }
                 break;
             case 2://待发货
                 if (str.equals("待发货")){
+
                     vh3.tv_evaluate1.setVisibility(View.VISIBLE);
                     vh3.tv_evaluate1.setText("查看物流");
                     vh3.tv_evaluate1.setVisibility(View.GONE);
@@ -430,11 +455,16 @@ public class OrderAdapter extends BaseAdapter {
                 }
                 vh3.type.setText(str);
                 vh3.store.setText(orderBean.getStore_name());
+                if (!"".equals(orderBean.getAddress())){
+                    vh3.tv_address.setVisibility(View.VISIBLE);
+                    vh3.tv_address.setText("收货地址: "+orderBean.getAddress());
+
+                }
                 if (orderBean!=null&&orderBean.getGoods_list()!=null&&orderBean.getGoods_list().size()>0){
                     ImageLoader.getInstance().displayImage(ApiHttpClient.API_PIC + orderBean.getGoods_list().get(0).getOriginal_img(), vh1.iv);
                     vh3.desc.setText(orderBean.getGoods_list().get(0).getGoods_name());
                     vh3.count.setText("X" +orderBean.getGoods_list().get(0).getGoods_num());
-                    vh3.order_codes.setText("订单编号:"+orderBean.getOrder_sn());
+                    vh3.order_codes.setText("订单编号: "+orderBean.getOrder_sn());
                 }
 
                 break;
@@ -442,8 +472,10 @@ public class OrderAdapter extends BaseAdapter {
                 if (str.equals("待收货")){
                     vh4.tv_evaluate.setText("确认收货");
                     vh4.tv_evaluate.setVisibility(View.VISIBLE);
-                    vh4.Shipping_code.setVisibility(View.VISIBLE);
-                    vh4.Shipping_code.setText("物流公司："+orderBean.getShipping_name()+" 物流单号:"+orderBean.getShipping_code());
+                    if (!"".equals(orderBean.getShipping_code())&&!"".equals(orderBean.getShipping_name())){
+                        vh4.Shipping_code.setVisibility(View.VISIBLE);
+                        vh4.Shipping_code.setText("物流公司: "+orderBean.getShipping_name()+"\n物流单号: "+orderBean.getShipping_code());
+                    }
                     final ViewHolder finalVh3 = vh4;
                     vh4.tv_evaluate.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -463,21 +495,28 @@ public class OrderAdapter extends BaseAdapter {
                         }
                     });
                 }
+                if (!"".equals(orderBean.getAddress())){
+                    vh4.tv_address.setVisibility(View.VISIBLE);
+                    vh4.tv_address.setText("收货地址: "+orderBean.getAddress());
+
+                }
                 vh4.type.setText(str);
                 vh4.store.setText(orderBean.getStore_name());
                 if (orderBean!=null&&orderBean.getGoods_list()!=null&&orderBean.getGoods_list().size()>0){
                     ImageLoader.getInstance().displayImage(ApiHttpClient.API_PIC + orderBean.getGoods_list().get(0).getOriginal_img(), vh1.iv);
                     vh4.desc.setText(orderBean.getGoods_list().get(0).getGoods_name());
                     vh4.count.setText("X" +orderBean.getGoods_list().get(0).getGoods_num());
-                    vh4.order_codes.setText("订单编号:"+orderBean.getOrder_sn());
+                    vh4.order_codes.setText("订单编号: "+orderBean.getOrder_sn());
                 }
                 break;
             case 4://待评价
                 if (str.equals("待评价")){
                     vh5.tv_evaluate.setText("评价");
                     vh5.tv_evaluate.setVisibility(View.VISIBLE);
-                    vh5.Shipping_code.setVisibility(View.VISIBLE);
-                    vh5.Shipping_code.setText("物流公司："+orderBean.getShipping_name()+" 物流单号:"+orderBean.getShipping_code());
+                    if (!"".equals(orderBean.getShipping_name())&&!"".equals(orderBean.getShipping_code())){
+                        vh5.Shipping_code.setVisibility(View.VISIBLE);
+                        vh5.Shipping_code.setText("物流公司: "+orderBean.getShipping_name()+"\n物流单号: "+orderBean.getShipping_code());
+                    }
                     vh5.tv_evaluate.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
@@ -492,11 +531,16 @@ public class OrderAdapter extends BaseAdapter {
                 }
                 vh5.type.setText(str);
                 vh5.store.setText(orderBean.getStore_name());
+                if (!"".equals(orderBean.getAddress())){
+                    vh5.tv_address.setVisibility(View.VISIBLE);
+                    vh5.tv_address.setText("收货地址: "+orderBean.getAddress());
+
+                }
                 if (orderBean!=null&&orderBean.getGoods_list()!=null&&orderBean.getGoods_list().size()>0){
                     ImageLoader.getInstance().displayImage(ApiHttpClient.API_PIC + orderBean.getGoods_list().get(0).getOriginal_img(), vh1.iv);
                     vh5.desc.setText(orderBean.getGoods_list().get(0).getGoods_name());
                     vh5.count.setText("X" +orderBean.getGoods_list().get(0).getGoods_num());
-                    vh5.order_codes.setText("订单编号:"+orderBean.getOrder_sn());
+                    vh5.order_codes.setText("订单编号: "+orderBean.getOrder_sn());
                 }
 
                 break;
@@ -505,8 +549,10 @@ public class OrderAdapter extends BaseAdapter {
                 if ("已完成".equals(str)){
                     vh6.tv_evaluate.setText("退货申请");
                     vh6.tv_evaluate.setVisibility(View.VISIBLE);
-                    vh6.Shipping_code.setVisibility(View.VISIBLE);
-                    vh6.Shipping_code.setText("物流公司："+orderBean.getShipping_name()+" 物流单号:"+orderBean.getShipping_code());
+                    if (!"".equals(orderBean.getShipping_name())&&!"".equals(orderBean.getShipping_code())){
+                        vh6.Shipping_code.setVisibility(View.VISIBLE);
+                        vh6.Shipping_code.setText("物流公司: "+orderBean.getShipping_name()+"\n物流单号: "+orderBean.getShipping_code());
+                    }
                     final ViewHolder finalVh1 = vh6;
                     vh6.tv_evaluate.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -535,12 +581,17 @@ public class OrderAdapter extends BaseAdapter {
                     });
                 }
                 vh6.store.setText(orderBean.getStore_name());
+                if (!"".equals(orderBean.getAddress())){
+                    vh6.tv_address.setVisibility(View.VISIBLE);
+                    vh6.tv_address.setText("收货地址: "+orderBean.getAddress());
+
+                }
                 if (orderBean!=null&&orderBean.getGoods_list()!=null&&orderBean.getGoods_list().size()>0){
 
                     ImageLoader.getInstance().displayImage(ApiHttpClient.API_PIC + orderBean.getGoods_list().get(0).getOriginal_img(), vh1.iv);
                     vh6.desc.setText(orderBean.getGoods_list().get(0).getGoods_name());
                     vh6.count.setText("X" +orderBean.getGoods_list().get(0).getGoods_num());
-                    vh6.order_codes.setText("订单编号:"+orderBean.getOrder_sn());
+                    vh6.order_codes.setText("订单编号: "+orderBean.getOrder_sn());
                 }
                 break;
         }
@@ -596,7 +647,7 @@ public class OrderAdapter extends BaseAdapter {
     }
 
     private class ViewHolder {
-        private TextView store, desc, count, price,type,tv_evaluate,tv_evaluate1,Shipping_code,order_codes;
+        private TextView store, desc, count, price,type,tv_evaluate,tv_evaluate1,Shipping_code,order_codes,tv_address;
         private ImageView iv;
     }
 }

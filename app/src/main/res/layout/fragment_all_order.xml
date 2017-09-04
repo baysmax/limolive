@@ -13,8 +13,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:xTabDisplayNum="3"
+        app:xTabBackgroundColor="#226e6a6a"
         app:xTabIndicatorColor="@color/red_bar"
-        app:xTabSelectedTextColor="@color/red_bar"
         app:xTabIndicatorHeight="@dimen/line_width5"
         app:xTabMode="scrollable"
         >

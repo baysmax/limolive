@@ -104,8 +104,9 @@ public class OrderAdapters extends BaseAdapter {
                     vh1.price = (TextView) view.findViewById(R.id.price);
                     vh1.order_codes = (TextView) view.findViewById(R.id.order_codes);
                     vh1.tv_address = (TextView) view.findViewById(R.id.tv_address);
-                    vh1.rl=(RelativeLayout) view.findViewById(R.id.rl);
-                    vh1.rl.setVisibility(View.GONE);
+                    vh1.tv_address.setVisibility(View.GONE);
+                    vh1.Shipping_code=view.findViewById(R.id.Shipping_code);
+                    vh1.Shipping_code.setVisibility(View.GONE);
                     vh1.tv_evaluate=view.findViewById(R.id.tv_evaluate);
                     vh1.tv_evaluate.setVisibility(View.GONE);
                     view.setTag(vh1);
@@ -120,8 +121,9 @@ public class OrderAdapters extends BaseAdapter {
                     vh2.price = (TextView) view.findViewById(R.id.price);
                     vh2.order_codes = (TextView) view.findViewById(R.id.order_codes);
                     vh2.tv_address = (TextView) view.findViewById(R.id.tv_address);
-                    vh2.rl=(RelativeLayout) view.findViewById(R.id.rl);
-                    vh2.rl.setVisibility(View.GONE);
+                    vh2.tv_address.setVisibility(View.GONE);
+                    vh2.Shipping_code=view.findViewById(R.id.Shipping_code);
+                    vh2.Shipping_code.setVisibility(View.GONE);
                     vh2.type=view.findViewById(R.id.tv_type);
                     vh2.tv_evaluate=view.findViewById(R.id.tv_evaluate);
                     vh2.tv_evaluate.setVisibility(View.GONE);
@@ -137,8 +139,9 @@ public class OrderAdapters extends BaseAdapter {
                     vh3.price = (TextView) view.findViewById(R.id.price);
                     vh3.order_codes = (TextView) view.findViewById(R.id.order_codes);
                     vh3.tv_address = (TextView) view.findViewById(R.id.tv_address);
-                    vh3.rl=(RelativeLayout) view.findViewById(R.id.rl);
-                    vh3.rl.setVisibility(View.GONE);
+                    vh3.Shipping_code=view.findViewById(R.id.Shipping_code);
+                    vh3.Shipping_code.setVisibility(View.GONE);
+                    vh3.tv_address.setVisibility(View.GONE);
                     vh3.type=view.findViewById(R.id.tv_type);
                     vh3.tv_evaluate=view.findViewById(R.id.tv_evaluate);
                     vh3.tv_evaluate.setVisibility(View.GONE);
@@ -187,8 +190,11 @@ public class OrderAdapters extends BaseAdapter {
                 if (str.equals("待发货")){
                     vh1.tv_evaluate.setText("设置发货");
                     vh1.tv_evaluate.setVisibility(View.VISIBLE);
-                    vh1.rl.setVisibility(View.VISIBLE);
-                    vh1.tv_address.setText("收货地址:"+orderBean.getAddress());
+                    if (!"".equals(orderBean.getAddress())){
+                        vh1.tv_address.setVisibility(View.VISIBLE);
+                        vh1.tv_address.setText("收货地址: "+orderBean.getAddress());
+
+                    }
                     final ViewHolder finalVh = vh1;
                     vh1.tv_evaluate.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -202,12 +208,16 @@ public class OrderAdapters extends BaseAdapter {
                     vh1.type.setText(str);
                 }
                 vh1.store.setText(orderBean.getStore_name());
+                if (!"".equals(orderBean.getShipping_name())&&!"".equals(orderBean.getShipping_code())){
+                    vh1.Shipping_code.setVisibility(View.VISIBLE);
+                    vh1.Shipping_code.setText("物流公司: "+orderBean.getShipping_name()+"\n物流单号:"+orderBean.getShipping_code());
+                }
                 if (orderBean!=null&&orderBean.getGoods_list()!=null&&orderBean.getGoods_list().size()>0){
                     ImageLoader.getInstance().displayImage(ApiHttpClient.API_PIC + orderBean.getGoods_list().get(0).getOriginal_img(), vh1.iv);
                     vh1.desc.setText(orderBean.getGoods_list().get(0).getGoods_name());
                     vh1.count.setText("X" +orderBean.getGoods_list().get(0).getGoods_num());
                     vh1.price.setText("共"+orderBean.getGoods_list().get(0).getGoods_num()+"件  合计￥"+orderBean.getTotal_amount());
-                    vh1.order_codes.setText("订单编号:"+orderBean.getOrder_sn());
+                    vh1.order_codes.setText("订单编号: "+orderBean.getOrder_sn());
                 }
                 break;
 
@@ -216,8 +226,11 @@ public class OrderAdapters extends BaseAdapter {
                     vh2.type.setText(str);
                     vh2.tv_evaluate.setText("设置发货");
                     vh2.tv_evaluate.setVisibility(View.VISIBLE);
-                    vh1.rl.setVisibility(View.VISIBLE);
-                    vh1.tv_address.setText("收货地址:"+orderBean.getAddress());
+                    if (!"".equals(orderBean.getAddress())){
+                        vh2.tv_address.setVisibility(View.VISIBLE);
+                        vh2.tv_address.setText("收货地址: "+orderBean.getAddress());
+
+                    }
                     final ViewHolder finalVh = vh1;
                     final ViewHolder finalVh2 = vh3;
                     vh2.tv_evaluate.setOnClickListener(new View.OnClickListener() {
@@ -232,7 +245,7 @@ public class OrderAdapters extends BaseAdapter {
                     ImageLoader.getInstance().displayImage(ApiHttpClient.API_PIC + orderBean.getGoods_list().get(0).getOriginal_img(), vh1.iv);
                     vh2.desc.setText(orderBean.getGoods_list().get(0).getGoods_name());
                     vh2.count.setText("X" +orderBean.getGoods_list().get(0).getGoods_num());
-                    vh2.order_codes.setText("订单编号:"+orderBean.getOrder_sn());
+                    vh2.order_codes.setText("订单编号: "+orderBean.getOrder_sn());
                 }
 
                 break;
@@ -240,8 +253,15 @@ public class OrderAdapters extends BaseAdapter {
                 if (str.equals("已完成")){
                     vh3.type.setText(str);
                     vh3.tv_evaluate.setVisibility(View.GONE);
-                    vh1.rl.setVisibility(View.VISIBLE);
-                    vh1.tv_address.setText("收货地址:"+orderBean.getAddress());
+                    if (!"".equals(orderBean.getAddress())){
+                        vh3.tv_address.setVisibility(View.VISIBLE);
+                        vh3.tv_address.setText("收货地址: "+orderBean.getAddress());
+
+                    }
+                }
+                if (!"".equals(orderBean.getShipping_code())&&!"".equals(orderBean.getShipping_name())){
+                    vh3.Shipping_code.setVisibility(View.VISIBLE);
+                    vh3.Shipping_code.setText("物流公司: "+orderBean.getShipping_name()+"\n物流单号: "+orderBean.getShipping_code());
                 }
                 if (orderBean.getGoods_list()!=null&&orderBean.getGoods_list().size()>0){
 
@@ -249,7 +269,7 @@ public class OrderAdapters extends BaseAdapter {
                     ImageLoader.getInstance().displayImage(ApiHttpClient.API_PIC + orderBean.getGoods_list().get(0).getOriginal_img(), vh1.iv);
                     vh3.desc.setText(orderBean.getGoods_list().get(0).getGoods_name());
                     vh3.count.setText("X" +orderBean.getGoods_list().get(0).getGoods_num());
-                    vh3.order_codes.setText("订单编号:"+orderBean.getOrder_sn());
+                    vh3.order_codes.setText("订单编号: "+orderBean.getOrder_sn());
                 }
                 break;
         }
@@ -314,8 +334,7 @@ public class OrderAdapters extends BaseAdapter {
     }
 
     private class ViewHolder {
-        private TextView store, desc, count, price,type,tv_evaluate,order_codes,tv_address;
+        private TextView store, desc, count, price,type,tv_evaluate,order_codes,tv_address,Shipping_code;
         private ImageView iv;
-        private RelativeLayout rl;
     }
 }
