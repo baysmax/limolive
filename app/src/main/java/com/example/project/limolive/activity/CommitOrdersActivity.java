@@ -160,7 +160,6 @@ public class CommitOrdersActivity extends BaseActivity implements View.OnClickLi
                 startActivity(intent);
                 break;
             case R.id.commit_order_ll:
-                ToastUtils.showShort(this, "正在开发中");
                 Intent intent1 = new Intent(this, PayReadyActivity.class);
                 intent1.putExtra("type", "3");
                 intent1.putExtra("cobs", c);
