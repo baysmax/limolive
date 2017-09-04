@@ -1680,6 +1680,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
                                 en.setMessage_type(present_i);
                                 en.setPresent_name(present_name);
                                 en.setPresenr_type(present_type);
+                                en.setSend_phone(LoginManager.getInstance().getPhone(LiveingActivity.this));
                                 mArrayListPresent.add(en);
                                 mArrayListChatEntity.add(en);
                                 mChatMsgListAdapter.notifyDataSetChanged();
