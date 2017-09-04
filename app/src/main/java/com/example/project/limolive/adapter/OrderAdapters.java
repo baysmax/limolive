@@ -197,23 +197,6 @@ public class OrderAdapters extends BaseAdapter {
                         }
                     });
                 }
-//                else if (str.equals("待评价")){
-//                    vh1.type.setText(str);
-//                    final ViewHolder finalVh5 = vh1;
-//                    vh1.tv_evaluate.setOnClickListener(new View.OnClickListener() {
-//                        @Override
-//                        public void onClick(View view) {
-//                            Api.myorder_sell_up(LoginManager.getInstance().getUserID(context), "1", new ApiResponseHandler(context) {
-//                                @Override
-//                                public void onSuccess(ApiResponse apiResponse) {
-//                                    if (apiResponse.getCode()==Api.SUCCESS){
-//                                        finalVh5.tv_evaluate.setText("已确认");
-//                                    }
-//                                }
-//                            });
-//                        }
-//                    });
-//                }
                 else {
                     vh1.tv_evaluate.setVisibility(View.GONE);
                     vh1.type.setText(str);
@@ -257,6 +240,8 @@ public class OrderAdapters extends BaseAdapter {
                 if (str.equals("已完成")){
                     vh3.type.setText(str);
                     vh3.tv_evaluate.setVisibility(View.GONE);
+                    vh1.rl.setVisibility(View.VISIBLE);
+                    vh1.tv_address.setText("收货地址:"+orderBean.getAddress());
                 }
                 if (orderBean.getGoods_list()!=null&&orderBean.getGoods_list().size()>0){
 
@@ -327,34 +312,6 @@ public class OrderAdapters extends BaseAdapter {
             }
         });
     }
-
-//    private void orderReturn(String reason, final TextView textView) {
-//        Api.orderReturn(LoginManager.getInstance().getUserID(context)
-//                , orderBean.getOrder_id()
-//                , orderBean.getOrder_sn()
-//                , orderBean.getOrder_sn()
-//                , orderBean.getGoods_list().get(0).getGoods_id()
-//                , "0"
-//                , reason
-//                , orderBean.getGoods_list().get(0).getGood_standard_size()
-//                , new ApiResponseHandler(context) {
-//                    @Override
-//                    public void onSuccess(ApiResponse apiResponse) {
-//                        int code = apiResponse.getCode();
-//                        switch (code){
-//                            case 0:
-//                                ToastUtils.showShort(context,"退货申请成功");
-//                                break;
-//                            case -2:
-//                                ToastUtils.showShort(context,"退货申请失败");
-//                                break;
-//                            case -3:
-//                                ToastUtils.showShort(context,"已申请过");
-//                                break;
-//                        }
-//                    }
-//                });
-//    }
 
     private class ViewHolder {
         private TextView store, desc, count, price,type,tv_evaluate,order_codes,tv_address;

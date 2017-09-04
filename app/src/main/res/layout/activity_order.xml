@@ -12,6 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:tabIndicatorColor="@color/red_bar"
+        app:tabSelectedTextColor="@color/red_bar"
         app:tabIndicatorHeight="@dimen/line_width5"
         app:tabMode="scrollable"
         >

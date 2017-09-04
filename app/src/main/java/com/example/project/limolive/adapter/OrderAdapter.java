@@ -333,7 +333,7 @@ public class OrderAdapter extends BaseAdapter {
                     });
                 }else if ("待收货".equals(str)){
                     vh1.Shipping_code.setVisibility(View.VISIBLE);
-                    vh1.Shipping_code.setText("物流单号:"+orderBean.getShipping_code());
+                    vh1.Shipping_code.setText("物流公司："+orderBean.getShipping_name()+" 物流单号:"+orderBean.getShipping_code());
                     vh1.tv_evaluate1.setVisibility(View.VISIBLE);
                     vh1.tv_evaluate1.setText("查看物流");
                     vh1.tv_evaluate1.setOnClickListener(new View.OnClickListener() {
@@ -405,6 +405,7 @@ public class OrderAdapter extends BaseAdapter {
                 if (str.equals("待发货")){
                     vh3.tv_evaluate1.setVisibility(View.VISIBLE);
                     vh3.tv_evaluate1.setText("查看物流");
+                    vh3.tv_evaluate1.setVisibility(View.GONE);
                     vh3.tv_evaluate1.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
@@ -442,7 +443,7 @@ public class OrderAdapter extends BaseAdapter {
                     vh4.tv_evaluate.setText("确认收货");
                     vh4.tv_evaluate.setVisibility(View.VISIBLE);
                     vh4.Shipping_code.setVisibility(View.VISIBLE);
-                    vh4.Shipping_code.setText("物流单号:"+orderBean.getShipping_code());
+                    vh4.Shipping_code.setText("物流公司："+orderBean.getShipping_name()+" 物流单号:"+orderBean.getShipping_code());
                     final ViewHolder finalVh3 = vh4;
                     vh4.tv_evaluate.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -475,6 +476,8 @@ public class OrderAdapter extends BaseAdapter {
                 if (str.equals("待评价")){
                     vh5.tv_evaluate.setText("评价");
                     vh5.tv_evaluate.setVisibility(View.VISIBLE);
+                    vh5.Shipping_code.setVisibility(View.VISIBLE);
+                    vh5.Shipping_code.setText("物流公司："+orderBean.getShipping_name()+" 物流单号:"+orderBean.getShipping_code());
                     vh5.tv_evaluate.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
@@ -502,6 +505,8 @@ public class OrderAdapter extends BaseAdapter {
                 if ("已完成".equals(str)){
                     vh6.tv_evaluate.setText("退货申请");
                     vh6.tv_evaluate.setVisibility(View.VISIBLE);
+                    vh6.Shipping_code.setVisibility(View.VISIBLE);
+                    vh6.Shipping_code.setText("物流公司："+orderBean.getShipping_name()+" 物流单号:"+orderBean.getShipping_code());
                     final ViewHolder finalVh1 = vh6;
                     vh6.tv_evaluate.setOnClickListener(new View.OnClickListener() {
                         @Override
