@@ -323,12 +323,7 @@
                         android:layout_marginRight="@dimen/_15sp"
                         android:drawableRight="@drawable/jiantouyou"/>
                 </RelativeLayout>
-                <View
-                    android:visibility="gone"
-                    android:layout_width="match_parent"
-                    android:layout_height="8dp"
-                    android:background="@color/line_color3"
-                    />
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/line_width3"
@@ -355,6 +350,7 @@
                         android:drawableRight="@drawable/jiantouyou"/>
                 </RelativeLayout>
                 <View
+                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/line_width3"
                     android:background="@color/line_color1"
