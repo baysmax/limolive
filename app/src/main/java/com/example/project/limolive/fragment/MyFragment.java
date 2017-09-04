@@ -52,6 +52,9 @@ import static com.example.project.limolive.presenter.Presenter.NET_UNCONNECT;
  * <p>本fragment需要注意购物车模块，查看{@link ShoppingCartActivity}，该类为购物车页面</p>
  */
 public class MyFragment extends BaseFragment implements View.OnClickListener{
+	public MyFragment() {
+		super();
+	}
 
 	private SimpleDraweeView iv_user_head;  //用户头像
 	private RelativeLayout rl_all_order;//全部订单

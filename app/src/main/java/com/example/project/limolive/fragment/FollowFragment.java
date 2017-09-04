@@ -39,7 +39,9 @@ public class FollowFragment extends BaseFragment {
     private GridLayoutManager gm;
     private FollowAdapter adapter;
 
-
+    public FollowFragment() {
+        super();
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

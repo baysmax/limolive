@@ -2,6 +2,7 @@ package com.example.project.limolive.tencentlive.views;
 
 import android.Manifest;
 import android.animation.ObjectAnimator;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.BroadcastReceiver;
@@ -16,6 +17,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Rect;
 import android.graphics.drawable.AnimationDrawable;
 import android.media.AudioManager;
 import android.os.Build;
@@ -137,6 +139,7 @@ import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.media.UMImage;
 import com.umeng.socialize.media.UMWeb;
 
+import java.io.FileOutputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
@@ -238,6 +241,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
 
     private int startnmb=0,stopnmb=0;
     private RelativeLayout rl_anim;
+    private ImageView iv_ggg;
 
 
     @Override
@@ -528,7 +532,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
             inviteView3.setOnClickListener(this);
             send_gift.setVisibility(View.GONE);
             initBackDialog();
-            initDetailDailog();
+
 
             mBeautySettings = (LinearLayout) findViewById(R.id.qav_beauty_setting);
             mMemberDg = new MembersDialog(this, R.style.floag_dialog, this);//选择与主播连麦列表
@@ -597,6 +601,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
         //tvMembers.setText(CurLiveInfo.getMembers()+"在线");
         //TODO 获取渲染层
         mRootView = (AVRootView) findViewById(R.id.av_root_view);
+        iv_ggg= (ImageView) findViewById(R.id.iv_ggg);
         //TODO 设置渲染层
         ILVLiveManager.getInstance().setAvVideoView(mRootView);
 
@@ -795,8 +800,14 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
     private void quiteLiveByPurpose() {
         Log.i("监控主播退出了房间", "quiteLiveByPurpose");
         if (LiveMySelfInfo.getInstance().getIdStatus() == Constants.HOST) {
-            if (backDialog.isShowing() == false)
+            if (backDialog.isShowing() == false){
+
                 backDialog.show();
+                if (bitmap==null){
+                    printScreen(mRootView);
+                }
+            }
+
         } else {
 
             mLiveHelper.startExitRoom();
@@ -814,6 +825,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
             @Override
             public void onClick(View v) {
                 if (null != mLiveHelper) {
+                    initDetailDailog();
                     mLiveHelper.startExitRoom();
                 }
                 backDialog.dismiss();
@@ -827,7 +839,45 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
             }
         });
     }
+    public Bitmap bitmap;
+    public void printScreen(View view) {
+//        view.setDrawingCacheEnabled(true);
+//        view.buildDrawingCache();
+//        bitmap = view.getDrawingCache();
 
+        //bitmap = activityShot(this);
+    }
+    public static Bitmap activityShot(Activity activity) {
+         /*获取windows中最顶层的view*/
+        View view = activity.getWindow().getDecorView();
+
+        //允许当前窗口保存缓存信息
+        view.setDrawingCacheEnabled(true);
+        view.buildDrawingCache();
+
+        //获取状态栏高度
+        Rect rect = new Rect();
+        view.getWindowVisibleDisplayFrame(rect);
+        int statusBarHeight = rect.top;
+
+        WindowManager windowManager = activity.getWindowManager();
+
+        //获取屏幕宽和高
+        DisplayMetrics outMetrics = new DisplayMetrics();
+        windowManager.getDefaultDisplay().getMetrics(outMetrics);
+        int width = outMetrics.widthPixels;
+        int height = outMetrics.heightPixels;
+
+        //去掉状态栏
+        Bitmap bitmap = Bitmap.createBitmap(view.getDrawingCache(), 0, statusBarHeight, width,
+                height-statusBarHeight);
+
+        //销毁缓存信息
+        view.destroyDrawingCache();
+        view.setDrawingCacheEnabled(false);
+
+        return bitmap;
+    }
     private void updateHostLeaveLayout() {
         if (LiveMySelfInfo.getInstance().getIdStatus() == Constants.HOST) {
             return;
@@ -952,11 +1002,13 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
     private TextView mDetailTime, mDetailAdmires, mDetailWatchCount, btn_save, btn_delete,tv_get_NMB,tv_user_name,tv_share;
     private ImageView iv_chat, iv_qq, iv_weibo, iv_colect;
     private SimpleDraweeView iv_user_head;
-
+    private ImageView bgs1;
     private void initDetailDailog() {
         mDetailDialog = new Dialog(this, R.style.dialog);
         mDetailDialog.setContentView(R.layout.dialog_live_details);
         mDetailTime = (TextView) mDetailDialog.findViewById(R.id.tv_time);
+
+        bgs1= (ImageView)mDetailDialog.findViewById(R.id.bgs1);
 
         tv_user_name = (TextView) mDetailDialog.findViewById(R.id.tv_user_name);
         tv_share = (TextView) mDetailDialog.findViewById(R.id.tv_share);
@@ -986,6 +1038,9 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
                 startActivity(intent);
             }
         });
+        if (bitmap!=null) {
+            bgs1.setImageBitmap(bitmap);
+        }
 
         TextView btn_sure = (TextView) mDetailDialog.findViewById(R.id.btn_sure);
         btn_sure.setOnClickListener(new View.OnClickListener() {
@@ -1048,6 +1103,9 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
 
         //zaixian_member.setText("" + CurLiveInfo.getMembers());
         tvMembers.setText(CurLiveInfo.getMembers()+"在线");
+        if (bitmap==null){
+            printScreen(mRootView);
+        }
 
     }
     boolean is=false;//锁

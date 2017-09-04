@@ -9,6 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
 
+
         />
 
     <FrameLayout
@@ -16,7 +17,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="25dp">
-
+        <ImageView
+            android:id="@+id/iv_ggg"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

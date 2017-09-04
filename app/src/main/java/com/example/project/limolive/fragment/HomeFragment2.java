@@ -34,9 +34,15 @@ public class HomeFragment2 extends BaseFragment implements View.OnClickListener{
     private TextView tabs[];
     private String tab[];
     private ImageView iv_search,iv_Phb;
+
+    public HomeFragment2() {
+        super();
+    }
+
     /**
      * 滑动TabLayout
      */
+
     private TabLayout tl_tab_layouts;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

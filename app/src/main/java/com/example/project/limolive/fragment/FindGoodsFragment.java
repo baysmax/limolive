@@ -56,6 +56,10 @@ public class FindGoodsFragment extends BaseFragment {
         return setContentView(R.layout.fragment_shopping_cart, inflater, container);
     }
 
+    public FindGoodsFragment() {
+        super();
+    }
+
     @Override
     protected void initView() {
         super.initView();

@@ -135,6 +135,10 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,
         return setContentView(R.layout.fragment_shouye, inflater, container);
     }
 
+    public HomeFragment() {
+        super();
+    }
+
     @Override
     protected void initView() {
         super.initView();

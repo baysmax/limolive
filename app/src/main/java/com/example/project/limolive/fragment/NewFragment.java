@@ -36,7 +36,8 @@ public class NewFragment extends BaseFragment {
     private GridLayoutManager gm;
     private NewAdapter adapter;
 
-
+    public NewFragment() {
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

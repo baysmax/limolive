@@ -27,6 +27,10 @@ public class FriendsFragment extends BaseFragment implements View.OnClickListene
     private ImageView iv_title;
     private FrameLayout fl_adds;
 
+    public FriendsFragment() {
+        super();
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return setContentView(R.layout.fragment_friends,inflater,container);

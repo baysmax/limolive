@@ -1,268 +1,285 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:fresco="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:background="#a000"
     android:layout_height="match_parent">
-    <com.facebook.drawee.view.SimpleDraweeView
-        android:id="@+id/iv_user_head"
-        android:layout_width="110dp"
-        android:layout_height="110dp"
-        android:layout_gravity="center_horizontal"
-        android:layout_centerHorizontal="true"
-        fresco:roundAsCircle="true"
-        fresco:roundingBorderColor="@color/white"
-        fresco:roundingBorderWidth="0.5dp"
-        fresco:backgroundImage="@drawable/zanwu"
-        android:scaleType="centerCrop"
-        android:layout_marginBottom="15dp"
-        android:layout_marginTop="50dp"
-        />
-
-
-    <TextView
-        android:id="@+id/tv_user_name"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="角落猫患者"
-        android:textColor="#fff"
-        android:textSize="28sp" />
     <RelativeLayout
-        android:layout_gravity="center_horizontal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp">
-
-        <TextView
-            android:id="@+id/tv_shichang"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="直播时长 "
-            android:textColor="#ffba15"
-            android:textSize="24sp" />
-
-        <TextView
-            android:id="@+id/tv_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/tv_shichang"
-            android:text="1:20:30"
-            android:textColor="#ffba15"
-            android:textSize="24sp" />
-    </RelativeLayout>
-
-    <LinearLayout
-        android:layout_marginTop="30dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <RelativeLayout
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp">
-
-            <TextView
+        android:layout_height="match_parent">
+        <ImageView
+            android:id="@+id/bgs1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+        <LinearLayout
+            android:id="@+id/bg1"
+            android:background="#a000"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <com.facebook.drawee.view.SimpleDraweeView
+                android:id="@+id/iv_user_head"
+                android:layout_width="110dp"
+                android:layout_height="110dp"
+                android:layout_gravity="center_horizontal"
                 android:layout_centerHorizontal="true"
-                android:id="@+id/tv_members"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="302"
-                android:textColor="#fff"
-                android:textSize="16sp" />
+                fresco:roundAsCircle="true"
+                fresco:roundingBorderColor="@color/white"
+                fresco:roundingBorderWidth="0.5dp"
+                fresco:backgroundImage="@drawable/zanwu"
+                android:scaleType="centerCrop"
+                android:layout_marginBottom="15dp"
+                android:layout_marginTop="50dp"
+                />
+
 
             <TextView
-                android:layout_centerHorizontal="true"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/tv_members"
-                android:text="观看"
-                android:textColor="@android:color/white"
-                android:textSize="20sp" />
-        </RelativeLayout>
-        <RelativeLayout
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp">
-
-            <TextView
-                android:id="@+id/tv_get_NMB"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="302"
-                android:layout_centerHorizontal="true"
-                android:textColor="#d283d63f"
-                android:textSize="16sp" />
-
-            <TextView
-                android:id="@+id/tv"
-                android:layout_below="@id/tv_get_NMB"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="柠檬币"
-                android:layout_centerHorizontal="true"
-                android:textColor="@android:color/white"
-                android:textSize="20sp" />
-
-        </RelativeLayout>
-
-        <!-- 获赞数量 -->
-        <RelativeLayout
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp">
-
-            <TextView
-                android:id="@+id/tv_admires"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="302"
-                android:layout_centerHorizontal="true"
-                android:textColor="#b0ffba15"
-                android:textSize="16sp" />
-
-            <TextView
-                android:layout_centerHorizontal="true"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/tv_admires"
-                android:text="点赞"
-                android:textColor="@android:color/white"
-                android:textSize="20sp" />
-
-        </RelativeLayout>
-    </LinearLayout>
-    <View
-        android:layout_marginTop="50dp"
-        android:layout_width="300dp"
-        android:background="#fff"
-        android:layout_gravity="center_horizontal"
-        android:layout_height="0.1dp"/>
-
-    <LinearLayout
-        android:layout_gravity="center_horizontal"
-        android:layout_width="280dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="50dp">
-        <TextView
-            android:id="@+id/btn_sure"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:drawableTop="@drawable/fanhuizhuye"
-            android:gravity="center"
-            android:padding="10dp"
-            android:text="返回主页"
-            android:textColor="#fff"
-            android:textSize="16sp" />
-        <RelativeLayout
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:id="@+id/tv_share"
+                android:id="@+id/tv_user_name"
                 android:layout_width="match_parent"
-                android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:drawableTop="@drawable/fenxianglianjie"
+                android:gravity="center"
+                android:text="角落猫患者"
+                android:textColor="#fff"
+                android:textSize="28sp" />
+            <RelativeLayout
+                android:layout_gravity="center_horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp">
+
+                <TextView
+                    android:id="@+id/tv_shichang"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="直播时长 "
+                    android:textColor="#ffba15"
+                    android:textSize="24sp" />
+
+                <TextView
+                    android:id="@+id/tv_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/tv_shichang"
+                    android:text="1:20:30"
+                    android:textColor="#ffba15"
+                    android:textSize="24sp" />
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_marginTop="30dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp">
+
+                    <TextView
+                        android:layout_centerHorizontal="true"
+                        android:id="@+id/tv_members"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="302"
+                        android:textColor="#fff"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:layout_centerHorizontal="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/tv_members"
+                        android:text="观看"
+                        android:textColor="@android:color/white"
+                        android:textSize="20sp" />
+                </RelativeLayout>
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp">
+
+                    <TextView
+                        android:id="@+id/tv_get_NMB"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="302"
+                        android:layout_centerHorizontal="true"
+                        android:textColor="#d283d63f"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/tv"
+                        android:layout_below="@id/tv_get_NMB"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="柠檬币"
+                        android:layout_centerHorizontal="true"
+                        android:textColor="@android:color/white"
+                        android:textSize="20sp" />
+
+                </RelativeLayout>
+
+                <!-- 获赞数量 -->
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp">
+
+                    <TextView
+                        android:id="@+id/tv_admires"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="302"
+                        android:layout_centerHorizontal="true"
+                        android:textColor="#b0ffba15"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:layout_centerHorizontal="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/tv_admires"
+                        android:text="点赞"
+                        android:textColor="@android:color/white"
+                        android:textSize="20sp" />
+
+                </RelativeLayout>
+            </LinearLayout>
+            <View
+                android:layout_marginTop="50dp"
+                android:layout_width="300dp"
+                android:background="#fff"
+                android:layout_gravity="center_horizontal"
+                android:layout_height="0.1dp"/>
+
+            <LinearLayout
+                android:layout_gravity="center_horizontal"
+                android:layout_width="280dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="50dp">
+                <TextView
+                    android:id="@+id/btn_sure"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:drawableTop="@drawable/fanhuizhuye"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:text="返回主页"
+                    android:textColor="#fff"
+                    android:textSize="16sp" />
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/tv_share"
+                        android:layout_width="match_parent"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:drawableTop="@drawable/fenxianglianjie"
+                        android:gravity="center"
+                        android:padding="10dp"
+                        android:text="分享"
+                        android:textColor="#fff"
+                        android:textSize="16sp" />
+                </RelativeLayout>
+
+            </LinearLayout>
+
+
+
+
+
+
+
+
+
+            <TextView
+                android:id="@+id/tv_shareTo"
+                android:visibility="gone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:text="分享到"
+                android:textColor="@android:color/white"
+                android:textSize="20sp" />
+
+            <RelativeLayout
+                android:visibility="gone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                >
+
+                <ImageView
+                    android:id="@+id/iv_chat"
+                    android:padding="15dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:src="@mipmap/chat" />
+
+                <ImageView
+                    android:id="@+id/iv_qq"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="15dp"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@+id/iv_chat"
+                    android:src="@mipmap/qq" />
+
+                <ImageView
+                    android:id="@+id/iv_weibo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@+id/iv_qq"
+                    android:padding="15dp"
+                    android:src="@mipmap/weibo" />
+
+                <ImageView
+                    android:id="@+id/iv_colect"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@+id/iv_weibo"
+                    android:padding="15dp"
+                    android:src="@mipmap/colect" />
+            </RelativeLayout>
+            <TextView
+                android:id="@+id/btn_save"
+                android:layout_width="280dp"
+                android:visibility="gone"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/bg_savelve_button"
                 android:gravity="center"
                 android:padding="10dp"
-                android:text="分享"
-                android:textColor="#fff"
-                android:textSize="16sp" />
-        </RelativeLayout>
-
-    </LinearLayout>
+                android:text="保存直播"
+                android:textColor="#D63F41"
+                android:textSize="18sp" />
 
 
+            <TextView
+                android:visibility="gone"
+                android:id="@+id/btn_delete"
+                android:layout_width="280dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:gravity="center"
+                android:padding="10dp"
+                android:text="删除直播"
+                android:textColor="#D63F41"
+                android:textSize="18sp" />
 
 
+        </LinearLayout>
 
-
-
-
-
-    <TextView
-        android:id="@+id/tv_shareTo"
-        android:visibility="gone"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:text="分享到"
-        android:textColor="@android:color/white"
-        android:textSize="20sp" />
-
-    <RelativeLayout
-        android:visibility="gone"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        >
-
-        <ImageView
-            android:id="@+id/iv_chat"
-            android:padding="15dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:src="@mipmap/chat" />
-
-        <ImageView
-            android:id="@+id/iv_qq"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="15dp"
-            android:layout_centerVertical="true"
-            android:layout_toRightOf="@+id/iv_chat"
-            android:src="@mipmap/qq" />
-
-        <ImageView
-            android:id="@+id/iv_weibo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_toRightOf="@+id/iv_qq"
-            android:padding="15dp"
-            android:src="@mipmap/weibo" />
-
-        <ImageView
-            android:id="@+id/iv_colect"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_toRightOf="@+id/iv_weibo"
-            android:padding="15dp"
-            android:src="@mipmap/colect" />
     </RelativeLayout>
-    <TextView
-        android:id="@+id/btn_save"
-        android:layout_width="280dp"
-        android:visibility="gone"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:background="@drawable/bg_savelve_button"
-        android:gravity="center"
-        android:padding="10dp"
-        android:text="保存直播"
-        android:textColor="#D63F41"
-        android:textSize="18sp" />
 
-
-    <TextView
-        android:visibility="gone"
-        android:id="@+id/btn_delete"
-        android:layout_width="280dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:gravity="center"
-        android:padding="10dp"
-        android:text="删除直播"
-        android:textColor="#D63F41"
-        android:textSize="18sp" />
 
 </LinearLayout>
