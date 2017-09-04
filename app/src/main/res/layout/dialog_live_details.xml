@@ -3,7 +3,7 @@
     xmlns:fresco="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:background="#000"
+    android:background="#a000"
     android:layout_height="match_parent">
     <com.facebook.drawee.view.SimpleDraweeView
         android:id="@+id/iv_user_head"
@@ -13,7 +13,7 @@
         android:layout_centerHorizontal="true"
         fresco:roundAsCircle="true"
         fresco:roundingBorderColor="@color/white"
-        fresco:roundingBorderWidth="2dp"
+        fresco:roundingBorderWidth="0.5dp"
         fresco:backgroundImage="@drawable/zanwu"
         android:scaleType="centerCrop"
         android:layout_marginBottom="15dp"
