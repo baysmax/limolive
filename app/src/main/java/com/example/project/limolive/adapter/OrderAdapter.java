@@ -564,33 +564,33 @@ public class OrderAdapter extends BaseAdapter {
                     vh5.tv_address.setText("收货地址: "+orderBean.getAddress());
 
                 }
-                vh5.tv_evaluate1.setVisibility(View.VISIBLE);
-                vh5.tv_evaluate1.setText("退货申请");
-                final ViewHolder finalVh5 = vh5;
-                vh5.tv_evaluate1.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        final EditText editText = new EditText(context);
-                        AlertDialog.Builder builder = new AlertDialog.Builder(context)
-                                .setTitle("请输入退货理由")
-                                .setIcon(android.R.drawable.ic_dialog_info)
-                                .setView(editText)
-                                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialogInterface, int i) {
-                                        orderReturn(editText.getText().toString(), finalVh5.tv_evaluate1);
-                                    }
-                                })
-                                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialogInterface, int i) {
-                                        dialog.dismiss();
-                                    }
-                                });
-                        dialog = builder.show();
-
-                    }
-                });
+//                vh5.tv_evaluate1.setVisibility(View.VISIBLE);
+//                vh5.tv_evaluate1.setText("退货申请");
+//                final ViewHolder finalVh5 = vh5;
+//                vh5.tv_evaluate1.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View view) {
+//                        final EditText editText = new EditText(context);
+//                        AlertDialog.Builder builder = new AlertDialog.Builder(context)
+//                                .setTitle("请输入退货理由")
+//                                .setIcon(android.R.drawable.ic_dialog_info)
+//                                .setView(editText)
+//                                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+//                                    @Override
+//                                    public void onClick(DialogInterface dialogInterface, int i) {
+//                                        orderReturn(editText.getText().toString(), finalVh5.tv_evaluate1);
+//                                    }
+//                                })
+//                                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+//                                    @Override
+//                                    public void onClick(DialogInterface dialogInterface, int i) {
+//                                        dialog.dismiss();
+//                                    }
+//                                });
+//                        dialog = builder.show();
+//
+//                    }
+//                });
                 if (orderBean!=null&&orderBean.getGoods_list()!=null&&orderBean.getGoods_list().size()>0){
                     ImageLoader.getInstance().displayImage(ApiHttpClient.API_PIC + orderBean.getGoods_list().get(0).getOriginal_img(), vh1.iv);
                     vh5.desc.setText(orderBean.getGoods_list().get(0).getGoods_name());
