@@ -7,8 +7,8 @@ android {
         applicationId "com.example.project.limolive"
         minSdkVersion 21
         targetSdkVersion 26
-        versionCode 19
-        versionName "1.5"
+        versionCode 1
+        versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         ndk{
             abiFilters 'armeabi','armeabi-v7a',"x86"

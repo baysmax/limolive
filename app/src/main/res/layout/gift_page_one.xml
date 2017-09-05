@@ -29,13 +29,15 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
                 android:text="飞吻"
-                android:textColor="#000"
+                android:textColor="#ff9999"
                 android:textSize="16sp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="1dp"
+                android:textColor="#ff9999"
+
                 android:text="1钻石" />
         </LinearLayout>
 
@@ -59,13 +61,14 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
                 android:text="么么哒"
-                android:textColor="#000"
+                android:textColor="#ff9999"
                 android:textSize="16sp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="1dp"
+                android:textColor="#ff9999"
                 android:text="5钻石" />
         </LinearLayout>
 
@@ -89,13 +92,14 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
                 android:text="红包"
-                android:textColor="#000"
+                android:textColor="#ff9999"
                 android:textSize="16sp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="1dp"
+                android:textColor="#ff9999"
                 android:text="8钻石" />
         </LinearLayout>
 
@@ -119,13 +123,14 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
                 android:text="糖果"
-                android:textColor="#000"
+                android:textColor="#ff9999"
                 android:textSize="16sp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="1dp"
+                android:textColor="#ff9999"
                 android:text="10钻石" />
         </LinearLayout>
     </LinearLayout>
@@ -154,12 +159,13 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
                 android:textSize="16sp"
-                android:textColor="#000"
+                android:textColor="#ff9999"
                 android:text="666"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="1dp"
+                android:textColor="#ff9999"
                 android:text="30钻石"/>
         </LinearLayout>
         <LinearLayout
@@ -181,12 +187,13 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
                 android:textSize="16sp"
-                android:textColor="#000"
+                android:textColor="#ff9999"
                 android:text="爱心"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="1dp"
+                android:textColor="#ff9999"
                 android:text="50钻石"/>
         </LinearLayout>
         <LinearLayout
@@ -208,11 +215,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
                 android:textSize="16sp"
-                android:textColor="#000"
+                android:textColor="#ff9999"
                 android:text="魔杖"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="#ff9999"
                 android:layout_marginTop="1dp"
                 android:text="60钻石"/>
         </LinearLayout>
@@ -235,12 +243,13 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
                 android:textSize="16sp"
-                android:textColor="#000"
+                android:textColor="#ff9999"
                 android:text="钻戒"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="1dp"
+                android:textColor="#ff9999"
                 android:text="80钻石"/>
         </LinearLayout>
     </LinearLayout>

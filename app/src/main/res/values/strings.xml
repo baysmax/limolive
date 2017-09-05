@@ -1,7 +1,7 @@
 <resources>
     <!--<string name="app_name">新客</string>-->
     <!--<string name="app_name">魔锥生活馆</string>-->
-    <string name="app_name">柠檬直播</string>
+    <string name="app_name">柠檬秀</string>
 
     <!--权限申请-->
     <string name="permission_label">权限申请</string>
