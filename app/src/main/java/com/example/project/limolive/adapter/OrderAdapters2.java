@@ -58,12 +58,6 @@ public class OrderAdapters2 extends BaseAdapter {
         return i;
     }
 
-
-    @Override
-    public int getViewTypeCount() {
-        return 5;
-    }
-
     @Override
     public View getView(final int i, View view, ViewGroup viewGroup) {
         ViewHolder vh1=null;
