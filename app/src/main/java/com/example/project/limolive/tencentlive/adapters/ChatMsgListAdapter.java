@@ -216,7 +216,12 @@ public class ChatMsgListAdapter extends BaseAdapter implements AbsListView.OnScr
                     StyleSpan boldStyle = new StyleSpan(Typeface.BOLD);
                     spanString.setSpan(boldStyle, 0, item.getSenderName().length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                     //holder.textItem.setBackgroundResource(R.drawable.img_chat_black);//img_chat_black
-                    holder.sendContext.setTextColor(context.getResources().getColor(R.color.colorTextWhite));
+                    if (item.getSenderName().equals("系统通知")){
+                        holder.sendContext.setTextColor(context.getResources().getColor(R.color.colorRed));
+                    }else {
+                        holder.sendContext.setTextColor(context.getResources().getColor(R.color.colorTextWhite));
+                    }
+
                 } else {
                     // 根据名称计算颜色
                     holder.textItem.setBackgroundResource(R.drawable.bac_msg);//img_chat_white
