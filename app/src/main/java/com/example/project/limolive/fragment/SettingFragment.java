@@ -169,7 +169,7 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
      */
     private void share() {
         UMImage thumb = new UMImage(getActivity(), R.mipmap.logo);
-        UMWeb web = new UMWeb("https://www.pgyer.com/ae5b99158329df67baa9b83df1093b75");
+        UMWeb web = new UMWeb("https://www.pgyer.com/B2NX");
         web.setTitle("柠檬直播");//标题
         web.setThumb(thumb);  //缩略图
         web.setDescription("大家好,我正在直播哦，喜欢我的朋友赶紧来哦");//描述
