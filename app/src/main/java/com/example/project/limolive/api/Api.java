@@ -1180,4 +1180,10 @@ public class Api {
         params.put("user_id",user_id);
         ApiHttpClient.post(ApiHttpClient.API_URL + Urls.POST_CART4, params, handler);
     }
+
+    public static void user_robot(String user_id,ApiResponseHandler handler) {
+        RequestParams params = new RequestParams();
+        params.put("uid",user_id);
+        ApiHttpClient.post(ApiHttpClient.API_URL + Urls.POST_USER_ROBOT, params, handler);
+    }
 }

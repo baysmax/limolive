@@ -2426,10 +2426,10 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
             Api.groupMemberInfo(LoginManager.getInstance().getUserID(this), CurLiveInfo.getChatRoomId(),"1","1", new ApiResponseHandler(this) {
                 @Override
                 public void onSuccess(ApiResponse apiResponse) {
-                    Log.i("成员列表", apiResponse.toString());
+                    Log.i("成员列表", "data=s"+apiResponse.toString());
                     if (apiResponse.getCode() == Api.SUCCESS) {
                         String data = apiResponse.getData();
-                        Log.i("直播","data="+data.toString());
+                        Log.i("直播","data=s"+data.toString());
 
                         LivesInfoBean livesInfoBean = JSON.parseObject(data, LivesInfoBean.class);
                         List<AvMemberInfo> list = livesInfoBean.getLives();
@@ -2437,14 +2437,15 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
                         avMemberInfos.addAll(list);
 
                         Log.i("Main","Menbers="+CurLiveInfo.getAdmires()+",avMemberInfos="+avMemberInfos.size()+"list="+list.size());
-                        String user_robot = LiveMySelfInfo.getInstance().getUser_robot();
-                        if (user_robot!=null&&user_robot.length()>0&&!"".equals(user_robot)){
-                            int i = Integer.parseInt(user_robot);
-                            CurLiveInfo.setMembers(avMemberInfos.size()+CurLiveInfo.getAdmires()+i);
-                        }else {
+//                        String user_robot = LiveMySelfInfo.getInstance().getUser_robot();
+//                        if (user_robot!=null&&user_robot.length()>0&&!"".equals(user_robot)){
+//                            int i = Integer.parseInt(user_robot);
+//                            CurLiveInfo.setMembers(avMemberInfos.size()+CurLiveInfo.getAdmires()+i);
+//                        }else {
                             CurLiveInfo.setMembers(avMemberInfos.size()+CurLiveInfo.getAdmires());
-                        }
-                        tvMembers.setText(CurLiveInfo.getMembers()+"在线");
+//                        }
+                        getUser_robot();
+                        //tvMembers.setText(CurLiveInfo.getMembers()+"在线");
 //                        if (!"0".equals(LiveMySelfInfo.getInstance().getUser_robot())){
 //                            groupMemberInfos();//用户购买的机器人
 //                        }
@@ -2461,6 +2462,23 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
             });
         }
     }
+
+    private void getUser_robot() {
+        Log.i("直播","apiResponse=");
+        Api.user_robot(LoginManager.getInstance().getUserID(LiveingActivity.this), new ApiResponseHandler(LiveingActivity.this) {
+            @Override
+            public void onSuccess(ApiResponse apiResponse) {
+                if (apiResponse.getCode()==Api.SUCCESS){
+                    int members = CurLiveInfo.getMembers();
+                    String data = apiResponse.getData();
+                    int i = Integer.parseInt(data);
+                    CurLiveInfo.setMembers(i+members);
+                    tvMembers.setText(CurLiveInfo.getMembers()+"在线");
+                }
+            }
+        });
+    }
+
     private int page_id=1;
     private boolean isSucc=true;
     private void groupMemberInfos1() {
