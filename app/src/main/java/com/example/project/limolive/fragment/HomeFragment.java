@@ -128,6 +128,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,
             }
         }
     };
+    private TextView tv_isLive;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -258,6 +259,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,
         header.findViewById(R.id.home_banner).setOnClickListener(this);
         home_banner = (ImageCycleView) header.findViewById(R.id.home_banner);
         live_title = (TextView) header.findViewById(R.id.live_title);
+        tv_isLive = (TextView) header.findViewById(R.id.tv_isLive);
         home_gv.addHeaderView(header, null, true);
 //        live_title.setText("热门推荐");
         rv_nmzt= (RecyclerView)header.findViewById(R.id.rv_nmzt);
@@ -289,6 +291,13 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,
                     zt_list.addAll(JSONArray.parseArray(apiResponse.getData(), HomeListBeen.class));
                     nmztAdapter.notifyDataSetChanged();
                     Log.i("直播列表","zt_list="+zt_list.get(0).toString());
+                }
+                if (zt_list.size()>0){
+                    tv_isLive.setVisibility(View.GONE);
+                    rv_nmzt.setVisibility(View.VISIBLE);
+                }else {
+                    tv_isLive.setVisibility(View.VISIBLE);
+                    rv_nmzt.setVisibility(View.GONE);
                 }
             }
         });

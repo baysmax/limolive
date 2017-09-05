@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.alibaba.fastjson.JSONArray;
 import com.example.project.limolive.R;
@@ -35,6 +36,7 @@ public class NewFragment extends BaseFragment {
     private int page=1;
     private GridLayoutManager gm;
     private NewAdapter adapter;
+    private TextView tv_isLive;
 
     public NewFragment() {
     }
@@ -48,6 +50,7 @@ public class NewFragment extends BaseFragment {
         super.initView();
         swipeRefreshLayout= (SwipeRefreshLayout) findViewById(R.id.srl_DownNew);
         recyclerView= (RecyclerView) findViewById(R.id.rv_new);
+        tv_isLive= (TextView) findViewById(R.id.tv_isLive);
         gm=new GridLayoutManager(getActivity(),2);
         recyclerView.setLayoutManager(gm);
         newLiveList= new ArrayList<>();
@@ -105,6 +108,13 @@ public class NewFragment extends BaseFragment {
                     adapter.notifyDataSetChanged();
                     Log.d("直播列表", "newLiveList: "+newLiveList.get(0).toString());
 
+                }
+                if (newLiveList.size()>0){
+                    swipeRefreshLayout.setVisibility(View.VISIBLE);
+                    tv_isLive.setVisibility(View.GONE);
+                }else {
+                    swipeRefreshLayout.setVisibility(View.GONE);
+                    tv_isLive.setVisibility(View.VISIBLE);
                 }
                 swipeRefreshLayout.setRefreshing(false);
             }

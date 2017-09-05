@@ -3,6 +3,12 @@
     android:layout_width="match_parent"
     android:orientation="vertical"
     android:layout_height="match_parent">
+    <TextView
+        android:id="@+id/tv_isLive"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:text="暂无关注"/>
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/srl_DownFollow"
         android:layout_width="match_parent"

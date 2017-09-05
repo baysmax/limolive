@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.alibaba.fastjson.JSONArray;
 import com.example.project.limolive.R;
@@ -38,6 +39,7 @@ public class FollowFragment extends BaseFragment {
     private int page=1;
     private GridLayoutManager gm;
     private FollowAdapter adapter;
+    private TextView tv_islive;
 
     public FollowFragment() {
         super();
@@ -65,6 +67,7 @@ public class FollowFragment extends BaseFragment {
     }
 
     private void setRecyclerView() {
+        tv_islive= (TextView) findViewById(R.id.tv_isLive);
         recyclerView= (RecyclerView) findViewById(R.id.rv_follows);
         swipeRefreshLayout= (SwipeRefreshLayout) findViewById(R.id.srl_DownFollow);
         adapter=new FollowAdapter(newLiveList,getContext());
@@ -114,6 +117,11 @@ public class FollowFragment extends BaseFragment {
                     Log.i("直播列表","data.toString()="+data.toString());
                     newLiveList.addAll(JSONArray.parseArray(data, HomeListBeens.class));
                     adapter.notifyDataSetChanged();
+                }
+                if (newLiveList.size()>0){
+                    tv_islive.setVisibility(View.GONE);
+                }else {
+                    tv_islive.setVisibility(View.VISIBLE);
                 }
                 swipeRefreshLayout.setRefreshing(false);
             }
