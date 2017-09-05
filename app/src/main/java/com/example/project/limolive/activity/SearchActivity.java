@@ -270,7 +270,7 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
 
         @Override
         public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            return new ResouHolder(View.inflate(context, R.layout.item_resou, null));
+            return new ResouHolder(View.inflate(context, R.layout.item_resou1, null));
         }
 
         @Override
