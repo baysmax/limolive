@@ -5,6 +5,8 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.AnimationDrawable;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.os.Message;
 import android.provider.Settings;
@@ -29,6 +31,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
 import com.example.project.limolive.R;
 import com.example.project.limolive.api.ApiHttpClient;
+import com.example.project.limolive.bean.BigGift;
 import com.example.project.limolive.tencentlive.model.GiftVo;
 import com.example.project.limolive.tencentlive.utils.GlideCircleTransform;
 import com.example.project.limolive.tencentlive.utils.UIUtils;
@@ -64,6 +67,7 @@ import static com.example.project.limolive.R.id.rl_main;
 public class GiftShowManager {
 
     private LinkedBlockingQueue<GiftVo> queue;//礼物的队列
+//    private LinkedBlockingQueue<BigGift> bigGiftqueue;//礼物的队列
     private LinearLayout giftCon;//礼物的容器
     private Context cxt;//上下文
     private RelativeLayout rl_anim;
@@ -91,6 +95,7 @@ public class GiftShowManager {
                 case REMOVE_GIFT:
                     ImageView img= (ImageView) msg.obj;
                     rl_anim.removeView(img);
+
                     System.gc();
                     break;
                 case SHOW_GIFT_FLAG://如果是处理显示礼物的消息
@@ -189,7 +194,12 @@ public class GiftShowManager {
                                 tv_n.setText("赠送主播");
                             } else if (showVo.getType().equals("6")) {
                                 im.setImageResource(R.drawable.present_7);//魔棒
-                                showGiftMax(new ImageView(cxt),R.drawable.animation_magic,R.anim.translate_magic);
+                                if (true){
+
+                                    showGiftMax(new ImageView(cxt),R.drawable.animation_magic,R.anim.translate_magic);
+                                }else {
+
+                                }
                                 tv_n.setText("赠送主播");
                             } else if (showVo.getType().equals("7")) {
                                 im.setImageResource(R.drawable.present_8);//钻戒
@@ -228,6 +238,7 @@ public class GiftShowManager {
                                 imageView.setLayoutParams(params);
                                 imageView.setBackgroundResource(R.drawable.animation_1314);
                                 Animation animation = AnimationUtils.loadAnimation(cxt, R.anim.translate3);
+                                final AnimationDrawable background = (AnimationDrawable) imageView.getBackground();
                                 imageView.startAnimation(animation);
                                 animation.setAnimationListener(new Animation.AnimationListener() {
                                     @Override
@@ -241,6 +252,8 @@ public class GiftShowManager {
                                         ms.what=REMOVE_GIFT;
                                         ms.obj=imageView;
                                         handler.sendMessage(ms);
+                                        tryRecycleAnimationDrawable(background);
+                                        System.gc();
                                     }
 
                                     @Override
@@ -388,6 +401,7 @@ public class GiftShowManager {
         imageView.setBackgroundResource(drawable);
         Animation animation = AnimationUtils.loadAnimation(cxt, anim);
         imageView.startAnimation(animation);
+        final AnimationDrawable background = (AnimationDrawable) imageView.getBackground();
         animation.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
@@ -400,6 +414,7 @@ public class GiftShowManager {
                 ms.what=REMOVE_GIFT;
                 ms.obj=imageView;
                 handler.sendMessage(ms);
+                tryRecycleAnimationDrawable(background);
             }
 
             @Override
@@ -409,11 +424,27 @@ public class GiftShowManager {
         });
         rl_anim.addView(imageView);
 
-        AnimationDrawable anims = (AnimationDrawable) imageView.getBackground();
+        AnimationDrawable anims = background;
         anims.start();
         imageLists.add(imageView);
     }
 
+
+
+    private  void tryRecycleAnimationDrawable(AnimationDrawable animationDrawables) {
+        if (animationDrawables != null) {
+            animationDrawables.stop();
+            for (int i = 0; i < animationDrawables.getNumberOfFrames(); i++) {
+                Drawable frame = animationDrawables.getFrame(i);
+                if (frame instanceof BitmapDrawable) {
+                    ((BitmapDrawable) frame).getBitmap().recycle();
+                }
+                frame.setCallback(null);
+            }
+            animationDrawables.setCallback(null);
+
+        }
+    }
     private void showBigluwu(final ImageView imageView , int drawable, int anim, Context context, final RelativeLayout relativeLayout) {
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
                 400, 200);
@@ -421,6 +452,7 @@ public class GiftShowManager {
         imageView.setBackgroundResource(drawable);
         Animation animation = AnimationUtils.loadAnimation(context, anim);
         imageView.startAnimation(animation);
+        final AnimationDrawable background = (AnimationDrawable) imageView.getBackground();
         animation.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
@@ -433,7 +465,8 @@ public class GiftShowManager {
                 msg.obj=imageView;
                 msg.what=REMOVE_GIFT;
                 handler.sendMessage(msg);
-
+                tryRecycleAnimationDrawable(background);
+                System.gc();
             }
 
             @Override
@@ -452,6 +485,7 @@ public class GiftShowManager {
         this.rl_anim=rl_anim;
         imageLists=new ArrayList<>();
         queue = new LinkedBlockingQueue<GiftVo>(100);
+        //bigGiftqueue=new LinkedBlockingQueue<>(100);
         inAnim = (TranslateAnimation) AnimationUtils.loadAnimation(cxt, R.anim.slide_left_in);
         huaAnim = (Animation) AnimationUtils.loadAnimation(cxt, R.anim.gif_hua);
         outAnim = (TranslateAnimation) AnimationUtils.loadAnimation(cxt, R.anim.gift_out);
