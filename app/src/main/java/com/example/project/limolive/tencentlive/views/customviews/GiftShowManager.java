@@ -337,16 +337,6 @@ public class GiftShowManager {
                     }catch (OutOfMemoryError e){
                          System.gc();
                     }
-
-                    BitmapFactory.Options options = new BitmapFactory.Options();
-                    options.inInputShareable = true;
-                    options.inPurgeable = true;
-                    options.inJustDecodeBounds = false;
-                    options.inPreferredConfig = Bitmap.Config.RGB_565;
-                    //options.inSampleSize = 3; // width，hight设为原来的1/3
-//获取资源图片流
-                    InputStream is = cxt.getResources().openRawResource(R.drawable.animation_qiche);
-                    BitmapFactory.decodeStream(is,null,options);
                     break;
                 case GET_QUEUE_GIFT://如果是从队列中获取礼物实体的消息
                     GiftVo vo = queue.poll();
