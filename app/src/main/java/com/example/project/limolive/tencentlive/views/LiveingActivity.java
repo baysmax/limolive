@@ -694,7 +694,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
 
     private Handler handler = new Handler();
 
-    private Runnable myRunnable = new Runnable() {
+    private Runnable myRunnable = new Runnable() {//主播心跳
         public void run() {
             if (!isStop == true) {
                 handler.postDelayed(this, 10000);
@@ -704,7 +704,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
         }
     };
 
-    private Runnable myRunnable1 = new Runnable() {
+    private Runnable myRunnable1 = new Runnable() {//飘心动画
         public void run() {
             if (!isStop == true) {
                 handler.postDelayed(this, 300);
