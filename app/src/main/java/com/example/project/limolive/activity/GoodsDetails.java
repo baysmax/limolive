@@ -166,8 +166,6 @@ public class GoodsDetails extends BaseActivity implements View.OnClickListener {
         ViewGroup.LayoutParams layoutParams = contentView.getLayoutParams();
         layoutParams.width =contentView.getResources().getDisplayMetrics().widthPixels;
         layoutParams.height = (int) (contentView.getResources().getDisplayMetrics().heightPixels*0.6);
-
-
         contentView.setLayoutParams(layoutParams);
         bottomDialog.getWindow().setGravity(Gravity.BOTTOM);
         bottomDialog.getWindow().setWindowAnimations(R.style.BottomDialog_Animation);
