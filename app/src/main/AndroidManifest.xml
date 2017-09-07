@@ -164,6 +164,10 @@
         <activity
             android:name="com.example.project.limolive.activity.ContactCustomerActivity"
             android:screenOrientation="portrait" />
+        <!--积分钻石互相兑换页面-->
+        <activity
+            android:name="com.example.project.limolive.activity.ExchangeActivity"
+            android:screenOrientation="portrait" />
 
         <!--用户反馈-->
         <activity

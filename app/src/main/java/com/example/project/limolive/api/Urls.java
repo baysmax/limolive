@@ -115,4 +115,12 @@ public class Urls {
     public static final String GET_FANSLIST ="/Appapi/Ucenter/followLists";  //粉丝列表
 
     public static final String GET_SYSTEM_MSG = "Appapi/live/live_notice";//获取系统通知消息
+
+    /**
+     * 色子游戏接口
+     */
+    public static final String POST_DICE_LIST = "/Appapi/Dicegame/dice_list";//
+    public static final String POST_USER_INTEGRAL_TO_DIAMONDS = "/Appapi/Ucenter/user_integral_coins";//积分转换钻石
+    public static final String POST_USER_DIAMONDS_TO_INTEGRAL = "/Appapi/Ucenter/user_coins_integral";//钻石转换积分
+    public static final String POST_USER_GET_INTEGRAL = "/Appapi/Ucenter/integral";//获取用户积分
 }

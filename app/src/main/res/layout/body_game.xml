@@ -5,6 +5,7 @@
     android:layout_height="160dp">
 
     <RelativeLayout
+        android:id="@+id/rl_choice1"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_margin="10dp"
@@ -36,9 +37,26 @@
                 android:text="押注"
                 android:gravity="center"
                 android:background="@drawable/stake"/>
+            <TextView
+                android:id="@+id/iv_win1"
+                android:visibility="gone"
+                android:layout_width="75dp"
+                android:layout_height="77dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="4dp"
+                android:gravity="center"
+                android:background="@drawable/stake"/>
+            <RelativeLayout
+                android:id="@+id/rl_anim_stake1"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="86dp">
+
+            </RelativeLayout>
 
             <RelativeLayout
                 android:id="@+id/rl_status1"
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="86dp">
                 <ImageView
@@ -79,6 +97,7 @@
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/rl_choice2"
         android:layout_margin="10dp"
         android:layout_width="0dp"
         android:layout_weight="1"
@@ -109,9 +128,26 @@
                 android:text="押注"
                 android:gravity="center"
                 android:background="@drawable/stake"/>
+            <TextView
+                android:id="@+id/iv_win2"
+                android:visibility="gone"
+                android:layout_width="75dp"
+                android:layout_height="77dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="4dp"
+                android:gravity="center"
+                android:background="@drawable/stake"/>
+            <RelativeLayout
+                android:id="@+id/rl_anim_stake2"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="86dp">
+
+            </RelativeLayout>
 
             <RelativeLayout
                 android:id="@+id/rl_status2"
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="86dp">
                 <ImageView
@@ -153,6 +189,7 @@
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/rl_choice3"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_margin="10dp"
@@ -183,8 +220,25 @@
                 android:text="押注"
                 android:gravity="center"
                 android:background="@drawable/stake"/>
+            <TextView
+                android:id="@+id/iv_win3"
+                android:visibility="gone"
+                android:layout_width="75dp"
+                android:layout_height="77dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="4dp"
+                android:gravity="center"
+                android:background="@drawable/stake"/>
+            <RelativeLayout
+                android:id="@+id/rl_anim_stake3"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="86dp">
+
+            </RelativeLayout>
 
             <RelativeLayout
+                android:visibility="gone"
                 android:id="@+id/rl_status3"
                 android:layout_width="match_parent"
                 android:layout_height="86dp">

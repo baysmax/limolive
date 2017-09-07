@@ -1186,4 +1186,49 @@ public class Api {
         params.put("uid",user_id);
         ApiHttpClient.post(ApiHttpClient.API_URL + Urls.POST_USER_ROBOT, params, handler);
     }
+
+    /**
+     *色子游戏-下注后 上传接口
+     * @param user_id
+     * @param handler
+     */
+    public static void dice_list(String user_id,ApiResponseHandler handler) {
+        RequestParams params = new RequestParams();
+        params.put("uid",user_id);
+        ApiHttpClient.post(ApiHttpClient.API_URL + Urls.POST_DICE_LIST, params, handler);
+    }
+
+    /**
+     * 积分转换钻石
+     * @param uid
+     * @param handler
+     */
+    public static void exchangeDiamonds(String uid, String diamonds_coins,ApiResponseHandler handler) {
+        RequestParams params = new RequestParams();
+        params.put("uid",uid);
+        params.put("integral",diamonds_coins);
+        ApiHttpClient.post(ApiHttpClient.API_URL + Urls.POST_USER_INTEGRAL_TO_DIAMONDS, params, handler);
+    }
+    /**
+     * 钻石转换积分
+     * @param uid
+     * @param diamonds
+     * @param handler
+     */
+    public static void exchangeIntegral(String uid, String diamonds,ApiResponseHandler handler) {
+        RequestParams params = new RequestParams();
+        params.put("uid",uid);
+        params.put("diamonds_coins",diamonds);
+        ApiHttpClient.post(ApiHttpClient.API_URL + Urls.POST_USER_DIAMONDS_TO_INTEGRAL, params, handler);
+    }
+    /**
+     * 获取用户积分
+     * @param uid
+     * @param handler
+     */
+    public static void getIntegral(String uid,ApiResponseHandler handler) {
+        RequestParams params = new RequestParams();
+        params.put("uid",uid);
+        ApiHttpClient.post(ApiHttpClient.API_URL + Urls.POST_USER_GET_INTEGRAL, params, handler);
+    }
 }
