@@ -455,7 +455,7 @@ public class BeforeLiveActivity extends Activity implements  SurfaceHolder.Callb
                     if ("Xiaomi".equals(PhoneInfo.getPhoneBrand())
                             ||"xiaomi".equals(PhoneInfo.getPhoneBrand())
                             ||"MIUI".equals(PhoneInfo.getPhoneBrand())){
-                        camera.setDisplayOrientation(270);//旋转90度
+                        camera.setDisplayOrientation(90);//旋转90度
                     }else {
                         camera.setDisplayOrientation(90);
                     }

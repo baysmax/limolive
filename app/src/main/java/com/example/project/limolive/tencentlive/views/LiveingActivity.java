@@ -17,9 +17,11 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.Rect;
 import android.graphics.drawable.AnimationDrawable;
 import android.media.AudioManager;
+import android.media.SoundPool;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -42,6 +44,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.view.animation.TranslateAnimation;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -69,9 +72,13 @@ import com.example.project.limolive.api.Api;
 import com.example.project.limolive.api.ApiHttpClient;
 import com.example.project.limolive.api.ApiResponse;
 import com.example.project.limolive.api.ApiResponseHandler;
+import com.example.project.limolive.bean.ChipBeatBean;
+import com.example.project.limolive.bean.DiceBean;
+import com.example.project.limolive.bean.StatusBean;
 import com.example.project.limolive.bean.SystemMsgBean;
 import com.example.project.limolive.bean.live.LivesInfoBean;
 import com.example.project.limolive.bean.mine.BlackListBean;
+import com.example.project.limolive.fragment.MyFragment;
 import com.example.project.limolive.helper.LoginManager;
 import com.example.project.limolive.model.LoginModel;
 import com.example.project.limolive.service.DesServices;
@@ -107,6 +114,7 @@ import com.example.project.limolive.tencentlive.utils.UIUtils;
 import com.example.project.limolive.tencentlive.views.customviews.InputTextMsgDialog;
 import com.example.project.limolive.tencentlive.views.customviews.MembersDialog;
 import com.example.project.limolive.utils.ToastUtils;
+import com.example.project.limolive.view.DiceGameDialog;
 import com.example.project.limolive.view.HostInfoPopupWindow;
 import com.example.project.limolive.view.ManberInfoPopupWindow;
 import com.facebook.drawee.view.SimpleDraweeView;
@@ -142,12 +150,14 @@ import com.umeng.socialize.media.UMWeb;
 import java.io.FileOutputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import static com.example.project.limolive.presenter.Presenter.NET_UNCONNECT;
+import static tencent.tls.report.QLog.TAG;
 
 /**
  * Live直播类
@@ -242,6 +252,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
     private int startnmb=0,stopnmb=0;
     private RelativeLayout rl_anim;
     private ImageView iv_ggg;
+    private TextView tv_game;
 
 
     @Override
@@ -281,7 +292,6 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
         isTrue=true;
         t.start();
         t1.start();
-
     }
 
     private void getSystemMsg(){
@@ -453,6 +463,8 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
     private void initView() {
         hideStatusBar();
         tv_admin= (TextView) findViewById(R.id.tv_admin);
+        tv_game= (TextView) findViewById(R.id.tv_game);//游戏
+        tv_game.setOnClickListener(this);
         startAnimtions();
         sysMsgList=new ArrayList<>();//系统通知的数据
         go_phb_Layout= (RelativeLayout) findViewById(R.id.gotoPHB);//柠檬币外部布局用来 实现点击事件
@@ -479,7 +491,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
         avMemberInfos = new ArrayList<>();//直播时右上角显示头像的数据
         HeadAdapter = new MembersHeadAdapter(this, avMemberInfos);
         member_headList.setAdapter(HeadAdapter);
-
+        initViewdd();
         member_headList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -653,6 +665,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
                         mVideoTimerTask = new VideoTimerTask();
                         mVideoTimer.schedule(mVideoTimerTask, 1000, 1000);
                         bFirstRender = false;
+                        showGames();
                     }
                 });
             }
@@ -707,7 +720,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
     private Runnable myRunnable1 = new Runnable() {//飘心动画
         public void run() {
             if (!isStop == true) {
-                handler.postDelayed(this, 300);
+                handler.postDelayed(this, 500);
                 // mHeartLayout.addFavor();
                 mHeartLayout.addHeart(Max_X, Max_Y);
             }
@@ -753,6 +766,8 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
         unregisterReceiver(myReceiver);
         unregisterReceiver(myReceiver1);
         isStop = true;
+        instance.onDesPlay();
+        instance=null;
         watchCount = 0;
         isTrue=false;
         super.onDestroy();
@@ -1605,8 +1620,1264 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
             intent.putExtra("userid", LoginManager.getInstance().getUserID(LiveingActivity.this));
             intent.setClass(LiveingActivity.this,RanksActivity.class);
             startActivity(intent);
+        }else if (i==R.id.tv_game){
+            showGames();//游戏
         }
     }
+
+
+    /**
+     * 色子游戏 dialog
+     */
+    private DiceGameDialog instance;
+    private TextView /*倒计时*/tv_num,/*后退键*/tv_back,/*自己的积分*/tv_price,/*充值*/tv_recharge;
+    private TextView /*第1个盘的押注数*/tv_stake_num1,/*第2个盘的押注数*/tv_stake_num2,/*第3个盘的押注数*/tv_stake_num3;
+    private TextView /*第1个盘的押注数*/tv_stake_bet_total_num_1,/*第2个盘的押注数*/tv_stake_bet_total_num_2,/*第3个盘的押注数*/tv_stake_bet_total_num_3;
+    private TextView /*游戏押注状态图片*/iv_anim1,iv_anim2,iv_anim3;
+    private TextView /*输赢显示控件*/iv_win1,iv_win2,iv_win3;
+    private TextView /*最终点数显示*/tv_point,tv_point1,tv_point2,tv_point3;
+    private RelativeLayout /*积分点击事件*/rl_chip10,rl_chip25,rl_chip50,rl_chip100;
+    private RelativeLayout /*选择某一个盘押注*/rl_choice1,rl_choice2,rl_choice3;
+    private ImageView iv_chip10,iv_chip25,iv_chip50,iv_chip100;//动画控件
+    private ImageView dice1,dice2,dice3,dice1_1,dice2_1,dice3_1,dice1_2,dice2_2,dice3_2,dice1_3,dice2_3,dice3_3;//动画控件
+    private RelativeLayout rl_status,rl_status1,rl_status2,rl_status3;//色子控件父容器
+    private RelativeLayout rl_dice;//色子控件父容器
+
+    private OnClick o;
+    private int first=0,doubles=0,third=0;//自己向盘子里添加的积分数量
+    private int bl_choice1=0;//选择的状态 0：没有选择任何一个盘 1：1盘 2：2盘 3：3盘
+    private RelativeLayout rl_anim_stake1,rl_anim_stake2,rl_anim_stake3;//盘里增加积分时 添加图片的父容器
+    private RelativeLayout rl_anims;
+    private View view;
+
+    private void showGames() {
+        if (instance==null){
+            view = LayoutInflater.from(this).inflate(R.layout.dialog_game_dice, null);
+            instance = DiceGameDialog.getInstance(this);
+            instance.initDialog(view);
+            initViews(view);
+            instance.setContentView(view);
+            instance.setCancelable(false);
+            instance.show();
+            rl_dice.setVisibility(View.VISIBLE);
+            getIntegrals();//显示积分
+
+            WindowManager.LayoutParams params = instance.getWindow().getAttributes();// 得到属性
+            params.gravity = Gravity.BOTTOM;// 显示在底部
+            params.width = LinearLayout.LayoutParams.MATCH_PARENT;
+            params.height = LinearLayout.LayoutParams.WRAP_CONTENT;
+            instance.getWindow().setAttributes(params);// 设置属性
+
+//            WindowManager windowManager =this.getWindowManager();
+//            Display display = windowManager.getDefaultDisplay();
+//            WindowManager.LayoutParams lp = instance.getWindow().getAttributes();
+//            lp.width = (int)(display.getWidth()); //设置宽度
+//            instance.getWindow().setAttributes(lp);
+            if (LoginManager.getInstance().getUserID(LiveingActivity.this).equals(CurLiveInfo.getHostID())){
+                game_handler.postDelayed(Host_Runnable,1000);
+                Message msg = Message.obtain();
+                msg.what=MSG_CODE_END_REST;
+                dice_handler.sendMessage(msg);
+            }else {
+                dicegame_state_list();
+            }
+        }else {
+            instance.show();
+            rl_dice.setVisibility(View.VISIBLE);
+        }
+
+    }
+
+    private void initViewdd() {
+        tv_point= (TextView) findViewById(R.id.tv_point);
+        dice1= (ImageView) findViewById(R.id.dice1);
+        dice2= (ImageView) findViewById(R.id.dice2);
+        dice3= (ImageView) findViewById(R.id.dice3);
+        rl_status= (RelativeLayout) findViewById(R.id.rl_status);
+        rl_dice= (RelativeLayout) findViewById(R.id.rl_dice);
+        rl_dice.setVisibility(View.GONE);
+    }
+
+    private void getIntegrals(){
+        if (!NetWorkUtil.isNetworkConnected(this)) {
+            ToastUtils.showShort(this, NET_UNCONNECT);
+            return;
+        }else {
+            Api.getIntegral(LoginManager.getInstance().getUserID(this),
+                    new ApiResponseHandler(this) {
+                        @Override
+                        public void onSuccess(ApiResponse apiResponse) {
+                            Log.i("积分","apiResponse="+apiResponse.toString());
+                            if (apiResponse.getCode()==Api.SUCCESS){
+                                String data = apiResponse.getData();
+                                JSONObject parse = (JSONObject) JSON.parse(data);
+                                String diamonds_coins = parse.getString("integral");
+                                Log.i("积分","integral:"+diamonds_coins);
+                                tv_price.setText(diamonds_coins);
+                            }
+                        }
+                    });
+        }
+
+    }
+
+
+    private class OnClick implements View.OnClickListener{
+        @Override
+        public void onClick(View v) {
+            getIntegrals();
+            switch (v.getId()){
+                case R.id.tv_back://退出
+                    if (instance!=null&&instance.isShowing()){
+                        instance.hide();
+                        rl_dice.setVisibility(View.GONE);
+                    }
+                    break;
+                case R.id.tv_recharge://充值
+
+                    break;
+                case R.id.rl_chip10://向盘里添加10积分
+                    if(this_status==STATUS_BET_TYPE){
+                        if (!(Double.parseDouble(tv_price.getText().toString())>10.00)){
+                            showDialog();
+                        }else {
+                            if (bl_choice1==0){
+                                ToastUtils.showShort(LiveingActivity.this, "请选择押注的盘口");
+                            }else {
+                                betService("10",iv_chip10, rl_anim_stake1, rl_anims, R.drawable.chip10, 10);
+                            }
+                        }
+
+                    }
+                    break;
+                case R.id.rl_chip25://向盘里添加25积分
+                    if(this_status==STATUS_BET_TYPE){
+                        if (!(Double.parseDouble(tv_price.getText().toString())>25.00)){
+                            showDialog();
+                        }else {
+                            if (bl_choice1==0){
+                                ToastUtils.showShort(LiveingActivity.this, "请选择押注的盘口");
+                            }else {
+
+                                betService("25",iv_chip25, rl_anim_stake1, rl_anims, R.drawable.chip25, 25);
+                            }
+                        }
+                    }
+                    break;
+                case R.id.rl_chip50://向盘里添加50积分
+                    if(this_status==STATUS_BET_TYPE){
+                        if (!(Double.parseDouble(tv_price.getText().toString())>50.00)){
+                            showDialog();
+                        }else {
+                            if (bl_choice1==0){
+                                ToastUtils.showShort(LiveingActivity.this, "请选择押注的盘口");
+                            }else {
+                                betService("50", iv_chip50, rl_anim_stake1, rl_anims, R.drawable.chip50, 50);
+                            }
+                        }
+                    }
+                    break;
+                case R.id.rl_chip100://向盘里添加100积分
+                    if(this_status==STATUS_BET_TYPE){
+                        if (!(Double.parseDouble(tv_price.getText().toString())>100.00)){
+                            showDialog();
+                        }else {
+                            if (bl_choice1==0){
+                                ToastUtils.showShort(LiveingActivity.this, "请选择押注的盘口");
+                            }else {
+
+                                betService("100",iv_chip100, rl_anim_stake1, rl_anims, R.drawable.chip100, 100);
+                            }
+                        }
+                    }
+                    break;
+                case R.id.rl_choice1://选择第1个
+                    if(this_status==STATUS_BET_TYPE){
+                        bl_choice1=1;
+                        bets();
+                        rl_choice1.setBackground(LiveingActivity.this.getDrawable(R.drawable.game_bgs1));
+                    }
+                    break;
+                case R.id.rl_choice2://选择第2个
+                    if(this_status==STATUS_BET_TYPE){
+                        bl_choice1=2;
+                        bets();
+                        rl_choice2.setBackground(LiveingActivity.this.getDrawable(R.drawable.game_bgs1));
+                    }
+                    break;
+                case R.id.rl_choice3://选择第3个
+                    if(this_status==STATUS_BET_TYPE){
+                        bl_choice1=3;
+                        bets();
+                        rl_choice3.setBackground(LiveingActivity.this.getDrawable(R.drawable.game_bgs1));
+                    }
+                    break;
+            }
+
+        }
+    }
+
+    private void showDialog() {
+        Dialog alertDialog = new AlertDialog.Builder(LiveingActivity.this).
+                setTitle("提示").
+                setMessage("当前积分余额不足,需兑换积分才能继续押注,是否去充值?").
+                setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent sendPres = new Intent(LiveingActivity.this, MyAccountActivity.class);
+                        startActivity(sendPres);
+                    }
+                }).
+                setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                }).
+                create();
+
+        alertDialog.show();
+    }
+
+
+    private void betService(final String bet_money, final ImageView iv_chip10, final RelativeLayout rl_anim_stake, final RelativeLayout rl_anims, final int chip10, final int i) {
+        if (!NetWorkUtil.isNetworkConnected(LiveingActivity.this)) {
+            ToastUtils.showShort(LiveingActivity.this, NET_UNCONNECT);
+            return;
+        }else {
+            Api.dice_user_integral_reduce(LoginManager.getInstance().getUserID(LiveingActivity.this)
+                    , bet_money
+                    , CurLiveInfo.getRoomNum()
+                    , String.valueOf(bl_choice1), new ApiResponseHandler(LiveingActivity.this) {
+                @Override
+                public void onSuccess(ApiResponse apiResponse) {
+                    Log.i("游戏","下注-数据="+apiResponse.toString()+",bet_money="+bet_money);
+                    if (apiResponse.getCode()==Api.SUCCESS){
+                        gifts(iv_chip10, rl_anims, bet_money, chip10, i);
+                    }else {
+                        ToastUtils.showShort(LiveingActivity.this,"下注失败");
+                    }
+                }
+
+                @Override
+                public void onFailure(String errMessage) {
+                    super.onFailure(errMessage);
+                    ToastUtils.showShort(LiveingActivity.this,"连接服务器失败");
+                }
+            });
+        }
+    }
+
+    private void gifts(ImageView iv_chip10, RelativeLayout rl_anims, String string, int chip10, int i) {
+        if (View.GONE == iv_win1.getVisibility()) {
+            switch (bl_choice1) {
+                case 1:
+                    stakeGift(new TextView(LiveingActivity.this), iv_chip10, rl_anim_stake1, rl_anims, string, chip10);//添加textView；
+                    break;
+                case 2:
+                    stakeGift(new TextView(LiveingActivity.this), iv_chip10, rl_anim_stake2, rl_anims, string, chip10);//添加textView；
+                    break;
+                case 3:
+                    stakeGift(new TextView(LiveingActivity.this), iv_chip10, rl_anim_stake3, rl_anims, string, chip10);//添加textView；
+                    break;
+            }
+            addIntegral(i);
+        } else {
+            ToastUtils.showShort(LiveingActivity.this, "请选择押注的盘口");
+        }
+    }
+
+    private SoundPool soundPool=new SoundPool(10, AudioManager.STREAM_SYSTEM,5);//声音类
+    private void stakeGift(final TextView textView, ImageView imageView, RelativeLayout rl_anim_stake, final RelativeLayout rl_anims,String string,int draw) {
+
+        int width = imageView.getWidth();
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
+                3*width/4, 3*width/4);
+        int width1 = rl_anim_stake.getWidth();//父容器的宽
+        int height1 = rl_anim_stake.getHeight();//父容器的高
+        Random random =new Random();//随机
+        int x = random.nextInt(width1-20);
+        int y = random.nextInt(height1-20);
+        textView.setLayoutParams(params);
+        textView.setBackground(LiveingActivity.this.getDrawable(draw));
+        textView.setText(string);
+        textView.setTextColor(Color.RED);
+        textView.setTextSize(8);
+        textView.setGravity(Gravity.CENTER);
+        textView.setX(x);
+        textView.setY(y);
+        textView.setVisibility(View.INVISIBLE);
+        rl_anim_stake.addView(textView);
+        final TextView textView1 = new TextView(LiveingActivity.this);
+
+
+        textView1.setLayoutParams(params);
+        textView1.setBackground(LiveingActivity.this.getDrawable(draw));
+        textView1.setText("10");
+        textView1.setTextColor(Color.RED);
+        textView1.setTextSize(8);
+        textView1.setGravity(Gravity.CENTER);
+        int[] location1 = new int[2];
+        imageView.getLocationOnScreen(location1);
+        int x1 = location1[0];
+        int y1 = location1[1];//被按按钮相对与屏幕的坐标
+
+
+        int[] location2 = new int[2];//随机出现的textview 相对与屏幕的位置
+        textView.getLocationOnScreen(location2);
+        int x2 = location2[0];
+        int y2 = location2[1];
+        int heightPixels = view.getResources().getDisplayMetrics().heightPixels;
+        textView1.setX(x2);
+        textView1.setY((int)(heightPixels*0.40-(heightPixels-y2)+1));
+
+        TranslateAnimation animation=new TranslateAnimation(x1-x2,0,y1-y2,0);
+        animation.setRepeatMode(Animation.REVERSE);
+        animation.setDuration(1000);
+        rl_anims.addView(textView1);
+        textView1.startAnimation(animation);
+
+        animation.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+                //soundPool.load(getContext(),0,1);//<---------
+                //soundPool.play(1,1, 1, 0, 0, 1);
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                rl_anims.removeView(textView1);
+                textView.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+
+        switch (bl_choice1){
+            case 1:
+                break;
+            case 2:
+                rl_anim_stake2.setVisibility(View.VISIBLE);
+                break;
+            case 3:
+                rl_anim_stake3.setVisibility(View.VISIBLE);
+                break;
+        }
+    }
+
+    /**
+     * 影藏押注图片
+     */
+    private void bets() {
+        iv_anim1.setVisibility(View.GONE);
+        iv_anim2.setVisibility(View.GONE);
+        iv_anim3.setVisibility(View.GONE);
+        rl_choice1.setBackground(LiveingActivity.this.getDrawable(R.drawable.game_bgs));
+        rl_choice2.setBackground(LiveingActivity.this.getDrawable(R.drawable.game_bgs));
+        rl_choice3.setBackground(LiveingActivity.this.getDrawable(R.drawable.game_bgs));
+    }
+
+    private void addIntegral(int i) {
+        switch (bl_choice1){
+            case 0:
+                ToastUtils.showShort(LiveingActivity.this,"请选择押注的盘口");
+                break;
+            case 1:
+                first=first+i;
+
+                tv_stake_num1.setText(""+first);
+                break;
+            case 2:
+                doubles=doubles+i;
+                tv_stake_num2.setText(""+doubles);
+                break;
+            case 3:
+                third=third+i;
+                tv_stake_num3.setText(""+third);
+                break;
+        }
+    }
+
+    public static final int STATUS_REST_TYPE=0;//休息状态5
+    public static final int STATUS_BET_TYPE=1;//下注状态30
+    public static final int STATUS_ANIM_TYPE=2;//动画状态10
+    public static final int STATUS_END_TYPE=3;//结束状态10
+    private int this_status;//当前游戏状态
+
+    private static final int MSG_CODE_END_GIFT=0x1111;//色子动画结束，开始显示输赢结果和各盘点数
+    private static final int MSG_CODE_END_YAZU=0x2222;//休息结束，开始显示押注
+    private static final int MSG_CODE_END_REST=0x3333;//输赢动画显示结束，开始休息时间
+    private static final int MSG_CODE_END_WIN_OR_LOSE=0x4444;//押注结束，开始色子动画效果
+
+
+    private Handler game_handler=new Handler();
+
+    private boolean bool=true;
+    private Runnable stake_Runnable=new Runnable() {//押注状态心跳
+        @Override
+        public void run() {
+            if (this_status==STATUS_BET_TYPE&&!isStop==true&&bool){
+                //请求服务器 根据返回值设置动画效果
+                //heartbeat();
+                game_handler.postDelayed(stake_Runnable,2000);//延迟1秒执行
+            }
+        }
+    };
+    List<ChipBeatBean> list=new ArrayList<>();
+    private void heartbeat() {
+        if (!NetWorkUtil.isNetworkConnected(LiveingActivity.this)) {
+            ToastUtils.showShort(LiveingActivity.this, NET_UNCONNECT);
+            return;
+        }else {
+            Api.user_integral_heartbeat(LoginManager.getInstance().getRoomNum(LiveingActivity.this), new ApiResponseHandler(LiveingActivity.this) {
+                @Override
+                public void onSuccess(ApiResponse apiResponse) {
+                    Log.i("游戏","下注心跳回调apiResponse="+apiResponse.toString());
+                    if (apiResponse.getCode()==Api.SUCCESS){
+                        list.clear();
+                        String data = apiResponse.getData();
+                        list.addAll(JSONArray.parseArray(data, ChipBeatBean.class));
+                        for (int i = list.size() - 1; i >= 0; i--) {
+                            ChipBeatBean chipBeatBean = list.get(i);
+                            if (chipBeatBean.getTable_number().equals("1")){
+                                String string = tv_stake_bet_total_num_1.getText().toString();
+                                int i1 = Integer.parseInt(string);
+                                if (chipBeatBean.getBet_money_sum()>i1){
+                                    int i2 = chipBeatBean.getBet_money_sum() - i1;
+                                    //向1号池添加筹码
+                                    stakeGifts(rl_anim_stake1,i2);//添加textView；
+
+                                    tv_stake_bet_total_num_1.setText(String.valueOf(chipBeatBean.getBet_money_sum()));
+                                }
+                            }else if (chipBeatBean.getTable_number().equals("2")){
+                                String string = tv_stake_bet_total_num_2.getText().toString();
+                                int i1 = Integer.parseInt(string);
+                                if (chipBeatBean.getBet_money_sum()>i1){
+                                    int i2 = chipBeatBean.getBet_money_sum() - i1;
+                                    //向2号池添加筹码
+                                    stakeGifts(rl_anim_stake2,i2);
+                                    tv_stake_bet_total_num_2.setText(String.valueOf(chipBeatBean.getBet_money_sum()));
+                                }
+                            }else if (chipBeatBean.getTable_number().equals("3")){
+                                String string = tv_stake_bet_total_num_3.getText().toString();
+                                int i1 = Integer.parseInt(string);
+                                if (chipBeatBean.getBet_money_sum()>i1){
+                                    int i2 = chipBeatBean.getBet_money_sum() - i1;
+                                    //向3号池添加筹码
+                                    stakeGifts(rl_anim_stake3,i2);
+                                    tv_stake_bet_total_num_3.setText(String.valueOf(chipBeatBean.getBet_money_sum()));
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+    }
+
+    private void stakeGifts(RelativeLayout rl_anim_stake, int i2) {
+        iv_anim1.setVisibility(View.GONE);
+        iv_anim2.setVisibility(View.GONE);
+        iv_anim3.setVisibility(View.GONE);
+        if(i2>=100){
+            for (int i=0;i<i2/100;i++){
+                addText(rl_anim_stake,R.drawable.chip100,"100");
+            }
+        }else if (i2>=50){
+            for (int i=0;i<i2/50;i++){
+                addText(rl_anim_stake,R.drawable.chip50,"50");
+            }
+        }else if(i2>=25){
+            for (int i=0;i<i2/25;i++){
+                addText(rl_anim_stake,R.drawable.chip25,"25");
+            }
+        }else if (i2>=10){
+            for (int i=0;i<i2/10;i++){
+                addText(rl_anim_stake,R.drawable.chip10,"10");
+            }
+        }
+    }
+
+    private void addText(RelativeLayout rl_anim_stake,int draw,String str) {
+        TextView textView=new TextView(LiveingActivity.this);
+        int width = iv_chip100.getWidth();
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
+                3*width/4, 3*width/4);
+        int width1 = rl_anim_stake.getWidth();//父容器的宽
+        int height1 = rl_anim_stake.getHeight();//父容器的高
+        Random random =new Random();//随机
+        int x = random.nextInt(width1-20);
+        int y = random.nextInt(height1-20);
+        Log.i("色子","x="+x+",y="+y);
+
+        textView.setLayoutParams(params);
+        textView.setBackground(LiveingActivity.this.getDrawable(draw));
+        textView.setText(str);
+        textView.setTextColor(Color.RED);
+        textView.setTextSize(7);
+        textView.setGravity(Gravity.CENTER);
+        textView.setX(x);
+        textView.setY(y);
+        rl_anim_stake.addView(textView);
+    }
+
+    private Runnable Host_Runnable=new Runnable() {
+        @Override
+        public void run() {
+            if(!isStop==true){
+                //请求服务器 上传自己状态
+                dicegame_state_add();
+                game_handler.postDelayed(Host_Runnable,500);//主播游戏状态心跳
+            }
+
+        }
+
+
+    };
+    private StatusBean statusBean;
+
+    private void dicegame_state_list() {
+        if (!NetWorkUtil.isNetworkConnected(LiveingActivity.this)) {
+            ToastUtils.showShort(LiveingActivity.this, NET_UNCONNECT);
+            return;
+        }else {
+            Api.dicegame_state_list(CurLiveInfo.getRoomNum(), new ApiResponseHandler(LiveingActivity.this) {
+                @Override
+                public void onSuccess(ApiResponse apiResponse) {
+                    Log.i("status","获取游戏状态api="+apiResponse.toString());
+                    if (apiResponse.getCode()==Api.SUCCESS){
+                        String data = apiResponse.getData();
+                        statusBean = JSON.parseObject(data, StatusBean.class);
+                        if ("2".equals(statusBean.getGame_state())){//动画状态 或结束状态
+                            //显示动画
+                            Message msg = Message.obtain();
+                            msg.what=MSG_CODE_END_WIN_OR_LOSE;
+                            msg.arg2=9;
+                            dice_handler.sendMessage(msg);
+                        }else if("3".equals(statusBean.getGame_state())){
+                            Message msg = Message.obtain();
+                            msg.what=MSG_CODE_END_GIFT;
+                            msg.arg2=9;
+                            dice_handler.sendMessage(msg);
+                        }else if("0".equals(statusBean.getGame_state())){
+                            Message msg = Message.obtain();
+                            msg.what=MSG_CODE_END_REST;
+                            msg.arg1=Integer.parseInt(statusBean.getRest_count_down());
+                            msg.arg2=9;
+                            dice_handler.sendMessage(msg);
+                        }else if ("1".equals(statusBean.getGame_state())){
+                            Message msg = Message.obtain();
+                            msg.what=MSG_CODE_END_YAZU;
+                            msg.arg1=Integer.parseInt(statusBean.getBet_count_down());
+                            msg.arg2=9;
+                            dice_handler.sendMessage(msg);
+                        }
+
+
+                    }
+                }
+            });
+        }
+    }
+    private void dicegame_state_lists() {
+        if (!NetWorkUtil.isNetworkConnected(LiveingActivity.this)) {
+            ToastUtils.showShort(LiveingActivity.this, NET_UNCONNECT);
+            return;
+        }else {
+            Api.dicegame_state_list(CurLiveInfo.getRoomNum(), new ApiResponseHandler(LiveingActivity.this) {
+                @Override
+                public void onSuccess(ApiResponse apiResponse) {
+                    Log.i("status","获取游戏状态api="+apiResponse.toString());
+                    if (apiResponse.getCode()==Api.SUCCESS){
+                        String data = apiResponse.getData();
+                        statusBean = JSON.parseObject(data, StatusBean.class);
+                        if("0".equals(statusBean.getGame_state())){
+                            Message msg = Message.obtain();
+                            msg.what=MSG_CODE_END_REST;
+                            msg.arg1=Integer.parseInt(statusBean.getRest_count_down());
+                            msg.arg2=9;
+                            dice_handler.sendMessage(msg);
+                        }else if ("1".equals(statusBean.getGame_state())){
+                            Message msg = Message.obtain();
+                            msg.what=MSG_CODE_END_YAZU;
+                            msg.arg1=Integer.parseInt(statusBean.getBet_count_down());
+                            msg.arg2=9;
+                            dice_handler.sendMessage(msg);
+                        }
+
+
+                    }
+                }
+            });
+        }
+    }
+
+    private void dicegame_state_add() {
+        if (!NetWorkUtil.isNetworkConnected(LiveingActivity.this)) {
+            ToastUtils.showShort(LiveingActivity.this, NET_UNCONNECT);
+            return;
+        }else {
+            Api.dicegame_state_add(CurLiveInfo.getRoomNum(), this_status, String.valueOf(l), new ApiResponseHandler(LiveingActivity.this) {
+                @Override
+                public void onSuccess(ApiResponse apiResponse) {
+                    Log.i("status","api="+apiResponse.toString());
+                }
+            });
+        }
+
+    }
+
+    int msgs=0;
+    private Handler dice_handler=new Handler(new Handler.Callback(){
+
+        @Override
+        public boolean handleMessage(Message msg) {
+            switch (msg.what){
+                case MSG_CODE_END_GIFT://色子动画结束，开始显示输赢结果和各盘点数
+                    if (msg.arg1==0){
+                        msgs++;
+                    }
+                    if (msgs==4){
+                        this_status=STATUS_END_TYPE;
+                        Log.i("游戏","MSG_CODE_END_GIFT——色子动画结束，开始显示输赢结果和各盘点数");
+
+                        tv_point1.setVisibility(View.VISIBLE);
+                        tv_point2.setVisibility(View.VISIBLE);
+                        tv_point3.setVisibility(View.VISIBLE);
+                        tv_point.setVisibility(View.VISIBLE);
+                        dice_list_data();
+                        //输赢动画结束 开始下一轮
+                    }
+                    break;
+                case MSG_CODE_END_YAZU://休息结束，开始显示押注
+                    this_status=STATUS_BET_TYPE;
+                    Log.i("游戏","STATUS_BET_TYPE——休息结束，开始显示押注");
+                    rl_anim_stake1.removeAllViews();
+                    rl_anim_stake2.removeAllViews();//色子数量容器
+                    rl_anim_stake3.removeAllViews();
+                    bool=true;
+                    //game_handler.post(stake_Runnable);//心跳开始
+                    rl_anim_stake1.setVisibility(View.VISIBLE);
+                    rl_anim_stake2.setVisibility(View.VISIBLE);
+                    rl_anim_stake3.setVisibility(View.VISIBLE);
+                    iv_anim1.setVisibility(View.VISIBLE);
+                    iv_anim2.setVisibility(View.VISIBLE);
+                    iv_anim3.setVisibility(View.VISIBLE);
+                    if (msg.arg2==9){
+                        startCountDownTime_tv_num(msg.arg1,0);
+                    }else {
+                        startCountDownTime_tv_num(10,0);
+                    }
+                    break;
+                case MSG_CODE_END_REST://输赢动画显示结束，开始休息时间
+                    Log.i("游戏","MSG_CODE_END_REST——输赢动画显示结束，开始休息时间");
+                    if (LoginManager.getInstance().getUserID(LiveingActivity.this).equals(CurLiveInfo.getHostID())){
+                        dice_shang();
+                    }
+                    getIntegrals();
+                    msgs=0;
+                    tv_stake_bet_total_num_1.setText("0");
+                    tv_stake_bet_total_num_2.setText("0");
+                    tv_stake_bet_total_num_3.setText("0");
+
+                    iv_win1.setVisibility(View.GONE);
+                    iv_win2.setVisibility(View.GONE);
+                    iv_win3.setVisibility(View.GONE);
+
+                    tv_point1.setText("");
+                    tv_point2.setText("");
+                    tv_point3.setText("");
+
+                    tv_point1.setVisibility(View.GONE);
+                    tv_point2.setVisibility(View.GONE);
+                    tv_point3.setVisibility(View.GONE);
+
+                    first=0;
+                    doubles=0;
+                    third=0;
+                    bl_choice1=0;
+
+                    tv_stake_num1.setText("0");
+                    tv_stake_num2.setText("0");
+                    tv_stake_num3.setText("0");
+
+                    rl_status1.setVisibility(View.GONE);
+                    rl_status2.setVisibility(View.GONE);
+                    rl_status3.setVisibility(View.GONE);
+
+                    iv_anim1.setVisibility(View.GONE);
+                    iv_anim2.setVisibility(View.GONE);
+                    iv_anim3.setVisibility(View.GONE);
+                    this_status=STATUS_REST_TYPE;
+                    // 开始休息时间-->
+                    if (msg.arg2==9){
+                        startCountDownTime_tv_num(msg.arg1,1);
+                    }else {
+                        if (LoginManager.getInstance().getUserID(LiveingActivity.this).equals(CurLiveInfo.getHostID())){
+                            startCountDownTime_tv_num(5,1);
+                        }else {
+                            dicegame_state_list();
+                        }
+                    }
+                    break;
+                case MSG_CODE_END_WIN_OR_LOSE://押注结束，开始色子动画效果 请求服务器
+                    Log.i("游戏","MSG_CODE_END_WIN_OR_LOSE——押注结束，开始色子动画效果 请求服务器");
+                    rl_anim_stake1.removeAllViews();
+                    rl_anim_stake2.removeAllViews();//色子数量容器
+                    rl_anim_stake3.removeAllViews();
+
+                    tv_num.setText("开始");
+                    rl_anim_stake1.setVisibility(View.GONE);
+                    rl_anim_stake2.setVisibility(View.GONE);
+                    rl_anim_stake3.setVisibility(View.GONE);
+
+                    rl_choice1.setBackground(LiveingActivity.this.getDrawable(R.drawable.game_bgs));
+                    rl_choice2.setBackground(LiveingActivity.this.getDrawable(R.drawable.game_bgs));
+                    rl_choice3.setBackground(LiveingActivity.this.getDrawable(R.drawable.game_bgs));
+
+                    iv_anim1.setVisibility(View.GONE);
+                    iv_anim2.setVisibility(View.GONE);
+                    iv_anim3.setVisibility(View.GONE);
+                    this_status=STATUS_ANIM_TYPE;
+                    if (LoginManager.getInstance().getUserID(LiveingActivity.this).equals(CurLiveInfo.getHostID())){
+                        dice_list();//如果是主播 请求摇塞子
+                    }else {
+                        startAnimtion();
+                        Log.i("游戏","api="+"CurLiveInfo.getRoomNum()="+CurLiveInfo.getRoomNum());
+                    }
+                    break;
+            }
+            return false;
+        }
+    });
+    private List<Integer> dice=new ArrayList<>();
+    private int[] draw=new int[]{R.drawable.dice_1,R.drawable.dice_2,R.drawable.dice_3,R.drawable.dice_4,R.drawable.dice_5,R.drawable.dice_6};
+    private void dice_list_data() {
+        winList.clear();
+        Api.dice_list_data(CurLiveInfo.getRoomNum(), new ApiResponseHandler(LiveingActivity.this) {
+            @Override
+            public void onSuccess(ApiResponse apiResponse) {
+                Log.i("游戏","输赢显示api="+apiResponse.toString());
+                if (apiResponse.getCode()==Api.SUCCESS){
+                    List<DiceBean> dicelist = JSONArray.parseArray(apiResponse.getData(), DiceBean.class);
+
+                    dice.clear();
+                    DiceBean diceBean = dicelist.get(0);// 1号桌
+                    Log.i("游戏","diceBean1="+ diceBean.toString());
+                    String[] chip_ch = diceBean.getChip_ch();
+                    for (int i = 0; i < chip_ch.length; i++) {
+                        dice.add(Integer.parseInt(chip_ch[i]));
+                        Log.i("游戏","庄家桌点数="+Integer.parseInt(chip_ch[i]));
+                    }
+                    tv_point.setText(String.valueOf(dice.get(0) + dice.get(1) + dice.get(2))+"点");
+                    dice1.setBackgroundResource(draw[dice.get(0)-1]);
+                    dice2.setBackgroundResource(draw[dice.get(1)-1]);
+                    dice3.setBackgroundResource(draw[dice.get(2)-1]);
+                    Log.i("游戏","庄家桌点数dice="+ dice.get(0) + dice.get(1) + dice.get(2));
+
+                    dice.clear();
+                    DiceBean diceBean1 = dicelist.get(1);// 1号桌
+                    Log.i("游戏","diceBean1="+ diceBean1.toString());
+                    String[] chip_ch1 = diceBean1.getChip_ch();
+                    for (int i = 0; i < chip_ch1.length; i++) {
+                        dice.add(Integer.parseInt(chip_ch1[i]));
+                        Log.i("游戏","一号桌点数="+Integer.parseInt(chip_ch1[i]));
+                    }
+                    if ("闲赢".equals(diceBean1.getWinorlose())){
+                        winList.add(iv_win1);
+                        iv_win1.setVisibility(View.VISIBLE);
+                    }
+                    tv_point1.setText(String.valueOf(dice.get(0) + dice.get(1) + dice.get(2))+"点");
+                    dice1_1.setBackgroundResource(draw[dice.get(0)-1]);
+                    dice2_1.setBackgroundResource(draw[dice.get(1)-1]);
+                    dice3_1.setBackgroundResource(draw[dice.get(2)-1]);
+                    Log.i("游戏","一号桌dice="+ dice.get(0) + dice.get(1) + dice.get(2));
+
+                    dice.clear();
+                    DiceBean diceBean2 = dicelist.get(2);// 2号桌
+                    Log.i("游戏","diceBean2="+ diceBean2.toString());
+                    String[] chip_ch2 = diceBean2.getChip_ch();
+                    for (int i = 0; i < chip_ch2.length; i++) {
+                        dice.add(Integer.parseInt(chip_ch2[i]));
+                        Log.i("游戏","2号桌点数="+Integer.parseInt(chip_ch2[i]));
+                    }
+                    if ("闲赢".equals(diceBean2.getWinorlose())){
+                        winList.add(iv_win2);
+                        iv_win2.setVisibility(View.VISIBLE);
+                    }
+                    tv_point2.setText(String.valueOf(dice.get(0) + dice.get(1) + dice.get(2))+"点");
+                    dice1_2.setBackgroundResource(draw[dice.get(0)-1]);
+                    dice2_2.setBackgroundResource(draw[dice.get(1)-1]);
+                    dice3_2.setBackgroundResource(draw[dice.get(2)-1]);
+                    Log.i("游戏","2号桌dice="+ dice.get(0) + dice.get(1) + dice.get(2));
+
+                    dice.clear();
+                    DiceBean diceBean3 = dicelist.get(3);// 2号桌
+                    Log.i("游戏","diceBean3="+ diceBean3.toString());
+                    String[] chip_ch3 = diceBean3.getChip_ch();
+                    for (int i = 0; i < chip_ch3.length; i++) {
+                        dice.add(Integer.parseInt(chip_ch3[i]));
+                        Log.i("游戏","3号桌点数="+Integer.parseInt(chip_ch3[i]));
+                    }
+                    if ("闲赢".equals(diceBean3.getWinorlose())){
+                        winList.add(iv_win3);
+                        iv_win3.setVisibility(View.VISIBLE);
+                    }
+                    tv_point3.setText(String.valueOf(dice.get(0) + dice.get(1) + dice.get(2))+"点");
+                    dice1_3.setBackgroundResource(draw[dice.get(0)-1]);
+                    dice2_3.setBackgroundResource(draw[dice.get(1)-1]);
+                    dice3_3.setBackgroundResource(draw[dice.get(2)-1]);
+                    Log.i("游戏","3号桌dice="+ dice.get(0) + dice.get(1) + dice.get(2));
+                    //输赢动画
+                    winAnim();
+                }else {
+                    dice_list_data();
+                }
+            }
+
+            @Override
+            public void onFailure(String errMessage) {
+                super.onFailure(errMessage);
+                dice_list_data();
+            }
+        });
+    }
+    List<TextView> winList=new ArrayList<>();
+    private void winAnim() {
+
+        Animation animation = AnimationUtils.loadAnimation(LiveingActivity.this, R.anim.translate_dice1);
+        int size = winList.size();
+        for (int i = 0; i < size; i++) {
+            TextView textView = winList.get(i);
+            textView.startAnimation(animation);
+        }
+        if (size==0){
+            Message msg1 = Message.obtain();
+            msg1.what=MSG_CODE_END_REST;
+            dice_handler.sendMessageDelayed(msg1,3000);
+        }
+        animation.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                    Message msg1 = Message.obtain();
+                    msg1.what=MSG_CODE_END_REST;
+                    dice_handler.sendMessageDelayed(msg1,1000);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+    }
+
+    private void dice_list() {
+        if (!NetWorkUtil.isNetworkConnected(LiveingActivity.this)) {
+            ToastUtils.showShort(LiveingActivity.this, NET_UNCONNECT);
+            return;
+        }else {
+            Api.dice_list(CurLiveInfo.getRoomNum(), new ApiResponseHandler(LiveingActivity.this) {
+                @Override
+                public void onSuccess(ApiResponse apiResponse) {
+                    Log.i("游戏","请求摇色子="+apiResponse+"CurLiveInfo.getRoomNum()="+CurLiveInfo.getRoomNum());
+                    if (apiResponse.getCode()==Api.SUCCESS){
+                        startAnimtion();
+                    }else {
+                        dice_list();
+                    }
+                }
+
+                @Override
+                public void onFailure(String errMessage) {
+                    super.onFailure(errMessage);
+                    // dice_list();
+                }
+            });
+        }
+    }
+
+    private void dice_shang() {
+        if (!NetWorkUtil.isNetworkConnected(LiveingActivity.this)) {
+            ToastUtils.showShort(LiveingActivity.this, NET_UNCONNECT);
+            return;
+        }else {
+            Api.dice_shang(CurLiveInfo.getRoomNum(), new ApiResponseHandler(LiveingActivity.this) {
+                @Override
+                public void onSuccess(ApiResponse apiResponse) {
+                    Log.i("游戏","xxx——游戏下一局开始前清除上一局数据接口");
+                    if (apiResponse.getCode()==Api.SUCCESS){
+
+                    }else {
+                        dice_shang();
+                    }
+                }
+
+                @Override
+                public void onFailure(String errMessage) {
+                    super.onFailure(errMessage);
+                    dice_shang();
+                }
+            });
+        }
+    }
+
+    /**
+     *  倒计时器 根据
+     * @param time 秒数
+     * @param type 0 押注倒计时 1 休息倒计时
+     */
+    CountDownTimer timer;
+    private int l=0;
+    private void startCountDownTime_tv_num(long time, final int type) {
+        /**
+         * 最简单的倒计时类，实现了官方的CountDownTimer类（没有特殊要求的话可以使用）
+         * 即使退出activity，倒计时还能进行，因为是创建了后台的线程。
+         * 有onTick，onFinsh、cancel和start方法
+         */
+         timer = new CountDownTimer(time * 1000+1050, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                //每隔countDownInterval秒会回调一次onTick()方法
+
+                if (!LiveingActivity.this.isFinishing()){
+                    l = (int) (millisUntilFinished / 1000 - 1);
+                    if (type==0){
+                        tv_num.setText("押注时间"+l+"秒");
+                        if (l%2==0){
+                            Log.i("游戏","下注心跳——"+l+"s");
+                            heartbeat();
+                        }
+                    }else if (type==1){
+                        tv_num.setText("休息"+l+"秒");
+                        Log.i("游戏","休息时间——"+l+"s");
+                    }
+                    if (l<=1){
+                        rl_chip10.setEnabled(false);
+                        rl_chip25.setEnabled(false);
+                        rl_chip50.setEnabled(false);
+                        rl_chip100.setEnabled(false);
+                    }
+                }
+
+            }
+
+            @Override
+            public void onFinish() {
+                Log.d(TAG, "onFinish -- 倒计时结束");
+                if (!LiveingActivity.this.isFinishing()){
+
+                    if (type==0){
+
+                        Log.i("色子","押注倒计时结束");
+                        Message msg = Message.obtain();
+                        msg.what=MSG_CODE_END_WIN_OR_LOSE;
+                        dice_handler.sendMessage(msg);
+                        timer.cancel();
+                    }else if (type==1){
+                        Log.i("色子","休息倒计时结束");
+                        Message msg = Message.obtain();
+                        msg.what=MSG_CODE_END_YAZU;
+                        dice_handler.sendMessage(msg);
+                        timer.cancel();
+                    }
+                    rl_chip10.setEnabled(true);
+                    rl_chip25.setEnabled(true);
+                    rl_chip50.setEnabled(true);
+                    rl_chip100.setEnabled(true);
+                }
+                //封盘 开始旋转动画
+            }
+        };
+        timer.start();// 开始计时
+        //timer.cancel(); // 取消
+    }
+    //dice1_1,dice2_1,dice3_1,dice1_2,dice2_2,dice3_2,dice1_3,dice2_3,dice3_3
+    private void startAnimtion() {
+        showGift();
+        rl_status1.setVisibility(View.VISIBLE);
+        showGift1();
+
+        rl_status2.setVisibility(View.VISIBLE);
+        showGift2();
+
+        rl_status3.setVisibility(View.VISIBLE);
+        showGift3();
+
+    }
+
+    private void showGift() {
+        Animation animation = AnimationUtils.loadAnimation(LiveingActivity.this, R.anim.translate_dice);
+        dice1.setBackgroundResource(R.drawable.animation_dice);
+        dice2.setBackgroundResource(R.drawable.animation_dice);
+        dice3.setBackgroundResource(R.drawable.animation_dice);
+        final AnimationDrawable background1 = (AnimationDrawable) dice1.getBackground();
+        final AnimationDrawable background2 = (AnimationDrawable) dice2.getBackground();
+        final AnimationDrawable background3 = (AnimationDrawable) dice3.getBackground();
+        background1.start();
+        background2.start();
+        background3.start();
+        rl_status.startAnimation(animation);
+        animation.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                //显示点数 盘3
+                background1.stop();
+                background2.stop();
+                background3.stop();
+                Message msg = Message.obtain();
+                msg.what=MSG_CODE_END_GIFT;
+                msg.arg1=0;
+                dice_handler.sendMessage(msg);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+    }
+
+    private void showGift3() {
+        Animation animation3 = AnimationUtils.loadAnimation(LiveingActivity.this, R.anim.translate_dice);
+        dice1_3.setBackgroundResource(R.drawable.animation_dice);
+        dice2_3.setBackgroundResource(R.drawable.animation_dice);
+        dice3_3.setBackgroundResource(R.drawable.animation_dice);
+        final AnimationDrawable background1 = (AnimationDrawable) dice1_3.getBackground();
+        final AnimationDrawable background2 = (AnimationDrawable) dice2_3.getBackground();
+        final AnimationDrawable background3 = (AnimationDrawable) dice3_3.getBackground();
+        background1.start();
+        background2.start();
+        background3.start();
+        rl_status3.startAnimation(animation3);
+        animation3.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                //显示点数 盘3
+                background1.stop();
+                background2.stop();
+                background3.stop();
+                    Message msg = Message.obtain();
+                    msg.what=MSG_CODE_END_GIFT;
+                    msg.arg1=0;
+                    dice_handler.sendMessage(msg);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+    }
+
+    private void showGift2() {
+        Animation animation2 = AnimationUtils.loadAnimation(LiveingActivity.this, R.anim.translate_dice);
+        dice1_2.setBackgroundResource(R.drawable.animation_dice);
+        dice2_2.setBackgroundResource(R.drawable.animation_dice);
+        dice3_2.setBackgroundResource(R.drawable.animation_dice);
+        final AnimationDrawable background1 = (AnimationDrawable) dice1_2.getBackground();
+        final AnimationDrawable background2 = (AnimationDrawable) dice2_2.getBackground();
+        final AnimationDrawable background3 = (AnimationDrawable) dice3_2.getBackground();
+        background1.start();
+        background2.start();
+        background3.start();
+        rl_status2.startAnimation(animation2);
+        animation2.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                //显示点数 盘2
+                background1.stop();
+                background2.stop();
+                background3.stop();
+                Message msg = Message.obtain();
+                msg.what = MSG_CODE_END_GIFT;
+                msg.arg1=0;
+                dice_handler.sendMessage(msg);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+    }
+
+    private void showGift1() {
+        Animation animation1 = AnimationUtils.loadAnimation(LiveingActivity.this, R.anim.translate_dice);
+        dice1_1.setBackgroundResource(R.drawable.animation_dice);
+        dice2_1.setBackgroundResource(R.drawable.animation_dice);
+        dice3_1.setBackgroundResource(R.drawable.animation_dice);
+        final AnimationDrawable background1 = (AnimationDrawable) dice1_1.getBackground();
+        final AnimationDrawable background2 = (AnimationDrawable) dice2_1.getBackground();
+        final AnimationDrawable background3 = (AnimationDrawable) dice3_1.getBackground();
+        background1.start();
+        background2.start();
+        background3.start();
+        rl_status1.startAnimation(animation1);
+        animation1.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                //显示点数 盘1
+                background1.stop();
+                background2.stop();
+                background3.stop();
+
+                Message msg = Message.obtain();
+                msg.what = MSG_CODE_END_GIFT;
+                msg.arg1=0;
+                dice_handler.sendMessage(msg);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+    }
+
+
+    private void initViews(View view) {
+        tv_num=(TextView) view.findViewById(R.id.tv_num);
+        tv_back=(TextView) view.findViewById(R.id.tv_back);
+        tv_price=(TextView) view.findViewById(R.id.tv_price);
+        tv_recharge=(TextView) view.findViewById(R.id.tv_recharge);
+
+        iv_anim1=(TextView) view.findViewById(R.id.iv_anim1);
+        iv_anim2=(TextView) view.findViewById(R.id.iv_anim2);
+        iv_anim3=(TextView) view.findViewById(R.id.iv_anim3);
+
+        iv_win1=(TextView) view.findViewById(R.id.iv_win1);
+        iv_win2=(TextView) view.findViewById(R.id.iv_win2);
+        iv_win3=(TextView) view.findViewById(R.id.iv_win3);
+
+        tv_stake_num1=(TextView) view.findViewById(R.id.tv_stake_num1);
+        tv_stake_num2=(TextView) view.findViewById(R.id.tv_stake_num2);
+        tv_stake_num3=(TextView) view.findViewById(R.id.tv_stake_num3);
+
+        tv_stake_bet_total_num_1=(TextView) view.findViewById(R.id.tv_stake_bet_total_num_1);
+        tv_stake_bet_total_num_2=(TextView) view.findViewById(R.id.tv_stake_bet_total_num_2);
+        tv_stake_bet_total_num_3=(TextView) view.findViewById(R.id.tv_stake_bet_total_num_3);
+
+        tv_point1=(TextView) view.findViewById(R.id.tv_point1);
+        tv_point2=(TextView) view.findViewById(R.id.tv_point2);
+        tv_point3=(TextView) view.findViewById(R.id.tv_point3);
+
+        rl_chip10=(RelativeLayout) view.findViewById(R.id.rl_chip10);
+        rl_chip25=(RelativeLayout) view.findViewById(R.id.rl_chip25);
+        rl_chip50=(RelativeLayout) view.findViewById(R.id.rl_chip50);
+        rl_chip100=(RelativeLayout) view.findViewById(R.id.rl_chip100);
+
+        rl_chip100=(RelativeLayout) view.findViewById(R.id.rl_chip100);
+        rl_chip100=(RelativeLayout) view.findViewById(R.id.rl_chip100);
+        rl_chip100=(RelativeLayout) view.findViewById(R.id.rl_chip100);
+
+        rl_status1=(RelativeLayout) view.findViewById(R.id.rl_status1);
+        rl_status2=(RelativeLayout) view.findViewById(R.id.rl_status2);
+        rl_status3=(RelativeLayout) view.findViewById(R.id.rl_status3);
+
+        rl_anim_stake1=(RelativeLayout) view.findViewById(R.id.rl_anim_stake1);
+        rl_anim_stake2=(RelativeLayout) view.findViewById(R.id.rl_anim_stake2);
+        rl_anim_stake3=(RelativeLayout) view.findViewById(R.id.rl_anim_stake3);
+
+        rl_anims= (RelativeLayout) view.findViewById(R.id.rl_anims);
+
+        rl_choice1=(RelativeLayout) view.findViewById(R.id.rl_choice1);
+        rl_choice2=(RelativeLayout) view.findViewById(R.id.rl_choice2);
+        rl_choice3=(RelativeLayout) view.findViewById(R.id.rl_choice3);
+
+        iv_chip10=(ImageView) view.findViewById(R.id.iv_chip10);
+        iv_chip25=(ImageView) view.findViewById(R.id.iv_chip25);
+        iv_chip50=(ImageView) view.findViewById(R.id.iv_chip50);
+        iv_chip100=(ImageView) view.findViewById(R.id.iv_chip100);
+
+        dice1_1=(ImageView) view.findViewById(R.id.dice1_1);
+        dice2_1=(ImageView) view.findViewById(R.id.dice2_1);
+        dice3_1=(ImageView) view.findViewById(R.id.dice3_1);
+
+        dice1_2=(ImageView) view.findViewById(R.id.dice1_2);
+        dice2_2=(ImageView) view.findViewById(R.id.dice2_2);
+        dice3_2=(ImageView) view.findViewById(R.id.dice3_2);
+
+        dice1_3=(ImageView) view.findViewById(R.id.dice1_3);
+        dice2_3=(ImageView) view.findViewById(R.id.dice2_3);
+        dice3_3=(ImageView) view.findViewById(R.id.dice3_3);
+
+        initEvents();
+    }
+
+    private void initEvents() {
+        o = new OnClick();
+        tv_back.setOnClickListener(o);
+        tv_recharge.setOnClickListener(o);
+        rl_chip10.setOnClickListener(o);
+        rl_chip25.setOnClickListener(o);
+        rl_chip50.setOnClickListener(o);
+        rl_chip100.setOnClickListener(o);
+        rl_choice1.setOnClickListener(o);
+        rl_choice2.setOnClickListener(o);
+        rl_choice3.setOnClickListener(o);
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     private void sendGift() {
         dialog1 = new Dialog(this, R.style.dialog);
