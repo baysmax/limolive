@@ -1,11 +1,30 @@
 package com.example.project.limolive.fragment;
 
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.AnimationDrawable;
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.os.Bundle;
+import android.os.CountDownTimer;
+import android.os.Handler;
+import android.os.Message;
+import android.text.Html;
+import android.text.Spanned;
 import android.util.Log;
+import android.view.Display;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -14,10 +33,12 @@ import android.widget.TextView;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.baidu.mapapi.clusterutil.MarkerManager;
 import com.example.project.limolive.R;
 import com.example.project.limolive.activity.AccountDetailActivity;
 import com.example.project.limolive.activity.AfterSaleActivity;
 import com.example.project.limolive.activity.CollectionListActivity;
+import com.example.project.limolive.activity.ExchangeActivity;
 import com.example.project.limolive.activity.FansAttentionActivity;
 import com.example.project.limolive.activity.HistoryActivity;
 import com.example.project.limolive.activity.MyApplyActivity;
@@ -32,19 +53,32 @@ import com.example.project.limolive.api.Api;
 import com.example.project.limolive.api.ApiHttpClient;
 import com.example.project.limolive.api.ApiResponse;
 import com.example.project.limolive.api.ApiResponseHandler;
+import com.example.project.limolive.bean.order.OrderBean;
 import com.example.project.limolive.helper.LoginManager;
 import com.example.project.limolive.model.LoginModel;
 import com.example.project.limolive.presenter.LoginPresenter;
 import com.example.project.limolive.provider.MineDataProvider;
 import com.example.project.limolive.tencentlive.model.CurLiveInfo;
+import com.example.project.limolive.tencentlive.model.GiftInfo;
 import com.example.project.limolive.tencentlive.views.LiveingActivity;
 import com.example.project.limolive.tencentlive.views.MyAccountActivity;
 import com.example.project.limolive.utils.NetWorkUtil;
 import com.example.project.limolive.utils.ToastUtils;
+import com.example.project.limolive.view.DiceGameDialog;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Random;
+import java.util.RandomAccess;
+import java.util.StringTokenizer;
+
 import static com.example.project.limolive.presenter.Presenter.NET_UNCONNECT;
+import static tencent.tls.report.QLog.TAG;
+import static tencent.tls.report.QLog.e;
 
 /**
  * Created by hpg on 2016/12/13
@@ -52,12 +86,15 @@ import static com.example.project.limolive.presenter.Presenter.NET_UNCONNECT;
  * <p>本fragment需要注意购物车模块，查看{@link ShoppingCartActivity}，该类为购物车页面</p>
  */
 public class MyFragment extends BaseFragment implements View.OnClickListener{
+
+
 	public MyFragment() {
 		super();
 	}
 
 	private SimpleDraweeView iv_user_head;  //用户头像
 	private RelativeLayout rl_all_order;//全部订单
+	private RelativeLayout rl_integral;//我的积分
 
 	//用户名和电话
 	private TextView tv_username;
@@ -67,6 +104,7 @@ public class MyFragment extends BaseFragment implements View.OnClickListener{
 	private TextView tv_account_detail;//账单明细
 	private TextView tv_collection;//收藏
 	private TextView tv_shopping_history;//足迹
+	private TextView tv_my_integral_nums;//我的积分数量
 
 	private MineDataProvider provider; //个人信息
 
@@ -94,6 +132,7 @@ public class MyFragment extends BaseFragment implements View.OnClickListener{
 		View view = setContentView(R.layout.fragment_my, inflater, container);
 		getFollow();
 		getFans();
+		getIntegral();
 		return view;
 	}
 
@@ -122,6 +161,7 @@ public class MyFragment extends BaseFragment implements View.OnClickListener{
 		super.initView();
 		loadTitle();
 		rl_cz= (RelativeLayout) findViewById(R.id.rl_cz);
+		rl_integral= (RelativeLayout) findViewById(R.id.rl_integral);
 		iv_settings= (ImageView) findViewById(R.id.iv_settings);
 		ll_my_money= (LinearLayout) findViewById(R.id.ll_my_money);
 		provider=new MineDataProvider(getActivity());
@@ -147,6 +187,7 @@ public class MyFragment extends BaseFragment implements View.OnClickListener{
 		tv_wait_receive= (TextView) findViewById(R.id.tv_wait_receive);
 		tv_wait_comment= (TextView) findViewById(R.id.tv_wait_comment);
 		tv_return_shop= (TextView) findViewById(R.id.tv_return_shop);
+		tv_my_integral_nums= (TextView) findViewById(R.id.tv_my_integral_nums);
 		//显示
 
 		initEvent();
@@ -295,6 +336,8 @@ public class MyFragment extends BaseFragment implements View.OnClickListener{
 		iv_settings.setOnClickListener(this);
 		rl_cz.setOnClickListener(this);
 		tv_jianyi.setOnClickListener(this);
+		tv_grade.setOnClickListener(this);//xx
+		rl_integral.setOnClickListener(this);//xx
 	}
 
 	private void loadTitle() {
@@ -381,10 +424,22 @@ public class MyFragment extends BaseFragment implements View.OnClickListener{
 				//goAccount();
 				goWallet();
 				break;
+
+			case R.id.rl_integral://积分兑换
+				exchangeIntegrak();
+				break;
 		}
 	}
 
-	private void goWallet() {
+	private void exchangeIntegrak() {
+		Intent intent = new Intent();
+		intent.setClass(getActivity(),ExchangeActivity.class);
+		startActivityForResult(intent, Activity.RESULT_FIRST_USER);
+	}
+
+
+
+    private void goWallet() {
 		Intent sendPres = new Intent(getActivity(), MyWalletActivity.class);
 		startActivity(sendPres);
 	}
@@ -408,6 +463,42 @@ public class MyFragment extends BaseFragment implements View.OnClickListener{
 	private void history() {
 		Intent intent=new Intent(getActivity(),HistoryActivity.class);
 		startActivity(intent);
+	}
+
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		if (requestCode==Activity.RESULT_FIRST_USER){
+			if (data!=null){
+				String integral = data.getStringExtra("integral");
+				String diamonds = data.getStringExtra("diamonds");
+				tv_my_integral_nums.setText(integral);
+				tv_my_money_num.setText(diamonds);
+			}
+		}
+	}
+
+	private void getIntegral(){
+		if (!NetWorkUtil.isNetworkConnected(getActivity())) {
+			ToastUtils.showShort(getActivity(), NET_UNCONNECT);
+			return;
+		}else {
+			Api.getIntegral(LoginManager.getInstance().getUserID(getActivity()),
+					new ApiResponseHandler(getActivity()) {
+						@Override
+						public void onSuccess(ApiResponse apiResponse) {
+							Log.i("积分","apiResponse="+apiResponse.toString());
+							if (apiResponse.getCode()==Api.SUCCESS){
+								String data = apiResponse.getData();
+								JSONObject parse = (JSONObject) JSON.parse(data);
+								String diamonds_coins = parse.getString("integral");
+								Log.i("积分","integral:"+diamonds_coins);
+								tv_my_integral_nums.setText(diamonds_coins);
+							}
+						}
+					});
+		}
+
 	}
 
 	/**

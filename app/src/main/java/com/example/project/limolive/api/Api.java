@@ -6,6 +6,7 @@ import android.util.Log;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.parser.ParserConfig;
 import com.example.project.limolive.bean.GoodsStandard;
+import com.example.project.limolive.tencentlive.views.LiveingActivity;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
@@ -1189,12 +1190,12 @@ public class Api {
 
     /**
      *色子游戏-下注后 上传接口
-     * @param user_id
+     * @param room_id
      * @param handler
      */
-    public static void dice_list(String user_id,ApiResponseHandler handler) {
+    public static void dice_list(String room_id,ApiResponseHandler handler) {
         RequestParams params = new RequestParams();
-        params.put("uid",user_id);
+        params.put("room_id",room_id);
         ApiHttpClient.post(ApiHttpClient.API_URL + Urls.POST_DICE_LIST, params, handler);
     }
 
@@ -1230,5 +1231,76 @@ public class Api {
         RequestParams params = new RequestParams();
         params.put("uid",uid);
         ApiHttpClient.post(ApiHttpClient.API_URL + Urls.POST_USER_GET_INTEGRAL, params, handler);
+    }
+
+    /**
+     *用户下注后金额减少接口
+     * @param user_id 用户id
+     * @param bet_money 下注金额
+     * @param room_id 房间号
+     * @param table_number 桌号
+     * @param handler 回调
+     */
+    public static void dice_user_integral_reduce(String user_id,String bet_money,String room_id,String table_number,ApiResponseHandler handler) {
+        RequestParams params = new RequestParams();
+        params.put("user_id",user_id);
+        params.put("bet_money",bet_money);
+        params.put("room_id",room_id);
+        params.put("table_number",table_number);
+        ApiHttpClient.post(ApiHttpClient.API_URL + Urls.POST_USER_BEI, params, handler);
+    }
+
+    /**
+     * 下注心跳
+     * @param room_id
+     * @param handler
+     */
+    public static void user_integral_heartbeat(String room_id,ApiResponseHandler handler) {
+        RequestParams params = new RequestParams();
+        params.put("room_id",room_id);
+        ApiHttpClient.post(ApiHttpClient.API_URL + Urls.POST_USER_BEI_HEART_BEAT, params, handler);
+    }
+
+    /**
+     * 请求 游戏下一局开始前清除上一局数据接口
+     * @param roomNum
+     */
+    public static void dice_shang(String roomNum,ApiResponseHandler handler) {
+        RequestParams params = new RequestParams();
+        params.put("room_id",roomNum);
+        ApiHttpClient.post(ApiHttpClient.API_URL + Urls.POST_USER_BEI_DEL, params, handler);
+    }
+
+    /**
+     * 心跳上传游戏状态
+     * @param room_id
+     * @param game_state
+     * @param timer
+     * @param handler
+     */
+    public static void dicegame_state_add(String room_id, int game_state,String timer,ApiResponseHandler handler) {
+        RequestParams params = new RequestParams();
+        params.put("room_id",room_id);
+        params.put("game_state",game_state);
+        if (game_state== LiveingActivity.STATUS_REST_TYPE){
+            params.put("rest_count_down",timer);//休息时间
+        }else if(game_state== LiveingActivity.STATUS_BET_TYPE){
+            params.put("bet_count_down",timer);//下注时间
+        }
+        ApiHttpClient.post(ApiHttpClient.API_URL + Urls.POST_USER_STATUS, params, handler);
+    }
+
+
+
+    public static void dicegame_state_list(String room_id,ApiResponseHandler handler) {
+        RequestParams params = new RequestParams();
+        params.put("room_id",room_id);
+        ApiHttpClient.post(ApiHttpClient.API_URL + Urls.POST_USER_STATUS_GET, params, handler);
+    }
+
+    public static void dice_list_data(String room_id,ApiResponseHandler handler) {
+        RequestParams params = new RequestParams();
+        params.put("room_id",room_id);
+        ApiHttpClient.post(ApiHttpClient.API_URL + Urls.POST_USER_DATA, params, handler);
     }
 }

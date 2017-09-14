@@ -63,30 +63,30 @@ public class Urls {
 
     public static final String GETALLCATGORY = "/appapi/Goodcategory/Allcatgory";  //全部分类
     public static final String GOODSTYPE = "/appapi/Goodstype/get_goodstype";  //商品类型
-    public static final String FRIENDLIST="/appapi/ucenter/friendLists";  //好友列表
-    public static final String SEARCHFRIENDS="/appapi/Ucenter/searchfriend";  //搜索加好友
-    public static final String FRENDUSERINFO="/appapi/Ucenter/userInfo";  //用户详情
-    public static final String LIVELISTS="/appapi/Ucenter/livelists";  //在直播的2个（更多）
+    public static final String FRIENDLIST = "/appapi/ucenter/friendLists";  //好友列表
+    public static final String SEARCHFRIENDS = "/appapi/Ucenter/searchfriend";  //搜索加好友
+    public static final String FRENDUSERINFO = "/appapi/Ucenter/userInfo";  //用户详情
+    public static final String LIVELISTS = "/appapi/Ucenter/livelists";  //在直播的2个（更多）
 
-    public static final String RECOMMEND="appapi/Goods/stylish";  //淘物-爆款推荐
-    public static final String NORMAL_GOODS ="appapi/Goods/newlist";  //淘物-普通商品
-    public static final String GOODS_CONTENT ="appapi/Goods/goodsInfo";  //店铺商品详情
-    public static final String COLLECT ="appapi/Goods/goods_collect";  //添加或取消收藏
-    public static final String ADD_CAR ="appapi/Cart/addCart";  //添加购物车
-    public static final String COLLECT_LIST ="appapi/Cart/addCart";  //获取收藏列表
-    public static final String GOODS_MANAGER ="/appapi/Goods/goods_manager";  //商品管理
+    public static final String RECOMMEND = "appapi/Goods/stylish";  //淘物-爆款推荐
+    public static final String NORMAL_GOODS = "appapi/Goods/newlist";  //淘物-普通商品
+    public static final String GOODS_CONTENT = "appapi/Goods/goodsInfo";  //店铺商品详情
+    public static final String COLLECT = "appapi/Goods/goods_collect";  //添加或取消收藏
+    public static final String ADD_CAR = "appapi/Cart/addCart";  //添加购物车
+    public static final String COLLECT_LIST = "appapi/Cart/addCart";  //获取收藏列表
+    public static final String GOODS_MANAGER = "/appapi/Goods/goods_manager";  //商品管理
     public static final String RECHARGE = "/appapi/Cart/recharge";  //柠檬订单生成
     public static final String GOOS_ORDER2 = "/appapi/Cart/goods_order2";  // 商品详情确认订单和提交订单
-    public static final String GROUPMEMBER_LISTINFO ="/appapi/ucenter/group_member_info";  //获取直播间用户列表
-    public static final String GROUPMEMBER_LISTINFOS ="/Appapi/ucenter/group_member_info";  //获取直播间用户列表
-    public static final String FOLLOWHANDLE ="/appapi/ucenter/followHandle";  //关注 取消关注
-    public static final String NEARLIVE ="appapi/Ucenter/nearlive";  //附近的直播
-    public static final String ADDFRIEND ="/appapi/Ucenter/add_friend";  //加好友
-    public static final String SEARCHFRIENDNAME ="/appapi/Ucenter/search_friendname";  //搜索好友店铺中的好友
+    public static final String GROUPMEMBER_LISTINFO = "/appapi/ucenter/group_member_info";  //获取直播间用户列表
+    public static final String GROUPMEMBER_LISTINFOS = "/Appapi/ucenter/group_member_info";  //获取直播间用户列表
+    public static final String FOLLOWHANDLE = "/appapi/ucenter/followHandle";  //关注 取消关注
+    public static final String NEARLIVE = "appapi/Ucenter/nearlive";  //附近的直播
+    public static final String ADDFRIEND = "/appapi/Ucenter/add_friend";  //加好友
+    public static final String SEARCHFRIENDNAME = "/appapi/Ucenter/search_friendname";  //搜索好友店铺中的好友
     //发布宝贝
     public static final String SEND_PRODUCTS = "/appapi/Goods/add_good";
-    public static final String POSt_DELETEFRIEND ="/appapi/Ucenter/del_friend";  //删除好友
-    public static final String POSt_PULLBLACK ="/appapi/Ucenter/pullBlack";  //拉黑取消操作接口
+    public static final String POSt_DELETEFRIEND = "/appapi/Ucenter/del_friend";  //删除好友
+    public static final String POSt_PULLBLACK = "/appapi/Ucenter/pullBlack";  //拉黑取消操作接口
 
     //交易管理
     public static final String DEAL_MANAGER = "/appapi/Goods/deal_manager";
@@ -104,23 +104,30 @@ public class Urls {
     public static final String CANCEL_BLACK = "/appapi/Ucenter/pullBlack";
 
 
-    public static final String GET_ORDER ="/appapi/Cart/getOrderList";  //按类型查询订单
-    public static final String POST_ORDER ="/Appapi/Myorder/myorder_order";  //按类型查询订单
-    public static final String GET_GOODS_INF ="/appapi/Cart/goods_order";  //点击购买获取商品信息
-    public static final String GIFT_COINLIST ="/appapi/Ucenter/coinLists";  //柠檬币充值列接口
-    public static final String GIFT_SEND ="/Appapi/Ucenter/sendgift";  //送礼物接口
-    public static final String GET_HAVECOINS ="/appapi/Ucenter/have_coins";  //获取主播魅力值接口
-    public static final String GET_MEMBERCOINS ="/appapi/Ucenter/have_charm";  //获取成员柠檬币接口
-    public static final String GET_FOLLOWS ="/appapi/ucenter/follows";  //主播的关注人数
-    public static final String GET_FANSLIST ="/Appapi/Ucenter/followLists";  //粉丝列表
+    public static final String GET_ORDER = "/appapi/Cart/getOrderList";  //按类型查询订单
+    public static final String POST_ORDER = "/Appapi/Myorder/myorder_order";  //按类型查询订单
+    public static final String GET_GOODS_INF = "/appapi/Cart/goods_order";  //点击购买获取商品信息
+    public static final String GIFT_COINLIST = "/appapi/Ucenter/coinLists";  //柠檬币充值列接口
+    public static final String GIFT_SEND = "/Appapi/Ucenter/sendgift";  //送礼物接口
+    public static final String GET_HAVECOINS = "/appapi/Ucenter/have_coins";  //获取主播魅力值接口
+    public static final String GET_MEMBERCOINS = "/appapi/Ucenter/have_charm";  //获取成员柠檬币接口
+    public static final String GET_FOLLOWS = "/appapi/ucenter/follows";  //主播的关注人数
+    public static final String GET_FANSLIST = "/Appapi/Ucenter/followLists";  //粉丝列表
 
     public static final String GET_SYSTEM_MSG = "Appapi/live/live_notice";//获取系统通知消息
 
     /**
      * 色子游戏接口
      */
-    public static final String POST_DICE_LIST = "/Appapi/Dicegame/dice_list";//
+    public static final String POST_DICE_LIST = "/Appapi/Dicegame/dice_list";//摇色子接口
     public static final String POST_USER_INTEGRAL_TO_DIAMONDS = "/Appapi/Ucenter/user_integral_coins";//积分转换钻石
     public static final String POST_USER_DIAMONDS_TO_INTEGRAL = "/Appapi/Ucenter/user_coins_integral";//钻石转换积分
     public static final String POST_USER_GET_INTEGRAL = "/Appapi/Ucenter/integral";//获取用户积分
+    public static final String POST_USER_BEI = "/Appapi/Dicegame/dice_user_integral_reduce";//下注接口
+    public static final String POST_USER_BEI_HEART_BEAT = "/Appapi/Dicegame/user_integral_heartbeat";//下注心跳
+    public static final String POST_USER_BEI_DEL = "/Appapi/Dicegame/dice_shang";//游戏下一局开始前清除上一局数据接口
+    public static final String POST_USER_STATUS = "/Appapi/Dicegame/dicegame_state_add";//上传状态心跳包
+    public static final String POST_USER_STATUS_GET = "/Appapi/Dicegame/dicegame_state_list";//获取游戏状态
+    public static final String POST_USER_DATA = "/Appapi/Dicegame/dice_list_data";//获取色子
+
 }

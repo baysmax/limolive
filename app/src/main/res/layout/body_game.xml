@@ -11,15 +11,42 @@
         android:layout_margin="10dp"
         android:layout_weight="1"
         android:background="@drawable/game_bgs">
-
-        <TextView
-            android:id="@+id/tv_stake_num1"
-            android:layout_width="65dp"
-            android:layout_height="wrap_content"
+        <LinearLayout
+            android:layout_width="70dp"
+            android:background="@drawable/game_bgs_stake_num1"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="8dp"
             android:gravity="center"
-            android:background="@drawable/game_bgs_stake_num1" />
+            android:layout_height="17dp">
+            <TextView
+                android:id="@+id/tv_stake_num1"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:gravity="right"
+                android:layout_height="wrap_content"
+                android:textColor="@color/color_zbz"
+                android:text="0"
+                android:textSize="10sp"
+                />
+            <TextView
+                android:id="@+id/tvs"
+                android:layout_toRightOf="@id/tv_stake_num1"
+                android:layout_width="wrap_content"
+                android:text="/"
+                android:layout_height="wrap_content"
+                android:textSize="8sp"
+                />
+            <TextView
+                android:id="@+id/tv_stake_bet_total_num_1"
+                android:layout_toRightOf="@id/tvs"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:text="0"
+                android:layout_height="wrap_content"
+                android:textSize="10sp"
+                />
+        </LinearLayout>
+
         <RelativeLayout
             android:id="@+id/rl_change1"
             android:layout_alignParentBottom="true"
@@ -35,15 +62,6 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="4dp"
                 android:text="押注"
-                android:gravity="center"
-                android:background="@drawable/stake"/>
-            <TextView
-                android:id="@+id/iv_win1"
-                android:visibility="gone"
-                android:layout_width="75dp"
-                android:layout_height="77dp"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="4dp"
                 android:gravity="center"
                 android:background="@drawable/stake"/>
             <RelativeLayout
@@ -64,24 +82,30 @@
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="8dp"
                     android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:src="@drawable/dice_1"/>
+                    android:layout_height="40dp"/>
                 <ImageView
                     android:id="@+id/dice2_1"
                     android:layout_marginTop="29dp"
                     android:layout_marginLeft="13dp"
                     android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:src="@drawable/dice_1"/>
+                    android:layout_height="40dp"/>
                 <ImageView
                     android:layout_alignParentRight="true"
                     android:id="@+id/dice3_1"
                     android:layout_marginTop="32dp"
                     android:layout_marginRight="12dp"
                     android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:src="@drawable/dice_1"/>
+                    android:layout_height="40dp"/>
             </RelativeLayout>
+            <TextView
+                android:id="@+id/iv_win1"
+                android:visibility="gone"
+                android:layout_width="75dp"
+                android:layout_height="77dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="4dp"
+                android:gravity="center"
+                android:background="@drawable/win"/>
             <TextView
                 android:id="@+id/tv_point1"
                 android:layout_width="match_parent"
@@ -89,7 +113,6 @@
                 android:background="#08000000"
                 android:gravity="center"
                 android:textColor="#fff"
-                android:text="4点"
                 android:textSize="12dp"
                 android:layout_alignParentBottom="true"/>
 
@@ -103,14 +126,41 @@
         android:layout_weight="1"
         android:background="@drawable/game_bgs"
         android:layout_height="match_parent">
-        <TextView
-            android:id="@+id/tv_stake_num2"
-            android:layout_width="65dp"
-            android:layout_height="wrap_content"
+        <LinearLayout
+            android:layout_width="70dp"
+            android:background="@drawable/game_bgs_stake_num2"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="8dp"
             android:gravity="center"
-            android:background="@drawable/game_bgs_stake_num2" />
+            android:layout_height="17dp">
+            <TextView
+                android:id="@+id/tv_stake_num2"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:gravity="right"
+                android:text="0"
+                android:layout_height="wrap_content"
+                android:textColor="@color/color_zbz1"
+                android:textSize="10sp"
+                />
+            <TextView
+                android:id="@+id/tvs2"
+                android:layout_toRightOf="@id/tv_stake_num1"
+                android:layout_width="wrap_content"
+                android:text="/"
+                android:layout_height="wrap_content"
+                android:textSize="8sp"
+                />
+            <TextView
+                android:id="@+id/tv_stake_bet_total_num_2"
+                android:layout_toRightOf="@id/tvs2"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:text="0"
+                android:layout_height="wrap_content"
+                android:textSize="10sp"
+                />
+        </LinearLayout>
         <RelativeLayout
             android:id="@+id/rl_change2"
             android:layout_alignParentBottom="true"
@@ -128,15 +178,7 @@
                 android:text="押注"
                 android:gravity="center"
                 android:background="@drawable/stake"/>
-            <TextView
-                android:id="@+id/iv_win2"
-                android:visibility="gone"
-                android:layout_width="75dp"
-                android:layout_height="77dp"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="4dp"
-                android:gravity="center"
-                android:background="@drawable/stake"/>
+
             <RelativeLayout
                 android:id="@+id/rl_anim_stake2"
                 android:visibility="gone"
@@ -155,24 +197,30 @@
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="8dp"
                     android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:src="@drawable/dice_1"/>
+                    android:layout_height="40dp"/>
                 <ImageView
                     android:id="@+id/dice2_2"
                     android:layout_marginTop="29dp"
                     android:layout_marginLeft="13dp"
                     android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:src="@drawable/dice_1"/>
+                    android:layout_height="40dp"/>
                 <ImageView
                     android:layout_alignParentRight="true"
                     android:id="@+id/dice3_2"
                     android:layout_marginTop="32dp"
                     android:layout_marginRight="12dp"
                     android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:src="@drawable/dice_1"/>
+                    android:layout_height="40dp"/>
             </RelativeLayout>
+            <TextView
+                android:id="@+id/iv_win2"
+                android:visibility="gone"
+                android:layout_width="75dp"
+                android:layout_height="77dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="4dp"
+                android:gravity="center"
+                android:background="@drawable/win"/>
             <TextView
                 android:id="@+id/tv_point2"
                 android:layout_width="match_parent"
@@ -180,7 +228,6 @@
                 android:background="#08000000"
                 android:gravity="center"
                 android:textColor="#fff"
-                android:text="4点"
                 android:textSize="12dp"
                 android:layout_alignParentBottom="true"/>
 
@@ -195,14 +242,41 @@
         android:layout_margin="10dp"
         android:layout_weight="1"
         android:background="@drawable/game_bgs">
-        <TextView
-            android:id="@+id/tv_stake_num3"
-            android:layout_width="65dp"
-            android:layout_height="wrap_content"
+        <LinearLayout
+            android:layout_width="70dp"
+            android:background="@drawable/game_bgs_stake_num3"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="8dp"
             android:gravity="center"
-            android:background="@drawable/game_bgs_stake_num3" />
+            android:layout_height="17dp">
+            <TextView
+                android:id="@+id/tv_stake_num3"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:gravity="right"
+                android:text="0"
+                android:layout_height="wrap_content"
+                android:textColor="@color/color_btnsd"
+                android:textSize="10sp"
+                />
+            <TextView
+                android:id="@+id/tvs3"
+                android:layout_toRightOf="@id/tv_stake_num1"
+                android:layout_width="wrap_content"
+                android:text="/"
+                android:layout_height="wrap_content"
+                android:textSize="8sp"
+                />
+            <TextView
+                android:id="@+id/tv_stake_bet_total_num_3"
+                android:layout_toRightOf="@id/tvs3"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:text="0"
+                android:layout_height="wrap_content"
+                android:textSize="10sp"
+                />
+        </LinearLayout>
         <RelativeLayout
             android:id="@+id/rl_change3"
             android:layout_alignParentBottom="true"
@@ -220,15 +294,7 @@
                 android:text="押注"
                 android:gravity="center"
                 android:background="@drawable/stake"/>
-            <TextView
-                android:id="@+id/iv_win3"
-                android:visibility="gone"
-                android:layout_width="75dp"
-                android:layout_height="77dp"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="4dp"
-                android:gravity="center"
-                android:background="@drawable/stake"/>
+
             <RelativeLayout
                 android:id="@+id/rl_anim_stake3"
                 android:visibility="gone"
@@ -247,24 +313,30 @@
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="8dp"
                     android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:src="@drawable/dice_1"/>
+                    android:layout_height="40dp"/>
                 <ImageView
                     android:id="@+id/dice2_3"
                     android:layout_marginTop="29dp"
                     android:layout_marginLeft="13dp"
                     android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:src="@drawable/dice_1"/>
+                    android:layout_height="40dp"/>
                 <ImageView
                     android:layout_alignParentRight="true"
                     android:id="@+id/dice3_3"
                     android:layout_marginTop="32dp"
                     android:layout_marginRight="12dp"
                     android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:src="@drawable/dice_2"/>
+                    android:layout_height="40dp"/>
             </RelativeLayout>
+            <TextView
+                android:id="@+id/iv_win3"
+                android:visibility="gone"
+                android:layout_width="75dp"
+                android:layout_height="77dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="4dp"
+                android:gravity="center"
+                android:background="@drawable/win"/>
             <TextView
                 android:id="@+id/tv_point3"
                 android:layout_width="match_parent"
@@ -272,7 +344,6 @@
                 android:background="#08000000"
                 android:gravity="center"
                 android:textColor="#fff"
-                android:text="4点"
                 android:textSize="12dp"
                 android:layout_alignParentBottom="true"/>
 

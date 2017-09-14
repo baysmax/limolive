@@ -19,17 +19,16 @@ import com.example.project.limolive.R;
 
 public class DiceGameDialog  extends Dialog{
     public static DiceGameDialog instance=null;
-
     public static DiceGameDialog getInstance(Context context){
+
         if (instance==null){
-            instance=new DiceGameDialog(context, R.style.BottomDialog);
+            instance=new DiceGameDialog(context, R.style.dialog);
         }
         return instance;
     }
 
     private DiceGameDialog(@NonNull Context context, @StyleRes int themeResId) {
         super(context, themeResId);
-        initDialog(LayoutInflater.from(context).inflate(R.layout.dialog_game_dice, null));
     }
 
 
@@ -41,9 +40,11 @@ public class DiceGameDialog  extends Dialog{
         layoutParams.height = (int) (view.getResources().getDisplayMetrics().heightPixels*0.40);
         view.setLayoutParams(layoutParams);
         getWindow().setGravity(Gravity.BOTTOM);
-        getWindow().setWindowAnimations(R.style.BottomDialog_Animation);
+        //getWindow().setWindowAnimations(R.style.BottomDialog_Animation);
         setCanceledOnTouchOutside(true);
     }
-
+    public void onDesPlay(){
+        instance=null;
+    }
 
 }

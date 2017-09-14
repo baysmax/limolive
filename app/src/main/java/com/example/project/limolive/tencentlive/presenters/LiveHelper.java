@@ -45,6 +45,7 @@ import com.tencent.TIMGroupSystemElem;
 import com.tencent.TIMGroupSystemElemType;
 import com.tencent.TIMMessage;
 import com.tencent.TIMTextElem;
+import com.tencent.TIMUserProfile;
 import com.tencent.av.TIMAvManager;
 import com.tencent.av.sdk.AVRoomMulti;
 import com.tencent.av.sdk.AVVideoCtrl;
@@ -584,7 +585,7 @@ public class LiveHelper extends Presenter implements ILiveRoomOption.onRoomDisco
                 if (apiResponse.getCode() == Api.SUCCESS) {
                     RoomInfoBean roomInfoBean = JSON.parseObject(apiResponse.getData(), RoomInfoBean.class);
                     Log.i("创建直播间", roomInfoBean.toString());
-                    CurLiveInfo.setRoomNum(roomInfoBean.getChat_room_id());
+                    CurLiveInfo.setRoomNum(roomInfoBean.getAv_room_id());
                     //成功了 发送广播 获取成员信息
                     Intent intent = new Intent();
                     intent.setAction(GETMENBERINFO);
@@ -689,7 +690,8 @@ public class LiveHelper extends Presenter implements ILiveRoomOption.onRoomDisco
                 if (type == TIMElemType.Custom) {
                     String id, nickname;
                     if (currMsg.getSenderProfile() != null) {
-                        id = currMsg.getSenderProfile().getIdentifier();
+                        TIMUserProfile senderProfile = currMsg.getSenderProfile();
+                        id = senderProfile.getIdentifier();
                         nickname = currMsg.getSenderProfile().getNickName();
                         Log.i("定制消息","ssss"+ id+""+nickname);
                     } else {

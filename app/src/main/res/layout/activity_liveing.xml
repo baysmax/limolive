@@ -203,6 +203,7 @@
         </RelativeLayout>
         <!-- 塞子-->
         <RelativeLayout
+            android:id="@+id/rl_dice"
             android:layout_marginTop="80dp"
             android:layout_marginLeft="10dp"
             android:layout_width="100dp"
@@ -240,7 +241,7 @@
                     android:background="@drawable/stake"/>
 
                 <RelativeLayout
-                    android:id="@+id/rl_status1"
+                    android:id="@+id/rl_status"
                     android:layout_width="match_parent"
                     android:layout_height="86dp">
                     <ImageView
@@ -248,23 +249,20 @@
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="8dp"
                         android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:src="@drawable/dice_1"/>
+                        android:layout_height="40dp"/>
                     <ImageView
                         android:id="@+id/dice2"
                         android:layout_marginTop="29dp"
                         android:layout_marginLeft="13dp"
                         android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:src="@drawable/dice_1"/>
+                        android:layout_height="40dp"/>
                     <ImageView
                         android:layout_alignParentRight="true"
                         android:id="@+id/dice3"
                         android:layout_marginTop="32dp"
                         android:layout_marginRight="12dp"
                         android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:src="@drawable/dice_1"/>
+                        android:layout_height="40dp"/>
                 </RelativeLayout>
                 <TextView
                     android:id="@+id/tv_point"

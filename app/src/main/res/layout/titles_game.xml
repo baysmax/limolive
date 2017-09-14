@@ -11,7 +11,7 @@
         android:textColor="#fff"
         android:layout_marginLeft="20dp"
         android:layout_centerInParent="true"
-        android:text="离发牌还有10s"/>
+        android:text="离开始还有15s"/>
     <TextView
         android:id="@+id/tv_back"
         android:layout_width="18dp"
