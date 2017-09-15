@@ -64,6 +64,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
 import com.example.project.limolive.R;
 import com.example.project.limolive.activity.BaseActivity;
+import com.example.project.limolive.activity.ExchangeActivity;
 import com.example.project.limolive.activity.MainActivity;
 import com.example.project.limolive.activity.MyWalletActivity;
 import com.example.project.limolive.activity.RanksActivity;
@@ -1823,7 +1824,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
                 setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Intent sendPres = new Intent(LiveingActivity.this, MyAccountActivity.class);
+                        Intent sendPres = new Intent(LiveingActivity.this, ExchangeActivity.class);
                         startActivity(sendPres);
                     }
                 }).

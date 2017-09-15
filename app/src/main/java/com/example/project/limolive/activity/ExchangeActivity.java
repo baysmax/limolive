@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -197,6 +198,19 @@ public class ExchangeActivity extends BaseActivity implements View.OnClickListen
             ToastUtils.showShort(ExchangeActivity.this, NET_UNCONNECT);
             return;
         }else {
+            if (result==1000){
+                EditText editText= (EditText) textView[5];
+                String s = editText.getText().toString();
+                if (s.contains(".")){
+                    String[] split = s.split(".");
+                    ToastUtils.showShort(this,"小于1的并不会转换");
+                    result=Integer.parseInt(split[0]);
+                }
+                if (result==0){
+                    return;
+                }
+
+            }
             Api.exchangeDiamonds(LoginManager.getInstance().getUserID(this), String.valueOf(result), new ApiResponseHandler(this) {
                 @Override
                 public void onSuccess(ApiResponse apiResponse) {
