@@ -824,7 +824,6 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
             }
 
         } else {
-
             mLiveHelper.startExitRoom();
         }
     }
@@ -1679,7 +1678,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
                 msg.what=MSG_CODE_END_REST;
                 dice_handler.sendMessage(msg);
             }else {
-                dicegame_state_list();
+                dicegame_state_list(10000);
             }
         }else {
             instance.show();
@@ -2033,7 +2032,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
             ToastUtils.showShort(LiveingActivity.this, NET_UNCONNECT);
             return;
         }else {
-            Api.user_integral_heartbeat(LoginManager.getInstance().getRoomNum(LiveingActivity.this), new ApiResponseHandler(LiveingActivity.this) {
+            Api.user_integral_heartbeat(CurLiveInfo.getRoomNum(), new ApiResponseHandler(LiveingActivity.this) {
                 @Override
                 public void onSuccess(ApiResponse apiResponse) {
                     Log.i("游戏","下注心跳回调apiResponse="+apiResponse.toString());
@@ -2140,7 +2139,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
     };
     private StatusBean statusBean;
 
-    private void dicegame_state_list() {
+    private void dicegame_state_list(final int type) {
         if (!NetWorkUtil.isNetworkConnected(LiveingActivity.this)) {
             ToastUtils.showShort(LiveingActivity.this, NET_UNCONNECT);
             return;
@@ -2152,6 +2151,10 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
                     if (apiResponse.getCode()==Api.SUCCESS){
                         String data = apiResponse.getData();
                         statusBean = JSON.parseObject(data, StatusBean.class);
+                        if (String.valueOf(type).equals(statusBean.getGame_state())){
+                            dicegame_state_list(type);
+                            return;
+                        }
                         if ("2".equals(statusBean.getGame_state())){//动画状态 或结束状态
                             //显示动画
                             Message msg = Message.obtain();
@@ -2183,39 +2186,6 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
             });
         }
     }
-    private void dicegame_state_lists() {
-        if (!NetWorkUtil.isNetworkConnected(LiveingActivity.this)) {
-            ToastUtils.showShort(LiveingActivity.this, NET_UNCONNECT);
-            return;
-        }else {
-            Api.dicegame_state_list(CurLiveInfo.getRoomNum(), new ApiResponseHandler(LiveingActivity.this) {
-                @Override
-                public void onSuccess(ApiResponse apiResponse) {
-                    Log.i("status","获取游戏状态api="+apiResponse.toString());
-                    if (apiResponse.getCode()==Api.SUCCESS){
-                        String data = apiResponse.getData();
-                        statusBean = JSON.parseObject(data, StatusBean.class);
-                        if("0".equals(statusBean.getGame_state())){
-                            Message msg = Message.obtain();
-                            msg.what=MSG_CODE_END_REST;
-                            msg.arg1=Integer.parseInt(statusBean.getRest_count_down());
-                            msg.arg2=9;
-                            dice_handler.sendMessage(msg);
-                        }else if ("1".equals(statusBean.getGame_state())){
-                            Message msg = Message.obtain();
-                            msg.what=MSG_CODE_END_YAZU;
-                            msg.arg1=Integer.parseInt(statusBean.getBet_count_down());
-                            msg.arg2=9;
-                            dice_handler.sendMessage(msg);
-                        }
-
-
-                    }
-                }
-            });
-        }
-    }
-
     private void dicegame_state_add() {
         if (!NetWorkUtil.isNetworkConnected(LiveingActivity.this)) {
             ToastUtils.showShort(LiveingActivity.this, NET_UNCONNECT);
@@ -2270,7 +2240,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
                     if (msg.arg2==9){
                         startCountDownTime_tv_num(msg.arg1,0);
                     }else {
-                        startCountDownTime_tv_num(10,0);
+                        startCountDownTime_tv_num(30,0);
                     }
                     break;
                 case MSG_CODE_END_REST://输赢动画显示结束，开始休息时间
@@ -2315,12 +2285,17 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
                     this_status=STATUS_REST_TYPE;
                     // 开始休息时间-->
                     if (msg.arg2==9){
+                        Log.i("游戏","MSG_CODE_END_REST——输赢动画显示结束，开始休息时间，msg.arg2==9"+(msg.arg2==9));
                         startCountDownTime_tv_num(msg.arg1,1);
                     }else {
+                        Log.i("游戏","MSG_CODE_END_REST——输赢动画显示结束，开始休息时间，msg.arg2==9"+(msg.arg2==9));
                         if (LoginManager.getInstance().getUserID(LiveingActivity.this).equals(CurLiveInfo.getHostID())){
+                            Log.i("游戏","CurLiveInfo.getHostID()");
                             startCountDownTime_tv_num(5,1);
                         }else {
-                            dicegame_state_list();
+                            Log.i("游戏","CurLiveInfo.getHostID()1");
+
+                            dicegame_state_list(STATUS_END_TYPE);
                         }
                     }
                     break;
@@ -2369,7 +2344,11 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
                     DiceBean diceBean = dicelist.get(0);// 1号桌
                     Log.i("游戏","diceBean1="+ diceBean.toString());
                     String[] chip_ch = diceBean.getChip_ch();
+
                     for (int i = 0; i < chip_ch.length; i++) {
+                        if (chip_ch[i].length()>1){
+                            chip_ch[i]=String.valueOf(chip_ch[i].charAt(chip_ch[i].length()-1));
+                        }
                         dice.add(Integer.parseInt(chip_ch[i]));
                         Log.i("游戏","庄家桌点数="+Integer.parseInt(chip_ch[i]));
                     }
@@ -2402,6 +2381,9 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
                     Log.i("游戏","diceBean2="+ diceBean2.toString());
                     String[] chip_ch2 = diceBean2.getChip_ch();
                     for (int i = 0; i < chip_ch2.length; i++) {
+                        if (chip_ch[i].length()>1){
+                            chip_ch[i]=String.valueOf(chip_ch[i].charAt(chip_ch[i].length()-1));
+                        }
                         dice.add(Integer.parseInt(chip_ch2[i]));
                         Log.i("游戏","2号桌点数="+Integer.parseInt(chip_ch2[i]));
                     }
@@ -2420,6 +2402,9 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
                     Log.i("游戏","diceBean3="+ diceBean3.toString());
                     String[] chip_ch3 = diceBean3.getChip_ch();
                     for (int i = 0; i < chip_ch3.length; i++) {
+                        if (chip_ch[i].length()>1){
+                            chip_ch[i]=String.valueOf(chip_ch[i].charAt(chip_ch[i].length()-1));
+                        }
                         dice.add(Integer.parseInt(chip_ch3[i]));
                         Log.i("游戏","3号桌点数="+Integer.parseInt(chip_ch3[i]));
                     }
@@ -2437,6 +2422,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
                 }else {
                     dice_list_data();
                 }
+
             }
 
             @Override
@@ -2468,9 +2454,15 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
 
             @Override
             public void onAnimationEnd(Animation animation) {
+                if (!LoginManager.getInstance().getUserID(LiveingActivity.this).equals(CurLiveInfo.getHostID())){
+                    Message msg1 = Message.obtain();
+                    msg1.what=MSG_CODE_END_REST;
+                    dice_handler.sendMessageDelayed(msg1,3000);
+                }else {
                     Message msg1 = Message.obtain();
                     msg1.what=MSG_CODE_END_REST;
                     dice_handler.sendMessageDelayed(msg1,1000);
+                }
             }
 
             @Override
@@ -2603,6 +2595,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
     //dice1_1,dice2_1,dice3_1,dice1_2,dice2_2,dice3_2,dice1_3,dice2_3,dice3_3
     private void startAnimtion() {
         showGift();
+
         rl_status1.setVisibility(View.VISIBLE);
         showGift1();
 
