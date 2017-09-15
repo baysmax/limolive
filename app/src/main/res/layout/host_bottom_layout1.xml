@@ -73,7 +73,7 @@
                 android:layout_marginLeft="5dp"
                 android:background="@drawable/room_btn_liwu_n" />
             <TextView
-                android:id="@+id/tv_game"
+                android:id="@+id/tv_games"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_gravity="center"

@@ -464,7 +464,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
     private void initView() {
         hideStatusBar();
         tv_admin= (TextView) findViewById(R.id.tv_admin);
-        tv_game= (TextView) findViewById(R.id.tv_game);//游戏
+        tv_game= (TextView) findViewById(R.id.tv_games);//游戏
         tv_game.setOnClickListener(this);
         startAnimtions();
         sysMsgList=new ArrayList<>();//系统通知的数据
@@ -1620,7 +1620,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
             intent.putExtra("userid", LoginManager.getInstance().getUserID(LiveingActivity.this));
             intent.setClass(LiveingActivity.this,RanksActivity.class);
             startActivity(intent);
-        }else if (i==R.id.tv_game){
+        }else if (i==R.id.tv_games){
             showGames();//游戏
         }
     }
