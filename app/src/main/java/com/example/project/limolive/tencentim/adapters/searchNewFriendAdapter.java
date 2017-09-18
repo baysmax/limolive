@@ -105,7 +105,10 @@ public class searchNewFriendAdapter extends BaseAdapter {
             Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.default_avatar);
             Bitmap cirBitMap = UIUtils.createCircleImage(bitmap, 0);
             view.setImageBitmap(cirBitMap);
-        } else {
+        } else if(avatar.contains("http://")) {
+            RequestManager req = Glide.with(context);
+            req.load(avatar).transform(new GlideCircleTransform(context)).into(view);
+        }else {
             RequestManager req = Glide.with(context);
             req.load(ApiHttpClient.API_PIC + avatar).transform(new GlideCircleTransform(context)).into(view);
         }

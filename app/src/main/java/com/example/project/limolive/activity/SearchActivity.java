@@ -162,9 +162,12 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
             @Override
             public void onSuccess(ApiResponse apiResponse) {
                 if (apiResponse.getCode() == Api.SUCCESS) {
-
                     list_search.addAll(JSONArray.parseArray(apiResponse.getData(), HomeListBeen.class));
                     searchAdapter.notifyDataSetChanged();
+                }else if (apiResponse.getCode()==-1){
+                    ToastUtils.showShort(SearchActivity.this,apiResponse.getMessage());
+                }else if (apiResponse.getCode()==-2){
+                    ToastUtils.showShort(SearchActivity.this,apiResponse.getMessage());
                 }
             }
         });

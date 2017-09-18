@@ -16,7 +16,7 @@ public class Urls {
     public static final String POST_GETUSER_FOLLOW = "/Appapi/Ucenter/page_ifollow";  //获取关注页面数据
     public static final String POST_GETUSER_SEARCH_HOT = "/Appapi/Live/search_hot";  //搜索热搜(随即10条)接口
     public static final String POST_GETUSER_SEARCH_RECOMMEND = "/Appapi/Live/search_recommend";  //说明	搜索主播推荐(随即5条)
-    public static final String POST_GETUSER_SEARCH = "/Appapi/Live/search_recommend";  //搜索直播间
+    public static final String POST_GETUSER_SEARCH = "/Appapi/Live/search";  //搜索直播间
     public static final String POST_GOODS_SEARCH = "/Appapi/Goodcategory/search";  //搜索商品
     public static final String POST_GOODS_MYORDER = "/Appapi/Myorder/my_order";  //申用户点击我的店铺时,触发事件接口
     public static final String POST_GOODS_APPLY = "/Appapi/Myorder/apply_order";  //申请店铺接口
