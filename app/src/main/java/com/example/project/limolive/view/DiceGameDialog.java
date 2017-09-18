@@ -9,6 +9,8 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.example.project.limolive.R;
@@ -42,6 +44,9 @@ public class DiceGameDialog  extends Dialog{
         getWindow().setGravity(Gravity.BOTTOM);
         //getWindow().setWindowAnimations(R.style.BottomDialog_Animation);
         setCanceledOnTouchOutside(true);
+
+        Window dialogWindow = instance.getWindow();
+        dialogWindow.setFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE);
     }
     public void onDesPlay(){
         instance=null;
