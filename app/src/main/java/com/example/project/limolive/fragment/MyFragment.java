@@ -1,5 +1,6 @@
 package com.example.project.limolive.fragment;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -20,6 +21,7 @@ import com.example.project.limolive.activity.AfterSaleActivity;
 import com.example.project.limolive.activity.CollectionListActivity;
 import com.example.project.limolive.activity.FansAttentionActivity;
 import com.example.project.limolive.activity.HistoryActivity;
+import com.example.project.limolive.activity.MainActivity;
 import com.example.project.limolive.activity.MyApplyActivity;
 import com.example.project.limolive.activity.MyShopActivity;
 import com.example.project.limolive.activity.MyWalletActivity;
@@ -95,6 +97,12 @@ public class MyFragment extends BaseFragment implements View.OnClickListener{
 		getFollow();
 		getFans();
 		return view;
+	}
+	private void setUpKitkatColor(int resColor, int layoutResID) {
+		View group = findViewById(R.id.ll_root_layout);
+		((MainActivity)getActivity()).setStatusBar(group, resColor);
+		((LayoutInflater) ((MainActivity)getActivity()).getSystemService(Context.LAYOUT_INFLATER_SERVICE))
+				.inflate(layoutResID, (ViewGroup) group, true);
 	}
 
 	private void getFans() {

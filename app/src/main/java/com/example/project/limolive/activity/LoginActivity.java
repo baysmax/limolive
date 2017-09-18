@@ -17,6 +17,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
@@ -69,6 +70,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     private Button btn_login;
 
     private String denglu="";
+    private TextView tv_registers;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -108,10 +111,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         iv_weibo_login = (ImageView) findViewById(R.id.iv_weibo_login);
         iv_qq_login = (ImageView) findViewById(R.id.iv_qq_login);
         btn_login= (Button) findViewById(R.id.btn_login);
-
-        findViewById(R.id.tv_register).setOnClickListener(this);
-        findViewById(R.id.tv_forgot_pwd).setOnClickListener(this);
-
+        tv_registers=(TextView)findViewById(R.id.tv_registers);
+        tv_registers.setOnClickListener(this);
         iv_wx_login.setOnClickListener(this);
         iv_weibo_login.setOnClickListener(this);
         iv_qq_login.setOnClickListener(this);
@@ -158,10 +159,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.tv_register: //前往注册页面
+            case R.id.tv_registers: //前往注册页面
                 toRegister();
                 break;
-            case R.id.tv_forgot_pwd: //前往注册页面
+            case R.id.tv_forgot_pwds: //前往注册页面
                 toForget();
                 break;
             case R.id.iv_wx_login: //微信登录

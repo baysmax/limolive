@@ -80,8 +80,8 @@ public class BaseActivity extends AppCompatActivity implements ProfileView, Easy
      * 默认状态栏颜色
      */
     //public static final int STATUS_BAR_COLOR_DEFAULT = Color.parseColor("#00fce13d");
-    //public static final int STATUS_BAR_COLOR_DEFAULT = Color.parseColor("#00000000");
-    public static final int STATUS_BAR_COLOR_DEFAULT = Color.parseColor("#ffffff");
+    public static final int STATUS_BAR_COLOR_DEFAULT = Color.parseColor("#44000000");
+    //public static final int STATUS_BAR_COLOR_DEFAULT = Color.parseColor("#00ffffff");
 
     /**
      * 顶部标题栏
@@ -299,20 +299,19 @@ public class BaseActivity extends AppCompatActivity implements ProfileView, Easy
 
     /**
      * 4.4以下
-     *
      * @param layoutResID
      */
     private void setLowKitkatColor(int layoutResID) {
-        super.setContentView(layoutResID);
-    }
+//        super.setContentView(layoutResID);
+   }
 
 
     /**
      * 获取状态栏高度并设置
      */
-    private void setStatusBar(View group, int resColor) {
+    public void setStatusBar(View group, int resColor) {
         ImageView tool_bar = (ImageView) group.findViewById(R.id.tool_status_bar);
-        tool_bar.setBackgroundColor(resColor);
+        //tool_bar.setBackgroundColor(resColor);
         int statusBarHeight1 = -1;
         int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
         if (resourceId > 0) {

@@ -177,6 +177,10 @@
         <activity
             android:name="com.example.project.limolive.activity.BlackListActivity"
             android:screenOrientation="portrait" />
+        <!--黑名单-->
+        <activity
+            android:name=".utils.datepicker.PermissionsActivity"
+            android:screenOrientation="portrait" />
 
 
         <!--售后管理-->

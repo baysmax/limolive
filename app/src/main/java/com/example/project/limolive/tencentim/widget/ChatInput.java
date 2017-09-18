@@ -204,10 +204,10 @@ public class ChatInput extends RelativeLayout implements TextWatcher,View.OnClic
     }
 
     /**
-     * This method is called to notify you that, within <code>s</code>,
+     * This method is called to notify you that, within <code>PermissionsActivity</code>,
      * the <code>count</code> characters beginning at <code>start</code>
      * have just replaced old text that had length <code>before</code>.
-     * It is an error to attempt to make changes to <code>s</code> from
+     * It is an error to attempt to make changes to <code>PermissionsActivity</code> from
      * this callback.
      *
      * @param s
@@ -226,8 +226,8 @@ public class ChatInput extends RelativeLayout implements TextWatcher,View.OnClic
 
     /**
      * This method is called to notify you that, somewhere within
-     * <code>s</code>, the text has been changed.
-     * It is legitimate to make further changes to <code>s</code> from
+     * <code>PermissionsActivity</code>, the text has been changed.
+     * It is legitimate to make further changes to <code>PermissionsActivity</code> from
      * this callback, but be careful not to get yourself into an infinite
      * loop, because any changes you make will cause this method to be
      * called again recursively.

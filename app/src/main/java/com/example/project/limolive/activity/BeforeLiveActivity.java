@@ -43,6 +43,8 @@ import com.example.project.limolive.utils.NetWorkUtil;
 import com.example.project.limolive.utils.PhoneInfo;
 import com.example.project.limolive.utils.SPUtil;
 import com.example.project.limolive.utils.ToastUtils;
+import com.example.project.limolive.utils.datepicker.PermissionsActivity;
+import com.example.project.limolive.utils.datepicker.PermissionsChecker;
 import com.example.project.limolive.view.CustomProgressDialog;
 import com.example.project.limolive.view.SelectFenleiiPopupWindow;
 import com.tencent.av.sdk.AVContext;
@@ -72,7 +74,7 @@ public class BeforeLiveActivity extends Activity implements  SurfaceHolder.Callb
     private String selectType_name, SelectId;
     private SPUtil sp;
     private TextView id_city;
-    private final int REQUEST_PHONE_PERMISSIONS = 0;
+    private static final int REQUEST_PHONE_PERMISSIONS = 0;
     private int selectPositon;
     private CustomProgressDialog mProgressDialog;
 
@@ -80,10 +82,12 @@ public class BeforeLiveActivity extends Activity implements  SurfaceHolder.Callb
     private ImageView back, position;//返回和切换前后置摄像头
     private SurfaceView surface;
     private SurfaceHolder holder;
-    private Camera camera;//声明相机
+    private  Camera camera;//声明相机
     private String filepath = "";//照片保存路径
     private int cameraPosition = 1;//0代表前置摄像头，1代表后置摄像头
-
+    private static final int CAMERA_OK=100;
+    private PermissionsChecker mPermissionsChecker;
+    private int bls=0;
 
 
     @Override
@@ -107,16 +111,17 @@ public class BeforeLiveActivity extends Activity implements  SurfaceHolder.Callb
         //SCREEN_ORIENTATION_NOSENSOR： 忽略物理感应器——即显示方向与物理感应器无关，不管用户如何旋转设备显示方向都不会随着改变("unspecified"设置除外)
         //SCREEN_ORIENTATION_UNSPECIFIED： 未指定，此为默认值，由Android系统自己选择适当的方向，选择策略视具体设备的配置情况而定，因此不同的设备会有不同的方向选择
         //SCREEN_ORIENTATION_USER： 用户当前的首选方向
+        dss();
+        mPermissionsChecker = new PermissionsChecker(this);
 
+    }
+
+    private void dss() {
+        //checkPermission();
         sp = SPUtil.getInstance(this);
         setContentView(R.layout.fragment_alive);
 
-        surface= (SurfaceView) findViewById(R.id.surface);
-        surface.setSystemUiVisibility(View.INVISIBLE);
-        holder = surface.getHolder();//获得句柄
-        holder.addCallback(this);//添加回调
-        holder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);//surfaceview不维护自己的缓冲区，等待屏幕渲染引擎将内容推送到用户面前
-
+        surface();
         SharedPreferences pref = getSharedPreferences("data", MODE_PRIVATE);
         boolean living = pref.getBoolean("living", false);
         Log.i("打印版本", "ssss" + AVContext.getVersion());
@@ -125,7 +130,6 @@ public class BeforeLiveActivity extends Activity implements  SurfaceHolder.Callb
         bPermission = checkPublishPermission();
         ClearFenlei();
         initView();
-
       /*  if (living) {
             NotifyDialog dialog = new NotifyDialog();
             dialog.show(getString(R.string.title_living), getSupportFragmentManager(), new DialogInterface.OnClickListener() {
@@ -141,6 +145,14 @@ public class BeforeLiveActivity extends Activity implements  SurfaceHolder.Callb
                 }
             });
         }*/
+    }
+
+    private void surface() {
+        surface= (SurfaceView) findViewById(R.id.surface);
+        surface.setSystemUiVisibility(View.INVISIBLE);
+        holder = surface.getHolder();//获得句柄
+        holder.addCallback(this);//添加回调
+        holder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);//surfaceview不维护自己的缓冲区，等待屏幕渲染引擎将内容推送到用户面前
     }
 
     //检查权限
@@ -163,8 +175,8 @@ public class BeforeLiveActivity extends Activity implements  SurfaceHolder.Callb
             }
             if (permissionsList.size() != 0) {
                 Log.i("手机sdk版本", "permissionsList.size()" + permissionsList.size());
-                requestPermissions(permissionsList.toArray(new String[permissionsList.size()]),
-                        REQUEST_PHONE_PERMISSIONS);
+//                requestPermissions(permissionsList.toArray(new String[permissionsList.size()]),
+//                        REQUEST_PHONE_PERMISSIONS);
             }
         }
     }
@@ -204,6 +216,14 @@ public class BeforeLiveActivity extends Activity implements  SurfaceHolder.Callb
     @Override
     public void onDestroy() {
         super.onDestroy();
+        if (camera!=null){
+            camera.stopPreview();
+            camera.release();
+        }
+        camera = null;
+        bls=0;
+        holder = null;
+        surface = null;
         // unregisterReceiver(Receiver);
     }
 
@@ -298,8 +318,8 @@ public class BeforeLiveActivity extends Activity implements  SurfaceHolder.Callb
     @Override
     protected void onResume() {
         super.onResume();
-        //initCaer();
         ILiveRoomManager.getInstance().onResume();
+        surface();
     }
 
     @Override
@@ -404,14 +424,38 @@ public class BeforeLiveActivity extends Activity implements  SurfaceHolder.Callb
     public void surfaceCreated(SurfaceHolder surfaceHolder) {
 
     }
-
+    // 所需的全部权限
+    static final String[] PERMISSIONS = new String[]{
+            Manifest.permission.CAMERA,
+            Manifest.permission.CALL_PHONE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+    };
+    private static final int REQUEST_CODE = 0; // 请求码
+    @Override protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        // 拒绝时, 关闭页面, 缺少主要权限, 无法运行
+        if (requestCode == REQUEST_CODE && resultCode == PermissionsActivity.PERMISSIONS_DENIED) {
+            finish();
+        }else {
+            initCaer();
+        }
+    }
     @Override
     public void surfaceChanged(SurfaceHolder surfaceHolder, int i, int i1, int i2) {
-        initCaer();
+        if (mPermissionsChecker.lacksPermissions(PERMISSIONS)) {
+            startPermissionsActivity();
+        }else {
+            initCaer();
+        }
+
     }
 
+    private void startPermissionsActivity() {
+        PermissionsActivity.startActivityForResult(this, REQUEST_CODE, PERMISSIONS);
+    }
     private void initCaer() {
-        if(camera == null) {
+            camera=null;
             camera = Camera.open();
             initCaera();
                 try {
@@ -422,7 +466,6 @@ public class BeforeLiveActivity extends Activity implements  SurfaceHolder.Callb
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
-        }
     }
 
     private void initCaera() {
@@ -443,7 +486,9 @@ public class BeforeLiveActivity extends Activity implements  SurfaceHolder.Callb
                     camera = Camera.open(i21);//打开当前选中的摄像头
                     Camera.Parameters parameters = camera.getParameters();
                     Camera.Size preSize = getCloselyPreSize(true, surface.getWidth(), surface.getHeight(), parameters.getSupportedPreviewSizes());
-                    parameters.setPreviewSize(preSize.width, preSize.height);
+                    if (parameters!=null&&preSize!=null){
+                        parameters.setPreviewSize(preSize.width, preSize.height);
+                    }
                     camera.setParameters(parameters);
                     try {
                         camera.setPreviewDisplay(holder);//通过surfaceview显示取景画面
@@ -535,10 +580,6 @@ public class BeforeLiveActivity extends Activity implements  SurfaceHolder.Callb
     }
     @Override
     public void surfaceDestroyed(SurfaceHolder surfaceHolder) {
-        camera.stopPreview();
-        camera.release();
-        camera = null;
-        holder = null;
-        surface = null;
+
     }
 }
