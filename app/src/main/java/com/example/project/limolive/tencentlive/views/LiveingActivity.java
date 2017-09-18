@@ -1933,7 +1933,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
 
         TranslateAnimation animation=new TranslateAnimation(x1-x2,0,y1-y2,0);
         animation.setRepeatMode(Animation.REVERSE);
-        animation.setDuration(1000);
+        animation.setDuration(500);
         rl_anims.addView(textView1);
         textView1.startAnimation(animation);
 
