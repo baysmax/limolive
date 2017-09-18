@@ -1128,7 +1128,7 @@ public class Api {
      * 退货申请接口
      * user_id（买家id）、id（退货id）、shipping_name（物流名称）、shipping_code（物流单号）
      */
-    public static void order_return_add(String user_id,String id,String shipping_name,String shipping_code,ApiResponseHandler handler) {
+    public static void order_return_add(String user_id,String id,String shipping_code,String shipping_name,ApiResponseHandler handler) {
         RequestParams params = new RequestParams();
         Log.i("售后","user_id="+user_id+",id="+id+",shipping_name="+shipping_name+"shipping_code"+shipping_code);
         params.put("user_id",user_id);

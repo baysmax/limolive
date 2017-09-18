@@ -35,8 +35,6 @@ import java.util.List;
 public class OrderAdapters2 extends BaseAdapter {
     private Context context;
     private List<OrderBean> list;
-    private OrderBean orderBean;
-    AlertDialog dialog = null;
 
     public OrderAdapters2(Context context, List<OrderBean> list) {
         this.context = context;
@@ -61,7 +59,7 @@ public class OrderAdapters2 extends BaseAdapter {
     @Override
     public View getView(final int i, View view, ViewGroup viewGroup) {
         ViewHolder vh1=null;
-        orderBean = list.get(i);
+        final OrderBean orderBean = list.get(i);
         if (view==null){
             vh1 = new ViewHolder();
             view = LayoutInflater.from(context).inflate(R.layout.all_order_items, null);
@@ -82,7 +80,7 @@ public class OrderAdapters2 extends BaseAdapter {
             vh1 = (ViewHolder) view.getTag();
         }
         String str="";
-        switch (this.orderBean.getStatus_id()){
+        switch (orderBean.getStatus_id()){
             case "0":
                 str="未处理";
                 break;
@@ -100,7 +98,7 @@ public class OrderAdapters2 extends BaseAdapter {
             final ViewHolder finalVh = vh1;
             vh1.type.setText("卖家未处理");
         }else if ("设置退货物流".equals(str)){
-            if (!"0".equals(orderBean.getShipping_code())){
+            if ("0".equals(orderBean.getShipping_code())){
                 vh1.tv_evaluate.setText("设置退货物流");
                 vh1.tv_evaluate.setVisibility(View.VISIBLE);
                 vh1.tv_address.setText("收货地址: "+orderBean.getAddress());
@@ -109,7 +107,7 @@ public class OrderAdapters2 extends BaseAdapter {
                 vh1.tv_evaluate.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        show1(finalVh1);
+                        show1(orderBean,finalVh1);
                     }
                 });
             }else {
@@ -133,11 +131,11 @@ public class OrderAdapters2 extends BaseAdapter {
             vh1.tv_address.setText("收货地址: "+orderBean.getAddress());
         }
         if (orderBean.getGoods_list()!=null&&orderBean.getGoods_list().size()>0){
-            vh1.store.setText(this.orderBean.getStore_name());
-            ImageLoader.getInstance().displayImage(ApiHttpClient.API_PIC + this.orderBean.getGoods_list().get(0).getOriginal_img(), vh1.iv);
-            vh1.desc.setText(this.orderBean.getGoods_list().get(0).getGoods_name());
-            vh1.count.setText("X" + this.orderBean.getGoods_list().get(0).getGoods_num());
-            vh1.price.setText("￥"+this.orderBean.getGoods_list().get(0).getGoods_price());
+            vh1.store.setText(orderBean.getStore_name());
+            ImageLoader.getInstance().displayImage(ApiHttpClient.API_PIC + orderBean.getGoods_list().get(0).getOriginal_img(), vh1.iv);
+            vh1.desc.setText(orderBean.getGoods_list().get(0).getGoods_name());
+            vh1.count.setText("X" + orderBean.getGoods_list().get(0).getGoods_num());
+            vh1.price.setText("￥"+orderBean.getGoods_list().get(0).getGoods_price());
             vh1.order_codes.setText("订单编号: "+orderBean.getOrder_id());
         }
         return view;
@@ -146,7 +144,7 @@ public class OrderAdapters2 extends BaseAdapter {
     private EditText et_size,et_num;
     private Button btn_fig;
     private Dialog dialogs;
-    private void show1(final ViewHolder finalVh) {
+    private void show1(final OrderBean orderBean, final ViewHolder finalVh) {
         View view = View.inflate(context, R.layout.dialogs1, null);
         et_size = view.findViewById(R.id.et_size);
         et_num = view.findViewById(R.id.et_num);
@@ -160,7 +158,7 @@ public class OrderAdapters2 extends BaseAdapter {
             public void onClick(View view) {
                 String shipping_code=et_num.getText().toString();
                 String  shipping_name=et_size.getText().toString();
-                setShipping(shipping_code,shipping_name,finalVh);
+                setShipping(orderBean,shipping_code,shipping_name,finalVh);
             }
 
 
@@ -168,7 +166,7 @@ public class OrderAdapters2 extends BaseAdapter {
 
     }
 
-    private void setShipping(String shipping_code, String shipping_name, final ViewHolder finalVh) {
+    private void setShipping(OrderBean orderBean,String shipping_code, String shipping_name, final ViewHolder finalVh) {
         if (TextUtils.isEmpty(shipping_code)){
             ToastUtils.showShort(context,"物流单号为空");
             return;

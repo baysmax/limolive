@@ -42,7 +42,6 @@ import java.util.List;
 public class OrderAdapters extends BaseAdapter {
     private Context context;
     private List<OrderBean> list;
-    private OrderBean orderBean;
     private String type="";
     AlertDialog dialog = null;
 
@@ -89,7 +88,7 @@ public class OrderAdapters extends BaseAdapter {
         ViewHolder vh2 = null;
         ViewHolder vh3 = null;
 
-        orderBean = list.get(i);
+        final OrderBean orderBean = list.get(i);
         int type = getItemViewType(i);
         if (view == null) {
             switch (type) {
@@ -199,7 +198,7 @@ public class OrderAdapters extends BaseAdapter {
                     vh1.tv_evaluate.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            show1(finalVh.tv_evaluate, finalVh.type);
+                            show1(orderBean,finalVh.tv_evaluate, finalVh.type);
                         }
                     });
                 }
@@ -236,7 +235,7 @@ public class OrderAdapters extends BaseAdapter {
                     vh2.tv_evaluate.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            show1(finalVh.tv_evaluate, finalVh2.type);
+                            show1(orderBean,finalVh.tv_evaluate, finalVh2.type);
                         }
                     });
                 }
@@ -278,7 +277,7 @@ public class OrderAdapters extends BaseAdapter {
     private EditText et_size,et_num;
     private Button btn_fig;
     private Dialog dialogs;
-    private void show1(final TextView tv,final TextView tv1) {
+    private void show1(final OrderBean orderBean, final TextView tv, final TextView tv1) {
         View view = View.inflate(context, R.layout.dialogs1, null);
         et_size = view.findViewById(R.id.et_size);
         et_num = view.findViewById(R.id.et_num);
@@ -292,13 +291,13 @@ public class OrderAdapters extends BaseAdapter {
             public void onClick(View view) {
                 String shipping_code=et_num.getText().toString();
                 String  shipping_name=et_size.getText().toString();
-                setshipping(shipping_code,shipping_name,tv,tv1);
+                setshipping(orderBean,shipping_code,shipping_name,tv,tv1);
             }
         });
 
     }
 
-    private void setshipping(String shipping_code, String shipping_name, final TextView tv,final TextView tv1) {
+    private void setshipping(final OrderBean orderBean, String shipping_code, String shipping_name, final TextView tv, final TextView tv1) {
         if (TextUtils.isEmpty(shipping_code)){
             ToastUtils.showShort(context,"物流单号为空");
             return;

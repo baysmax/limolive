@@ -38,8 +38,6 @@ import java.util.List;
 public class OrderAdapters1 extends BaseAdapter {
     private Context context;
     private List<OrderBean> list;
-    private OrderBean orderBean;
-    AlertDialog dialog = null;
 
     public OrderAdapters1(Context context, List<OrderBean> list) {
         this.context = context;
@@ -70,7 +68,7 @@ public class OrderAdapters1 extends BaseAdapter {
     @Override
     public View getView(final int i, View view, ViewGroup viewGroup) {
         ViewHolder vh1=null;
-        orderBean = list.get(i);
+        final OrderBean orderBean = list.get(i);
         if (view==null){
             vh1 = new ViewHolder();
             view = LayoutInflater.from(context).inflate(R.layout.all_order_items, null);
@@ -94,7 +92,7 @@ public class OrderAdapters1 extends BaseAdapter {
             vh1 = (ViewHolder) view.getTag();
         }
         String str="";
-        switch (this.orderBean.getStatus_id()){//0、待发货，2、待支付，3、待收货，4、待评价，5、已取消，6、已完成
+        switch (orderBean.getStatus_id()){//0、待发货，2、待支付，3、待收货，4、待评价，5、已取消，6、已完成
             case "0":
                 str="审核";
                 break;
@@ -184,11 +182,11 @@ public class OrderAdapters1 extends BaseAdapter {
             vh1.type.setText(str);
         }
         if (orderBean!=null&&orderBean.getGoods_list()!=null&&orderBean.getGoods_list().size()>0){
-            vh1.store.setText(this.orderBean.getStore_name());
-            ImageLoader.getInstance().displayImage(ApiHttpClient.API_PIC + this.orderBean.getGoods_list().get(0).getOriginal_img(), vh1.iv);
-            vh1.desc.setText(this.orderBean.getGoods_list().get(0).getGoods_name());
-            vh1.count.setText("X" + this.orderBean.getGoods_list().get(0).getGoods_num());
-            vh1.price.setText("￥"+this.orderBean.getGoods_list().get(0).getGoods_price());
+            vh1.store.setText(orderBean.getStore_name());
+            ImageLoader.getInstance().displayImage(ApiHttpClient.API_PIC + orderBean.getGoods_list().get(0).getOriginal_img(), vh1.iv);
+            vh1.desc.setText(orderBean.getGoods_list().get(0).getGoods_name());
+            vh1.count.setText("X" + orderBean.getGoods_list().get(0).getGoods_num());
+            vh1.price.setText("￥"+orderBean.getGoods_list().get(0).getGoods_price());
             vh1.order_codes.setText("订单编号: "+orderBean.getOrder_id());
         }
         return view;

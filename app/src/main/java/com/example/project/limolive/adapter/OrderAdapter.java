@@ -46,7 +46,6 @@ import java.util.List;
 public class OrderAdapter extends BaseAdapter {
     private Context context;
     private List<OrderBean> list;
-    private OrderBean orderBean;
     private String type="";
     AlertDialog dialog = null;
 
@@ -101,7 +100,7 @@ public class OrderAdapter extends BaseAdapter {
         ViewHolder vh4 = null;
         ViewHolder vh5 = null;
         ViewHolder vh6 = null;
-        orderBean = list.get(i);
+        final OrderBean orderBean = list.get(i);
         int type = getItemViewType(i);
         if (view == null) {
             switch (type) {
@@ -309,7 +308,7 @@ public class OrderAdapter extends BaseAdapter {
                                     .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialogInterface, int i) {
-                                            orderReturn(editText.getText().toString(), finalVh6.tv_evaluate1);
+                                            orderReturn(orderBean,editText.getText().toString(), finalVh6.tv_evaluate1);
                                         }
                                     })
                                     .setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -339,7 +338,7 @@ public class OrderAdapter extends BaseAdapter {
                                     .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialogInterface, int i) {
-                                            orderReturn(editText.getText().toString(), finalVh2.tv_evaluate);
+                                            orderReturn(orderBean,editText.getText().toString(), finalVh2.tv_evaluate);
                                         }
                                     })
                                     .setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -358,7 +357,7 @@ public class OrderAdapter extends BaseAdapter {
                     vh1.tv_evaluate.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            Cart4();
+                            Cart4(orderBean);
                         }
                     });
                 }else if (str.equals("待发货")){
@@ -435,7 +434,7 @@ public class OrderAdapter extends BaseAdapter {
                     vh2.tv_evaluate.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            Cart4();
+                            Cart4(orderBean);
                         }
                     });
                 }
@@ -621,7 +620,7 @@ public class OrderAdapter extends BaseAdapter {
                                     .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialogInterface, int i) {
-                                            orderReturn(editText.getText().toString(), finalVh1.tv_evaluate);
+                                            orderReturn(orderBean,editText.getText().toString(), finalVh1.tv_evaluate);
                                         }
                                     })
                                     .setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -653,7 +652,7 @@ public class OrderAdapter extends BaseAdapter {
         return view;
     }
 
-    private void Cart4() {
+    private void Cart4(OrderBean orderBean) {
         Api.Cart4(LoginManager.getInstance().getUserID(context), orderBean.getOrder_sn(), new ApiResponseHandler(context) {
             @Override
             public void onSuccess(ApiResponse apiResponse) {
@@ -669,7 +668,7 @@ public class OrderAdapter extends BaseAdapter {
         });
     }
 
-    private void orderReturn(String reason, final TextView textView) {
+    private void orderReturn(OrderBean orderBean,String reason, final TextView textView) {
         Api.orderReturn(LoginManager.getInstance().getUserID(context)
                 , orderBean.getOrder_id()
                 , orderBean.getOrder_sn()
