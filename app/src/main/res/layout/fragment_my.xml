@@ -27,7 +27,7 @@
                 <RelativeLayout
                     android:id="@+id/rl_img_text"
                     android:layout_width="match_parent"
-                    android:layout_marginTop="@dimen/_15sp"
+                    android:layout_marginTop="6dp"
                     android:layout_height="0dp"
                     android:layout_weight="5"
                     >
@@ -45,10 +45,9 @@
                         />
                     <ImageView
                         android:id="@+id/iv_settings"
-                        android:layout_marginTop="@dimen/_9sp"
-                        android:layout_marginRight="@dimen/_9sp"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
+                        android:layout_marginRight="6dp"
+                        android:layout_width="23dp"
+                        android:layout_height="23dp"
                         android:layout_alignParentRight="true"
                         android:layout_alignParentTop="true"
                         android:src="@drawable/setting"/>
