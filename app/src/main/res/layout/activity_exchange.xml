@@ -20,7 +20,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="充值"
+            android:text="积分兑换"
             android:textColor="#a000"
             android:textSize="18sp" />
 
@@ -31,10 +31,11 @@
         android:background="#20000000"/>
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="120dp"
         android:orientation="horizontal"
         android:paddingBottom="10dp"
-        android:background="#fff">
+        android:gravity="center_vertical"
+        android:background="#0d99e40e">
         <TextView
             android:layout_width="0dp"
             android:layout_weight="1"
@@ -51,14 +52,18 @@
                 android:layout_height="wrap_content"
                 android:textSize="17dp"
                 android:textColor="#50000000"
-                android:text=""/>
+                android:text="0"/>
             <TextView
                 android:id="@+id/tv_d"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="9dp"
                 android:layout_below="@id/tv_number"
                 android:layout_centerHorizontal="true"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="center"
+                android:background="@drawable/btns_bg2"
+                android:textColor="@color/white"
+                android:padding="2dp"
                 android:textSize="19dp"
                 android:text="我的钻石"/>
         </RelativeLayout>
@@ -70,7 +75,7 @@
         <RelativeLayout
             android:layout_weight="2"
             android:layout_width="0dp"
-            android:layout_height="wrap_content" >
+            android:layout_height="wrap_content">
             <TextView
                 android:id="@+id/tv_nmb_number"
                 android:layout_marginTop="20dp"
@@ -79,16 +84,20 @@
                 android:layout_height="wrap_content"
                 android:textSize="19dp"
                 android:textColor="#50000000"
-                android:text=""/>
+                android:text="0"/>
             <TextView
                 android:id="@+id/tv_n"
                 android:layout_marginTop="10dp"
                 android:layout_below="@id/tv_nmb_number"
                 android:layout_centerHorizontal="true"
-                android:layout_width="wrap_content"
-                android:textSize="17dp"
+                android:layout_width="match_parent"
+                android:background="@drawable/btns_bg2"
+                android:textColor="@color/white"
+                android:gravity="center"
+                android:padding="2dp"
+                android:textSize="19dp"
                 android:layout_height="wrap_content"
-                android:text="我的柠檬币"/>
+                android:text="我的积分"/>
 
         </RelativeLayout>
         <TextView
@@ -98,21 +107,40 @@
     </LinearLayout>
     <View
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="#10000000"/>
+        android:layout_height="0.5dp"
+        android:background="#3000"/>
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#fff"
         >
-        <TextView
-            android:layout_marginTop="20dp"
-            android:layout_marginLeft="18dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="16dp"
-            android:text="钻石充值"/>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp">
+            <Button
+                android:id="@+id/btn_wallet_integrak"
+                android:layout_marginLeft="25dp"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_centerVertical="true"
+                android:textSize="18dp"
+                android:textColor="@color/white"
+                android:text="钻石充值"/>
+            <TextView
+                android:id="@+id/tv_explain"
+                android:layout_toRightOf="@id/btn_wallet_integrak"
+                android:layout_marginLeft="10dp"
+                android:text="(点击切换兑换积分)"
+                android:layout_centerVertical="true"
+                android:textSize="12sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="#3000"/>
         <LinearLayout
             android:layout_marginTop="20dp"
             android:layout_width="match_parent"
@@ -125,7 +153,7 @@
                 android:gravity="center"
                 android:layout_height="wrap_content">
                 <TextView
-                    android:id="@+id/btn_charge_liushi"
+                    android:id="@+id/btn_charge_10"
                     android:layout_width="120dp"
                     android:layout_height="35dp"
                     android:layout_alignParentRight="true"
@@ -133,7 +161,7 @@
                     android:layout_marginRight="12dp"
                     android:background="@drawable/btns_bg"
                     android:gravity="center"
-                    android:text="60钻石"
+                    android:text="10"
                     android:textColor="@color/color_btns"
                     android:textSize="16sp" />
             </LinearLayout>
@@ -145,7 +173,7 @@
                 android:gravity="center"
                 android:layout_height="wrap_content">
                 <TextView
-                    android:id="@+id/btn_charge_sanbai"
+                    android:id="@+id/btn_charge_20"
                     android:layout_width="120dp"
                     android:layout_height="35dp"
                     android:layout_alignParentRight="true"
@@ -154,7 +182,7 @@
                     android:background="@drawable/btns_bg"
 
                     android:gravity="center"
-                    android:text="300钻石"
+                    android:text="20"
                     android:textColor="@color/color_btns"
                     android:textSize="16sp" />
             </LinearLayout>
@@ -173,8 +201,9 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:layout_height="wrap_content">
+
                 <TextView
-                    android:id="@+id/btn_charge_yiqian"
+                    android:id="@+id/btn_charge_50"
                     android:layout_width="120dp"
                     android:layout_height="35dp"
                     android:layout_alignParentRight="true"
@@ -183,7 +212,7 @@
                     android:background="@drawable/btns_bg"
 
                     android:gravity="center"
-                    android:text="1000钻石"
+                    android:text="50"
                     android:textColor="@color/color_btns"
                     android:textSize="16sp" />
             </LinearLayout>
@@ -194,17 +223,17 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:layout_height="wrap_content">
+
                 <TextView
-                    android:id="@+id/btn_charge_liangqian"
+                    android:id="@+id/btn_charge_100"
                     android:layout_width="120dp"
                     android:layout_height="35dp"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="12dp"
                     android:background="@drawable/btns_bg"
-
                     android:gravity="center"
-                    android:text="2000钻石"
+                    android:text="100"
                     android:textColor="@color/color_btns"
                     android:textSize="16sp" />
             </LinearLayout>
@@ -221,7 +250,7 @@
                 android:layout_height="wrap_content">
 
                 <TextView
-                    android:id="@+id/btn_charge_wuqian"
+                    android:id="@+id/btn_charge_500"
                     android:layout_width="120dp"
                     android:layout_height="35dp"
                     android:layout_alignParentRight="true"
@@ -230,7 +259,7 @@
                     android:background="@drawable/btns_bg"
 
                     android:gravity="center"
-                    android:text="5000钻石"
+                    android:text="500"
                     android:textColor="@color/color_btns"
                     android:textSize="16sp" />
             </LinearLayout>
@@ -241,17 +270,18 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:layout_height="wrap_content">
-                <TextView
-                    android:id="@+id/btn_charge_yiwan"
+                <EditText
+                    android:id="@+id/btn_charge_1000"
                     android:layout_width="120dp"
                     android:layout_height="35dp"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="12dp"
+                    android:inputType="number"
                     android:background="@drawable/btns_bg"
-
                     android:gravity="center"
-                    android:text="10000钻石"
+                    android:hint="自定义"
+                    android:textColorHint="@color/color_btns"
                     android:textColor="@color/color_btns"
                     android:textSize="16sp" />
             </LinearLayout>
@@ -267,31 +297,22 @@
                 android:layout_marginLeft="18dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="*注:1元=10钻石"/>
-            <TextView
-                android:textColor="#70000000"
-                android:layout_marginTop="6dp"
-                android:textSize="10dp"
-                android:layout_marginLeft="18dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/change_info_wallet_hint"/>
+                android:text="*注:1积分=1钻石"/>
         </LinearLayout>
-       <RelativeLayout
-           android:layout_marginTop="19dp"
-           android:layout_width="match_parent"
-           android:layout_height="wrap_content">
-           <Button
-               android:id="@+id/btn_zhifu"
-               android:layout_centerHorizontal="true"
-               android:layout_width="240dp"
-               android:layout_height="45dp"
-               android:background="@drawable/btns_bg2"
-               android:textSize="20dp"
-               android:textColor="#ffffff"
-               android:text="微信支付"
-               />
-       </RelativeLayout>
-
-        </LinearLayout>
+        <RelativeLayout
+            android:layout_marginTop="19dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <Button
+                android:id="@+id/btn_zhifu"
+                android:layout_centerHorizontal="true"
+                android:layout_width="240dp"
+                android:layout_height="45dp"
+                android:background="@drawable/btns_bg2"
+                android:textSize="20dp"
+                android:textColor="#ffffff"
+                android:text="兑换"
+                />
+        </RelativeLayout>
+</LinearLayout>
     </LinearLayout>

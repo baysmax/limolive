@@ -20,9 +20,11 @@
         <item name="android:paddingRight">@dimen/activity_padding_margin3</item>
         <item name="android:background">@null</item>
     </style>
-    <style name="BottomDialog.Animation" parent="Animation.AppCompat.Dialog">
+    <style name="BottomDialog.Animation" parent="Base.Theme.AppCompat.DialogWhenLarge">
         <item name="android:windowEnterAnimation">@anim/translate_dialog_in</item>
         <item name="android:windowExitAnimation">@anim/translate_dialog_out</item>
+        <item name="android:backgroundDimEnabled">false</item>
+        <item name="android:windowBackground">@color/full_transparent</item>
     </style>
     <!--登录button-->
     <style name="login_button">
@@ -68,6 +70,8 @@
         <item name="android:backgroundDimEnabled">false</item>
     </style>
     <style name="dialog" parent="@android:style/Theme.Dialog">
+        <item name="android:windowEnterAnimation">@anim/translate_dialog_in</item>
+        <item name="android:windowExitAnimation">@anim/translate_dialog_out</item>
         <item name="android:windowFrame">@null</item>
         <item name="android:windowIsFloating">false</item>
         <item name="android:windowIsTranslucent">false</item>

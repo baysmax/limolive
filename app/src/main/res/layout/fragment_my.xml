@@ -319,7 +319,31 @@
                         android:textColor="#aa4b4a4a"
                         android:layout_centerVertical="true"
                         android:gravity="center"
-                        android:text="150钻石 "
+                        android:layout_marginRight="@dimen/_15sp"
+                        android:drawableRight="@drawable/jiantouyou"/>
+                </RelativeLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/line_width3"
+                    android:background="@color/line_color1"
+                    android:layout_marginLeft="@dimen/activity_padding_margin8"
+                    />
+                <RelativeLayout
+                    android:id="@+id/rl_integral"
+                    style="@style/bottom_mine_text_view">
+                    <TextView
+                        style="@style/bottom_mine_text_views"
+                        android:text="我的积分"
+                        android:drawableLeft="@drawable/qianbao"
+                        />
+                    <TextView
+                        android:id="@+id/tv_my_integral_nums"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentRight="true"
+                        android:textColor="#aa4b4a4a"
+                        android:layout_centerVertical="true"
+                        android:gravity="center"
                         android:layout_marginRight="@dimen/_15sp"
                         android:drawableRight="@drawable/jiantouyou"/>
                 </RelativeLayout>

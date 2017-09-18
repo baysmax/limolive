@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:background="#4000"
+    android:layout_height="250dp">
+    <RelativeLayout
+        android:id="@+id/rl_anims"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:orientation="vertical">
+            <include layout="@layout/titles_game"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.2dp"/>
+            <include layout="@layout/body_game"/>
+            <include layout="@layout/buttom_game"/>
+
+        </LinearLayout>
+    </RelativeLayout>
+
+</LinearLayout>
