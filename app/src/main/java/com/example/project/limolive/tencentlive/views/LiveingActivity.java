@@ -1896,8 +1896,8 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
         int width1 = rl_anim_stake.getWidth();//父容器的宽
         int height1 = rl_anim_stake.getHeight();//父容器的高
         Random random =new Random();//随机
-        int x = random.nextInt(width1-20);
-        int y = random.nextInt(height1-20);
+        int x = random.nextInt(width1-30);
+        int y = random.nextInt(height1-30);
         textView.setLayoutParams(params);
         textView.setBackground(LiveingActivity.this.getDrawable(draw));
         textView.setText(string);
