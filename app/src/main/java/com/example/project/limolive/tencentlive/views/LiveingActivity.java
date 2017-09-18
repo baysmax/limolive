@@ -767,7 +767,9 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
         unregisterReceiver(myReceiver);
         unregisterReceiver(myReceiver1);
         isStop = true;
-        instance.onDesPlay();
+        if (instance!=null){
+            instance.onDesPlay();
+        }
         instance=null;
         watchCount = 0;
         isTrue=false;
@@ -791,7 +793,9 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
         CurLiveInfo.setAdmires(0);
         CurLiveInfo.setCurrentRequestCount(0);
         CurLiveInfo.setMaxmembers(0);
-        mLiveHelper.onDestory();
+        if (mLiveHelper!=null){
+            mLiveHelper.onDestory();
+        }
     }
 
     /**
@@ -2028,7 +2032,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
         }
     };
     List<ChipBeatBean> list=new ArrayList<>();
-    private void heartbeat() {
+    private void heartBeat() {
         if (!NetWorkUtil.isNetworkConnected(LiveingActivity.this)) {
             ToastUtils.showShort(LiveingActivity.this, NET_UNCONNECT);
             return;
@@ -2364,6 +2368,11 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
                     Log.i("游戏","diceBean1="+ diceBean1.toString());
                     String[] chip_ch1 = diceBean1.getChip_ch();
                     for (int i = 0; i < chip_ch1.length; i++) {
+                        if (chip_ch[i].length() > 1) {
+                            chip_ch[i] = String.valueOf(chip_ch[i].charAt(chip_ch[i].length() - 1));
+                        }
+                    }
+                    for (int i = 0; i < chip_ch1.length; i++) {
                         dice.add(Integer.parseInt(chip_ch1[i]));
                         Log.i("游戏","一号桌点数="+Integer.parseInt(chip_ch1[i]));
                     }
@@ -2547,7 +2556,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
                         tv_num.setText("押注时间"+l+"秒");
                         if (l%2==0){
                             Log.i("游戏","下注心跳——"+l+"s");
-                            heartbeat();
+                            heartBeat();
                         }
                     }else if (type==1){
                         tv_num.setText("休息"+l+"秒");
