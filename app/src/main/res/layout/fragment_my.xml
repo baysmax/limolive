@@ -333,8 +333,8 @@
                     style="@style/bottom_mine_text_view">
                     <TextView
                         style="@style/bottom_mine_text_views"
-                        android:text="我的积分"
-                        android:drawableLeft="@drawable/qianbao"
+                        android:text=" 我的积分"
+                        android:drawableLeft="@drawable/integral"
                         />
                     <TextView
                         android:id="@+id/tv_my_integral_nums"
