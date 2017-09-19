@@ -133,6 +133,7 @@ public class BaseActivity extends AppCompatActivity implements ProfileView, Easy
 
         PgyCrashManager.register(this);
         //PgyUpdateManager.register(this,getString(R.string.file_provider));
+        setDefaultStatusBar();
 
     }
 
