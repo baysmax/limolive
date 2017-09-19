@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.alibaba.fastjson.JSON;
 import com.example.project.limolive.R;
 import com.example.project.limolive.adapter.GoodsManageAdapter;
+import com.example.project.limolive.adapter.GoodsManagesAdapter;
 import com.example.project.limolive.api.Api;
 import com.example.project.limolive.api.ApiResponse;
 import com.example.project.limolive.api.ApiResponseHandler;
@@ -40,7 +41,7 @@ public class GoodsManagsActivity extends BaseActivity implements View.OnClickLis
     private View v_selledBG, v_sellBG;
     private List<GoodInfoBean> goodsContentBeans;
     private TextView tv_textNull;
-    private  GoodsManageAdapter adapter;
+    private GoodsManagesAdapter adapter;
 
     private AutoSwipeRefreshLayout swipeRefreshLayout;
 
@@ -92,7 +93,7 @@ public class GoodsManagsActivity extends BaseActivity implements View.OnClickLis
         goodsManager(uid,sort,String.valueOf(page));
 
         goodsContentBeans = new ArrayList<>();
-        adapter = new GoodsManageAdapter(this, goodsContentBeans);
+        adapter = new GoodsManagesAdapter(this, goodsContentBeans);
         lv_goodsMGList.setAdapter(adapter);
         bindEvent();
     }
