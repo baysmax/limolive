@@ -98,7 +98,11 @@ public class PersonInfoFragment extends BaseFragment implements View.OnClickList
     private void loadPersonInfo() {
         LoginModel model=provider.getMineInfo(LoginManager.getInstance().getPhone(getApplication()));
         if(model!=null){
-            iv_user_avatar.setImageURI(ApiHttpClient.API_PIC+model.getHeadsmall());
+            if (model.getHeadsmall().contains("http://")){
+                iv_user_avatar.setImageURI(model.getHeadsmall());
+            }else {
+                iv_user_avatar.setImageURI(ApiHttpClient.API_PIC+model.getHeadsmall());
+            }
             tv_user_name.setText(model.getNickname());
             tv_live_code.setText(model.getLivenum());
             if("0".equals(model.getSex())){
