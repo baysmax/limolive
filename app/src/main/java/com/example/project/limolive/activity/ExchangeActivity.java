@@ -2,7 +2,10 @@ package com.example.project.limolive.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -163,9 +166,37 @@ public class ExchangeActivity extends BaseActivity implements View.OnClickListen
                 break;
             case R.id.btn_charge_1000:
                 setDraws();
-                result=1000;
-                textView[5].setBackgroundDrawable(getDrawable(R.drawable.btns_bgf));
+                ((EditText)textView[5]).addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                        if (charSequence==null){
+                            String s = "0";
+                            result=Integer.parseInt(s);
+                        }else {
+                            if ("".equals(charSequence.toString())){
+                                result=0;
+                            }else {
+                                String s = charSequence.toString();
+                                result=Integer.parseInt(s);
+                            }
+
+                        }
+                        btn_zhifu.setText("兑换"+result+getStatus(isDeaOrInt));
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable editable) {
+
+                    }
+                });
                 btn_zhifu.setText("兑换"+result+getStatus(isDeaOrInt));
+                textView[5].setBackgroundDrawable(getDrawable(R.drawable.btns_bgf));
+
                 break;
         }
     }
@@ -293,7 +324,7 @@ public class ExchangeActivity extends BaseActivity implements View.OnClickListen
         textView[2].setText(50+getStatus(isDeaOrInt));
         textView[3].setText(100+getStatus(isDeaOrInt));
         textView[4].setText(500+getStatus(isDeaOrInt));
-        textView[5].setText(1000+getStatus(isDeaOrInt));
+        //textView[5].setText(1000+getStatus(isDeaOrInt));
         btn_zhifu.setText("兑换"+result+getStatus(isDeaOrInt));
         tv_explain.setText("(点击切换到兑换"+getStatus(isDeaOrInt==true?false:true)+")");
         btn_wallet_integrak.setText(isDeaOrInt?"兑换积分":"兑换钻石");
