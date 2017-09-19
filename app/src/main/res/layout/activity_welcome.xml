@@ -13,10 +13,10 @@
     <LinearLayout
         android:id="@+id/welcome_to_login"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="100dp"
-        android:visibility="gone"
+        android:layout_marginBottom="50dp"
         android:layout_width="match_parent"
-        android:layout_height="50dp">
+        android:visibility="gone"
+        android:layout_height="35dp">
         <View
             android:layout_weight="2"
             android:layout_width="@dimen/gaudio_spacing_320"
@@ -29,7 +29,7 @@
             android:layout_height="match_parent"
             android:layout_weight="2"
             android:onClick="onClick"
-            android:background="@drawable/button_bg3"
+            android:background="@drawable/btns_bgfw"
         />
         <View
             android:layout_weight="2"
