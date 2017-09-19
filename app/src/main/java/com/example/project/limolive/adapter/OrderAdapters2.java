@@ -99,7 +99,7 @@ public class OrderAdapters2 extends BaseAdapter {
             vh1.type.setText("卖家未处理");
         }else if ("设置退货物流".equals(str)){
             if ("0".equals(orderBean.getShipping_code())){
-                vh1.tv_evaluate.setText("设置退货物流");
+                vh1.tv_evaluate.setText("设置退货");
                 vh1.tv_evaluate.setVisibility(View.VISIBLE);
                 vh1.tv_address.setText("收货地址: "+orderBean.getAddress());
                 vh1.type.setText("请设置物流信息");
@@ -111,7 +111,7 @@ public class OrderAdapters2 extends BaseAdapter {
                     }
                 });
             }else {
-                vh1.tv_evaluate.setText("退货物流已设置");
+                vh1.tv_evaluate.setText("物流已设置");
                 vh1.tv_evaluate.setVisibility(View.VISIBLE);
                 vh1.type.setText("退货物流已设置");
             }
