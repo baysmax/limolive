@@ -468,6 +468,15 @@ public class Api {
         params.put("page", page);
         ApiHttpClient.post(ApiHttpClient.API_URL + Urls.GOODS_MANAGER, params, handler);
     }
+    /**
+     * 删除商品
+     */
+    public static void delShopp(String uid,String goods_id,ApiResponseHandler handler) {
+        RequestParams params = new RequestParams();
+        params.put("goods_id",goods_id);
+        params.put("uid",uid);
+        ApiHttpClient.post(ApiHttpClient.API_URL + Urls.GOODS_DEL_MANAGER_GOODS, params, handler);
+    }
 
     /**
      * 获取直播间用户列表
@@ -1303,4 +1312,6 @@ public class Api {
         params.put("room_id",room_id);
         ApiHttpClient.post(ApiHttpClient.API_URL + Urls.POST_USER_DATA, params, handler);
     }
+
+
 }

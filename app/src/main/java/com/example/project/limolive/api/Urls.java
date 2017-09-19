@@ -75,6 +75,7 @@ public class Urls {
     public static final String ADD_CAR = "appapi/Cart/addCart";  //添加购物车
     public static final String COLLECT_LIST = "appapi/Cart/addCart";  //获取收藏列表
     public static final String GOODS_MANAGER = "/appapi/Goods/goods_manager";  //商品管理
+    public static final String GOODS_DEL_MANAGER_GOODS = "Appapi/goods/dele_goods/";  //删除商品
     public static final String RECHARGE = "/appapi/Cart/recharge";  //柠檬订单生成
     public static final String GOOS_ORDER2 = "/appapi/Cart/goods_order2";  // 商品详情确认订单和提交订单
     public static final String GROUPMEMBER_LISTINFO = "/appapi/ucenter/group_member_info";  //获取直播间用户列表
@@ -82,11 +83,11 @@ public class Urls {
     public static final String FOLLOWHANDLE = "/appapi/ucenter/followHandle";  //关注 取消关注
     public static final String NEARLIVE = "appapi/Ucenter/nearlive";  //附近的直播
     public static final String ADDFRIEND = "/appapi/Ucenter/add_friend";  //加好友
-    public static final String SEARCHFRIENDNAME = "/appapi/Ucenter/search_friendname";  //搜索好友店铺中的好友
+    public static final String SEARCHFRIENDNAME = "/appapi/Ucenter/search_friendname"; //搜索好友店铺中的好友
     //发布宝贝
     public static final String SEND_PRODUCTS = "/appapi/Goods/add_good";
-    public static final String POSt_DELETEFRIEND = "/appapi/Ucenter/del_friend";  //删除好友
-    public static final String POSt_PULLBLACK = "/appapi/Ucenter/pullBlack";  //拉黑取消操作接口
+    public static final String POSt_DELETEFRIEND = "/appapi/Ucenter/del_friend"; //删除好友
+    public static final String POSt_PULLBLACK = "/appapi/Ucenter/pullBlack"; //拉黑取消操作接口
 
     //交易管理
     public static final String DEAL_MANAGER = "/appapi/Goods/deal_manager";
