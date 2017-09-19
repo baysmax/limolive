@@ -97,6 +97,7 @@ import com.example.project.limolive.tencentlive.views.customviews.HorizontalList
 import com.example.project.limolive.tencentlive.views.customviews.PeriscopeLayout;
 import com.example.project.limolive.tencentlive.views.customviews.PopuGiftCount;
 import com.example.project.limolive.utils.NetWorkUtil;
+import com.example.project.limolive.utils.SoundPlayUtils;
 import com.example.project.limolive.view.BabyPopupWindow;
 import com.example.project.limolive.tencentlive.adapters.ChatMsgListAdapter;
 import com.example.project.limolive.tencentlive.model.ChatEntity;
@@ -254,6 +255,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
     private RelativeLayout rl_anim;
     private ImageView iv_ggg;
     private TextView tv_game;
+    private SoundPlayUtils soundPlayUtils;
 
 
     @Override
@@ -293,6 +295,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
         isTrue=true;
         t.start();
         t1.start();
+        soundPlayUtils = SoundPlayUtils.init(LiveingActivity.this);
     }
 
     private void getSystemMsg(){
@@ -770,6 +773,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
         if (instance!=null){
             instance.onDesPlay();
         }
+        SoundPlayUtils.desPlay();
         instance=null;
         watchCount = 0;
         isTrue=false;
@@ -1665,7 +1669,6 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
             instance.show();
             rl_dice.setVisibility(View.VISIBLE);
             getIntegrals();//显示积分
-
             WindowManager.LayoutParams params = instance.getWindow().getAttributes();// 得到属性
             params.gravity = Gravity.BOTTOM;// 显示在底部
             params.width = LinearLayout.LayoutParams.MATCH_PARENT;
@@ -1858,6 +1861,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
                     Log.i("游戏","下注-数据="+apiResponse.toString()+",bet_money="+bet_money);
                     if (apiResponse.getCode()==Api.SUCCESS){
                         gifts(iv_chip10, rl_anims, bet_money, chip10, i);
+                        SoundPlayUtils.play(1);
                     }else {
                         ToastUtils.showShort(LiveingActivity.this,"下注失败");
                     }
@@ -1891,7 +1895,6 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
         }
     }
 
-    private SoundPool soundPool=new SoundPool(10, AudioManager.STREAM_SYSTEM,5);//声音类
     private void stakeGift(final TextView textView, ImageView imageView, RelativeLayout rl_anim_stake, final RelativeLayout rl_anims,String string,int draw) {
 
         int width = imageView.getWidth();
@@ -1944,9 +1947,6 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
         animation.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
-                //soundPool.load(getContext(),0,1);//<---------
-                //soundPool.play(1,1, 1, 0, 0, 1);
-
             }
 
             @Override
@@ -2368,8 +2368,8 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
                     Log.i("游戏","diceBean1="+ diceBean1.toString());
                     String[] chip_ch1 = diceBean1.getChip_ch();
                     for (int i = 0; i < chip_ch1.length; i++) {
-                        if (chip_ch[i].length() > 1) {
-                            chip_ch[i] = String.valueOf(chip_ch[i].charAt(chip_ch[i].length() - 1));
+                        if (chip_ch1[i].length() > 1) {
+                            chip_ch1[i] = String.valueOf(chip_ch1[i].charAt(chip_ch1[i].length() - 1));
                         }
                     }
                     for (int i = 0; i < chip_ch1.length; i++) {
@@ -2391,8 +2391,8 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
                     Log.i("游戏","diceBean2="+ diceBean2.toString());
                     String[] chip_ch2 = diceBean2.getChip_ch();
                     for (int i = 0; i < chip_ch2.length; i++) {
-                        if (chip_ch[i].length()>1){
-                            chip_ch[i]=String.valueOf(chip_ch[i].charAt(chip_ch[i].length()-1));
+                        if (chip_ch2[i].length()>1){
+                            chip_ch2[i]=String.valueOf(chip_ch2[i].charAt(chip_ch2[i].length()-1));
                         }
                         dice.add(Integer.parseInt(chip_ch2[i]));
                         Log.i("游戏","2号桌点数="+Integer.parseInt(chip_ch2[i]));
@@ -2412,8 +2412,8 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
                     Log.i("游戏","diceBean3="+ diceBean3.toString());
                     String[] chip_ch3 = diceBean3.getChip_ch();
                     for (int i = 0; i < chip_ch3.length; i++) {
-                        if (chip_ch[i].length()>1){
-                            chip_ch[i]=String.valueOf(chip_ch[i].charAt(chip_ch[i].length()-1));
+                        if (chip_ch3[i].length()>1){
+                            chip_ch3[i]=String.valueOf(chip_ch3[i].charAt(chip_ch3[i].length()-1));
                         }
                         dice.add(Integer.parseInt(chip_ch3[i]));
                         Log.i("游戏","3号桌点数="+Integer.parseInt(chip_ch3[i]));
@@ -2632,7 +2632,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
         animation.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
-
+                SoundPlayUtils.play(2);
             }
 
             @Override
