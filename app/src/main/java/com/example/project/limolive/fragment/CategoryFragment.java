@@ -85,6 +85,7 @@ public class CategoryFragment extends BaseFragment {
                 if (apiResponse.getCode() == Api.SUCCESS) {
                     typeLsit.clear();
                     typeLsit.addAll(JSON.parseArray(apiResponse.getData(), BtnBean.class));
+                    id=typeLsit.get(0).getType_id();
                     adapter.notifyDataSetChanged();
                     srl_down_category.setRefreshing(false);
                     Log.i("热门商品类型","goodsLsit1="+typeLsit.size());
@@ -109,6 +110,7 @@ public class CategoryFragment extends BaseFragment {
                 if (apiResponse.getCode() == Api.SUCCESS) {
                     typeLsit.clear();
                     typeLsit.addAll(JSON.parseArray(apiResponse.getData(), BtnBean.class));
+                    id=typeLsit.get(0).getType_id();
                     adapter.notifyDataSetChanged();
                     Log.i("热门商品类型","goodsLsit="+typeLsit.size());
                     srl_down_category.setRefreshing(false);
