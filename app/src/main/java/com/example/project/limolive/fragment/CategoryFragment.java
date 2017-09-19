@@ -147,17 +147,19 @@ public class CategoryFragment extends BaseFragment {
             @Override
             public void onRefresh() {
                 swl_fm.setRefreshing(true);
+                page=1;
                 initDatas(id,page);
             }
         });
         rv_fm.setOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
+                //super.onScrollStateChanged(recyclerView, newState);
                 int positon = lm1.findLastVisibleItemPosition();
-                if (adapter!=null&&positon==adapter.getItemCount()-2/*&&newState==RecyclerView.SCROLL_STATE_IDLE*/){
-                    page++;
-                    initDatas(id,page);
+                Log.i("热门商品类型","page="+page+"-positon="+positon+"-,adapter.getItemCount()-1="+(adapter1.getItemCount()-1)+"-,goodsLsit="+goodsLsit.size());
+                if (adapter!=null&&positon==adapter1.getItemCount()-1&&newState==RecyclerView.SCROLL_STATE_IDLE){
+                    Log.i("热门商品类型","page="+page+"apiResponse=d");
+                    initDatasd(id,page+1);
                 }
             }
 
@@ -195,10 +197,57 @@ public class CategoryFragment extends BaseFragment {
 
         });
     }
+    private void initDatasd(String id, final int pag) {
+        Api.getGoodsList(LoginManager.getInstance().getUserID(getActivity()), id,String.valueOf(pag), new ApiResponseHandler(getActivity()) {
+            @Override
+            public void onSuccess(ApiResponse apiResponse) {
+                Log.i("热门商品类型","page="+pag+"apiResponse="+apiResponse.toString());
+                if (apiResponse.getCode()==Api.SUCCESS){
+                    page++;
+                    tv_isgone.setVisibility(View.GONE);
+                    rv_fm.setVisibility(View.VISIBLE);
+                    if (pag==1){
+                        goodsLsit.clear();
+                    }
+
+                    adapter1.notifyDataSetChanged();
+                    List<RecommendBean> list = JSONArray.parseArray(apiResponse.getData(), RecommendBean.class);
+                    if (list!=null&&list.size()>0){
+                        goodsLsit.addAll(list);
+                        adapter1.notifyDataSetChanged();
+                    }else {
+                        ToastUtils.showShort(getActivity(),"没有更多了");
+                    }
+                    Log.i("热门商品类型","goodsLsit="+goodsLsit.size());
+                    if (swl_fm!=null&&swl_fm.isRefreshing()){
+                        swl_fm.setRefreshing(false);
+                    }
+                }else if(apiResponse.getCode()==-2) {
+                    if(goodsLsit!=null&&goodsLsit.size()==0){
+                        tv_isgone.setVisibility(View.VISIBLE);
+                        rv_fm.setVisibility(View.GONE);
+                    }
+                    if (swl_fm!=null&&swl_fm.isRefreshing()){
+                        swl_fm.setRefreshing(false);
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(String errMessage) {
+                super.onFailure(errMessage);
+                Log.i("热门商品类型","失败");
+                if (swl_fm!=null&&swl_fm.isRefreshing()){
+                    swl_fm.setRefreshing(false);
+                }
+            }
+        });
+    }
     private void initDatas(String id, final int page) {
         Api.getGoodsList(LoginManager.getInstance().getUserID(getActivity()), id,String.valueOf(page), new ApiResponseHandler(getActivity()) {
             @Override
             public void onSuccess(ApiResponse apiResponse) {
+                Log.i("热门商品类型","page="+page+"apiResponse="+apiResponse.toString());
                 if (apiResponse.getCode()==Api.SUCCESS){
                     tv_isgone.setVisibility(View.GONE);
                     rv_fm.setVisibility(View.VISIBLE);
