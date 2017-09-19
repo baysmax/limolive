@@ -184,7 +184,6 @@ public class ExchangeActivity extends BaseActivity implements View.OnClickListen
                                 String s = charSequence.toString();
                                 result=Integer.parseInt(s);
                             }
-
                         }
                         btn_zhifu.setText("兑换"+result+getStatus(isDeaOrInt));
                     }
