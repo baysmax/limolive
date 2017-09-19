@@ -2110,7 +2110,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
         TextView textView=new TextView(LiveingActivity.this);
         int width = iv_chip100.getWidth();
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
-                3*width/4, 3*width/4);
+                5*width/6, 5*width/6);
         int width1 = rl_anim_stake.getWidth();//父容器的宽
         int height1 = rl_anim_stake.getHeight();//父容器的高
         Random random =new Random();//随机
