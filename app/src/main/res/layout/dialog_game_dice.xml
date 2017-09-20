@@ -14,8 +14,13 @@
             <include layout="@layout/titles_game"/>
             <View
                 android:layout_width="match_parent"
-                android:layout_height="0.2dp"/>
+                android:layout_height="0.2dp"
+                android:background="#fff"/>
             <include layout="@layout/body_game"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.2dp"
+                android:background="#fff"/>
             <include layout="@layout/buttom_game"/>
 
         </LinearLayout>
