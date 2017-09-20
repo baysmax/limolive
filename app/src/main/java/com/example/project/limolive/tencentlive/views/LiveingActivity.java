@@ -1751,7 +1751,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
                             if (bl_choice1==0){
                                 ToastUtils.showShort(LiveingActivity.this, "请选择押注的盘口");
                             }else {
-                                betService("10",iv_chip10, rl_anim_stake1, rl_anims, R.drawable.chip10, 10);
+                                betService("10",iv_chip10, rl_anims, R.drawable.chip10, 10);
                             }
                         }
 
@@ -1766,7 +1766,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
                                 ToastUtils.showShort(LiveingActivity.this, "请选择押注的盘口");
                             }else {
 
-                                betService("25",iv_chip25, rl_anim_stake1, rl_anims, R.drawable.chip25, 25);
+                                betService("25",iv_chip25, rl_anims, R.drawable.chip25, 25);
                             }
                         }
                     }
@@ -1779,7 +1779,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
                             if (bl_choice1==0){
                                 ToastUtils.showShort(LiveingActivity.this, "请选择押注的盘口");
                             }else {
-                                betService("50", iv_chip50, rl_anim_stake1, rl_anims, R.drawable.chip50, 50);
+                                betService("50", iv_chip50, rl_anims, R.drawable.chip50, 50);
                             }
                         }
                     }
@@ -1793,7 +1793,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
                                 ToastUtils.showShort(LiveingActivity.this, "请选择押注的盘口");
                             }else {
 
-                                betService("100",iv_chip100, rl_anim_stake1, rl_anims, R.drawable.chip100, 100);
+                                betService("100",iv_chip100, rl_anims, R.drawable.chip100, 100);
                             }
                         }
                     }
@@ -1847,7 +1847,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
     }
 
 
-    private void betService(final String bet_money, final ImageView iv_chip10, final RelativeLayout rl_anim_stake, final RelativeLayout rl_anims, final int chip10, final int i) {
+    private void betService(final String bet_money, final ImageView iv_chip10, final RelativeLayout rl_anims, final int chip10, final int i) {
         if (!NetWorkUtil.isNetworkConnected(LiveingActivity.this)) {
             ToastUtils.showShort(LiveingActivity.this, NET_UNCONNECT);
             return;

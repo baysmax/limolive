@@ -130,5 +130,15 @@ public class Urls {
     public static final String POST_USER_STATUS = "/Appapi/Dicegame/dicegame_state_add";//上传状态心跳包
     public static final String POST_USER_STATUS_GET = "/Appapi/Dicegame/dicegame_state_list";//获取游戏状态
     public static final String POST_USER_DATA = "/Appapi/Dicegame/dice_list_data";//获取色子
+    /**
+     * 牛牛
+     */
+    public static final String POST_USER_NN_BET = "/Appapi/Niuniu/niuniu_dice_user_integral_reduce";//下注接口
+    public static final String POST_USER_NN_HEART_BEAT = "/Appapi/Niuniu/niuniu_user_integral_heartbeat";//获取每桌下注金额总合接口
+    public static final String POST_USER_NN_STATUS = "/Appapi/Niuniu/niuniu_state_add";//上传状态心跳包
+    public static final String POST_USER_NN_STATUS_GET = "/Appapi/Niuniu/niuniu_state_list";//获取游戏状态
+    public static final String POST_USER_NN_BEI_DEL = "/Appapi/Niuniu/niuniu_dice_shang";//游戏下一局开始前清除上一局数据接口
+    public static final String POST_USER_NN_DATA  = "/Appapi/Niuniu/niuniu_dice_list_data";//获取牌
+    public static final String POST_USER_NN_LIST  = "/Appapi/Niuniu/niuniu_dice_list";//发牌接口
 
 }

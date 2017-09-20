@@ -1300,17 +1300,102 @@ public class Api {
     }
 
 
-
+    /**
+     * 获取游戏状态
+     * @param room_id
+     * @param handler
+     */
     public static void dicegame_state_list(String room_id,ApiResponseHandler handler) {
         RequestParams params = new RequestParams();
         params.put("room_id",room_id);
         ApiHttpClient.post(ApiHttpClient.API_URL + Urls.POST_USER_STATUS_GET, params, handler);
     }
-
+    /**
+     * 获取色子
+     * @param room_id
+     * @param handler
+     */
     public static void dice_list_data(String room_id,ApiResponseHandler handler) {
         RequestParams params = new RequestParams();
         params.put("room_id",room_id);
         ApiHttpClient.post(ApiHttpClient.API_URL + Urls.POST_USER_DATA, params, handler);
+    }
+
+    /**
+     * 用户下注后金额减少接口
+     * @param room_id
+     * @param handler
+     */
+    public static void niuniu_user_integral_reduce(String room_id,String bet_money,String user_id,String table_number,ApiResponseHandler handler) {
+        RequestParams params = new RequestParams();
+        params.put("room_id",room_id);
+        params.put("bet_money",bet_money);
+        params.put("user_id",user_id);
+        params.put("table_number",table_number);
+        ApiHttpClient.post(ApiHttpClient.API_URL + Urls.POST_USER_NN_BET, params, handler);
+    }
+    /**
+     * 获取每桌下注金额总合接口
+     * @param room_id
+     * @param handler
+     */
+    public static void niuniu_user_integral_heartbeat(String room_id,ApiResponseHandler handler) {
+        RequestParams params = new RequestParams();
+        params.put("room_id",room_id);
+        ApiHttpClient.post(ApiHttpClient.API_URL + Urls.POST_USER_NN_HEART_BEAT, params, handler);
+    }
+    /**
+     * 添加游戏状态及游戏处于什么状态心跳包1s接口
+     * @param room_id
+     * @param handler
+     */
+    public static void niuniu_state_add(String room_id,String bet_count_down,String rest_count_down,String game_state,ApiResponseHandler handler) {
+        RequestParams params = new RequestParams();
+        params.put("room_id",room_id);
+        params.put("bet_count_down",bet_count_down);
+        params.put("rest_count_down",rest_count_down);
+        params.put("game_state",game_state);
+        ApiHttpClient.post(ApiHttpClient.API_URL + Urls.POST_USER_NN_STATUS, params, handler);
+    }
+    /**
+     * 获取游戏状态及游戏处于什么状态心跳包1s接口
+     * @param room_id
+     * @param handler
+     */
+    public static void niuniu_state_list(String room_id,ApiResponseHandler handler) {
+        RequestParams params = new RequestParams();
+        params.put("room_id",room_id);
+        ApiHttpClient.post(ApiHttpClient.API_URL + Urls.POST_USER_NN_STATUS_GET, params, handler);
+    }
+    /**
+     * 游戏下一局开始前清除上一局数据接口
+     * @param room_id
+     * @param handler
+     */
+    public static void niuniu_dice_shang(String room_id,ApiResponseHandler handler) {
+        RequestParams params = new RequestParams();
+        params.put("room_id",room_id);
+        ApiHttpClient.post(ApiHttpClient.API_URL + Urls.POST_USER_NN_BEI_DEL, params, handler);
+    }
+    /**
+     * 获取牛牛数据接口
+     * @param room_id
+     * @param handler
+     */
+    public static void niuniu_dice_list_data(String room_id,ApiResponseHandler handler) {
+        RequestParams params = new RequestParams();
+        params.put("room_id",room_id);
+        ApiHttpClient.post(ApiHttpClient.API_URL + Urls.POST_USER_NN_DATA, params, handler);
+    }
+    /**
+     * 发牌接口
+     * @param room_id
+     * @param handler
+     */
+    public static void niuniu_dice_list(String room_id,ApiResponseHandler handler) {
+        RequestParams params = new RequestParams();
+        params.put("room_id",room_id);
+        ApiHttpClient.post(ApiHttpClient.API_URL + Urls.POST_USER_NN_LIST, params, handler);
     }
 
 
