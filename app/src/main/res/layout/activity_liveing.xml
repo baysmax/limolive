@@ -4,6 +4,7 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
 
+
     <com.tencent.ilivesdk.view.AVRootView
         android:id="@+id/av_root_view"
         android:layout_width="match_parent"
@@ -178,7 +179,7 @@
             android:layout_alignParentEnd="true"
             android:layout_marginRight="-100dp"
             />
-        
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -433,4 +434,75 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
     </RelativeLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="70dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="10dp"
+        android:orientation="vertical"
+        android:gravity="center">
+        <TextView
+            android:id="@+id/tv_play"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/playde" />
+        <LinearLayout
+            android:id="@+id/ll_play"
+            android:layout_marginTop="5dp"
+            android:layout_below="@id/tv_play"
+            android:visibility="invisible"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:layout_alignParentRight="true"
+            android:orientation="horizontal">
+            <LinearLayout
+                android:id="@+id/ll_niuniu"
+                android:layout_marginRight="3dp"
+                android:layout_width="wrap_content"
+                android:orientation="vertical"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="20dp"
+                    android:layout_gravity="center"
+                    android:layout_height="20dp"
+                    android:background="@drawable/niuniu"/>
+                <TextView
+                    android:layout_width="40dp"
+                    android:gravity="center"
+                    android:layout_height="wrap_content"
+                    android:background="#4000"
+                    android:textColor="#fff"
+                    android:textSize="10dp"
+                    android:padding="1dp"
+                    android:text="牛牛"/>
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/ll_dice"
+                android:layout_marginRight="3dp"
+                android:layout_width="wrap_content"
+                android:orientation="vertical"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/diced"/>
+                <TextView
+                    android:layout_width="40dp"
+                    android:gravity="center"
+                    android:layout_height="wrap_content"
+                    android:background="#4000"
+                    android:textColor="#fff"
+                    android:textSize="10dp"
+                    android:padding="1dp"
+                    android:text="摇色子"/>
+            </LinearLayout>
+
+
+        </LinearLayout>
+    </LinearLayout>
+
 </RelativeLayout>

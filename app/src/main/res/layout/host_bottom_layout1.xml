@@ -74,6 +74,7 @@
                 android:background="@drawable/room_btn_liwu_n" />
             <TextView
                 android:id="@+id/tv_games"
+                android:visibility="gone"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_gravity="center"
@@ -81,6 +82,7 @@
                 android:background="@drawable/game" />
             <TextView
                 android:id="@+id/tv_gamesd"
+                android:visibility="gone"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_gravity="center"

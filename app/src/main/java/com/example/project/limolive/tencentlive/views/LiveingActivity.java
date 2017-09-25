@@ -270,6 +270,8 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
     private SoundPlayUtils soundPlayUtils;
     private RelativeLayout rl_nn_choice;
     private RelativeLayout rl_anim_win;
+    private LinearLayout ll_play,ll_niuniu,ll_dice;
+    private TextView tv_play;
 
 
     @Override
@@ -293,7 +295,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
         myReceiver1 = new MyReceiver1();
         IntentFilter filter1 = new IntentFilter();
         filter.addAction(GETMENBERINFOS);
-        registerReceiver(myReceiver1, filter);
+        registerReceiver(myReceiver1, filter1);
 
         liwu = (Animation) AnimationUtils.loadAnimation(this, R.anim.liwu);
 
@@ -475,12 +477,49 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
         explicitIntent.setComponent(component);
         return explicitIntent;
     }
+    private void isPlayGone(boolean isTrues){
+        if (isTrues){
+            ll_play.setVisibility(View.VISIBLE);
+            Animation animation = AnimationUtils.loadAnimation(LiveingActivity.this, R.anim.push_bottom_ins);
+            ll_play.startAnimation(animation);
+        }else {
+            Animation animation = AnimationUtils.loadAnimation(LiveingActivity.this, R.anim.push_bottom_outs);
+            ll_play.startAnimation(animation);
+            animation.setAnimationListener(new Animation.AnimationListener() {
+                @Override
+                public void onAnimationStart(Animation animation) {
+
+                }
+
+                @Override
+                public void onAnimationEnd(Animation animation) {
+                    ll_play.setVisibility(View.INVISIBLE);
+                }
+
+                @Override
+                public void onAnimationRepeat(Animation animation) {
+
+                }
+            });
+
+        }
+    }
     /**
      * 初始化界面
      */
     private ImageView[] poker_z=new ImageView[5];
     private void initView() {
         hideStatusBar();
+        tv_play= (TextView) findViewById(R.id.tv_play);
+        ll_niuniu= (LinearLayout) findViewById(R.id.ll_niuniu);
+        ll_dice= (LinearLayout) findViewById(R.id.ll_dice);
+        ll_play= (LinearLayout) findViewById(R.id.ll_play);
+
+        tv_play.setOnClickListener(this);
+        ll_dice.setOnClickListener(this);
+        ll_niuniu.setOnClickListener(this);
+
+
         tv_admin= (TextView) findViewById(R.id.tv_admin);
         tv_game= (TextView) findViewById(R.id.tv_games);//游戏
         tv_game.setOnClickListener(this);
@@ -1662,9 +1701,25 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
                 showGames();//游戏
         }else if (i==R.id.tv_gamesd){
             showGameNN();//游戏
+        }else if (i==R.id.tv_play){//点击游戏按钮
+            isPlayGone(isPlay=!isPlay);
+        }else if (i==R.id.ll_niuniu){
+            showGameNN();//牛牛游戏
+            if (instance!=null&&instance.isShowing()){
+                //if (LoginManager.getInstance().getUserID(LiveingActivity.this).equals(CurLiveInfo.getHostID())){
+                instance.hide();
+                rl_dice.setVisibility(View.GONE);
+            }
+        }else if (i==R.id.ll_dice){
+            showGames();//色子游戏
+            if (instancePoker!=null&&instancePoker.isShowing()){
+                //if (LoginManager.getInstance().getUserID(LiveingActivity.this).equals(CurLiveInfo.getHostID())){
+                instancePoker.hide();
+                rl_nn_choice.setVisibility(View.GONE);
+            }
         }
     }
-
+    private boolean isPlay=false;
 
     /**
      * 牛牛游戏
@@ -1728,7 +1783,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
                     if (msg.arg2==9){
                         startCountDownTime_tv_numsd(msg.arg1,0);
                     }else {
-                        startCountDownTime_tv_numsd(10,0);
+                        startCountDownTime_tv_numsd(30,0);
                     }
                     break;
                 case MSG_CODE_END_REST://输赢动画显示结束，开始休息时间
@@ -2614,7 +2669,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
             params.gravity = Gravity.BOTTOM;// 显示在底部
             params.width = LinearLayout.LayoutParams.MATCH_PARENT;
             params.height = LinearLayout.LayoutParams.WRAP_CONTENT;
-            rl_nn_choice.setVisibility(View.VISIBLE);
+            rl_nn_choice.setVisibility(View.GONE);
             instancePoker.getWindow().setAttributes(params);// 设置属性
 
             if (LoginManager.getInstance().getUserID(LiveingActivity.this).equals(CurLiveInfo.getHostID())){
