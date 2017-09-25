@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="40dp">
+    <TextView
+        android:id="@+id/tv_nn_num"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:textColor="#fff"
+        android:layout_marginLeft="20dp"
+        android:layout_centerInParent="true"
+        android:text="离开始还有15s"/>
+    <TextView
+        android:layout_width="18dp"
+        android:id="@+id/tv_nn_back"
+        android:layout_height="11dp"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/diolog_game_back"
+        android:textColor="#fff"
+        android:layout_marginLeft="20dp"/>
+    <ImageView
+        android:id="@+id/iv_poker_fp"
+        android:layout_below="@id/rl_nn_choice1"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginLeft="20dp"
+        android:src="@drawable/pokerdj"/>
+
+
+</RelativeLayout>

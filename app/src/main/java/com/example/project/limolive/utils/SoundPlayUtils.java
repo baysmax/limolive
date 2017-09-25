@@ -12,11 +12,18 @@ import com.example.project.limolive.R;
 
 public class SoundPlayUtils {
     // SoundPool对象
-    public static SoundPool mSoundPlayer = new SoundPool(10,
-            AudioManager.STREAM_SYSTEM, 5);
+    public static SoundPool mSoundPlayer =null;
     public static SoundPlayUtils soundPlayUtils;
     // 上下文
     static Context mContext;
+
+
+    private SoundPlayUtils(){
+        if (mSoundPlayer==null){
+            mSoundPlayer= new SoundPool(10,
+                    AudioManager.STREAM_SYSTEM, 5);
+        }
+    }
 
     /**
      * 初始化
@@ -33,7 +40,7 @@ public class SoundPlayUtils {
 
         mSoundPlayer.load(mContext, R.raw.yazu, 1);// 1
         mSoundPlayer.load(mContext, R.raw.yaosaiz, 1);// 2
-        mSoundPlayer.load(mContext, R.raw.fapai, 1);// 2
+        mSoundPlayer.load(mContext, R.raw.fapai, 1);// 3
 
         return soundPlayUtils;
     }
@@ -47,6 +54,7 @@ public class SoundPlayUtils {
         mSoundPlayer.play(soundID, 1.0f, 1.0f, 0, 0, 1.0f);
     }
     public static void desPlay(){
+        soundPlayUtils=null;
         mSoundPlayer=null;
         mContext=null;
     }

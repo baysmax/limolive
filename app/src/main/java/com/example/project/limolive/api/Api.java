@@ -1349,11 +1349,14 @@ public class Api {
      * @param room_id
      * @param handler
      */
-    public static void niuniu_state_add(String room_id,String bet_count_down,String rest_count_down,String game_state,ApiResponseHandler handler) {
+    public static void niuniu_state_add(String room_id,String timer,int game_state,ApiResponseHandler handler) {
         RequestParams params = new RequestParams();
         params.put("room_id",room_id);
-        params.put("bet_count_down",bet_count_down);
-        params.put("rest_count_down",rest_count_down);
+        if (game_state== LiveingActivity.STATUS_REST_TYPE){
+            params.put("rest_count_down",timer);//休息时间
+        }else if(game_state== LiveingActivity.STATUS_BET_TYPE){
+            params.put("bet_count_down",timer);//下注时间
+        }
         params.put("game_state",game_state);
         ApiHttpClient.post(ApiHttpClient.API_URL + Urls.POST_USER_NN_STATUS, params, handler);
     }

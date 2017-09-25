@@ -174,10 +174,11 @@
             android:id="@+id/gif_donghua"
             android:layout_width="200dp"
             android:layout_height="100dp"
-            android:layout_marginTop="200dp"
+            android:layout_marginTop="250dp"
             android:layout_alignParentEnd="true"
             android:layout_marginRight="-100dp"
             />
+        
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -204,6 +205,7 @@
         <!-- 塞子-->
         <RelativeLayout
             android:id="@+id/rl_dice"
+            android:visibility="gone"
             android:layout_marginTop="80dp"
             android:layout_marginLeft="10dp"
             android:layout_width="100dp"
@@ -277,6 +279,83 @@
 
             </RelativeLayout>
         </RelativeLayout>
+        <!-- 牛牛-->
+        <RelativeLayout
+                android:id="@+id/rl_nn_choice"
+                android:layout_width="100dp"
+                android:visibility="gone"
+                android:layout_height="130dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="80dp"
+                android:background="@drawable/game_bgs">
+                <TextView
+                    android:layout_marginTop="2dp"
+                    android:id="@+id/title_poker"
+                    android:layout_width="match_parent"
+                    android:layout_height="18dp"
+                    android:background="#08000000"
+                    android:gravity="center"
+                    android:textColor="#fff"
+                    android:text="庄家"
+                    android:textSize="12dp"
+                    android:layout_alignParentTop="true"/>
+                <RelativeLayout
+                    android:id="@+id/rl_change3"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_margin="2.4dp"
+                    android:layout_width="100dp"
+                    android:layout_height="105dp">
+                    <RelativeLayout
+                        android:id="@+id/tv_nn_brand3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="55dp"
+                        android:layout_centerInParent="true"
+                        android:layout_marginBottom="4dp">
+                        <ImageView
+                            android:id="@+id/iv_nn_poker1"
+                            android:layout_width="40dp"
+                            android:visibility="invisible"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/fk1"/>
+                        <ImageView
+                            android:id="@+id/iv_nn_poker2"
+                            android:layout_marginLeft="14dp"
+                            android:layout_width="40dp"
+                            android:src="@drawable/fk1"
+                            android:visibility="invisible"
+                            android:layout_height="match_parent"/>
+                        <ImageView
+                            android:id="@+id/iv_nn_poker3"
+                            android:layout_marginLeft="29dp"
+                            android:layout_width="40dp"
+                            android:src="@drawable/fk1"
+                            android:visibility="invisible"
+                            android:layout_height="match_parent"/>
+                        <ImageView
+                            android:id="@+id/iv_nn_poker4"
+                            android:layout_marginLeft="41dp"
+                            android:layout_width="40dp"
+                            android:src="@drawable/fk1"
+                            android:visibility="invisible"
+                            android:layout_height="match_parent"/>
+                        <ImageView
+                            android:id="@+id/iv_nn_poker5"
+                            android:layout_width="40dp"
+                            android:src="@drawable/fk1"
+                            android:visibility="invisible"
+                            android:layout_alignParentRight="true"
+                            android:layout_height="match_parent"/>
+                    </RelativeLayout>
+                    <RelativeLayout
+                        android:id="@+id/rl_anim_win"
+                        android:layout_width="match_parent"
+                        android:layout_height="33dp"
+                        android:layout_centerInParent="true"
+                        android:layout_marginBottom="4dp"/>
+                </RelativeLayout>
+            </RelativeLayout>
+
 
 
     </FrameLayout>

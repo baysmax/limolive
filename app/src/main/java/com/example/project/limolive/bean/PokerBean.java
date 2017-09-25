@@ -1,12 +1,14 @@
 package com.example.project.limolive.bean;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by AAA on 2017/9/13.
  */
 
-public class DiceBean {
+public class PokerBean {
     /**
      *  {
      "sieve_id": "1125",
@@ -30,6 +32,7 @@ public class DiceBean {
     private String[] chip_ch;
     private String table_number;
     private String winorlose;
+    private Map<Integer,String[]> pokerMap=new HashMap<>();
 
     public String getPoint_sum() {
         return point_sum;
@@ -45,11 +48,15 @@ public class DiceBean {
         return sieve_id;
     }
 
-    public String[] getChip_ch() {
-        if (point.contains(",")){
-           chip_ch=point.split(",");
+    public Map<Integer,String[]> getChip_ch() {
+        if (point.contains(";")){
+           chip_ch=point.split(";");
+            for (int i = 0; i < chip_ch.length; i++) {
+                String[] split = chip_ch[i].split(",");
+                pokerMap.put(i,split);
+            }
         }
-        return chip_ch;
+        return pokerMap;
     }
 
 
