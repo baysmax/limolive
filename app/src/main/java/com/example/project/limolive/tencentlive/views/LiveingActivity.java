@@ -2564,7 +2564,9 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
                     Log.i("游戏1","请求摇色子="+apiResponse+"CurLiveInfo.getRoomNum()="+CurLiveInfo.getRoomNum());
                     if (apiResponse.getCode()==Api.SUCCESS){
                     }else {
-                        dice_listsd();
+                        if (isTrue){
+                            dice_listsd();
+                        }
                     }
                 }
 
@@ -4161,7 +4163,9 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
                         //CountDownTimer(10);
                         startAnimtion();
                     }else {
-                        dice_list();
+                        if (isTrue){
+                            dice_list();
+                        }
                     }
                 }
 
