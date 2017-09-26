@@ -1326,7 +1326,7 @@ public class Api {
      * @param room_id
      * @param handler
      */
-    public static void niuniu_user_integral_reduce(String room_id,String bet_money,String user_id,String table_number,ApiResponseHandler handler) {
+    public static void niuniu_user_integral_reduce(String user_id,String bet_money,String room_id,String table_number,ApiResponseHandler handler) {
         RequestParams params = new RequestParams();
         params.put("room_id",room_id);
         params.put("bet_money",bet_money);

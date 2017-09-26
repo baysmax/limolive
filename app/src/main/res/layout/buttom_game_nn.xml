@@ -90,7 +90,7 @@
                 android:textColor="#fff"
                 android:textSize="12sp"
                 android:layout_below="@id/iv_nn_chip25"
-                android:text="25积分"/>
+                android:text="50积分"/>
 
         </RelativeLayout>
         <RelativeLayout
@@ -116,7 +116,7 @@
                 android:textSize="12sp"
                 android:layout_centerHorizontal="true"
                 android:layout_below="@id/iv_nn_chip50"
-                android:text="50积分"/>
+                android:text="100积分"/>
 
         </RelativeLayout>
         <RelativeLayout
@@ -142,7 +142,7 @@
                 android:textColor="#fff"
                 android:textSize="12sp"
                 android:layout_below="@id/iv_nn_chip100"
-                android:text="100积分"/>
+                android:text="500积分"/>
 
         </RelativeLayout>
     </LinearLayout>

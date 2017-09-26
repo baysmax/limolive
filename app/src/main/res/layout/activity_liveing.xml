@@ -472,7 +472,6 @@
                     android:layout_width="40dp"
                     android:gravity="center"
                     android:layout_height="wrap_content"
-                    android:background="#4000"
                     android:textColor="#fff"
                     android:textSize="10dp"
                     android:padding="1dp"
@@ -494,7 +493,6 @@
                     android:layout_width="40dp"
                     android:gravity="center"
                     android:layout_height="wrap_content"
-                    android:background="#4000"
                     android:textColor="#fff"
                     android:textSize="10dp"
                     android:padding="1dp"
@@ -504,5 +502,18 @@
 
         </LinearLayout>
     </LinearLayout>
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="20dp"
+        android:paddingBottom="30dp">
+        <ImageView
+            android:id="@+id/iv_popularity"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/top_nums"/>
+    </FrameLayout>
+
 
 </RelativeLayout>

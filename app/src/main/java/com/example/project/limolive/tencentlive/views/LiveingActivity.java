@@ -272,6 +272,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
     private RelativeLayout rl_anim_win;
     private LinearLayout ll_play,ll_niuniu,ll_dice;
     private TextView tv_play;
+    private ImageView iv_popularity;
 
 
     @Override
@@ -294,7 +295,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
         //注册广播接收者
         myReceiver1 = new MyReceiver1();
         IntentFilter filter1 = new IntentFilter();
-        filter.addAction(GETMENBERINFOS);
+        filter1.addAction(GETMENBERINFOS);
         registerReceiver(myReceiver1, filter1);
 
         liwu = (Animation) AnimationUtils.loadAnimation(this, R.anim.liwu);
@@ -519,6 +520,8 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
         ll_dice.setOnClickListener(this);
         ll_niuniu.setOnClickListener(this);
 
+        iv_popularity= (ImageView) findViewById(R.id.iv_popularity);
+        iv_popularity.setOnClickListener(this);
 
         tv_admin= (TextView) findViewById(R.id.tv_admin);
         tv_game= (TextView) findViewById(R.id.tv_games);//游戏
@@ -833,6 +836,11 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
 
     @Override
     protected void onDestroy() {
+        if (LoginManager.getInstance().getUserID(LiveingActivity.this).equals(CurLiveInfo.getHostID())){
+            dice_shang();
+            dice_shangs();
+        }
+        giftManger=null;
         unregisterReceiver(myReceiver);
         unregisterReceiver(myReceiver1);
         isStop = true;
@@ -1717,9 +1725,34 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
                 instancePoker.hide();
                 rl_nn_choice.setVisibility(View.GONE);
             }
+        }else if (i==R.id.iv_popularity){
+            showPopularityDialog();
         }
     }
+
     private boolean isPlay=false;
+
+    private void showPopularityDialog() {
+        View inflate = LayoutInflater.from(this).inflate(R.layout.popularity_dialog, null);
+        Dialog dialog = new Dialog(this,R.style.BottomDialog_Animation);
+        dialog.setContentView(inflate);
+        ViewGroup.LayoutParams layoutParams = view.getLayoutParams();
+        layoutParams.width =inflate.getResources().getDisplayMetrics().widthPixels;
+        layoutParams.height = (int) (inflate.getResources().getDisplayMetrics().heightPixels*0.5);
+        inflate.setLayoutParams(layoutParams);
+        getWindow().setGravity(Gravity.BOTTOM);
+        //getWindow().setWindowAnimations(R.style.BottomDialog_Animation);
+//        dialog.setCanceledOnTouchOutside(true);
+
+//        Window dialogWindow = dialog.getWindow();
+//        dialogWindow.setFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE);
+        dialog.show();
+        WindowManager.LayoutParams params = dialog.getWindow().getAttributes();// 得到属性
+        params.gravity = Gravity.BOTTOM;// 显示在底部
+        params.width = LinearLayout.LayoutParams.MATCH_PARENT;
+        params.height = LinearLayout.LayoutParams.WRAP_CONTENT;
+        dialog.getWindow().setAttributes(params);// 设置属性
+    }
 
     /**
      * 牛牛游戏
@@ -1760,7 +1793,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
             }
         });
     }
-
+private double quota=0,actual=0;
     private Handler dice_poker_handler=new Handler(new Handler.Callback(){
         @Override
         public boolean handleMessage(Message msg) {
@@ -1769,6 +1802,13 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
                     break;
                 case MSG_CODE_END_YAZU://休息结束，开始显示押注
                     this_statusd=STATUS_BET_TYPE;
+                    actual=0;//实际消费清零
+                    double v = Double.parseDouble(tv_nn_price.getText().toString());
+                    if (v>0){
+                        quota=v/5;//重新计算消费额度
+                    }else {
+                        quota=0;
+                    }
                     Log.i("游戏1","STATUS_BET_TYPE——休息结束，开始显示押注");
                     rl_nn_anim_stake1.removeAllViews();
                     rl_nn_anim_stake2.removeAllViews();//色子数量容器
@@ -2540,7 +2580,9 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
                         if (apiResponse.getCode()==Api.SUCCESS){
 
                         }else {
-                            dice_shang();
+                            if (isTrue){
+                                dice_shang();
+                            }
                         }
                     }
 
@@ -2867,8 +2909,8 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
 
                     break;
                 case R.id.rl_nn_chip10://向盘里添加10积分
-                    if(this_statusd==STATUS_BET_TYPE){
-                        if (!(Double.parseDouble(tv_nn_price.getText().toString())>10.00)){
+                    if(this_statusd==STATUS_BET_TYPE&&quota>10){//quota=0,actual=0;
+                        if (quota==0||actual>=quota){
                             showDialog();
                         }else {
                             if (bl_choice1s==0){
@@ -2880,43 +2922,43 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
 
                     }
                     break;
-                case R.id.rl_nn_chip25://向盘里添加25积分
-                    if(this_statusd==STATUS_BET_TYPE){
-                        if (!(Double.parseDouble(tv_nn_price.getText().toString())>25.00)){
+                case R.id.rl_nn_chip25://向盘里添加50积分
+                    if(this_statusd==STATUS_BET_TYPE&&quota>50.0){
+                        if (quota==0||actual>=quota){
                             showDialog();
                         }else {
                             if (bl_choice1s==0){
                                 ToastUtils.showShort(LiveingActivity.this, "请选择押注的盘口");
                             }else {
 
-                                betServices("25",iv_nn_chip25, rl_nn_anims, R.drawable.chip25, 25);
+                                betServices("50",iv_nn_chip25, rl_nn_anims, R.drawable.chip25, 50);
                             }
                         }
                     }
                     break;
-                case R.id.rl_nn_chip50://向盘里添加50积分
-                    if(this_statusd==STATUS_BET_TYPE){
-                        if (!(Double.parseDouble(tv_nn_price.getText().toString())>50.00)){
+                case R.id.rl_nn_chip50://向盘里添加100积分
+                    if(this_statusd==STATUS_BET_TYPE&&quota>100.0){
+                        if (quota==0||actual>=quota){
                             showDialog();
                         }else {
                             if (bl_choice1s==0){
                                 ToastUtils.showShort(LiveingActivity.this, "请选择押注的盘口");
                             }else {
-                                betServices("50", iv_nn_chip50, rl_nn_anims, R.drawable.chip50, 50);
+                                betServices("100", iv_nn_chip50, rl_nn_anims, R.drawable.chip50, 100);
                             }
                         }
                     }
                     break;
                 case R.id.rl_nn_chip100://向盘里添加100积分
-                    if(this_statusd==STATUS_BET_TYPE){
-                        if (!(Double.parseDouble(tv_nn_price.getText().toString())>100.00)){
+                    if(this_statusd==STATUS_BET_TYPE&&quota>500.0){
+                        if (quota==0||actual>=quota){
                             showDialog();
                         }else {
                             if (bl_choice1s==0){
                                 ToastUtils.showShort(LiveingActivity.this, "请选择押注的盘口");
                             }else {
 
-                                betServices("100",iv_nn_chip100, rl_nn_anims, R.drawable.chip100, 100);
+                                betServices("500",iv_nn_chip100, rl_nn_anims, R.drawable.chip100, 500);
                             }
                         }
                     }
@@ -2960,6 +3002,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
                         public void onSuccess(ApiResponse apiResponse) {
                             Log.i("游戏1","下注-数据="+apiResponse.toString()+",bet_money="+bet_money);
                             if (apiResponse.getCode()==Api.SUCCESS){
+                                actual=actual+i;
                                 giftsd(iv_chip10, rl_anims, bet_money, chip10, i);
                                 SoundPlayUtils.play(1);//下注声音
                             }else {
@@ -2999,7 +3042,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
 
         int width = imageView.getWidth();
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
-                3*width/4, 3*width/4);
+                width, width);
         int width1 = rl_anim_stake.getWidth();//父容器的宽
         int height1 = rl_anim_stake.getHeight();//父容器的高
         Random random =new Random();//随机
@@ -3145,7 +3188,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
                         rl_nn_chip50.setEnabled(false);
                         rl_nn_chip100.setEnabled(false);
                     }
-                    if (ls==3&&LoginManager.getInstance().getUserID(LiveingActivity.this).equals(CurLiveInfo.getHostID())){
+                    if (this_statusd==STATUS_BET_TYPE&&ls==0&&LoginManager.getInstance().getUserID(LiveingActivity.this).equals(CurLiveInfo.getHostID())){
                         dice_listsd();//如果是主播 请求发牌
                     }
                 }
@@ -3243,17 +3286,17 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
         iv_nn_anim1.setVisibility(View.GONE);
         iv_nn_anim2.setVisibility(View.GONE);
         iv_nn_anim3.setVisibility(View.GONE);
-        if(i2>=100){
+        if(i2>=500){
+            for (int i=0;i<i2/500;i++){
+                addTexts(rl_anim_stake,R.drawable.chip100,"500");
+            }
+        }else if (i2>=100){
             for (int i=0;i<i2/100;i++){
-                addTexts(rl_anim_stake,R.drawable.chip100,"100");
+                addTexts(rl_anim_stake,R.drawable.chip50,"100");
             }
-        }else if (i2>=50){
+        }else if(i2>=50){
             for (int i=0;i<i2/50;i++){
-                addTexts(rl_anim_stake,R.drawable.chip50,"50");
-            }
-        }else if(i2>=25){
-            for (int i=0;i<i2/25;i++){
-                addTexts(rl_anim_stake,R.drawable.chip25,"25");
+                addTexts(rl_anim_stake,R.drawable.chip25,"50");
             }
         }else if (i2>=10){
             for (int i=0;i<i2/10;i++){
@@ -3266,12 +3309,12 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
         TextView textView=new TextView(LiveingActivity.this);
         int width = iv_nn_chip100.getWidth();
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
-                5*width/6, 5*width/6);
+                width, width);
         int width1 = rl_anim_stake.getWidth();//父容器的宽
         int height1 = rl_anim_stake.getHeight();//父容器的高
         Random random =new Random();//随机
-        int x = random.nextInt(width1-20);
-        int y = random.nextInt(height1-20);
+        int x = random.nextInt(width1-50);
+        int y = random.nextInt(height1-50);
         Log.i("游戏1","x="+x+",y="+y);
 
         textView.setLayoutParams(params);
@@ -3422,32 +3465,19 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
                     break;
                 case R.id.rl_chip25://向盘里添加25积分
                     if(this_status==STATUS_BET_TYPE){
-                        if (!(Double.parseDouble(tv_price.getText().toString())>25.00)){
-                            showDialog();
-                        }else {
-                            if (bl_choice1==0){
-                                ToastUtils.showShort(LiveingActivity.this, "请选择押注的盘口");
-                            }else {
-
-                                betService("25",iv_chip25, rl_anims, R.drawable.chip25, 25);
-                            }
-                        }
-                    }
-                    break;
-                case R.id.rl_chip50://向盘里添加50积分
-                    if(this_status==STATUS_BET_TYPE){
                         if (!(Double.parseDouble(tv_price.getText().toString())>50.00)){
                             showDialog();
                         }else {
                             if (bl_choice1==0){
                                 ToastUtils.showShort(LiveingActivity.this, "请选择押注的盘口");
                             }else {
-                                betService("50", iv_chip50, rl_anims, R.drawable.chip50, 50);
+
+                                betService("50",iv_chip25, rl_anims, R.drawable.chip25, 50);
                             }
                         }
                     }
                     break;
-                case R.id.rl_chip100://向盘里添加100积分
+                case R.id.rl_chip50://向盘里添加50积分
                     if(this_status==STATUS_BET_TYPE){
                         if (!(Double.parseDouble(tv_price.getText().toString())>100.00)){
                             showDialog();
@@ -3455,8 +3485,21 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
                             if (bl_choice1==0){
                                 ToastUtils.showShort(LiveingActivity.this, "请选择押注的盘口");
                             }else {
+                                betService("100", iv_chip50, rl_anims, R.drawable.chip50, 100);
+                            }
+                        }
+                    }
+                    break;
+                case R.id.rl_chip100://向盘里添加100积分
+                    if(this_status==STATUS_BET_TYPE){
+                        if (!(Double.parseDouble(tv_price.getText().toString())>500.00)){
+                            showDialog();
+                        }else {
+                            if (bl_choice1==0){
+                                ToastUtils.showShort(LiveingActivity.this, "请选择押注的盘口");
+                            }else {
 
-                                betService("100",iv_chip100, rl_anims, R.drawable.chip100, 100);
+                                betService("500",iv_chip100, rl_anims, R.drawable.chip100, 500);
                             }
                         }
                     }
@@ -3540,12 +3583,12 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
 
         int width = imageView.getWidth();
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
-                3*width/4, 3*width/4);
+                width, width);
         int width1 = rl_anim_stake.getWidth();//父容器的宽
         int height1 = rl_anim_stake.getHeight();//父容器的高
         Random random =new Random();//随机
-        int x = random.nextInt(width1-30);
-        int y = random.nextInt(height1-30);
+        int x = random.nextInt(width1-40);
+        int y = random.nextInt(height1-40);
         textView.setLayoutParams(params);
         textView.setBackground(LiveingActivity.this.getDrawable(draw));
         textView.setText(string);
@@ -3729,17 +3772,17 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
         iv_anim1.setVisibility(View.GONE);
         iv_anim2.setVisibility(View.GONE);
         iv_anim3.setVisibility(View.GONE);
-        if(i2>=100){
+        if(i2>=500){
+            for (int i=0;i<i2/500;i++){
+                addText(rl_anim_stake,R.drawable.chip100,"500");
+            }
+        }else if (i2>=100){
             for (int i=0;i<i2/100;i++){
-                addText(rl_anim_stake,R.drawable.chip100,"100");
+                addText(rl_anim_stake,R.drawable.chip50,"100");
             }
-        }else if (i2>=50){
+        }else if(i2>=50){
             for (int i=0;i<i2/50;i++){
-                addText(rl_anim_stake,R.drawable.chip50,"50");
-            }
-        }else if(i2>=25){
-            for (int i=0;i<i2/25;i++){
-                addText(rl_anim_stake,R.drawable.chip25,"25");
+                addText(rl_anim_stake,R.drawable.chip25,"50");
             }
         }else if (i2>=10){
             for (int i=0;i<i2/10;i++){
@@ -3752,7 +3795,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
         TextView textView=new TextView(LiveingActivity.this);
         int width = iv_chip100.getWidth();
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
-                5*width/6, 5*width/6);
+                width, width);
         int width1 = rl_anim_stake.getWidth();//父容器的宽
         int height1 = rl_anim_stake.getHeight();//父容器的高
         Random random =new Random();//随机
@@ -4191,7 +4234,9 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
                     if (apiResponse.getCode()==Api.SUCCESS){
 
                     }else {
-                        dice_shang();
+                        if (isTrue){
+                            dice_shang();
+                        }
                     }
                 }
 
