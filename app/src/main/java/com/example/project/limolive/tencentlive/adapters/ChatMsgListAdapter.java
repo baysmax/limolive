@@ -5,6 +5,8 @@ import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.graphics.Typeface;
+import android.graphics.drawable.AnimationDrawable;
+import android.os.Message;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
@@ -13,11 +15,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
@@ -244,11 +249,11 @@ public class ChatMsgListAdapter extends BaseAdapter implements AbsListView.OnScr
                 } else if (listMessage.get(position).getPresenr_type().equals("2")) {
                     present_holder.msg_present.setImageResource(R.drawable.present_3);
                 } else if (listMessage.get(position).getPresenr_type().equals("3")) {
-                    present_holder.msg_present.setImageResource(R.drawable.present_4);
+                    present_holder.msg_present.setImageResource(R.drawable.present_10);
                 } else if (listMessage.get(position).getPresenr_type().equals("4")) {
                     present_holder.msg_present.setImageResource(R.drawable.present_5);
                 } else if (listMessage.get(position).getPresenr_type().equals("5")) {
-                    present_holder.msg_present.setImageResource(R.drawable.present_6);
+                    present_holder.msg_present.setImageResource(R.drawable.present_4);
                 } else if (listMessage.get(position).getPresenr_type().equals("6")) {
                     present_holder.msg_present.setImageResource(R.drawable.present_7);
                 } else if (listMessage.get(position).getPresenr_type().equals("7")) {
@@ -260,15 +265,15 @@ public class ChatMsgListAdapter extends BaseAdapter implements AbsListView.OnScr
                 } else if (listMessage.get(position).getPresenr_type().equals("10")) {
                     present_holder.msg_present.setImageResource(R.drawable.present_10);
                 } else if (listMessage.get(position).getPresenr_type().equals("11")) {
-                    present_holder.msg_present.setImageResource(R.drawable.present_11);
-                } else if (listMessage.get(position).getPresenr_type().equals("12")) {
                     present_holder.msg_present.setImageResource(R.drawable.present_12);
-                } else if (listMessage.get(position).getPresenr_type().equals("13")) {
+                } else if (listMessage.get(position).getPresenr_type().equals("12")) {
                     present_holder.msg_present.setImageResource(R.drawable.present_13);
-                } else if (listMessage.get(position).getPresenr_type().equals("14")) {
+                } else if (listMessage.get(position).getPresenr_type().equals("13")) {
                     present_holder.msg_present.setImageResource(R.drawable.present_14);
-                } else if (listMessage.get(position).getPresenr_type().equals("15")) {
+                } else if (listMessage.get(position).getPresenr_type().equals("14")) {
                     present_holder.msg_present.setImageResource(R.drawable.present_15);
+                } else if (listMessage.get(position).getPresenr_type().equals("15")) {
+                    present_holder.msg_present.setImageResource(R.drawable.present_11);
                 } else if (listMessage.get(position).getPresenr_type().equals("16")) {
                     present_holder.msg_present.setImageResource(R.drawable.present_16);
                 } else if (listMessage.get(position).getPresenr_type().equals("17")) {

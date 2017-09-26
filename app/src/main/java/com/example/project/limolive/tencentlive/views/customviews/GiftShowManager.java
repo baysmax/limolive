@@ -252,7 +252,7 @@ public class GiftShowManager {
                                         ms.what=REMOVE_GIFT;
                                         ms.obj=imageView;
                                         handler.sendMessage(ms);
-                                        tryRecycleAnimationDrawable(background);
+                                        //tryRecycleAnimationDrawable(background);
                                         System.gc();
                                     }
 
@@ -394,6 +394,7 @@ public class GiftShowManager {
     };
 
     private void showGiftMax(final ImageView imageView,int drawable,int anim) {
+        Log.i("大礼物","xxxxx");
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
                 RelativeLayout.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         imageView.setLayoutParams(params);
@@ -414,7 +415,7 @@ public class GiftShowManager {
                 ms.what=REMOVE_GIFT;
                 ms.obj=imageView;
                 handler.sendMessage(ms);
-                tryRecycleAnimationDrawable(background);
+                //tryRecycleAnimationDrawable(background);
             }
 
             @Override
@@ -465,7 +466,7 @@ public class GiftShowManager {
                 msg.obj=imageView;
                 msg.what=REMOVE_GIFT;
                 handler.sendMessage(msg);
-                tryRecycleAnimationDrawable(background);
+                //tryRecycleAnimationDrawable(background);
                 System.gc();
             }
 
