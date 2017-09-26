@@ -1741,7 +1741,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
     private Runnable Poker_Runnable=new Runnable() {
         @Override
         public void run() {
-            if(/*!isStop==*/true){
+            if(!isStop==true){
                 //请求服务器 上传自己状态
                 poker_game_state_add();
                 Poker_Host_handler.postDelayed(Poker_Runnable,500);//主播游戏状态心跳
@@ -3163,19 +3163,20 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
                         Message msg = Message.obtain();
                         msg.what=MSG_CODE_END_WIN_OR_LOSE;
                         dice_poker_handler.sendMessage(msg);
-                        timers.cancel();
+
                     }else if (type==1){
                         Log.i("游戏1","休息倒计时结束");
                         Message msg = Message.obtain();
                         msg.what=MSG_CODE_END_YAZU;
                         dice_poker_handler.sendMessage(msg);
-                        timers.cancel();
+
                     }
                     rl_nn_chip10.setEnabled(true);
                     rl_nn_chip25.setEnabled(true);
                     rl_nn_chip50.setEnabled(true);
                     rl_nn_chip100.setEnabled(true);
                 }
+                timers.cancel();
                 //封盘 开始旋转动画
             }
         };
