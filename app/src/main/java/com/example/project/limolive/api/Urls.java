@@ -146,5 +146,6 @@ public class Urls {
     public static final String POST_LIVE_RECHARGE = "/Appapi/Cart/recharge_de";//直播间充值
     public static final String POST_LIVE_DATE = "/Appapi/Live/live_coinLists";//直播间充值数据
     public static final String POST_LIVE_DATE_LIST = "/Appapi/Live/live_recharge_list_de";//直播间充值用户列表
+    public static final String POST_LIVE_PP = "/Appapi/Live/live_recharge_pp";//大额支付成功后调起飘屏接口
 
 }

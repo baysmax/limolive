@@ -1432,7 +1432,13 @@ public class Api {
         ApiHttpClient.post(ApiHttpClient.API_URL + Urls.POST_LIVE_DATE_LIST, params, handler);
     }
 
-    public static void live_recharge_pp() {
-
+    /**
+     * 大额支付成功后调起飘屏接口
+     * @param order_sn
+     */
+    public static void live_recharge_pp(String order_sn,ApiResponseHandler handler) {
+        RequestParams params = new RequestParams();
+        params.put("order_sn",order_sn);
+        ApiHttpClient.post(ApiHttpClient.API_URL + Urls.POST_LIVE_PP, params, handler);
     }
 }

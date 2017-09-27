@@ -7,8 +7,11 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.example.project.limolive.api.Api;
+import com.example.project.limolive.api.ApiResponse;
+import com.example.project.limolive.api.ApiResponseHandler;
 import com.example.project.limolive.helper.LoginManager;
 import com.example.project.limolive.localalbum.ui.BaseActivity;
+import com.example.project.limolive.tencentlive.views.LiveingActivity;
 import com.example.project.limolive.utils.Constant;
 import com.tencent.mm.opensdk.modelbase.BaseReq;
 import com.tencent.mm.opensdk.modelbase.BaseResp;
@@ -64,16 +67,22 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
                 break;
         }
 
-//        Intent intent = new Intent(PayActivity.PAY_RESULT);//返回App界面
-//        intent.putExtra("err_code",errCode+"");
-//        sendBroadcast(intent);
-        Log.e("TAG", "errCodes" + errCode);
+
 
         finish();//这里重要，如果没有 finish（）；将留在微信支付后的界面.
     }
 
     private void getPersonalInfo() {
-        Api.live_recharge_pp();
+       String order_sn=LiveingActivity.Order_sn;
+        if (!"".equals(order_sn)&&order_sn!=null){
+            Api.live_recharge_pp(order_sn, new ApiResponseHandler(this) {
+                @Override
+                public void onSuccess(ApiResponse apiResponse) {
+                    Log.i("充值",apiResponse.toString());
+                }
+            });
+
+        }
     }
 
 }

@@ -870,6 +870,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
             dice_shangs();
         }
         giftManger=null;
+        Order_sn=null;
         unregisterReceiver(myReceiver);
         unregisterReceiver(myReceiver1);
         isStop = true;
@@ -1872,7 +1873,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
             }
         });
     }
-
+    public static String Order_sn="";
     //充值
     private void recharge_de() {
         if (!NetWorkUtil.isNetworkConnected(LiveingActivity.this)) {
@@ -1893,6 +1894,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
                                 Log.i("充值","rechargeLiveBean="+rechargeLiveBean.toString());
                                 WXPayUtils wxPayUtils = new WXPayUtils(LiveingActivity.this, Constant.WXRECHAR_URL);
                                 wxPayUtils.pay("充值",rechargeLiveBean.getOrder_price(), rechargeLiveBean.getOrder_sn());
+                                Order_sn=rechargeLiveBean.getOrder_sn();
                             }
                         }
                     });
