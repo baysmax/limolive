@@ -1431,4 +1431,8 @@ public class Api {
         params.put("av_room_id",av_room_id);
         ApiHttpClient.post(ApiHttpClient.API_URL + Urls.POST_LIVE_DATE_LIST, params, handler);
     }
+
+    public static void live_recharge_pp() {
+
+    }
 }

@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.example.project.limolive.api.Api;
+import com.example.project.limolive.helper.LoginManager;
 import com.example.project.limolive.localalbum.ui.BaseActivity;
 import com.example.project.limolive.utils.Constant;
 import com.tencent.mm.opensdk.modelbase.BaseReq;
@@ -50,21 +52,14 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
         int errCode = resp.errCode;
         switch (errCode) {
             case 0:
-//                if (!TextUtils.isEmpty(LoginManager.getInstance().getString(WXPayEntryActivity.this, "vip"))) {
                 ContentValues values = new ContentValues();
-                values.put("vip", "1");
-//                    resolver.updateInfo(values, LoginManager.getInstance().getUserID(WXPayEntryActivity.this));
                 getPersonalInfo();
-//                    LoginManager.getInstance().setString(WXPayEntryActivity.this, "vip", "");
-//                }
                 Toast.makeText(this, "支付成功", Toast.LENGTH_LONG).show();
                 break;
             case -1:
-//                LoginManager.getInstance().setString(WXPayEntryActivity.this, "vip", "");
                 Toast.makeText(this, "支付错误", Toast.LENGTH_LONG).show();
                 break;
             case -2:
-//                LoginManager.getInstance().setString(WXPayEntryActivity.this, "vip", "");
                 Toast.makeText(this, "支付取消", Toast.LENGTH_LONG).show();
                 break;
         }
@@ -78,24 +73,7 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
     }
 
     private void getPersonalInfo() {
-//        if (NetWorkUtils.isConnected(this)) {
-//            Api.healthRecord(LoginManager.getInstance().getUserID(WXPayEntryActivity.this), new ApiResponseHandler(WXPayEntryActivity.this) {
-//                @Override
-//                public void onSuccess(ApiResponse apiResponse) {
-//                    if (apiResponse.getCode() == 0) {
-//                        PersonInfo info = JSON.parseObject(apiResponse.getData(), PersonInfo.class);
-//                        ContentValues values = new ContentValues();
-//                        values.put("vip_start", info.getVip_start());
-//                        values.put("vip_end", info.getVip_end());
-//                        resolver.updateInfo(values, LoginManager.getInstance().getUserID(WXPayEntryActivity.this));
-//                    } else {
-//                        ToastUtils.showToast(apiResponse.getMessage());
-//                    }
-//                }
-//            });
-//        } else {
-//            ToastUtils.showToast("网络不可用");
-//        }
+        Api.live_recharge_pp();
     }
 
 }
