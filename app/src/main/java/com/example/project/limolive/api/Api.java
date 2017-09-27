@@ -1401,5 +1401,23 @@ public class Api {
         ApiHttpClient.post(ApiHttpClient.API_URL + Urls.POST_USER_NN_LIST, params, handler);
     }
 
+    /**
+     * user_id（用户id）、lemon_id（充值金额id）、room_id（房间号id）
+     * 直播间充值接口
+     */
+    public static void recharge_de(String user_id,String lemon_id,String room_id,ApiResponseHandler handler) {
+        RequestParams params = new RequestParams();
+        params.put("room_id",room_id);
+        params.put("user_id",user_id);
+        params.put("lemon_id",lemon_id);
+        ApiHttpClient.post(ApiHttpClient.API_URL + Urls.POST_LIVE_RECHARGE, params, handler);
+    }
 
+    /**
+     * 获取充值数据
+     */
+    public static void live_coinLists(ApiResponseHandler handler) {
+        RequestParams params = new RequestParams();
+        ApiHttpClient.post(ApiHttpClient.API_URL + Urls.POST_LIVE_DATE, params, handler);
+    }
 }

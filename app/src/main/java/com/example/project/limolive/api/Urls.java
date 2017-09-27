@@ -140,5 +140,10 @@ public class Urls {
     public static final String POST_USER_NN_BEI_DEL = "/Appapi/Niuniu/niuniu_dice_shang";//游戏下一局开始前清除上一局数据接口
     public static final String POST_USER_NN_DATA  = "/Appapi/Niuniu/niuniu_dice_list_data";//获取牌
     public static final String POST_USER_NN_LIST  = "/Appapi/Niuniu/niuniu_dice_list";//发牌接口
+    /**
+     * 直播间充值或飘屏
+     */
+    public static final String POST_LIVE_RECHARGE = "/Appapi/Cart/recharge_de";//直播间充值
+    public static final String POST_LIVE_DATE = "/Appapi/Live/live_coinLists";//直播间充值数据
 
 }

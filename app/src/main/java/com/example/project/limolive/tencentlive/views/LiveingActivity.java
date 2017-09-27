@@ -81,6 +81,7 @@ import com.example.project.limolive.api.ApiHttpClient;
 import com.example.project.limolive.api.ApiResponse;
 import com.example.project.limolive.api.ApiResponseHandler;
 import com.example.project.limolive.bean.ChipBeatBean;
+import com.example.project.limolive.bean.CoinListBean;
 import com.example.project.limolive.bean.DiceBean;
 import com.example.project.limolive.bean.PokerBean;
 import com.example.project.limolive.bean.StatusBean;
@@ -313,6 +314,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
         t.start();
         t1.start();
         soundPlayUtils = SoundPlayUtils.init(LiveingActivity.this);
+        live_coinLists();
     }
 
     private void getSystemMsg(){
@@ -1736,14 +1738,14 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
         View inflate = LayoutInflater.from(this).inflate(R.layout.popularity_dialog, null);
         Dialog dialog = new Dialog(this,R.style.BottomDialog_Animation);
         dialog.setContentView(inflate);
-        ViewGroup.LayoutParams layoutParams = view.getLayoutParams();
+        ViewGroup.LayoutParams layoutParams = inflate.getLayoutParams();
         layoutParams.width =inflate.getResources().getDisplayMetrics().widthPixels;
         layoutParams.height = (int) (inflate.getResources().getDisplayMetrics().heightPixels*0.5);
         inflate.setLayoutParams(layoutParams);
+        inView(inflate,dialog);
         getWindow().setGravity(Gravity.BOTTOM);
         //getWindow().setWindowAnimations(R.style.BottomDialog_Animation);
 //        dialog.setCanceledOnTouchOutside(true);
-
 //        Window dialogWindow = dialog.getWindow();
 //        dialogWindow.setFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE);
         dialog.show();
@@ -1753,6 +1755,108 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
         params.height = LinearLayout.LayoutParams.WRAP_CONTENT;
         dialog.getWindow().setAttributes(params);// 设置属性
     }
+    List<CoinListBean> coinListBeen=new ArrayList<>();
+
+    //获取充值数据
+    private void live_coinLists() {
+        if (!NetWorkUtil.isNetworkConnected(LiveingActivity.this)) {
+            ToastUtils.showShort(LiveingActivity.this, NET_UNCONNECT);
+            return;
+        }else {
+            Api.live_coinLists(new ApiResponseHandler(LiveingActivity.this) {
+                @Override
+                public void onSuccess(ApiResponse apiResponse) {
+                    Log.i("充值","apiResponse"+apiResponse.toString());
+                    if (apiResponse.getCode()==Api.SUCCESS){
+                       coinListBeen.addAll(JSONArray.parseArray(apiResponse.getData(), CoinListBean.class));
+                    }
+                }
+            });
+        }
+    }
+
+    private TextView tv_10000,tv_50000,tv_100000,tv_recharged;
+    private String recharge="";
+    private void inView(View layout, final Dialog dialog) {
+        layout.findViewById(R.id.tv_back).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                recharge="";
+                dialog.dismiss();
+            }
+        });
+        tv_10000=layout.findViewById(R.id.tv_10000);
+        tv_50000=layout.findViewById(R.id.tv_50000);
+        tv_100000=layout.findViewById(R.id.tv_100000);
+        if (coinListBeen.size()>0){
+            tv_10000.setText(coinListBeen.get(0).getPrice());
+            tv_50000.setText(coinListBeen.get(1).getPrice());
+            tv_100000.setText(coinListBeen.get(2).getPrice());
+        }
+
+        tv_10000.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                reset();
+                tv_10000.setBackground(LiveingActivity.this.getDrawable(R.drawable.button_bg1));
+                tv_10000.setTextColor(Color.rgb(255,255,255));
+                recharge=coinListBeen.get(0).getLemon_id();
+            }
+        });
+        tv_50000.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                reset();
+                tv_50000.setBackground(LiveingActivity.this.getDrawable(R.drawable.button_bg1));
+                tv_50000.setTextColor(Color.rgb(255,255,255));
+                recharge=coinListBeen.get(1).getLemon_id();
+            }
+        });
+        tv_100000.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                reset();
+                tv_100000.setBackground(LiveingActivity.this.getDrawable(R.drawable.button_bg1));
+                tv_100000.setTextColor(Color.rgb(255,255,255));
+                recharge=coinListBeen.get(2).getLemon_id();
+            }
+        });
+        tv_recharged=layout.findViewById(R.id.tv_recharged);
+        tv_recharged.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //请求服务器生成订单跳转到微信支付
+                recharge_de();
+            }
+        });
+    }
+    //充值
+    private void recharge_de() {
+        if (!NetWorkUtil.isNetworkConnected(LiveingActivity.this)) {
+            ToastUtils.showShort(LiveingActivity.this, NET_UNCONNECT);
+            return;
+        }else {
+            if ("".equals(recharge)){
+                ToastUtils.showShort(LiveingActivity.this,"请选择充值金额");
+                return;
+            }
+            //Api.recharge_de();
+        }
+    }
+
+    private void reset() {
+        tv_10000.setBackground(LiveingActivity.this.getDrawable(R.drawable.btns_bgfw));
+        tv_10000.setTextColor(Color.argb(159,0,0,0));
+        tv_10000.setText(coinListBeen.get(0).getPrice());
+
+        tv_50000.setBackground(LiveingActivity.this.getDrawable(R.drawable.btns_bgfw));
+        tv_50000.setTextColor(Color.argb(159,0,0,0));
+        tv_50000.setText(coinListBeen.get(1).getPrice());
+
+        tv_100000.setBackground(LiveingActivity.this.getDrawable(R.drawable.btns_bgfw));
+        tv_100000.setTextColor(Color.argb(159,0,0,0));
+        tv_100000.setText(coinListBeen.get(2).getPrice());
+    }
 
     /**
      * 牛牛游戏
@@ -1761,16 +1865,6 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
     private PokerGameDialog instancePoker;
     private Handler Poker_Host_handler=new Handler();
 
-//    public static final int STATUS_REST_TYPE=0;//休息状态5
-//    public static final int STATUS_BET_TYPE=1;//下注状态30
-//    public static final int STATUS_ANIM_TYPE=2;//动画状态10
-//    public static final int STATUS_END_TYPE=3;//结束状态10
-//    private int this_status;//当前游戏状态
-//
-//    private static final int MSG_CODE_END_GIFT=0x1111;//色子动画结束，开始显示输赢结果和各盘点数
-//    private static final int MSG_CODE_END_YAZU=0x2222;//休息结束，开始显示押注
-//    private static final int MSG_CODE_END_REST=0x3333;//输赢动画显示结束，开始休息时间
-//    private static final int MSG_CODE_END_WIN_OR_LOSE=0x4444;//押注结束，开始色子动画效果
     private Runnable Poker_Runnable=new Runnable() {
         @Override
         public void run() {

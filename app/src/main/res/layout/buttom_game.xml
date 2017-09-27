@@ -24,7 +24,7 @@
             android:textSize="12dp"
             android:gravity="center"
 
-            android:text="1.5万"/>
+            android:text=""/>
 
         <TextView
             android:id="@+id/tv_recharge"
@@ -91,7 +91,7 @@
                 android:textColor="#fff"
                 android:textSize="12sp"
                 android:layout_below="@id/iv_chip25"
-                android:text="25积分"/>
+                android:text="50积分"/>
 
         </RelativeLayout>
         <RelativeLayout
@@ -117,7 +117,7 @@
                 android:textSize="12sp"
                 android:layout_centerHorizontal="true"
                 android:layout_below="@id/iv_chip50"
-                android:text="50积分"/>
+                android:text="100积分"/>
 
         </RelativeLayout>
         <RelativeLayout
@@ -143,7 +143,7 @@
                 android:textColor="#fff"
                 android:textSize="12sp"
                 android:layout_below="@id/iv_chip100"
-                android:text="100积分"/>
+                android:text="500积分"/>
 
         </RelativeLayout>
     </LinearLayout>
