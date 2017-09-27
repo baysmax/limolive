@@ -20,11 +20,12 @@ public class Constant {
  //   public static String WXMOREORDERNOTIFY_URL = "http://123.57.148.47:8080/lemon/index.php/Cart/cart3";
 
 
-    public static String WXNOTIFY_URL = "http://47.93.32.34:8081/index.php/appapi/pay/wxnotify2";
-    public static String WXRECHARGENOTIFY_URL = "http://47.93.32.34:8081/index.php/appapi/pay/wxnotify";
-    public static String WXRECHAR_URL = "http://47.93.32.34:8081/index.php/Appapi/Pay/rwxnotify_de";
-//    public static String WXNOTIFY_URL = "http://47.93.32.34/index.php/appapi/pay/wxnotify2";
-//    public static String WXRECHARGENOTIFY_URL = "http://47.93.32.34/index.php/appapi/pay/wxnotify";
+//    public static String WXNOTIFY_URL = "http://47.93.32.34:8081/index.php/appapi/pay/wxnotify2";
+//    public static String WXRECHARGENOTIFY_URL = "http://47.93.32.34:8081/index.php/appapi/pay/wxnotify";
+//    public static String WXRECHAR_URL = "http://47.93.32.34:8081/index.php/Appapi/Pay/rwxnotify_de";
+    public static String WXRECHAR_URL = "http://47.93.32.34/index.php/Appapi/Pay/rwxnotify_de";
+    public static String WXNOTIFY_URL = "http://47.93.32.34/index.php/appapi/pay/wxnotify2";
+    public static String WXRECHARGENOTIFY_URL = "http://47.93.32.34/index.php/appapi/pay/wxnotify";
 //    public static String WXRECHARGENOTIFY_URL = "http://112.121.186.162/lemon/index.php/appapi/pay/wxnotify";
     public static String WXMOREORDERNOTIFY_URL = "http://112.121.186.162/lemon/index.php/Cart/cart3";
     //微信
