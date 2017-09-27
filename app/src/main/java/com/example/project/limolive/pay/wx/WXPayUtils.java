@@ -146,9 +146,6 @@ public class WXPayUtils {
 
         @Override
         protected void onPostExecute(Map<String, String> result) {
-            if (dialog != null) {
-                dialog.dismiss();
-            }
             sb.append("prepay_id\n" + result.get("prepay_id") + "\n\n");
             if (result.get("err_code") != null && "OUT_TRADE_NO_USED".equals(result.get("err_code").toString())) {
                 Log.i("err_code_des", result.get("err_code_des").toString());
@@ -158,6 +155,9 @@ public class WXPayUtils {
             Log.e(getClass().getName(), resultunifiedorder.toString());
             genPayReq();
             sendPayReq();
+            if (dialog != null) {
+                dialog.dismiss();
+            }
         }
 
         @Override

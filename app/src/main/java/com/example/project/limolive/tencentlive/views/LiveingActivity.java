@@ -84,6 +84,7 @@ import com.example.project.limolive.bean.ChipBeatBean;
 import com.example.project.limolive.bean.CoinListBean;
 import com.example.project.limolive.bean.DiceBean;
 import com.example.project.limolive.bean.PokerBean;
+import com.example.project.limolive.bean.RechargeLiveBean;
 import com.example.project.limolive.bean.StatusBean;
 import com.example.project.limolive.bean.SystemMsgBean;
 import com.example.project.limolive.bean.live.LivesInfoBean;
@@ -91,6 +92,7 @@ import com.example.project.limolive.bean.mine.BlackListBean;
 import com.example.project.limolive.fragment.MyFragment;
 import com.example.project.limolive.helper.LoginManager;
 import com.example.project.limolive.model.LoginModel;
+import com.example.project.limolive.pay.wx.WXPayUtils;
 import com.example.project.limolive.service.DesServices;
 import com.example.project.limolive.tencentim.ui.ChatActivity;
 import com.example.project.limolive.tencentlive.adapters.MembersHeadAdapter;
@@ -105,6 +107,7 @@ import com.example.project.limolive.tencentlive.views.customviews.GiftShowManage
 import com.example.project.limolive.tencentlive.views.customviews.HorizontalListView;
 import com.example.project.limolive.tencentlive.views.customviews.PeriscopeLayout;
 import com.example.project.limolive.tencentlive.views.customviews.PopuGiftCount;
+import com.example.project.limolive.utils.Constant;
 import com.example.project.limolive.utils.NetWorkUtil;
 import com.example.project.limolive.utils.SoundPlayUtils;
 import com.example.project.limolive.view.BabyPopupWindow;
@@ -1840,7 +1843,18 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
                 ToastUtils.showShort(LiveingActivity.this,"请选择充值金额");
                 return;
             }
-            //Api.recharge_de();
+            Api.recharge_de(LoginManager.getInstance().getUserID(LiveingActivity.this), recharge, CurLiveInfo.getRoomNum()
+                    , new ApiResponseHandler(LiveingActivity.this) {
+                        @Override
+                        public void onSuccess(ApiResponse apiResponse) {
+                            Log.i("充值","apiResponse"+apiResponse.toString());
+                            if (apiResponse.getCode()==Api.SUCCESS){
+                                RechargeLiveBean rechargeLiveBean = JSONObject.parseObject(apiResponse.getData(), RechargeLiveBean.class);
+                                WXPayUtils wxPayUtils = new WXPayUtils(LiveingActivity.this, Constant.WXRECHAR_URL);
+                                wxPayUtils.pay("充值",rechargeLiveBean.getOrder_price(), rechargeLiveBean.getOrder_sn());
+                            }
+                        }
+                    });
         }
     }
 
