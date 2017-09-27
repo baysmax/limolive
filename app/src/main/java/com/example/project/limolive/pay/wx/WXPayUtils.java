@@ -175,7 +175,7 @@ public class WXPayUtils {
 
             String content = new String(buf);
             Map<String, String> xml = decodeXml(content);
-
+            Log.i("充值", "xml="+xml.toString());
             return xml;
         }
     }
@@ -237,9 +237,10 @@ public class WXPayUtils {
 
 
             String xmlstring = toXml(packageParams);
-            Log.i("xmlstring--------", xmlstring);
+            Log.i("充值","xmlstring"+ xmlstring.toString());
             return xmlstring;
         } catch (Exception e) {
+            Log.i("充值","xmlstring"+ e.toString());
             return null;
         }
     }

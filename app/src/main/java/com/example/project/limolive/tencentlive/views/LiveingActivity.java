@@ -31,6 +31,8 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.LoginFilter;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
@@ -76,6 +78,7 @@ import com.example.project.limolive.activity.MainActivity;
 import com.example.project.limolive.activity.MyWalletActivity;
 import com.example.project.limolive.activity.RanksActivity;
 import com.example.project.limolive.adapter.BlackListAdapter;
+import com.example.project.limolive.adapter.LiveRankConsumptionAdapter;
 import com.example.project.limolive.api.Api;
 import com.example.project.limolive.api.ApiHttpClient;
 import com.example.project.limolive.api.ApiResponse;
@@ -83,6 +86,7 @@ import com.example.project.limolive.api.ApiResponseHandler;
 import com.example.project.limolive.bean.ChipBeatBean;
 import com.example.project.limolive.bean.CoinListBean;
 import com.example.project.limolive.bean.DiceBean;
+import com.example.project.limolive.bean.LiveRechargeBean;
 import com.example.project.limolive.bean.PokerBean;
 import com.example.project.limolive.bean.RechargeLiveBean;
 import com.example.project.limolive.bean.StatusBean;
@@ -318,6 +322,26 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
         t1.start();
         soundPlayUtils = SoundPlayUtils.init(LiveingActivity.this);
         live_coinLists();
+
+    }
+    private List<LiveRechargeBean> liveRechargeList=new ArrayList<>();
+    private void live_recharge_list_de() {
+        if (!NetWorkUtil.isNetworkConnected(LiveingActivity.this)) {
+            ToastUtils.showShort(LiveingActivity.this, NET_UNCONNECT);
+            return;
+        }else {
+            Api.live_recharge_list_de(CurLiveInfo.getRoomNum(), new ApiResponseHandler(LiveingActivity.this) {
+                @Override
+                public void onSuccess(ApiResponse apiResponse) {
+                    Log.i("直播排行","直播排行apiResponse="+apiResponse.toString());
+                    if (apiResponse.getCode()==Api.SUCCESS){
+                        liveRechargeList.clear();
+                        liveRechargeList.addAll(JSONArray.parseArray(apiResponse.getData(), LiveRechargeBean.class));
+                        adapter.notifyDataSetChanged();
+                    }
+                }
+            });
+        }
     }
 
     private void getSystemMsg(){
@@ -1780,12 +1804,27 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
 
     private TextView tv_10000,tv_50000,tv_100000,tv_recharged;
     private String recharge="";
+    private RecyclerView rv_rank;
+    private LinearLayoutManager llm;
+    private LiveRankConsumptionAdapter adapter;
     private void inView(View layout, final Dialog dialog) {
+        inhast(layout, dialog);
+        rv_rank=layout.findViewById(R.id.rv_rank);
+        llm=new LinearLayoutManager(LiveingActivity.this);
+        adapter=new LiveRankConsumptionAdapter(liveRechargeList,LiveingActivity.this);
+        rv_rank.setLayoutManager(llm);
+        rv_rank.setAdapter(adapter);
+
+        live_recharge_list_de();
+    }
+
+    private void inhast(View layout, final Dialog dialog) {
         layout.findViewById(R.id.tv_back).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 recharge="";
                 dialog.dismiss();
+                liveRechargeList.clear();
             }
         });
         tv_10000=layout.findViewById(R.id.tv_10000);
@@ -1833,6 +1872,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
             }
         });
     }
+
     //充值
     private void recharge_de() {
         if (!NetWorkUtil.isNetworkConnected(LiveingActivity.this)) {
@@ -1850,6 +1890,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
                             Log.i("充值","apiResponse"+apiResponse.toString());
                             if (apiResponse.getCode()==Api.SUCCESS){
                                 RechargeLiveBean rechargeLiveBean = JSONObject.parseObject(apiResponse.getData(), RechargeLiveBean.class);
+                                Log.i("充值","rechargeLiveBean="+rechargeLiveBean.toString());
                                 WXPayUtils wxPayUtils = new WXPayUtils(LiveingActivity.this, Constant.WXRECHAR_URL);
                                 wxPayUtils.pay("充值",rechargeLiveBean.getOrder_price(), rechargeLiveBean.getOrder_sn());
                             }

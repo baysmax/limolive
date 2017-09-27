@@ -1420,4 +1420,15 @@ public class Api {
         RequestParams params = new RequestParams();
         ApiHttpClient.post(ApiHttpClient.API_URL + Urls.POST_LIVE_DATE, params, handler);
     }
+
+    /**
+     * 直播间充值用户列表
+     * @param av_room_id
+     * @param handler
+     */
+    public static void live_recharge_list_de(String av_room_id,ApiResponseHandler handler) {
+        RequestParams params = new RequestParams();
+        params.put("av_room_id",av_room_id);
+        ApiHttpClient.post(ApiHttpClient.API_URL + Urls.POST_LIVE_DATE_LIST, params, handler);
+    }
 }
