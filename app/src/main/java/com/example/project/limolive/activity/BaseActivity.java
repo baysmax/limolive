@@ -45,6 +45,7 @@ import com.example.project.limolive.tencentlive.utils.LogConstants;
 import com.example.project.limolive.tencentlive.utils.SxbLog;
 import com.example.project.limolive.utils.AfterPermissionGranted;
 import com.example.project.limolive.utils.EasyPermissions;
+import com.example.project.limolive.utils.PhoneInfo;
 import com.example.project.limolive.utils.SPUtil;
 import com.example.project.limolive.view.CustomProgressDialog;
 import com.example.project.limolive.widget.LiveMallTitleBar;
@@ -171,17 +172,37 @@ public class BaseActivity extends AppCompatActivity implements ProfileView, Easy
                 new UpdateManagerListener() {
                     @Override
                     public void onUpdateAvailable(final String result) {
-                        //Log.i("主人有新的版本更新哟",result.toString());
-                        new AlertDialog.Builder(BaseActivity.this)
-                                .setTitle("更新")
-                                .setMessage("主人有新的版本更新哟...")
-                                .setNegativeButton(
-                                        "确定",
-                                        new DialogInterface.OnClickListener() {
+                        Log.i("版本更新","检测到更新"+result.toString());
+                        Log.i("版本更新","自身版本号="+ PhoneInfo.getVerCode(BaseActivity.this));
+                        //                                                JSONObject jsonData;
+//                                                    jsonData = new JSONObject(
+//                                                            result);
+//                                                    if ("0".equals(jsonData
+//                                                            .getString("code"))) {
+//                                                        JSONObject jsonObject = jsonData
+//                                                                .getJSONObject("data");
+//                                                        url = jsonObject
+//                                                                .getString("downloadURL");
+                        JSONObject jsonData;
+                        try {
+                            jsonData = new JSONObject(result);
+                            if ("0".equals(jsonData.getString("code"))) {
+                                JSONObject jsonObject = jsonData.getJSONObject("data");
+                                int code = jsonObject.getInt("versionCode");
+                                int verCode = PhoneInfo.getVerCode(BaseActivity.this);
+                                if (code==verCode){
 
-                                            @Override
-                                            public void onClick(
-                                                    DialogInterface dialog, int which) {
+                                }else {
+                                    new AlertDialog.Builder(BaseActivity.this)
+                                            .setTitle("更新")
+                                            .setMessage("主人有新的版本更新哟...")
+                                            .setNegativeButton(
+                                                    "确定",
+                                                    new DialogInterface.OnClickListener() {
+
+                                                        @Override
+                                                        public void onClick(
+                                                                DialogInterface dialog, int which) {
 //                                                String url;
 //                                                JSONObject jsonData;
 //                                                try {
@@ -205,21 +226,27 @@ public class BaseActivity extends AppCompatActivity implements ProfileView, Easy
 //                                                    // catch block
 //                                                    e.printStackTrace();
 //                                                }
-                                                Log.i("123456","android.intent.action.VIEW");
-                                                Intent intent= new Intent();
-                                                intent.setAction("android.intent.action.VIEW");
-                                                Uri content_url = Uri.parse("https://www.pgyer.com/Ko1C");
-                                                        intent.setData(content_url);
-                                                startActivity(intent);
-                                            }
-                                        })
-                                .setPositiveButton("取消", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        dialog.dismiss();
-                                    }
-                                })
-                                .show();
+                                                            Log.i("123456","android.intent.action.VIEW");
+                                                            Intent intent= new Intent();
+                                                            intent.setAction("android.intent.action.VIEW");
+                                                            Uri content_url = Uri.parse("https://www.pgyer.com/Ko1C");
+                                                            intent.setData(content_url);
+                                                            startActivity(intent);
+                                                        }
+                                                    })
+                                            .setPositiveButton("取消", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    dialog.dismiss();
+                                                }
+                                            })
+                                            .show();
+                                }
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
                     }
 
                     @Override

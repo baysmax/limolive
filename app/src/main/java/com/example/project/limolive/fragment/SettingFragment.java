@@ -25,6 +25,7 @@ import com.example.project.limolive.activity.bindPhoneActivity;
 import com.example.project.limolive.helper.LoginManager;
 import com.example.project.limolive.provider.MineDataProvider;
 import com.example.project.limolive.tencentlive.views.LiveingActivity;
+import com.example.project.limolive.utils.PhoneInfo;
 import com.example.project.limolive.utils.ToastUtils;
 import com.example.project.limolive.view.CustomDialog;
 import com.pgyersdk.crash.PgyCrashManager;
@@ -124,31 +125,70 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
                 new UpdateManagerListener() {
                     @Override
                     public void onUpdateAvailable(final String result) {
-                        new AlertDialog.Builder(getActivity())
-                                .setTitle("更新")
-                                .setMessage("主人有新的版本更新哟...")
-                                .setNegativeButton(
-                                        "确定",
-                                        new DialogInterface.OnClickListener() {
+                        JSONObject jsonData;
+                        try {
+                            jsonData = new JSONObject(result);
+                            if ("0".equals(jsonData.getString("code"))) {
+                                JSONObject jsonObject = jsonData.getJSONObject("data");
+                                int code = jsonObject.getInt("versionCode");
+                                int verCode = PhoneInfo.getVerCode(getActivity());
+                                if (code==verCode){
 
-                                            @Override
-                                            public void onClick(
-                                                    DialogInterface dialog, int which) {
-                                                Log.i("123456","android.intent.action.VIEW");
-                                                Intent intent= new Intent();
-                                                intent.setAction("android.intent.action.VIEW");
-                                                Uri content_url = Uri.parse("https://www.pgyer.com/Ko1C");
-                                                intent.setData(content_url);
-                                                startActivity(intent);
-                                            }
-                                        })
-                                .setPositiveButton("取消", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        dialog.dismiss();
-                                    }
-                                })
-                                .show();
+                                }else {
+                                    new AlertDialog.Builder(getActivity())
+                                            .setTitle("更新")
+                                            .setMessage("主人有新的版本更新哟...")
+                                            .setNegativeButton(
+                                                    "确定",
+                                                    new DialogInterface.OnClickListener() {
+
+                                                        @Override
+                                                        public void onClick(
+                                                                DialogInterface dialog, int which) {
+//                                                String url;
+//                                                JSONObject jsonData;
+//                                                try {
+//                                                    jsonData = new JSONObject(
+//                                                            result);
+//                                                    if ("0".equals(jsonData
+//                                                            .getString("code"))) {
+//                                                        JSONObject jsonObject = jsonData
+//                                                                .getJSONObject("data");
+//                                                        url = jsonObject
+//                                                                .getString("downloadURL");
+//
+//                                                        startDownloadTask(
+//                                                                BaseActivity.this,
+//                                                                url);
+//
+//                                                    }
+//
+//                                                } catch (JSONException e) {
+//                                                    // TODO Auto-generated
+//                                                    // catch block
+//                                                    e.printStackTrace();
+//                                                }
+                                                            Log.i("123456","android.intent.action.VIEW");
+                                                            Intent intent= new Intent();
+                                                            intent.setAction("android.intent.action.VIEW");
+                                                            Uri content_url = Uri.parse("https://www.pgyer.com/Ko1C");
+                                                            intent.setData(content_url);
+                                                            startActivity(intent);
+                                                        }
+                                                    })
+                                            .setPositiveButton("取消", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    dialog.dismiss();
+                                                }
+                                            })
+                                            .show();
+                                }
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
                     }
 
                     @Override
