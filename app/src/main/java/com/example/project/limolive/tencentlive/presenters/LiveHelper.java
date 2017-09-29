@@ -51,6 +51,7 @@ import com.tencent.av.sdk.AVRoomMulti;
 import com.tencent.av.sdk.AVVideoCtrl;
 import com.tencent.av.sdk.AVView;
 import com.tencent.ilivesdk.ILiveCallBack;
+import com.tencent.ilivesdk.ILiveConstants;
 import com.tencent.ilivesdk.ILiveSDK;
 import com.tencent.ilivesdk.core.ILiveLog;
 import com.tencent.ilivesdk.core.ILivePushOption;
@@ -481,6 +482,7 @@ public class LiveHelper extends Presenter implements ILiveRoomOption.onRoomDisco
             @Override
             public void onSuccess(ApiResponse apiResponse) {
                 if (apiResponse.getCode() == Api.SUCCESS) {
+
                 }
                 Log.i("退出房间", apiResponse.toString());
             }
@@ -532,6 +534,7 @@ public class LiveHelper extends Presenter implements ILiveRoomOption.onRoomDisco
                 .roomDisconnectListener(this)
                 .controlRole(Constants.HOST_ROLE)
                 .authBits(AVRoomMulti.AUTH_BITS_DEFAULT)
+                .videoMode(ILiveConstants.VIDEOMODE_NORMAL)
                 .videoRecvMode(AVRoomMulti.VIDEO_RECV_MODE_SEMI_AUTO_RECV_CAMERA_VIDEO);
         if (!TextUtils.isEmpty(LiveMySelfInfo.getInstance().getMyRoomNum())) {
             Log.i("创建房间", "getMyRoomNum" + LiveMySelfInfo.getInstance().getMyRoomNum());
@@ -834,7 +837,7 @@ public class LiveHelper extends Presenter implements ILiveRoomOption.onRoomDisco
                         break;
                     case Constants.AVIMCMD_HOST_BACK:
                         mLiveView.hostBack(identifier, nickname);
-
+                        
                     case PRESENT_MSG:
 
                         break;
