@@ -2130,7 +2130,6 @@ private double quota=0,actual=0;
                     break;
                 case MSG_CODE_END_YAZU://休息结束，开始显示押注
                     this_statusd=STATUS_BET_TYPE;
-                    actual=0;//实际消费清零
                     double v = Double.parseDouble(tv_nn_price.getText().toString());
                     if (v>0){
                         quota=v/5;//重新计算消费额度
@@ -2221,6 +2220,9 @@ private double quota=0,actual=0;
                     break;
                 case MSG_CODE_END_WIN_OR_LOSE://押注结束，开始色子动画效果 请求服务器
                     Log.i("游戏1","MSG_CODE_END_WIN_OR_LOSE——押注结束，开始色子动画效果 请求服务器");
+                    if (LoginManager.getInstance().getUserID(LiveingActivity.this).equals(CurLiveInfo.getHostID())){
+                        dice_listsd();//如果是主播 请求发牌
+                    }
                     rl_nn_anim_stake1.removeAllViews();
                     rl_nn_anim_stake2.removeAllViews();//筹码数量容器
                     rl_nn_anim_stake3.removeAllViews();
@@ -2363,6 +2365,18 @@ private double quota=0,actual=0;
 
                         startfpAnim(draws);
 
+                    }else {
+                        if (isTrue){
+                            startAnimtionsd();
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(String errMessage) {
+                    super.onFailure(errMessage);
+                    if (isTrue){
+                        startAnimtionsd();
                     }
                 }
             });
@@ -2943,7 +2957,9 @@ private double quota=0,actual=0;
                 @Override
                 public void onFailure(String errMessage) {
                     super.onFailure(errMessage);
-                    // dice_list();
+                    if (isTrue){
+                        dice_listsd();
+                    }
                 }
             });
         }
@@ -3237,13 +3253,14 @@ private double quota=0,actual=0;
 
                     break;
                 case R.id.rl_nn_chip10://向盘里添加10积分
-                    if(this_statusd==STATUS_BET_TYPE&&quota>10){//quota=0,actual=0;
-                        if (quota==0||actual>=quota){
+                    if(this_statusd==STATUS_BET_TYPE){//quota=0,actual=0;
+                        if (quota<10){
                             showDialog();
                         }else {
                             if (bl_choice1s==0){
                                 ToastUtils.showShort(LiveingActivity.this, "请选择押注的盘口");
                             }else {
+                                quota=quota-10;
                                 betServices("10",iv_nn_chip10, rl_nn_anims, R.drawable.chip10, 10);
                             }
                         }
@@ -3251,41 +3268,43 @@ private double quota=0,actual=0;
                     }
                     break;
                 case R.id.rl_nn_chip25://向盘里添加50积分
-                    if(this_statusd==STATUS_BET_TYPE&&quota>50.0){
-                        if (quota==0||actual>=quota){
+                    if(this_statusd==STATUS_BET_TYPE){
+                        if (quota<50.0){
                             showDialog();
                         }else {
                             if (bl_choice1s==0){
                                 ToastUtils.showShort(LiveingActivity.this, "请选择押注的盘口");
                             }else {
-
+                                quota=quota-50;
                                 betServices("50",iv_nn_chip25, rl_nn_anims, R.drawable.chip25, 50);
                             }
                         }
                     }
                     break;
                 case R.id.rl_nn_chip50://向盘里添加100积分
-                    if(this_statusd==STATUS_BET_TYPE&&quota>100.0){
-                        if (quota==0||actual>=quota){
+                    if(this_statusd==STATUS_BET_TYPE){
+                        if (quota<100.0){
                             showDialog();
                         }else {
                             if (bl_choice1s==0){
                                 ToastUtils.showShort(LiveingActivity.this, "请选择押注的盘口");
                             }else {
+                                quota=quota-100;
                                 betServices("100", iv_nn_chip50, rl_nn_anims, R.drawable.chip50, 100);
                             }
                         }
                     }
                     break;
                 case R.id.rl_nn_chip100://向盘里添加100积分
-                    if(this_statusd==STATUS_BET_TYPE&&quota>500.0){
-                        if (quota==0||actual>=quota){
+                    if(this_statusd==STATUS_BET_TYPE){
+                        if (quota<500.0){
                             showDialog();
                         }else {
                             if (bl_choice1s==0){
                                 ToastUtils.showShort(LiveingActivity.this, "请选择押注的盘口");
                             }else {
 
+                                quota=quota-500;
                                 betServices("500",iv_nn_chip100, rl_nn_anims, R.drawable.chip100, 500);
                             }
                         }
@@ -3330,7 +3349,6 @@ private double quota=0,actual=0;
                         public void onSuccess(ApiResponse apiResponse) {
                             Log.i("游戏1","下注-数据="+apiResponse.toString()+",bet_money="+bet_money);
                             if (apiResponse.getCode()==Api.SUCCESS){
-                                actual=actual+i;
                                 giftsd(iv_chip10, rl_anims, bet_money, chip10, i);
                                 SoundPlayUtils.play(1);//下注声音
                             }else {
@@ -3515,9 +3533,6 @@ private double quota=0,actual=0;
                         rl_nn_chip25.setEnabled(false);
                         rl_nn_chip50.setEnabled(false);
                         rl_nn_chip100.setEnabled(false);
-                    }
-                    if (this_statusd==STATUS_BET_TYPE&&ls==0&&LoginManager.getInstance().getUserID(LiveingActivity.this).equals(CurLiveInfo.getHostID())){
-                        dice_listsd();//如果是主播 请求发牌
                     }
                 }
 

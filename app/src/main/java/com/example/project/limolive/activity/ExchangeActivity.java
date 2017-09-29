@@ -208,15 +208,28 @@ public class ExchangeActivity extends BaseActivity implements View.OnClickListen
                 ToastUtils.showShort(this,"钻石不足");
                 return;
             }else {
+                int i1 = i - result;
+                tv_number.setText(String.valueOf(i1));
+                String s = tv_nmb_number.getText().toString();
+                double v = Double.parseDouble(s);
+                double v1 = v + result;
+                tv_nmb_number.setText(String.valueOf(v1));
                 exchangeIntegral();//兑换积分
             }
         }else {
             String string = tv_nmb_number.getText().toString();
-            int i = Integer.parseInt(string);
+            Double i =  Double.parseDouble(string);
             if (result>i){
                 ToastUtils.showShort(this,"积分不足");
                 return;
             }else {
+                Double i1 = i - result;
+                tv_nmb_number.setText(String.valueOf(i1));
+
+                String s = tv_number.getText().toString();
+                int i2 = Integer.parseInt(s);
+                int i3 = i2 + result;
+                tv_number.setText(String.valueOf(i3));
                 exchangeDiamonds();//兑换钻石
             }
         }

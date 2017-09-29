@@ -534,7 +534,7 @@ public class LiveHelper extends Presenter implements ILiveRoomOption.onRoomDisco
                 .roomDisconnectListener(this)
                 .controlRole(Constants.HOST_ROLE)
                 .authBits(AVRoomMulti.AUTH_BITS_DEFAULT)
-                .videoMode(ILiveConstants.VIDEOMODE_NORMAL)
+                .videoMode(ILiveConstants.VIDEOMODE_BMUTE)
                 .videoRecvMode(AVRoomMulti.VIDEO_RECV_MODE_SEMI_AUTO_RECV_CAMERA_VIDEO);
         if (!TextUtils.isEmpty(LiveMySelfInfo.getInstance().getMyRoomNum())) {
             Log.i("创建房间", "getMyRoomNum" + LiveMySelfInfo.getInstance().getMyRoomNum());
@@ -837,7 +837,7 @@ public class LiveHelper extends Presenter implements ILiveRoomOption.onRoomDisco
                         break;
                     case Constants.AVIMCMD_HOST_BACK:
                         mLiveView.hostBack(identifier, nickname);
-                        
+
                     case PRESENT_MSG:
 
                         break;
