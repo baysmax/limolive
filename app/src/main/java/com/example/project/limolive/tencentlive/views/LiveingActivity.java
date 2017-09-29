@@ -23,7 +23,6 @@ import android.graphics.Color;
 import android.graphics.Rect;
 import android.graphics.drawable.AnimationDrawable;
 import android.media.AudioManager;
-import android.media.SoundPool;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -33,7 +32,6 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.LoginFilter;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -46,11 +44,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.view.animation.LinearInterpolator;
-import android.view.animation.RotateAnimation;
 import android.view.animation.TranslateAnimation;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
@@ -67,17 +62,15 @@ import android.widget.Toast;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.baidu.mapapi.map.Text;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
-import com.bumptech.glide.request.animation.ViewPropertyAnimation;
 import com.example.project.limolive.R;
 import com.example.project.limolive.activity.BaseActivity;
 import com.example.project.limolive.activity.ExchangeActivity;
-import com.example.project.limolive.activity.LoginActivity;
 import com.example.project.limolive.activity.MainActivity;
 import com.example.project.limolive.activity.MyWalletActivity;
 import com.example.project.limolive.activity.RanksActivity;
-import com.example.project.limolive.adapter.BlackListAdapter;
 import com.example.project.limolive.adapter.LiveRankConsumptionAdapter;
 import com.example.project.limolive.api.Api;
 import com.example.project.limolive.api.ApiHttpClient;
@@ -92,17 +85,11 @@ import com.example.project.limolive.bean.RechargeLiveBean;
 import com.example.project.limolive.bean.StatusBean;
 import com.example.project.limolive.bean.SystemMsgBean;
 import com.example.project.limolive.bean.live.LivesInfoBean;
-import com.example.project.limolive.bean.mine.BlackListBean;
-import com.example.project.limolive.fragment.MyFragment;
 import com.example.project.limolive.helper.LoginManager;
-import com.example.project.limolive.model.LoginModel;
 import com.example.project.limolive.pay.wx.WXPayUtils;
-import com.example.project.limolive.service.DesServices;
-import com.example.project.limolive.tencentim.ui.ChatActivity;
 import com.example.project.limolive.tencentlive.adapters.MembersHeadAdapter;
 import com.example.project.limolive.tencentlive.giftpage.BasePager;
 import com.example.project.limolive.tencentlive.giftpage.Page_one;
-import com.example.project.limolive.tencentlive.giftpage.Page_three;
 import com.example.project.limolive.tencentlive.giftpage.Page_two;
 import com.example.project.limolive.tencentlive.model.AvMemberInfo;
 import com.example.project.limolive.tencentlive.model.GiftVo;
@@ -110,10 +97,10 @@ import com.example.project.limolive.tencentlive.utils.SPUtil;
 import com.example.project.limolive.tencentlive.views.customviews.GiftShowManager;
 import com.example.project.limolive.tencentlive.views.customviews.HorizontalListView;
 import com.example.project.limolive.tencentlive.views.customviews.PeriscopeLayout;
-import com.example.project.limolive.tencentlive.views.customviews.PopuGiftCount;
 import com.example.project.limolive.utils.Constant;
 import com.example.project.limolive.utils.NetWorkUtil;
 import com.example.project.limolive.utils.SoundPlayUtils;
+import com.example.project.limolive.view.MarqueeTextView;
 import com.example.project.limolive.view.BabyPopupWindow;
 import com.example.project.limolive.tencentlive.adapters.ChatMsgListAdapter;
 import com.example.project.limolive.tencentlive.model.ChatEntity;
@@ -135,28 +122,22 @@ import com.example.project.limolive.utils.ToastUtils;
 import com.example.project.limolive.view.DiceGameDialog;
 import com.example.project.limolive.view.HostInfoPopupWindow;
 import com.example.project.limolive.view.ManberInfoPopupWindow;
-import com.example.project.limolive.view.MyYAnimation;
 import com.example.project.limolive.view.PokerGameDialog;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.tencent.TIMCallBack;
 import com.tencent.TIMConversation;
 import com.tencent.TIMConversationType;
 import com.tencent.TIMCustomElem;
-import com.tencent.TIMElem;
 import com.tencent.TIMGroupManager;
-import com.tencent.TIMGroupMemberInfo;
 import com.tencent.TIMManager;
 import com.tencent.TIMMessage;
-import com.tencent.TIMTextElem;
 import com.tencent.TIMUserProfile;
 import com.tencent.TIMValueCallBack;
 import com.tencent.av.TIMAvManager;
 import com.tencent.av.sdk.AVView;
-import com.tencent.ilivesdk.ILiveCallBack;
 import com.tencent.ilivesdk.ILiveConstants;
 import com.tencent.ilivesdk.ILiveSDK;
 import com.tencent.ilivesdk.core.ILiveRoomManager;
-import com.tencent.ilivesdk.core.impl.ILVBRoom;
 import com.tencent.ilivesdk.view.AVRootView;
 import com.tencent.ilivesdk.view.AVVideoView;
 import com.tencent.livesdk.ILVLiveManager;
@@ -167,10 +148,8 @@ import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.media.UMImage;
 import com.umeng.socialize.media.UMWeb;
 
-import java.io.FileOutputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -178,7 +157,6 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import static com.example.project.limolive.presenter.Presenter.NET_UNCONNECT;
-import static tencent.tls.report.QLog.TAG;
 
 /**
  * Live直播类
@@ -281,6 +259,8 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
     private LinearLayout ll_play,ll_niuniu,ll_dice;
     private TextView tv_play;
     private ImageView iv_popularity;
+    private RelativeLayout rl_tuhaobang,rl_chongzhi,rl_maxGift;
+    private MarqueeTextView marqueeTextView,at_tuhaobang,at_maxGift;
 
 
     @Override
@@ -355,13 +335,162 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
         }
     }
 
+    /**
+     * 飘屏动画
+     */
+    List<ApiResponse> apiList=null;
+    private Handler pHandler=new Handler(new Handler.Callback() {
+        @Override
+        public boolean handleMessage(Message msg) {
+            switch (msg.what){
+                case 0:
+                    if (apiList==null){
+                        apiList=new ArrayList<>();
+                    }
+                    if (msg.obj!=null){
+                        ApiResponse api= (ApiResponse) msg.obj;
+                        apiList.add(api);
+                        pHandler.sendEmptyMessageAtTime(1,500);
+                    }
+
+                    break;
+                case 1:
+                    if (apiList!=null&&apiList.size()!=0){
+                        final ApiResponse remove = apiList.remove(0);
+                        if (rl_tuhaobang.getVisibility()==View.GONE&&rl_chongzhi.getVisibility()==View.GONE&&rl_maxGift.getVisibility()==View.GONE){//没在显示则开始显示
+                            //开始动画效果 动画执行完成后继续执行此方法直到apilist没有数据时结束
+                            switch (remove.getCode()){
+                                case 3://充值飘屏
+                                    rl_chongzhi.setVisibility(View.VISIBLE);
+                                    rl_tuhaobang.setVisibility(View.GONE);
+                                    rl_maxGift.setVisibility(View.GONE);
+
+
+                                    Animation animation = AnimationUtils.loadAnimation(LiveingActivity.this, R.anim.admin_live_translate);
+                                    rl_chongzhi.startAnimation(animation);
+                                    animation.setAnimationListener(new Animation.AnimationListener() {
+                                        @Override
+                                        public void onAnimationStart(Animation animation) {
+
+                                        }
+
+                                        @Override
+                                        public void onAnimationEnd(Animation animation) {
+
+                                            marqueeTextView.setText("  "+remove.getMessage());
+                                            Message msg = Message.obtain();
+                                            msg.what=2;
+                                            msg.obj=marqueeTextView;
+                                            pHandler.sendMessageDelayed(msg,2000);
+
+                                        }
+
+                                        @Override
+                                        public void onAnimationRepeat(Animation animation) {
+
+                                        }
+                                    });
+
+
+                                    break;
+                                case 2://大礼物飘屏
+                                    rl_chongzhi.setVisibility(View.GONE);
+                                    rl_tuhaobang.setVisibility(View.GONE);
+                                    rl_maxGift.setVisibility(View.VISIBLE);
+                                    Animation animation1 = AnimationUtils.loadAnimation(LiveingActivity.this, R.anim.admin_live_translate);
+                                    rl_maxGift.startAnimation(animation1);
+                                    animation1.setAnimationListener(new Animation.AnimationListener() {
+                                        @Override
+                                        public void onAnimationStart(Animation animation) {
+
+                                        }
+
+                                        @Override
+                                        public void onAnimationEnd(Animation animation) {
+
+                                            at_tuhaobang.setText("  "+remove.getMessage());
+                                            Message msg = Message.obtain();
+                                            msg.what=2;
+                                            msg.obj=at_maxGift;
+                                            pHandler.sendMessageDelayed(msg,2000);
+
+                                        }
+
+                                        @Override
+                                        public void onAnimationRepeat(Animation animation) {
+
+                                        }
+                                    });
+
+                                    break;
+                                case 1://消费到指定数额进入直播间漂屏接口
+                                    rl_chongzhi.setVisibility(View.GONE);
+                                    rl_tuhaobang.setVisibility(View.VISIBLE);
+                                    rl_maxGift.setVisibility(View.GONE);
+
+                                    Animation animation2 = AnimationUtils.loadAnimation(LiveingActivity.this, R.anim.admin_live_translate);
+                                    rl_tuhaobang.startAnimation(animation2);
+                                    animation2.setAnimationListener(new Animation.AnimationListener() {
+                                        @Override
+                                        public void onAnimationStart(Animation animation) {
+
+                                        }
+
+                                        @Override
+                                        public void onAnimationEnd(Animation animation) {
+
+                                            at_tuhaobang.setText("  "+remove.getMessage());
+                                            Message msg = Message.obtain();
+                                            msg.what=2;
+                                            msg.obj=at_tuhaobang;
+                                            pHandler.sendMessageDelayed(msg,2000);
+
+                                        }
+
+                                        @Override
+                                        public void onAnimationRepeat(Animation animation) {
+
+                                        }
+                                    });
+                                    break;
+                            }
+                            //startAnimtions();
+                        }
+                    }
+                    break;
+                case 2://开始文字滚动
+                    if (msg.obj!=null){
+                        final MarqueeTextView tv= (MarqueeTextView) msg.obj;
+                        tv.setSelected(true);
+                        tv.setOnMarqueeCompleteListener(new MarqueeTextView.OnMarqueeCompleteListener() {
+                            @Override
+                            public void onMarqueeComplete() {
+                                tv.startStopMarquee(false);
+                                //结束滚动
+                                rl_chongzhi.setVisibility(View.GONE);
+                                rl_tuhaobang.setVisibility(View.GONE);
+                                rl_maxGift.setVisibility(View.GONE);
+                                marqueeTextView.setText("");
+                                at_tuhaobang.setText("");
+                                at_maxGift.setText("");
+                                pHandler.sendEmptyMessageAtTime(1,500);
+
+                            }
+                        });
+                    }
+
+                    break;
+            }
+            return false;
+        }
+    });
 
     private Handler mHandler = new Handler(new Handler.Callback() {
         @Override
         public boolean handleMessage(Message msg) {
             switch (msg.what) {
                 case GIFT_STOP_ADMIN:
-                    tv_admin.setText("");
+                    //tv_admin.setText("");
                     break;
                 case GETSYSMSG://系统消息显示
                     sysMsgList.clear();
@@ -460,7 +589,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
     private int Max_X, Max_Y;
     private ManberInfoPopupWindow ManberInfoPopupWindow;
     private TextView tv_NMBtext, tv_NMB;
-    private TextView tv_admin;
+//    private TextView tv_admin;
 
     private void showHeadIcon(ImageView view, String avatar) {
 
@@ -540,6 +669,15 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
     private ImageView[] poker_z=new ImageView[5];
     private void initView() {
         hideStatusBar();
+        rl_tuhaobang= (RelativeLayout) findViewById(R.id.rl_tuhaobang);
+        rl_chongzhi= (RelativeLayout) findViewById(R.id.rl_chongzhi);
+        rl_maxGift= (RelativeLayout) findViewById(R.id.rl_chongzhi);
+        marqueeTextView = (MarqueeTextView) findViewById(R.id.at_auto);
+        at_tuhaobang = (MarqueeTextView) findViewById(R.id.at_tuhaobang);
+        at_maxGift = (MarqueeTextView) findViewById(R.id.at_maxGift);
+
+
+
         tv_play= (TextView) findViewById(R.id.tv_play);
         ll_niuniu= (LinearLayout) findViewById(R.id.ll_niuniu);
         ll_dice= (LinearLayout) findViewById(R.id.ll_dice);
@@ -552,7 +690,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
         iv_popularity= (ImageView) findViewById(R.id.iv_popularity);
         iv_popularity.setOnClickListener(this);
 
-        tv_admin= (TextView) findViewById(R.id.tv_admin);
+//        tv_admin= (TextView) findViewById(R.id.tv_admin);
         tv_game= (TextView) findViewById(R.id.tv_games);//游戏
         tv_game.setOnClickListener(this);
         tv_gamesd= (TextView) findViewById(R.id.tv_gamesd);
@@ -564,7 +702,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
         poker_z[2]= (ImageView) findViewById(R.id.iv_nn_poker3);
         poker_z[3]= (ImageView) findViewById(R.id.iv_nn_poker4);
         poker_z[4]= (ImageView) findViewById(R.id.iv_nn_poker5);
-        startAnimtions();
+
         sysMsgList=new ArrayList<>();//系统通知的数据
         go_phb_Layout= (RelativeLayout) findViewById(R.id.gotoPHB);//柠檬币外部布局用来 实现点击事件
         go_phb_Layout.setOnClickListener(this);
@@ -694,6 +832,8 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
             if (!(CurLiveInfo.getMembers()>8000)){
                 nums.add("0");
             }
+
+            live_pp();
            /* mHostLayout = (LinearLayout) findViewById(R.id.head_up_layout);
             mHostLayout.setOnClickListener(this);*/
         }
@@ -705,7 +845,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
         mListViewMsgItems = (ListView) findViewById(R.id.im_msg_listview);
         mArrayListChatEntity = new ArrayList<ChatEntity>();
         mArrayListPresent = new ArrayList<ChatEntity>();
-        mChatMsgListAdapter = new ChatMsgListAdapter(this, mListViewMsgItems, mArrayListChatEntity);
+        mChatMsgListAdapter = new ChatMsgListAdapter(this, mListViewMsgItems, mArrayListChatEntity,pHandler);
         mListViewMsgItems.setAdapter(mChatMsgListAdapter);
 
         //zaixian_member.setText("" + CurLiveInfo.getMembers());
@@ -774,9 +914,30 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
         });
     }
 
+    private void live_pp() {
+        if (!NetWorkUtil.isNetworkConnected(this)) {
+            ToastUtils.showShort(this, NET_UNCONNECT);
+            return;
+        }else {
+            Api.live_pp(LoginManager.getInstance().getUserID(LiveingActivity.this), CurLiveInfo.getRoomNum()
+                    , new ApiResponseHandler(LiveingActivity.this) {
+                        @Override
+                        public void onSuccess(ApiResponse apiResponse) {
+                            Log.i("充值","用户进入--apiResponse="+apiResponse.toString());
+                        }
+
+                        @Override
+                        public void onFailure(String errMessage) {
+                            super.onFailure(errMessage);
+                            Log.i("充值","用户进入--errMessage="+errMessage.toString());
+                        }
+                    });
+        }
+    }
+
     private void startAnimtions() {
         Animation animation = AnimationUtils.loadAnimation(LiveingActivity.this, R.anim.admin_translate);
-        tv_admin.startAnimation(animation);
+        //tv_admin.startAnimation(animation);
         animation.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
@@ -785,7 +946,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
 
             @Override
             public void onAnimationEnd(Animation animation) {
-                    mHandler.sendEmptyMessage(GIFT_STOP_ADMIN);
+                    //mHandler.sendEmptyMessage(GIFT_STOP_ADMIN);
             }
 
             @Override

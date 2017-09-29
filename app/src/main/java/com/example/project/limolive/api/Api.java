@@ -1438,7 +1438,31 @@ public class Api {
      */
     public static void live_recharge_pp(String order_sn,ApiResponseHandler handler) {
         RequestParams params = new RequestParams();
+        Log.i("充值","执行大额支付成功后调起飘屏接口");
         params.put("order_sn",order_sn);
         ApiHttpClient.post(ApiHttpClient.API_URL + Urls.POST_LIVE_PP, params, handler);
+    }
+
+    /**
+     * uid（大额充值订单编号）、room_id（主播房间id）
+     * @param uid
+     * @param room_id
+     */
+    public static void live_pp(String uid, String room_id,ApiResponseHandler handler) {
+        RequestParams params = new RequestParams();
+        params.put("uid",uid);
+        params.put("room_id",room_id);
+        ApiHttpClient.post(ApiHttpClient.API_URL + Urls.POST_LIVE_P, params, handler);
+    }
+
+    /**
+     * gift（礼物名称）、user_nickname（刷礼物用户昵称）、av_room_id（主播房间）
+     */
+    public static void live_gift_pp(String gift,String user_nickname,String av_room_id,ApiResponseHandler handler) {
+        RequestParams params = new RequestParams();
+        params.put("gift",gift);
+        params.put("user_nickname",user_nickname);
+        params.put("av_room_id",av_room_id);
+        ApiHttpClient.post(ApiHttpClient.API_URL + Urls.POST_LIVE_GIFT_PP, params, handler);
     }
 }

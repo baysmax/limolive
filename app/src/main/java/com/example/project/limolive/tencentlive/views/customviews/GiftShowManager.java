@@ -9,6 +9,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.os.Message;
+import android.os.UserManager;
 import android.provider.Settings;
 import android.text.TextUtils;
 import android.util.Log;
@@ -30,12 +31,20 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
 import com.example.project.limolive.R;
+import com.example.project.limolive.api.Api;
 import com.example.project.limolive.api.ApiHttpClient;
+import com.example.project.limolive.api.ApiResponse;
+import com.example.project.limolive.api.ApiResponseHandler;
 import com.example.project.limolive.bean.BigGift;
+import com.example.project.limolive.helper.LoginManager;
+import com.example.project.limolive.tencentim.model.UserInfo;
+import com.example.project.limolive.tencentlive.model.CurLiveInfo;
 import com.example.project.limolive.tencentlive.model.GiftVo;
 import com.example.project.limolive.tencentlive.utils.GlideCircleTransform;
 import com.example.project.limolive.tencentlive.utils.UIUtils;
 import com.example.project.limolive.tencentlive.views.CircleImageView;
+import com.example.project.limolive.utils.NetWorkUtil;
+import com.example.project.limolive.utils.ToastUtils;
 
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -43,11 +52,13 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.LinkedBlockingQueue;
+import java.util.logging.LogManager;
 
 import static com.example.project.limolive.R.id.confrim_btn;
 import static com.example.project.limolive.R.id.imageView;
 import static com.example.project.limolive.R.id.rl_anim;
 import static com.example.project.limolive.R.id.rl_main;
+import static com.example.project.limolive.presenter.Presenter.NET_UNCONNECT;
 
 /**
  * @author zhongxf
@@ -106,7 +117,44 @@ public class GiftShowManager {
                     }
                     String userId = showVo.getUserId();
                     int num = showVo.getNum();
+                    if (showVo.getType().equals("4")||
+                            showVo.getType().equals("5")||
+                            showVo.getType().equals("6")||
+                            showVo.getType().equals("7")||
+                            showVo.getType().equals("12")||
+                            showVo.getType().equals("13")||
+                            showVo.getType().equals("14")||
+                            showVo.getType().equals("15")){
+                        String str="";
+                        switch (showVo.getType()){
+                            case "4":
+                                str="666";
+                                break;
+                            case "5":
+                                str="飞心";
+                                break;
+                            case "6":
+                                str="魔棒";
+                                break;
+                            case "7":
+                                str="钻戒";
+                                break;
+                            case "12":
+                                str="蛋糕";
+                                break;
+                            case "13":
+                                str="城堡";
+                                break;
+                            case "14":
+                                str="跑车";
+                                break;
+                            case "15":
+                                str="1314";
+                                break;
+                        }
 
+                        live_gift_pp(str, LoginManager.getInstance().getHostName(cxt));
+                    }
                     View giftView = giftCon.findViewWithTag(userId+showVo.getType());
                     giftNumAnim.setAnimationListener(new Animation.AnimationListener() {
                         @Override
@@ -189,17 +237,11 @@ public class GiftShowManager {
                                 tv_n.setText("赠送主播");
                             } else if (showVo.getType().equals("5")) {
                                 im.setImageResource(R.drawable.present_4);//飞心 love
-                                //showGiftMax(new ImageView(cxt),R.drawable.animation_love,R.anim.translate_love);
                                 showGiftMax(new ImageView(cxt),R.drawable.animation_flying,R.anim.translate_flying);
                                 tv_n.setText("赠送主播");
                             } else if (showVo.getType().equals("6")) {
                                 im.setImageResource(R.drawable.present_7);//魔棒
-                                if (true){
-
-                                    showGiftMax(new ImageView(cxt),R.drawable.animation_magic,R.anim.translate_magic);
-                                }else {
-
-                                }
+                                showGiftMax(new ImageView(cxt),R.drawable.animation_magic,R.anim.translate_magic);
                                 tv_n.setText("赠送主播");
                             } else if (showVo.getType().equals("7")) {
                                 im.setImageResource(R.drawable.present_8);//钻戒
@@ -392,6 +434,20 @@ public class GiftShowManager {
             }
         }
     };
+
+    private void live_gift_pp(String giftName,String userName) {
+        if (!NetWorkUtil.isNetworkConnected(cxt)) {
+            ToastUtils.showShort(cxt, NET_UNCONNECT);
+            return;
+        }else {
+            Api.live_gift_pp(giftName, userName, CurLiveInfo.getRoomNum(), new ApiResponseHandler(cxt) {
+                @Override
+                public void onSuccess(ApiResponse apiResponse) {
+
+                }
+            });
+        }
+    }
 
     private void showGiftMax(final ImageView imageView,int drawable,int anim) {
         Log.i("大礼物","xxxxx");

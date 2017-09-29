@@ -33,6 +33,9 @@ public class ApiResponse {
             this.code = resp.optInt("code");
     }
 
+    public ApiResponse() {
+    }
+
     public String getData() {
         return data;
     }

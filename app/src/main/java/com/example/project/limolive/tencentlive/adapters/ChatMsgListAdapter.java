@@ -6,6 +6,7 @@ import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.graphics.Typeface;
 import android.graphics.drawable.AnimationDrawable;
+import android.os.Handler;
 import android.os.Message;
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -86,10 +87,12 @@ public class ChatMsgListAdapter extends BaseAdapter implements AbsListView.OnScr
     private LinkedList<AnimatorInfo> mAnimatorInfoList;
     private boolean mScrolling = false;
     private boolean mCreateAnimator = false;
+    private Handler handler;
 
-    public ChatMsgListAdapter(Context context, ListView listview, List<ChatEntity> objects) {
+    public ChatMsgListAdapter(Context context, ListView listview, List<ChatEntity> objects, Handler handler) {
         this.context = context;
         mListView = listview;
+        this.handler=handler;
         inflater = LayoutInflater.from(context);
         this.listMessage = objects;
 
@@ -204,6 +207,18 @@ public class ChatMsgListAdapter extends BaseAdapter implements AbsListView.OnScr
         switch (type) {
             case MEMBER_TYPE:  //普通消息
                 ChatEntity item = listMessage.get(position);
+                Log.i("充值","充值飘屏动画消息apiResponse="+item.toString());
+                if (item.getSenderName().equals("礼物刷屏")||"1332523251".equals(item.getSend_phone())){
+                    ApiResponse apiResponse = JSONObject.parseObject(item.getContext(), ApiResponse.class);
+                    Log.i("飘屏动画","apiResponse="+apiResponse.toString());
+                    Message msg = new Message();
+                    msg.what=0;
+                    msg.obj=apiResponse;
+                    handler.sendMessage(msg);
+
+                    listMessage.remove(position);
+                    notifyDataSetChanged();
+                }
                 if (mCreateAnimator && LiveMySelfInfo.getInstance().isbLiveAnimator()) {
                     playViewAnimator(convertView, position, item);
                 }
@@ -214,6 +229,7 @@ public class ChatMsgListAdapter extends BaseAdapter implements AbsListView.OnScr
                     holder.iv_Lv_img.setVisibility(View.VISIBLE);
                     holder.sendContext_lv.setVisibility(View.VISIBLE);
                 }
+
                 spanString = new SpannableString(item.getSenderName() + " : " + item.getContext());
                 Log.e("sdadsadsdss", "___" + item.getSenderName() + "___" + item.toString());
                 if (item.getType() != Constants.TEXT_TYPE) {

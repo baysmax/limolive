@@ -75,10 +75,17 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
     private void getPersonalInfo() {
        String order_sn=LiveingActivity.Order_sn;
         if (!"".equals(order_sn)&&order_sn!=null){
+            Log.i("充值","名字：order_sn="+order_sn);
             Api.live_recharge_pp(order_sn, new ApiResponseHandler(this) {
                 @Override
                 public void onSuccess(ApiResponse apiResponse) {
                     Log.i("充值",apiResponse.toString());
+                }
+
+                @Override
+                public void onFailure(String errMessage) {
+                    super.onFailure(errMessage);
+                    Log.i("充值","err="+errMessage.toString());
                 }
             });
 
