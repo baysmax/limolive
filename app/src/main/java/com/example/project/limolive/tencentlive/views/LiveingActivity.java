@@ -138,6 +138,7 @@ import com.tencent.av.sdk.AVView;
 import com.tencent.ilivesdk.ILiveConstants;
 import com.tencent.ilivesdk.ILiveSDK;
 import com.tencent.ilivesdk.core.ILiveRoomManager;
+import com.tencent.ilivesdk.core.ILiveRoomOption;
 import com.tencent.ilivesdk.view.AVRootView;
 import com.tencent.ilivesdk.view.AVVideoView;
 import com.tencent.livesdk.ILVLiveManager;
@@ -897,23 +898,27 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
                     @Override
                     public void onFirstFrameRecved(int width, int height, int angle, String identifier) {
                         //主播心跳
-                        handler.post(myRunnable);
-                        handler.post(myRunnable1);
-                        //直播时间
-                        mVideoTimer = new Timer(true);
-                        mVideoTimerTask = new VideoTimerTask();
-                        mVideoTimer.schedule(mVideoTimerTask, 1000, 1000);
-                        bFirstRender = false;
-                        showGames();
-                        if (CurLiveInfo.getHostID().equals(LoginManager.getInstance().getUserID(LiveingActivity.this))){
-                            showGameNNs();
+                        if (isf==0){
+                                isf=1;
+                                handler.post(myRunnable1);
+
+                                showGames();
+                            if (CurLiveInfo.getHostID().equals(LoginManager.getInstance().getUserID(LiveingActivity.this))){
+                                //直播时间
+                                mVideoTimer = new Timer(true);
+                                mVideoTimerTask = new VideoTimerTask();
+                                mVideoTimer.schedule(mVideoTimerTask, 1000, 1000);
+                                bFirstRender = false;
+                                handler.post(myRunnable);
+                                showGameNNs();
+                            }
                         }
                     }
                 });
             }
         });
     }
-
+    private int isf=0;
     private void live_pp() {
         if (!NetWorkUtil.isNetworkConnected(this)) {
             ToastUtils.showShort(this, NET_UNCONNECT);
@@ -959,6 +964,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
     @Override
     protected void onResume() {
         super.onResume();
+        //mLiveHelper.startRecord(new ILiveRoomOption(""));
         ILiveRoomManager.getInstance().onResume();
     }
 
@@ -966,6 +972,12 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
     protected void onPause() {
         super.onPause();
         ILiveRoomManager.getInstance().onPause();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        //mLiveHelper.stopPush();
     }
 
     private Handler handler = new Handler();
@@ -1224,15 +1236,15 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
                 mLiveHelper.sendGroupCmd(Constants.AVIMCMD_ENTERLIVE, "");
             }
             if (LiveMySelfInfo.getInstance().getIdStatus() == Constants.HOST) {
-                if (bFirstRender) {
-                    //主播心跳
-                    handler.post(myRunnable);
-                    //直播时间
-                    mVideoTimer = new Timer(true);
-                    mVideoTimerTask = new VideoTimerTask();
-                    mVideoTimer.schedule(mVideoTimerTask, 1000, 1000);
-                    bFirstRender = false;
-                }
+//                if (bFirstRender) {
+//                    //主播心跳
+//                    handler.post(myRunnable);
+//                    //直播时间
+//                    mVideoTimer = new Timer(true);
+//                    mVideoTimerTask = new VideoTimerTask();
+//                    mVideoTimer.schedule(mVideoTimerTask, 1000, 1000);
+//                    bFirstRender = false;
+//                }
 
 
             }
@@ -1521,6 +1533,10 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
         quiteLivePassively();
         bDelayQuit = false;
         updateHostLeaveLayout();
+        if (LoginManager.getInstance().getUserID(LiveingActivity.this).equals(CurLiveInfo.getHostID())){
+            initDetailDailog();
+        }
+
 
     }
 
