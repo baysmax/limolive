@@ -835,6 +835,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
             }
 
             live_pp();
+            handler.post(myRable);
            /* mHostLayout = (LinearLayout) findViewById(R.id.head_up_layout);
             mHostLayout.setOnClickListener(this);*/
         }
@@ -1001,6 +1002,47 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
             }
         }
     };
+    private Runnable myRable = new Runnable() {//检测主播是否还在直播
+        public void run() {
+            if (!isStop == true) {
+                time_span();
+                handler.postDelayed(this, 10000);
+            }
+        }
+    };
+    String time="";
+    private void time_span() {
+        Api.time_span(CurLiveInfo.getRoomNum(), new ApiResponseHandler(LiveingActivity.this) {
+            @Override
+            public void onSuccess(ApiResponse apiResponse) {
+                Log.i("直播","data="+apiResponse);
+                if (apiResponse.getCode()==Api.SUCCESS){
+                    String t = apiResponse.getData();
+                    if (time.equals(t)){
+                        Api.stopLiveRoom(CurLiveInfo.getRoomNum(), new ApiResponseHandler(LiveingActivity.this) {
+                            @Override
+                            public void onSuccess(ApiResponse apiResponse) {
+                                if (apiResponse.getCode() == Api.SUCCESS) {
+                                }
+                                Log.i("解散群组", apiResponse.toString());
+                            }
+
+                            @Override
+                            public void onFailure(String errMessage) {
+                                super.onFailure(errMessage);
+                                Log.i("解散群组", errMessage);
+                            }
+                        });
+
+                        LiveingActivity.this.finish();
+                    }else {
+                        time=t;
+                    }
+                        Log.i("直播","data="+time);
+                }
+            }
+        });
+    }
 
     private void sendHeartbeat(String host_phone, int admire_count, int watch_count, int time_span) {
         Api.getHeartBeat(host_phone, admire_count, watch_count, time_span, new ApiResponseHandler(this) {
@@ -1563,14 +1605,30 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
             @Override
             public void onSuccess(ApiResponse apiResponse) {
                 if (apiResponse.getCode() == Api.SUCCESS) {
+                }else if (apiResponse.getCode()==-2){
+                    Api.stopLiveRoom(CurLiveInfo.getRoomNum(), new ApiResponseHandler(LiveingActivity.this) {
+                        @Override
+                        public void onSuccess(ApiResponse apiResponse) {
+                            if (apiResponse.getCode() == Api.SUCCESS) {
+                            }
+                            Log.i("解散群组", apiResponse.toString());
+                        }
+
+                        @Override
+                        public void onFailure(String errMessage) {
+                            super.onFailure(errMessage);
+                            Log.i("解散群组", errMessage);
+                        }
+                    });
                 }
-                Log.i("退出房间", apiResponse.toString());
+                Log.i("异常退出检测", apiResponse.toString());
             }
 
             @Override
             public void onFailure(String errMessage) {
                 super.onFailure(errMessage);
-                Log.i("退出房间", errMessage);
+                Log.i("异常退出检测", errMessage);
+
             }
         });
     }
@@ -1976,6 +2034,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
                        coinListBeen.addAll(JSONArray.parseArray(apiResponse.getData(), CoinListBean.class));
                     }
                 }
+
             });
         }
     }

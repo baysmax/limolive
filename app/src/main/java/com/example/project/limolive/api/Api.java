@@ -1465,4 +1465,10 @@ public class Api {
         params.put("av_room_id",av_room_id);
         ApiHttpClient.post(ApiHttpClient.API_URL + Urls.POST_LIVE_GIFT_PP, params, handler);
     }
+
+    public static void time_span(String av_room_id,ApiResponseHandler handler) {
+        RequestParams params = new RequestParams();
+        params.put("av_room_id",av_room_id);
+        ApiHttpClient.post(ApiHttpClient.API_URL + Urls.POST_LIVE_TIME_SPAN, params, handler);
+    }
 }

@@ -149,5 +149,6 @@ public class Urls {
     public static final String POST_LIVE_PP = "/Appapi/Live/live_recharge_pp";//大额支付成功后调起飘屏接口
     public static final String POST_LIVE_P = "/Appapi/Live/live_pp";//消费到指定数额进入直播间漂屏接口-用户进入直播见后飘屏
     public static final String POST_LIVE_GIFT_PP = "/Appapi/Live/live_gift_pp";//大礼物漂屏(所有直播间)接口-刷大礼物后调用该接口（该飘屏点击后直接进入直播间）
+    public static final String POST_LIVE_TIME_SPAN = "/Appapi/live/time_span";//检测主播是否异常退出
 
 }
