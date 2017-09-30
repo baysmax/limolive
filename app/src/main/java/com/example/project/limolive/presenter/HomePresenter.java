@@ -70,6 +70,9 @@ public class HomePresenter extends Presenter implements AbsListView.OnScrollList
                     Log.i("直播列表",apiResponse.toString());
                     handle(isClear, apiResponse.getData());
                 } else {
+                    if (isClear) {
+                        homeListBeens.clear();
+                    }
                     //ToastUtils.showShort(context, apiResponse.getMessage());
                     Log.i("main",apiResponse.getMessage());
                 }
@@ -103,14 +106,15 @@ public class HomePresenter extends Presenter implements AbsListView.OnScrollList
      * @param data    json
      */
     private void handle(boolean isClear, String data) {
+
         if (TextUtils.isEmpty(data)) {
             Log.i(TAG, getString(R.string.json_is_null));
             return;
         }
-        List<HomeListBeen> list = JSON.parseArray(data, HomeListBeen.class);
         if (isClear) {
             homeListBeens.clear();
         }
+        List<HomeListBeen> list = JSON.parseArray(data, HomeListBeen.class);
         /*网络数据为10条，实际显示9条，少一条,归根结底其实还要从复用机制入手解决*/
 
         homeListBeens.addAll(list);
