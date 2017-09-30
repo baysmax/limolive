@@ -468,7 +468,7 @@ public class LiveHelper extends Presenter implements ILiveRoomOption.onRoomDisco
 
             @Override
             public void onFailure(String errMessage) {
-                super.onFailure(errMessage);
+                //super.onFailure(errMessage);
                 Log.i("退出房间", errMessage);
             }
         });

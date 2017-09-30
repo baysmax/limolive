@@ -297,7 +297,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
         //  exit = (Animation) AnimationUtils.loadAnimation(this, R.anim.act_open_exit);
         initView();
         backGroundId = CurLiveInfo.getHostID();
-        Log.i("LiveingActivity", "backGroundId..." + backGroundId);
+        //Log.i("LiveingActivity", "backGroundId..." + backGroundId);
         //进入房间流程
         mLiveHelper.startEnterRoom();
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
@@ -318,7 +318,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
             Api.live_recharge_list_de(CurLiveInfo.getRoomNum(), new ApiResponseHandler(LiveingActivity.this) {
                 @Override
                 public void onSuccess(ApiResponse apiResponse) {
-                    Log.i("直播排行","直播排行apiResponse="+apiResponse.toString());
+                    //Log.i("直播排行","直播排行apiResponse="+apiResponse.toString());
                     if (apiResponse.getCode()==Api.SUCCESS){
                         liveRechargeList.clear();
                         liveRechargeList.addAll(JSONArray.parseArray(apiResponse.getData(), LiveRechargeBean.class));
@@ -362,12 +362,12 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
                 case 1:
                     if (apiList!=null&&apiList.size()!=0){
                         final ApiResponse remove = apiList.remove(0);
-                        Log.i("飘屏动画","remove.getMessage()="+remove.getMessage());
+                        //Log.i("飘屏动画","remove.getMessage()="+remove.getMessage());
                         if (rl_tuhaobang.getVisibility()==View.GONE&&rl_chongzhi.getVisibility()==View.GONE&&rl_maxGift.getVisibility()==View.GONE){//没在显示则开始显示
                             //开始动画效果 动画执行完成后继续执行此方法直到apilist没有数据时结束
                             switch (remove.getCode()){
                                 case 3://充值飘屏
-                                    Log.i("飘屏动画","进入充值飘屏remove.getMessage()");
+                                    //Log.i("飘屏动画","进入充值飘屏remove.getMessage()");
                                     rl_chongzhi.setVisibility(View.VISIBLE);
                                     rl_tuhaobang.setVisibility(View.GONE);
                                     rl_maxGift.setVisibility(View.GONE);
@@ -408,7 +408,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
 
                                     break;
                                 case 2://大礼物飘屏
-                                    Log.i("飘屏动画","进入大礼物飘屏remove.getMessage()");
+                                    //Log.i("飘屏动画","进入大礼物飘屏remove.getMessage()");
                                     rl_chongzhi.setVisibility(View.GONE);
                                     rl_tuhaobang.setVisibility(View.GONE);
                                     rl_maxGift.setVisibility(View.VISIBLE);
@@ -469,7 +469,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
 
                                     break;
                                 case 1://消费到指定数额进入直播间漂屏接口
-                                    Log.i("飘屏动画","进入消费到指定数额进入直播间漂屏接口remove.getMessage()");
+                                    //Log.i("飘屏动画","进入消费到指定数额进入直播间漂屏接口remove.getMessage()");
                                     rl_chongzhi.setVisibility(View.GONE);
                                     rl_tuhaobang.setVisibility(View.VISIBLE);
                                     rl_maxGift.setVisibility(View.GONE);
@@ -550,7 +550,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
                     sysMsgList.clear();
                     String json = (String) msg.obj;
                     sysMsgList.addAll(JSON.parseArray(json, SystemMsgBean.class));
-                    Log.i("系统消息","Handler="+sysMsgList.toString());
+                    //Log.i("系统消息","Handler="+sysMsgList.toString());
                     getSystemMsg();
                     break;
                 case UPDAT_WALL_TIME_TIMER_TASK:
@@ -570,9 +570,9 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
                     getSelCoins();
                     break;
                 case NIMOBI://如果是处理显示礼物的消息   //主播的魅力值
-                    Log.i("NIMOBI", "NIMOBI" + "走没有");
-               /*     Log.i("NIMOBI","lemon_coins"+lemon_coins);
-                    Log.i("NIMOBI","NIMOBI"+"走没有");
+                    //Log.i("NIMOBI", "NIMOBI" + "走没有");
+               /*     //Log.i("NIMOBI","lemon_coins"+lemon_coins);
+                    //Log.i("NIMOBI","NIMOBI"+"走没有");
                     String nimengbi = (String) msg.obj;
                     lemon_coins=String.valueOf(Integer.valueOf(lemon_coins)+10);
                     tv_NMB.setText(lemon_coins);*/
@@ -657,10 +657,10 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
             RequestManager req = Glide.with(this);
             if (avatar.toString().contains("http://")) {
                 req.load(avatar).transform(new GlideCircleTransform(this)).into(view);
-                Log.i("主播头像", "微信avatar" + avatar);
+                //Log.i("主播头像", "微信avatar" + avatar);
             } else {
                 req.load(ApiHttpClient.API_PIC + avatar).transform(new GlideCircleTransform(this)).into(view);
-                Log.i("主播头像", "avatar" + avatar);
+                //Log.i("主播头像", "avatar" + avatar);
             }
         }
     }
@@ -822,9 +822,9 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
         getHostCoins();//主播的魅力值
 
 
-        Log.i("getHostID", CurLiveInfo.getHostID());
+        //Log.i("getHostID", CurLiveInfo.getHostID());
         if (LiveMySelfInfo.getInstance().getIdStatus() == Constants.HOST) {
-            Log.i("主播身份", "1");
+            //Log.i("主播身份", "1");
             rl_head.setOnClickListener(this);
             tv_guanzhu.setVisibility(View.GONE);
             inviteView1 = (TextView) findViewById(R.id.invite_view1);
@@ -982,12 +982,12 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
                     , new ApiResponseHandler(LiveingActivity.this) {
                         @Override
                         public void onSuccess(ApiResponse apiResponse) {
-                            Log.i("充值","用户进入--apiResponse="+apiResponse.toString());
+                            //Log.i("充值","用户进入--apiResponse="+apiResponse.toString());
                         }
 
                         @Override
                         public void onFailure(String errMessage) {
-                            Log.i("充值","用户进入--errMessage="+errMessage.toString());
+                            //Log.i("充值","用户进入--errMessage="+errMessage.toString());
                         }
                     });
         }
@@ -1040,7 +1040,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
             if (!isStop == true) {
                 handler.postDelayed(this, 10000);
                 sendHeartbeat(CurLiveInfo.getHost_phone(), CurLiveInfo.getAdmires(), CurLiveInfo.getMembers(), (int) mSecond);//最后一个参数 直播时长 时间戳
-                Log.i("同步心跳", mSecond + "");
+                //Log.i("同步心跳", mSecond + "");
             }
         }
     };
@@ -1067,7 +1067,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
         Api.time_span(CurLiveInfo.getRoomNum(), new ApiResponseHandler(LiveingActivity.this) {
             @Override
             public void onSuccess(ApiResponse apiResponse) {
-                Log.i("退出异常","退出异常apiResponse="+apiResponse+"  time="+time);
+                //Log.i("退出异常","退出异常apiResponse="+apiResponse+"  time="+time);
                 if (apiResponse.getCode()==Api.SUCCESS){
                     String t = apiResponse.getData();
                     if (isTrue&&time.equals(t)){
@@ -1076,12 +1076,12 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
                             public void onSuccess(ApiResponse apiResponse) {
                                 if (apiResponse.getCode() == Api.SUCCESS) {
                                 }
-                                Log.i("解散群组", apiResponse.toString());
+                                //Log.i("解散群组", apiResponse.toString());
                             }
 
                             @Override
                             public void onFailure(String errMessage) {
-                                Log.i("解散群组", errMessage);
+                                //Log.i("解散群组", errMessage);
                             }
                         });
 
@@ -1089,7 +1089,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
                     }else {
                         time=t;
                     }
-                    Log.i("退出异常","退出异常1apiResponse="+apiResponse+"  time="+time);
+                    //Log.i("退出异常","退出异常1apiResponse="+apiResponse+"  time="+time);
                 }
             }
         });
@@ -1099,13 +1099,13 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
         Api.getHeartBeat(host_phone, admire_count, watch_count, time_span, new ApiResponseHandler(this) {
             @Override
             public void onSuccess(ApiResponse apiResponse) {
-                Log.i("同步心跳", apiResponse.toString());
+                //Log.i("同步心跳", apiResponse.toString());
             }
 
             @Override
             public void onFailure(String errMessage) {
                 super.onFailure(errMessage);
-                Log.i("同步心跳", errMessage);
+                //Log.i("同步心跳", errMessage);
             }
         });
     }
@@ -1195,7 +1195,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
      * 主动退出直播
      */
     private void quiteLiveByPurpose() {
-        Log.i("监控主播退出了房间", "quiteLiveByPurpose");
+        //Log.i("监控主播退出了房间", "quiteLiveByPurpose");
         if (LiveMySelfInfo.getInstance().getIdStatus() == Constants.HOST) {
             if (backDialog.isShowing() == false){
 
@@ -1291,14 +1291,14 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
      * 被动退出直播
      */
     private void quiteLivePassively() {
-        Log.i("监控主播退出了房间", "quiteLivePassively");
+        //Log.i("监控主播退出了房间", "quiteLivePassively");
         mLiveHelper.perpareQuitRoom(false);
 //        mEnterRoomHelper.quiteLive();
     }
 
     @Override
     public void readyToQuit() {
-        Log.i("监控主播退出了房间", "readyToQuit");
+        //Log.i("监控主播退出了房间", "readyToQuit");
         mLiveHelper.startExitRoom();
     }
 
@@ -1347,7 +1347,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
 
     @Override
     public void quiteRoomComplete(int id_status, boolean succ, LiveInfoJson liveinfo) {
-        Log.i("监控主播退出了房间", "quiteRoomComplete");
+        //Log.i("监控主播退出了房间", "quiteRoomComplete");
 
         notifyServerLiveEnd();//通知server 我下线了
 
@@ -1491,7 +1491,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
         SxbLog.d(TAG, LogConstants.ACTION_VIEWER_ENTER_ROOM + LogConstants.DIV + LiveMySelfInfo.getInstance().getId() + LogConstants.DIV + "on member join" +
                 LogConstants.DIV + "进入房间" + id);
         watchCount++;
-        Log.i("进入房间", "id" + id + "   " + "name" + name + "    " + "watchCount" + watchCount);
+        //Log.i("进入房间", "id" + id + "   " + "name" + name + "    " + "watchCount" + watchCount);
         refreshTextListView(TextUtils.isEmpty(name) ? id : name, "进入房间", Constants.MEMBER_ENTER,id);
         nums.add("0");
 
@@ -1514,27 +1514,27 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
 //                if (CurLiveInfo.getMembers()<8000){
                     if (nums.size()>0){
                         int members = CurLiveInfo.getMembers();
-                        Log.i("直播","进入前members="+members);
+                        //Log.i("直播","进入前members="+members);
                         try {
                             if (is==false){
-//                                Log.i("直播","进入is="+is);
+//                                //Log.i("直播","进入is="+is);
                                 is=true;
-//                                Log.i("直播","进入is="+is);
+//                                //Log.i("直播","进入is="+is);
                                 for (;j>0&&isTrue;j--){
-//                                    Log.i("直播","进入j="+j);
+//                                    //Log.i("直播","进入j="+j);
                                     int members1 = CurLiveInfo.getMembers();
                                         CurLiveInfo.setMembers(members1 +1);
                                         Message msg = Message.obtain();
                                         msg.what = UNTADE_NUM;
                                         mHandler.sendMessage(msg);
-                                    Log.i("直播","进入时members="+members1);
-//                                    Log.i("直播","进入结束=(members1-members)="+(members1-members));
+                                    //Log.i("直播","进入时members="+members1);
+//                                    //Log.i("直播","进入结束=(members1-members)="+(members1-members));
                                     if ((members1-members)>=40){
                                         members=0;
                                         members1=0;
                                         j=0;
                                         is=false;
-//                                        Log.i("直播","进入结束=is="+is);
+//                                        //Log.i("直播","进入结束=is="+is);
                                         if (nums.size()>0){
                                             nums.remove(0);
                                         }
@@ -1565,27 +1565,27 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
                         try {
                             if (is==false){
                                 int members = CurLiveInfo.getMembers();
-                                Log.i("直播","退出前members="+members);
-//                                Log.i("直播","退出，is="+is);
+                                //Log.i("直播","退出前members="+members);
+//                                //Log.i("直播","退出，is="+is);
                                 is=true;
-//                                Log.i("直播","退出，is="+is);
+//                                //Log.i("直播","退出，is="+is);
                                 for (;j>0&&isTrue;j--){
 
-//                                    Log.i("直播","退出，j="+j);
+//                                    //Log.i("直播","退出，j="+j);
                                     int members1 = CurLiveInfo.getMembers();
-                                    Log.i("直播","退出时members="+members1);
+                                    //Log.i("直播","退出时members="+members1);
                                     CurLiveInfo.setMembers(members1 - 1);
                                         Message msg = Message.obtain();
                                         msg.what = UNTADE_NUM;
                                         mHandler.sendMessage(msg);
 
                                     if ((members-members1)>=40){
-//                                        Log.i("直播","退出结束=is="+is);
+//                                        //Log.i("直播","退出结束=is="+is);
                                         members=0;
                                         members1=0;
                                         j=0;
                                         is=false;
-//                                        Log.i("直播","退出结束=is="+is);
+//                                        //Log.i("直播","退出结束=is="+is);
                                         if (nums1.size()>0){
                                             nums1.remove(0);
                                         }
@@ -1611,7 +1611,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
     public void memberQuit(String id, String name) {
         watchCount--;
         nums1.add("0");
-        Log.i("退出房间", "id" + id + "   " + "name" + name + "    " + "watchCount" + watchCount);
+        //Log.i("退出房间", "id" + id + "   " + "name" + name + "    " + "watchCount" + watchCount);
         refreshTextListView(TextUtils.isEmpty(name) ? id : name, "退出房间", Constants.MEMBER_EXIT,id);
         if (CurLiveInfo.getMembers() > 0) {
             CurLiveInfo.setMembers(CurLiveInfo.getMembers() - 1);
@@ -1622,7 +1622,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
 
     @Override
     public void hostLeave(String id, String name) {
-        Log.i("监控主播退出了房间", "hostLeave");
+        //Log.i("监控主播退出了房间", "hostLeave");
         refreshTextListView("主播：", "暂时离开", Constants.HOST_LEAVE,id);
         //主播离开
         quiteLivePassively();
@@ -1653,7 +1653,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
      * 通知用户UserServer房间
      */
     public void notifyServerLiveEnd() {
-        Log.i("退出房间", "走进来没");
+        //Log.i("退出房间", "走进来没");
         Api.stopLiveRoom(LiveMySelfInfo.getInstance().getMyRoomNum(), new ApiResponseHandler(this) {
             @Override
             public void onSuccess(ApiResponse apiResponse) {
@@ -1664,23 +1664,23 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
 //                        public void onSuccess(ApiResponse apiResponse) {
 //                            if (apiResponse.getCode() == Api.SUCCESS) {
 //                            }
-//                            Log.i("解散群组", apiResponse.toString());
+//                            //Log.i("解散群组", apiResponse.toString());
 //                        }
 //
 //                        @Override
 //                        public void onFailure(String errMessage) {
 //                            super.onFailure(errMessage);
-//                            Log.i("解散群组", errMessage);
+//                            //Log.i("解散群组", errMessage);
 //                        }
 //                    });
                 }
-                Log.i("异常退出检测", apiResponse.toString());
+                //Log.i("异常退出检测", apiResponse.toString());
             }
 
             @Override
             public void onFailure(String errMessage) {
                 super.onFailure(errMessage);
-                Log.i("异常退出检测", errMessage);
+                //Log.i("异常退出检测", errMessage);
 
             }
         });
@@ -1688,7 +1688,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
 
     @Override
     public void hostBack(String id, String name) {
-        Log.i("监控主播退出了房间", "hostBack");
+        //Log.i("监控主播退出了房间", "hostBack");
         refreshTextListView(TextUtils.isEmpty(name) ? id : name, "回到房间", Constants.HOST_BACK,id);
     }
 
@@ -1847,7 +1847,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
 
     @Override
     public void cancelMemberView(String id) {
-        Log.i("监控主播退出了房间", "cancelMemberView");
+        //Log.i("监控主播退出了房间", "cancelMemberView");
         if (LiveMySelfInfo.getInstance().getIdStatus() == Constants.HOST) {
         } else {
             //TODO 主动下麦 下麦；
@@ -1956,11 +1956,11 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
         } else if (i == R.id.switch_cam) {//相机前后摄像头
             switch (ILiveRoomManager.getInstance().getCurCameraId()) {
                 case ILiveConstants.FRONT_CAMERA:
-                    Log.i("摄像头切换", "前摄像头");
+                    //Log.i("摄像头切换", "前摄像头");
                     ILiveRoomManager.getInstance().switchCamera(ILiveConstants.BACK_CAMERA);
                     break;
                 case ILiveConstants.BACK_CAMERA:
-                    Log.i("摄像头切换", "后摄像头");
+                    //Log.i("摄像头切换", "后摄像头");
                     ILiveRoomManager.getInstance().switchCamera(ILiveConstants.FRONT_CAMERA);
                     break;
             }
@@ -2082,7 +2082,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
             Api.live_coinLists(new ApiResponseHandler(LiveingActivity.this) {
                 @Override
                 public void onSuccess(ApiResponse apiResponse) {
-                    Log.i("充值","apiResponse"+apiResponse.toString());
+                    //Log.i("充值","apiResponse"+apiResponse.toString());
                     if (apiResponse.getCode()==Api.SUCCESS){
                        coinListBeen.addAll(JSONArray.parseArray(apiResponse.getData(), CoinListBean.class));
                     }
@@ -2177,10 +2177,10 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
                     , new ApiResponseHandler(LiveingActivity.this) {
                         @Override
                         public void onSuccess(ApiResponse apiResponse) {
-                            Log.i("充值","apiResponse"+apiResponse.toString());
+                            //Log.i("充值","apiResponse"+apiResponse.toString());
                             if (apiResponse.getCode()==Api.SUCCESS){
                                 RechargeLiveBean rechargeLiveBean = JSONObject.parseObject(apiResponse.getData(), RechargeLiveBean.class);
-                                Log.i("充值","rechargeLiveBean="+rechargeLiveBean.toString());
+                                //Log.i("充值","rechargeLiveBean="+rechargeLiveBean.toString());
                                 WXPayUtils wxPayUtils = new WXPayUtils(LiveingActivity.this, Constant.WXRECHAR_URL);
                                 wxPayUtils.pay("充值",rechargeLiveBean.getOrder_price(), rechargeLiveBean.getOrder_sn());
                                 Order_sn=rechargeLiveBean.getOrder_sn();
@@ -2224,12 +2224,12 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
     };
 
     private void poker_game_state_add() {
-        Log.i("游戏1_S","this_statusd="+this_statusd+"-,ls="+ls+"-,CurLiveInfo.getRoomNum()="+CurLiveInfo.getRoomNum());
+        //Log.i("游戏1_S","this_statusd="+this_statusd+"-,ls="+ls+"-,CurLiveInfo.getRoomNum()="+CurLiveInfo.getRoomNum());
         Api.niuniu_state_add(CurLiveInfo.getRoomNum(), String.valueOf(ls), this_statusd, new ApiResponseHandler(LiveingActivity.this) {
                 @Override
             public void onSuccess(ApiResponse apiResponse) {
 
-                    Log.i("游戏1_S","apiResponse="+apiResponse.toString());
+                    //Log.i("游戏1_S","apiResponse="+apiResponse.toString());
             }
         });
     }
@@ -2248,7 +2248,7 @@ private double quota=0,actual=0;
                     }else {
                         quota=0;
                     }
-                    Log.i("游戏1","STATUS_BET_TYPE——休息结束，开始显示押注");
+                    //Log.i("游戏1","STATUS_BET_TYPE——休息结束，开始显示押注");
                     rl_nn_anim_stake1.removeAllViews();
                     rl_nn_anim_stake2.removeAllViews();//色子数量容器
                     rl_nn_anim_stake3.removeAllViews();
@@ -2266,7 +2266,7 @@ private double quota=0,actual=0;
                     }
                     break;
                 case MSG_CODE_END_REST://输赢动画显示结束，开始休息时间
-                    Log.i("游戏1","MSG_CODE_END_REST——输赢动画显示结束，开始休息时间");
+                    //Log.i("游戏1","MSG_CODE_END_REST——输赢动画显示结束，开始休息时间");
                     if (LoginManager.getInstance().getUserID(LiveingActivity.this).equals(CurLiveInfo.getHostID())){
                         dice_shangs();
                     }
@@ -2316,22 +2316,22 @@ private double quota=0,actual=0;
                     this_statusd=STATUS_REST_TYPE;
                     // 开始休息时间-->
                     if (msg.arg2==9){
-                        Log.i("游戏1","MSG_CODE_END_REST——输赢动画显示结束，开始休息时间，msg.arg2==9"+(msg.arg2==9));
+                        //Log.i("游戏1","MSG_CODE_END_REST——输赢动画显示结束，开始休息时间，msg.arg2==9"+(msg.arg2==9));
                         startCountDownTime_tv_numsd(msg.arg1,1);
                     }else {
-                        Log.i("游戏1","MSG_CODE_END_REST——输赢动画显示结束，开始休息时间，msg.arg2==9"+(msg.arg2==9));
+                        //Log.i("游戏1","MSG_CODE_END_REST——输赢动画显示结束，开始休息时间，msg.arg2==9"+(msg.arg2==9));
                         if (LoginManager.getInstance().getUserID(LiveingActivity.this).equals(CurLiveInfo.getHostID())){
-                            Log.i("游戏1","CurLiveInfo.getHostID()");
+                            //Log.i("游戏1","CurLiveInfo.getHostID()");
                             startCountDownTime_tv_numsd(5,1);
                         }else {
-                            Log.i("游戏1","CurLiveInfo.getHostID()1");
+                            //Log.i("游戏1","CurLiveInfo.getHostID()1");
 
                             dicegame_state_listd(STATUS_ANIM_TYPE);
                         }
                     }
                     break;
                 case MSG_CODE_END_WIN_OR_LOSE://押注结束，开始色子动画效果 请求服务器
-                    Log.i("游戏1","MSG_CODE_END_WIN_OR_LOSE——押注结束，开始色子动画效果 请求服务器");
+                    //Log.i("游戏1","MSG_CODE_END_WIN_OR_LOSE——押注结束，开始色子动画效果 请求服务器");
                     if (LoginManager.getInstance().getUserID(LiveingActivity.this).equals(CurLiveInfo.getHostID())){
                         dice_listsd();//如果是主播 请求发牌
                     }
@@ -2354,7 +2354,7 @@ private double quota=0,actual=0;
 
                     this_statusd=STATUS_ANIM_TYPE;
                     startAnimtionsd();//开始发牌
-                    Log.i("游戏1","api="+"CurLiveInfo.getRoomNum()="+CurLiveInfo.getRoomNum());
+                    //Log.i("游戏1","api="+"CurLiveInfo.getRoomNum()="+CurLiveInfo.getRoomNum());
                     break;
             }
             return false;
@@ -2457,7 +2457,7 @@ private double quota=0,actual=0;
             Api.niuniu_dice_list_data(CurLiveInfo.getRoomNum(), new ApiResponseHandler(LiveingActivity.this) {
                 @Override
                 public void onSuccess(ApiResponse apiResponse) {
-                    Log.i("游戏1","xxx——游戏牌数apiResponse="+apiResponse.toString());
+                    //Log.i("游戏1","xxx——游戏牌数apiResponse="+apiResponse.toString());
                     if (apiResponse.getCode()==Api.SUCCESS){
                         pokerBeen= JSONArray.parseArray(apiResponse.getData(), PokerBean.class);
                         Map<Integer, String[]> chip_ch = pokerBeen.get(0).getChip_ch();//第0桌
@@ -3030,7 +3030,7 @@ private double quota=0,actual=0;
                 Api.niuniu_dice_shang(CurLiveInfo.getRoomNum(), new ApiResponseHandler(LiveingActivity.this) {
                     @Override
                     public void onSuccess(ApiResponse apiResponse) {
-                        Log.i("游戏1","xxx——游戏下一局开始前清除上一局数据接口");
+                        //Log.i("游戏1","xxx——游戏下一局开始前清除上一局数据接口");
                         if (apiResponse.getCode()==Api.SUCCESS){
 
                         }else {
@@ -3057,7 +3057,7 @@ private double quota=0,actual=0;
             Api.niuniu_dice_list(CurLiveInfo.getRoomNum(), new ApiResponseHandler(LiveingActivity.this) {
                 @Override
                 public void onSuccess(ApiResponse apiResponse) {
-                    Log.i("游戏1","请求摇色子="+apiResponse+"CurLiveInfo.getRoomNum()="+CurLiveInfo.getRoomNum());
+                    //Log.i("游戏1","请求摇色子="+apiResponse+"CurLiveInfo.getRoomNum()="+CurLiveInfo.getRoomNum());
                     if (apiResponse.getCode()==Api.SUCCESS){
                     }else {
                         if (isTrue){
@@ -3087,7 +3087,7 @@ private double quota=0,actual=0;
             Api.niuniu_state_list(CurLiveInfo.getRoomNum(), new ApiResponseHandler(LiveingActivity.this) {
                 @Override
                 public void onSuccess(ApiResponse apiResponse) {
-                    Log.i("游戏1","获取游戏状态api="+apiResponse.toString());
+                    //Log.i("游戏1","获取游戏状态api="+apiResponse.toString());
                     if (apiResponse.getCode()==Api.SUCCESS){
                         String data = apiResponse.getData();
                         statusBean = JSON.parseObject(data, StatusBean.class);
@@ -3195,12 +3195,12 @@ private double quota=0,actual=0;
                     new ApiResponseHandler(LiveingActivity.this) {
                         @Override
                         public void onSuccess(ApiResponse apiResponse) {
-                            Log.i("游戏1","apiResponse="+apiResponse.toString());
+                            //Log.i("游戏1","apiResponse="+apiResponse.toString());
                             if (apiResponse.getCode()==Api.SUCCESS){
                                 String data = apiResponse.getData();
                                 JSONObject parse = (JSONObject) JSON.parse(data);
                                 String diamonds_coins = parse.getString("integral");
-                                Log.i("游戏1","integral:"+diamonds_coins);
+                                //Log.i("游戏1","integral:"+diamonds_coins);
                                 tv_nn_price.setText(diamonds_coins);
                             }
                         }
@@ -3459,7 +3459,7 @@ private double quota=0,actual=0;
                     , String.valueOf(bl_choice1s), new ApiResponseHandler(LiveingActivity.this) {
                         @Override
                         public void onSuccess(ApiResponse apiResponse) {
-                            Log.i("游戏1","下注-数据="+apiResponse.toString()+",bet_money="+bet_money);
+                            //Log.i("游戏1","下注-数据="+apiResponse.toString()+",bet_money="+bet_money);
                             if (apiResponse.getCode()==Api.SUCCESS){
                                 giftsd(iv_chip10, rl_anims, bet_money, chip10, i);
                                 SoundPlayUtils.play(1);//下注声音
@@ -3633,12 +3633,12 @@ private double quota=0,actual=0;
                     if (type==0){
                         tv_nn_num.setText("押注时间"+ls+"秒");
                         if (ls%2==0){
-                            Log.i("游戏1","下注心跳——"+ls+"s");
+                            //Log.i("游戏1","下注心跳——"+ls+"s");
                             heartBeats();
                         }
                     }else if (type==1){
                         tv_nn_num.setText("休息"+ls+"秒");
-                        Log.i("游戏1","休息时间——"+ls+"s");
+                        //Log.i("游戏1","休息时间——"+ls+"s");
                     }
                     if (ls<=1){
                         rl_nn_chip10.setEnabled(false);
@@ -3657,13 +3657,13 @@ private double quota=0,actual=0;
 
                     if (type==0){
 
-                        Log.i("游戏1","押注倒计时结束");
+                        //Log.i("游戏1","押注倒计时结束");
                         Message msg = Message.obtain();
                         msg.what=MSG_CODE_END_WIN_OR_LOSE;
                         dice_poker_handler.sendMessage(msg);
 
                     }else if (type==1){
-                        Log.i("游戏1","休息倒计时结束");
+                        //Log.i("游戏1","休息倒计时结束");
                         Message msg = Message.obtain();
                         msg.what=MSG_CODE_END_YAZU;
                         dice_poker_handler.sendMessage(msg);
@@ -3690,7 +3690,7 @@ private double quota=0,actual=0;
             Api.niuniu_user_integral_heartbeat(CurLiveInfo.getRoomNum(), new ApiResponseHandler(LiveingActivity.this) {
                 @Override
                 public void onSuccess(ApiResponse apiResponse) {
-                    Log.i("游戏1","下注心跳回调apiResponse="+apiResponse.toString());
+                    //Log.i("游戏1","下注心跳回调apiResponse="+apiResponse.toString());
                     if (apiResponse.getCode()==Api.SUCCESS){
                         lists.clear();
                         String data = apiResponse.getData();
@@ -3770,7 +3770,7 @@ private double quota=0,actual=0;
         Random random =new Random();//随机
         int x = random.nextInt(width1-50);
         int y = random.nextInt(height1-50);
-        Log.i("游戏1","x="+x+",y="+y);
+        //Log.i("游戏1","x="+x+",y="+y);
 
         textView.setLayoutParams(params);
         textView.setBackground(LiveingActivity.this.getDrawable(draw));
@@ -3818,7 +3818,11 @@ private double quota=0,actual=0;
             initViews(view);
             instance.setContentView(view);
             instance.setCancelable(false);
-            instance.show();
+            try{
+                instance.show();
+            }catch (Exception e){
+
+            }
             rl_dice.setVisibility(View.VISIBLE);
             getIntegrals();//显示积分
             WindowManager.LayoutParams params = instance.getWindow().getAttributes();// 得到属性
@@ -3866,12 +3870,12 @@ private double quota=0,actual=0;
                     new ApiResponseHandler(this) {
                         @Override
                         public void onSuccess(ApiResponse apiResponse) {
-                            Log.i("积分","apiResponse="+apiResponse.toString());
+                            //Log.i("积分","apiResponse="+apiResponse.toString());
                             if (apiResponse.getCode()==Api.SUCCESS){
                                 String data = apiResponse.getData();
                                 JSONObject parse = (JSONObject) JSON.parse(data);
                                 String diamonds_coins = parse.getString("integral");
-                                Log.i("积分","integral:"+diamonds_coins);
+                                //Log.i("积分","integral:"+diamonds_coins);
                                 tv_price.setText(diamonds_coins);
                             }
                         }
@@ -3997,7 +4001,7 @@ private double quota=0,actual=0;
                     , String.valueOf(bl_choice1), new ApiResponseHandler(LiveingActivity.this) {
                 @Override
                 public void onSuccess(ApiResponse apiResponse) {
-                    Log.i("游戏","下注-数据="+apiResponse.toString()+",bet_money="+bet_money);
+                    //Log.i("游戏","下注-数据="+apiResponse.toString()+",bet_money="+bet_money);
                     if (apiResponse.getCode()==Api.SUCCESS){
                         gifts(iv_chip10, rl_anims, bet_money, chip10, i);
                         SoundPlayUtils.play(1);
@@ -4180,7 +4184,7 @@ private double quota=0,actual=0;
             Api.user_integral_heartbeat(CurLiveInfo.getRoomNum(), new ApiResponseHandler(LiveingActivity.this) {
                 @Override
                 public void onSuccess(ApiResponse apiResponse) {
-                    Log.i("游戏","下注心跳回调apiResponse="+apiResponse.toString());
+                    //Log.i("游戏","下注心跳回调apiResponse="+apiResponse.toString());
                     if (apiResponse.getCode()==Api.SUCCESS){
                         list.clear();
                         String data = apiResponse.getData();
@@ -4256,7 +4260,7 @@ private double quota=0,actual=0;
         Random random =new Random();//随机
         int x = random.nextInt(width1-20);
         int y = random.nextInt(height1-20);
-        Log.i("色子","x="+x+",y="+y);
+        //Log.i("色子","x="+x+",y="+y);
 
         textView.setLayoutParams(params);
         textView.setBackground(LiveingActivity.this.getDrawable(draw));
@@ -4292,7 +4296,7 @@ private double quota=0,actual=0;
             Api.dicegame_state_list(CurLiveInfo.getRoomNum(), new ApiResponseHandler(LiveingActivity.this) {
                 @Override
                 public void onSuccess(ApiResponse apiResponse) {
-                    Log.i("status","获取游戏状态api="+apiResponse.toString());
+                    //Log.i("status","获取游戏状态api="+apiResponse.toString());
                     if (apiResponse.getCode()==Api.SUCCESS){
                         String data = apiResponse.getData();
                         statusBean = JSON.parseObject(data, StatusBean.class);
@@ -4341,7 +4345,7 @@ private double quota=0,actual=0;
             Api.dicegame_state_add(CurLiveInfo.getRoomNum(), this_status, String.valueOf(l), new ApiResponseHandler(LiveingActivity.this) {
                 @Override
                 public void onSuccess(ApiResponse apiResponse) {
-                    Log.i("status","api="+apiResponse.toString());
+                    //Log.i("status","api="+apiResponse.toString());
                 }
             });
         }
@@ -4360,7 +4364,7 @@ private double quota=0,actual=0;
                     }
                     if (msgs==4){
                         this_status=STATUS_END_TYPE;
-                        Log.i("游戏","MSG_CODE_END_GIFT——色子动画结束，开始显示输赢结果和各盘点数");
+                        //Log.i("游戏","MSG_CODE_END_GIFT——色子动画结束，开始显示输赢结果和各盘点数");
                         tv_point1.setVisibility(View.VISIBLE);
                         tv_point2.setVisibility(View.VISIBLE);
                         tv_point3.setVisibility(View.VISIBLE);
@@ -4371,7 +4375,7 @@ private double quota=0,actual=0;
                     break;
                 case MSG_CODE_END_YAZU://休息结束，开始显示押注
                     this_status=STATUS_BET_TYPE;
-                    Log.i("游戏","STATUS_BET_TYPE——休息结束，开始显示押注");
+                    //Log.i("游戏","STATUS_BET_TYPE——休息结束，开始显示押注");
                     rl_anim_stake1.removeAllViews();
                     rl_anim_stake2.removeAllViews();//色子数量容器
                     rl_anim_stake3.removeAllViews();
@@ -4390,7 +4394,7 @@ private double quota=0,actual=0;
                     }
                     break;
                 case MSG_CODE_END_REST://输赢动画显示结束，开始休息时间
-                    Log.i("游戏","MSG_CODE_END_REST——输赢动画显示结束，开始休息时间");
+                    //Log.i("游戏","MSG_CODE_END_REST——输赢动画显示结束，开始休息时间");
                     if (LoginManager.getInstance().getUserID(LiveingActivity.this).equals(CurLiveInfo.getHostID())){
                         dice_shang();
                     }
@@ -4432,22 +4436,22 @@ private double quota=0,actual=0;
                     iv_anim3.setVisibility(View.GONE);
                     // 开始休息时间-->
                     if (msg.arg2==9){
-                        Log.i("游戏","MSG_CODE_END_REST——输赢动画显示结束，开始休息时间，msg.arg2==9"+(msg.arg2==9));
+                        //Log.i("游戏","MSG_CODE_END_REST——输赢动画显示结束，开始休息时间，msg.arg2==9"+(msg.arg2==9));
                         startCountDownTime_tv_num(msg.arg1,1);
                     }else {
-                        Log.i("游戏","MSG_CODE_END_REST——输赢动画显示结束，开始休息时间，msg.arg2==9"+(msg.arg2==9));
+                        //Log.i("游戏","MSG_CODE_END_REST——输赢动画显示结束，开始休息时间，msg.arg2==9"+(msg.arg2==9));
                         if (LoginManager.getInstance().getUserID(LiveingActivity.this).equals(CurLiveInfo.getHostID())){
-                            Log.i("游戏","CurLiveInfo.getHostID()");
+                            //Log.i("游戏","CurLiveInfo.getHostID()");
                             startCountDownTime_tv_num(5,1);
                         }else {
-                            Log.i("游戏","CurLiveInfo.getHostID()1");
+                            //Log.i("游戏","CurLiveInfo.getHostID()1");
 
                             dicegame_state_list(STATUS_END_TYPE);
                         }
                     }
                     break;
                 case MSG_CODE_END_WIN_OR_LOSE://押注结束，开始色子动画效果 请求服务器
-                    Log.i("游戏","MSG_CODE_END_WIN_OR_LOSE——押注结束，开始色子动画效果 请求服务器");
+                    //Log.i("游戏","MSG_CODE_END_WIN_OR_LOSE——押注结束，开始色子动画效果 请求服务器");
                     this_status=STATUS_ANIM_TYPE;
                     rl_anim_stake1.removeAllViews();
                     rl_anim_stake2.removeAllViews();//色子数量容器
@@ -4470,7 +4474,7 @@ private double quota=0,actual=0;
                     }else {
                         //CountDownTimer(10);
                         startAnimtion();
-                        Log.i("游戏","api="+"CurLiveInfo.getRoomNum()="+CurLiveInfo.getRoomNum());
+                        //Log.i("游戏","api="+"CurLiveInfo.getRoomNum()="+CurLiveInfo.getRoomNum());
                     }
                     break;
             }
@@ -4484,13 +4488,13 @@ private double quota=0,actual=0;
         Api.dice_list_data(CurLiveInfo.getRoomNum(), new ApiResponseHandler(LiveingActivity.this) {
             @Override
             public void onSuccess(ApiResponse apiResponse) {
-                Log.i("游戏","输赢显示api="+apiResponse.toString());
+                //Log.i("游戏","输赢显示api="+apiResponse.toString());
                 if (apiResponse.getCode()==Api.SUCCESS){
                     List<DiceBean> dicelist = JSONArray.parseArray(apiResponse.getData(), DiceBean.class);
 
                     dice.clear();
                     DiceBean diceBean = dicelist.get(0);// 1号桌
-                    Log.i("游戏","diceBean1="+ diceBean.toString());
+                    //Log.i("游戏","diceBean1="+ diceBean.toString());
                     String[] chip_ch = diceBean.getChip_ch();
 
                     for (int i = 0; i < chip_ch.length; i++) {
@@ -4498,17 +4502,17 @@ private double quota=0,actual=0;
                             chip_ch[i]=String.valueOf(chip_ch[i].charAt(chip_ch[i].length()-1));
                         }
                         dice.add(Integer.parseInt(chip_ch[i]));
-                        Log.i("游戏","庄家桌点数="+Integer.parseInt(chip_ch[i]));
+                        //Log.i("游戏","庄家桌点数="+Integer.parseInt(chip_ch[i]));
                     }
                     tv_point.setText(String.valueOf(dice.get(0) + dice.get(1) + dice.get(2))+"点");
                     dice1.setBackgroundResource(draw[dice.get(0)-1]);
                     dice2.setBackgroundResource(draw[dice.get(1)-1]);
                     dice3.setBackgroundResource(draw[dice.get(2)-1]);
-                    Log.i("游戏","庄家桌点数dice="+ dice.get(0) + dice.get(1) + dice.get(2));
+                    //Log.i("游戏","庄家桌点数dice="+ dice.get(0) + dice.get(1) + dice.get(2));
 
                     dice.clear();
                     DiceBean diceBean1 = dicelist.get(1);// 1号桌
-                    Log.i("游戏","diceBean1="+ diceBean1.toString());
+                    //Log.i("游戏","diceBean1="+ diceBean1.toString());
                     String[] chip_ch1 = diceBean1.getChip_ch();
                     for (int i = 0; i < chip_ch1.length; i++) {
                         if (chip_ch1[i].length() > 1) {
@@ -4517,7 +4521,7 @@ private double quota=0,actual=0;
                     }
                     for (int i = 0; i < chip_ch1.length; i++) {
                         dice.add(Integer.parseInt(chip_ch1[i]));
-                        Log.i("游戏","一号桌点数="+Integer.parseInt(chip_ch1[i]));
+                        //Log.i("游戏","一号桌点数="+Integer.parseInt(chip_ch1[i]));
                     }
                     if ("闲赢".equals(diceBean1.getWinorlose())){
                         winList.add(iv_win1);
@@ -4527,18 +4531,18 @@ private double quota=0,actual=0;
                     dice1_1.setBackgroundResource(draw[dice.get(0)-1]);
                     dice2_1.setBackgroundResource(draw[dice.get(1)-1]);
                     dice3_1.setBackgroundResource(draw[dice.get(2)-1]);
-                    Log.i("游戏","一号桌dice="+ dice.get(0) + dice.get(1) + dice.get(2));
+                    //Log.i("游戏","一号桌dice="+ dice.get(0) + dice.get(1) + dice.get(2));
 
                     dice.clear();
                     DiceBean diceBean2 = dicelist.get(2);// 2号桌
-                    Log.i("游戏","diceBean2="+ diceBean2.toString());
+                    //Log.i("游戏","diceBean2="+ diceBean2.toString());
                     String[] chip_ch2 = diceBean2.getChip_ch();
                     for (int i = 0; i < chip_ch2.length; i++) {
                         if (chip_ch2[i].length()>1){
                             chip_ch2[i]=String.valueOf(chip_ch2[i].charAt(chip_ch2[i].length()-1));
                         }
                         dice.add(Integer.parseInt(chip_ch2[i]));
-                        Log.i("游戏","2号桌点数="+Integer.parseInt(chip_ch2[i]));
+                        //Log.i("游戏","2号桌点数="+Integer.parseInt(chip_ch2[i]));
                     }
                     if ("闲赢".equals(diceBean2.getWinorlose())){
                         winList.add(iv_win2);
@@ -4548,18 +4552,18 @@ private double quota=0,actual=0;
                     dice1_2.setBackgroundResource(draw[dice.get(0)-1]);
                     dice2_2.setBackgroundResource(draw[dice.get(1)-1]);
                     dice3_2.setBackgroundResource(draw[dice.get(2)-1]);
-                    Log.i("游戏","2号桌dice="+ dice.get(0) + dice.get(1) + dice.get(2));
+                    //Log.i("游戏","2号桌dice="+ dice.get(0) + dice.get(1) + dice.get(2));
 
                     dice.clear();
                     DiceBean diceBean3 = dicelist.get(3);// 2号桌
-                    Log.i("游戏","diceBean3="+ diceBean3.toString());
+                    //Log.i("游戏","diceBean3="+ diceBean3.toString());
                     String[] chip_ch3 = diceBean3.getChip_ch();
                     for (int i = 0; i < chip_ch3.length; i++) {
                         if (chip_ch3[i].length()>1){
                             chip_ch3[i]=String.valueOf(chip_ch3[i].charAt(chip_ch3[i].length()-1));
                         }
                         dice.add(Integer.parseInt(chip_ch3[i]));
-                        Log.i("游戏","3号桌点数="+Integer.parseInt(chip_ch3[i]));
+                        //Log.i("游戏","3号桌点数="+Integer.parseInt(chip_ch3[i]));
                     }
                     if ("闲赢".equals(diceBean3.getWinorlose())){
                         winList.add(iv_win3);
@@ -4569,7 +4573,7 @@ private double quota=0,actual=0;
                     dice1_3.setBackgroundResource(draw[dice.get(0)-1]);
                     dice2_3.setBackgroundResource(draw[dice.get(1)-1]);
                     dice3_3.setBackgroundResource(draw[dice.get(2)-1]);
-                    Log.i("游戏","3号桌dice="+ dice.get(0) + dice.get(1) + dice.get(2));
+                    //Log.i("游戏","3号桌dice="+ dice.get(0) + dice.get(1) + dice.get(2));
                     //输赢动画
                     winAnim();
                 }else {
@@ -4657,7 +4661,7 @@ private double quota=0,actual=0;
             Api.dice_list(CurLiveInfo.getRoomNum(), new ApiResponseHandler(LiveingActivity.this) {
                 @Override
                 public void onSuccess(ApiResponse apiResponse) {
-                    Log.i("游戏","请求摇色子="+apiResponse+"CurLiveInfo.getRoomNum()="+CurLiveInfo.getRoomNum());
+                    //Log.i("游戏","请求摇色子="+apiResponse+"CurLiveInfo.getRoomNum()="+CurLiveInfo.getRoomNum());
                     if (apiResponse.getCode()==Api.SUCCESS){
                         //CountDownTimer(10);
                         startAnimtion();
@@ -4685,7 +4689,7 @@ private double quota=0,actual=0;
             Api.dice_shang(CurLiveInfo.getRoomNum(), new ApiResponseHandler(LiveingActivity.this) {
                 @Override
                 public void onSuccess(ApiResponse apiResponse) {
-                    Log.i("游戏","xxx——游戏下一局开始前清除上一局数据接口");
+                    //Log.i("游戏","xxx——游戏下一局开始前清除上一局数据接口");
                     if (apiResponse.getCode()==Api.SUCCESS){
 
                     }else {
@@ -4727,12 +4731,12 @@ private double quota=0,actual=0;
                     if (type==0){
                         tv_num.setText("押注时间"+l+"秒");
                         if (l%2==0){
-                            Log.i("游戏","下注心跳——"+l+"s");
+                            //Log.i("游戏","下注心跳——"+l+"s");
                             heartBeat();
                         }
                     }else if (type==1){
                         tv_num.setText("休息"+l+"秒");
-                        Log.i("游戏","休息时间——"+l+"s");
+                        //Log.i("游戏","休息时间——"+l+"s");
                     }
                     if (l<=1){
                         rl_chip10.setEnabled(false);
@@ -4751,13 +4755,13 @@ private double quota=0,actual=0;
 
                     if (type==0){
 
-                        Log.i("色子","押注倒计时结束");
+                        //Log.i("色子","押注倒计时结束");
                         Message msg = Message.obtain();
                         msg.what=MSG_CODE_END_WIN_OR_LOSE;
                         dice_handler.sendMessage(msg);
                         timer.cancel();
                     }else if (type==1){
-                        Log.i("色子","休息倒计时结束");
+                        //Log.i("色子","休息倒计时结束");
                         Message msg = Message.obtain();
                         msg.what=MSG_CODE_END_YAZU;
                         dice_handler.sendMessage(msg);
@@ -4785,7 +4789,7 @@ private double quota=0,actual=0;
             public void onTick(long millisUntilFinished) {
                 //每隔countDownInterval秒会回调一次onTick()方法
                 int l = (int) (millisUntilFinished / 1000 - 1);
-                Log.i("游戏","动画 l="+l+"s");
+                //Log.i("游戏","动画 l="+l+"s");
                 if (!LiveingActivity.this.isFinishing()){
                     if (isAnim_dice==1){
                         isAnim_dice=-1;
@@ -4797,7 +4801,7 @@ private double quota=0,actual=0;
                     if (l==0&&isAnim_dice==0){
                         isAnim_dice=2;
                     }
-                    Log.i("游戏","动画 isAnim_dice="+isAnim_dice+"s");
+                    //Log.i("游戏","动画 isAnim_dice="+isAnim_dice+"s");
                 }
 
             }
@@ -5323,10 +5327,10 @@ private double quota=0,actual=0;
     private void sendGiftToServer(String amount, final int p_type, int score) {
 
         if (NetWorkUtil.isNetworkConnected(this)) {
-            Log.i("送礼物接口", "getUserID.." + LoginManager.getInstance().getUserID(LiveingActivity.this));
-            Log.i("送礼物接口", "getHostID.." + CurLiveInfo.getHostID());
-            Log.i("送礼物接口", "amount.." + amount);
-            Log.i("送礼物接口", "score.." + score);
+            //Log.i("送礼物接口", "getUserID.." + LoginManager.getInstance().getUserID(LiveingActivity.this));
+            //Log.i("送礼物接口", "getHostID.." + CurLiveInfo.getHostID());
+            //Log.i("送礼物接口", "amount.." + amount);
+            //Log.i("送礼物接口", "score.." + score);
             Api.sendGift(LoginManager.getInstance().getUserID(LiveingActivity.this)
                     , CurLiveInfo.getHostID()
                     , amount
@@ -5334,7 +5338,7 @@ private double quota=0,actual=0;
                     , new ApiResponseHandler(this) {
                 @Override
                 public void onSuccess(ApiResponse apiResponse) {
-                    Log.i("送礼物接口", "apiResponse.." + apiResponse.toString());
+                    //Log.i("送礼物接口", "apiResponse.." + apiResponse.toString());
                     if (apiResponse.getCode() == 0) {
                         if (
                                 p_type==4||
@@ -5380,7 +5384,7 @@ private double quota=0,actual=0;
                         present_num_show++;
                         presentMessage = LiveMySelfInfo.getInstance().getPhone() + "&" + PRESENT_MSG + "&" + LiveMySelfInfo.getInstance().getNickName()
                                 + "&" + LiveMySelfInfo.getInstance().getAvatar() + "&" + p_type + "&" + present_num_show;
-                        Log.i("发送的消息", "发送端" + presentMessage);
+                        //Log.i("发送的消息", "发送端" + presentMessage);
                         TIMMessage Tim = new TIMMessage();
                         TIMCustomElem elem = new TIMCustomElem();
                         elem.setData(presentMessage.getBytes());
@@ -5540,7 +5544,7 @@ private double quota=0,actual=0;
             Api.getHaveCoins(CurLiveInfo.getHostID(), new ApiResponseHandler(this) {
                 @Override
                 public void onSuccess(ApiResponse apiResponse) {
-                    Log.i("获取主播剩余柠檬币", "apiResponse.." + apiResponse.toString());
+                    //Log.i("获取主播剩余柠檬币", "apiResponse.." + apiResponse.toString());
                     if (apiResponse.getCode() == 0) {
                         JSONObject parse = JSON.parseObject(apiResponse.getData());
                         Hostlemon_coins = parse.getString("lemon_coins");
@@ -5575,11 +5579,11 @@ private double quota=0,actual=0;
             Api.getDiamonds(LoginManager.getInstance().getUserID(LiveingActivity.this), new ApiResponseHandler(this) {
                 @Override
                 public void onSuccess(ApiResponse apiResponse) {
-                    Log.i("获取成员剩余钻石", "apiResponse.." + apiResponse.toString());
+                    //Log.i("获取成员剩余钻石", "apiResponse.." + apiResponse.toString());
                     if (apiResponse.getCode() == 0) {
                         JSONObject parse = JSON.parseObject(apiResponse.getData());
                         String diamonds_coins = parse.getString("diamonds_coins");
-                        Log.i("获取成员剩余钻石", "1走没有");
+                        //Log.i("获取成员剩余钻石", "1走没有");
                         live_room_gift_money.setText(diamonds_coins);
                     } else {
                         ToastUtils.showShort(LiveingActivity.this, apiResponse.getMessage());
@@ -5915,7 +5919,7 @@ private double quota=0,actual=0;
 
     @Override
     public void updateUserInfo(int requestCode, List<TIMUserProfile> profiles) {
-        Log.i("进入房间", "requestCode" + requestCode);
+        //Log.i("进入房间", "requestCode" + requestCode);
         if (null != profiles) {
             switch (requestCode) {
                 case GETPROFILE_JOIN:
@@ -5925,7 +5929,7 @@ private double quota=0,actual=0;
                         SxbLog.w(TAG, "get nick name:" + user.getNickName());
                         SxbLog.w(TAG, "get remark name:" + user.getRemark());
                         SxbLog.w(TAG, "get avatar:" + user.getFaceUrl());
-                        Log.i("进入房间", "updateUserInfo" + user.toString());
+                        //Log.i("进入房间", "updateUserInfo" + user.toString());
                         if (!TextUtils.isEmpty(user.getNickName())) {
                             refreshTextListView(user.getNickName(), "进入房间", Constants.MEMBER_ENTER,user.getIdentifier());
                         } else {
@@ -6017,10 +6021,10 @@ private double quota=0,actual=0;
 
     //检查权限
     void checkPermission() {
-        Log.i("手机sdk版本", "Build.VERSION.SDK_INT..." + Build.VERSION.SDK_INT);
+        //Log.i("手机sdk版本", "Build.VERSION.SDK_INT..." + Build.VERSION.SDK_INT);
         final List<String> permissionsList = new ArrayList<>();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            Log.i("手机sdk版本", "Build.VERSION.SDK_INT..." + Build.VERSION.SDK_INT);
+            //Log.i("手机sdk版本", "Build.VERSION.SDK_INT..." + Build.VERSION.SDK_INT);
             if ((checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED)) {
                 permissionsList.add(Manifest.permission.CAMERA);
             }
@@ -6034,7 +6038,7 @@ private double quota=0,actual=0;
                 permissionsList.add(Manifest.permission.MODIFY_AUDIO_SETTINGS);
             }
             if (permissionsList.size() != 0) {
-                Log.i("手机sdk版本", "permissionsList.size()" + permissionsList.size());
+                //Log.i("手机sdk版本", "permissionsList.size()" + permissionsList.size());
                 requestPermissions(permissionsList.toArray(new String[permissionsList.size()]),
                         REQUEST_PHONE_PERMISSIONS);
             }
@@ -6067,7 +6071,7 @@ private double quota=0,actual=0;
             index -= 2;
         }
         LiveInfoJson info = livelist.get((index + livelist.size()) % livelist.size());
-        Log.i("直播的信息", "info.." + info.toString());
+        //Log.i("直播的信息", "info.." + info.toString());
         SxbLog.v(TAG, "ILVB-DBG|showFirstPage->index:" + index + "/" + oldPos + "|room:" + info.getHost().getUid() + "/" + CurLiveInfo.getHostID());
 
         if (null != info) {
@@ -6102,22 +6106,22 @@ private double quota=0,actual=0;
             ToastUtils.showShort(this, NET_UNCONNECT);
             return;
         } else {
-            Log.i("成员列表", CurLiveInfo.getChatRoomId().toString());
-            Log.i("成员列表", CurLiveInfo.getHostID());
+            //Log.i("成员列表", CurLiveInfo.getChatRoomId().toString());
+            //Log.i("成员列表", CurLiveInfo.getHostID());
             Api.groupMemberInfo(LoginManager.getInstance().getUserID(this), CurLiveInfo.getChatRoomId(),"1","1", new ApiResponseHandler(this) {
                 @Override
                 public void onSuccess(ApiResponse apiResponse) {
-                    Log.i("成员列表", "data=s"+apiResponse.toString());
+                    //Log.i("成员列表", "data=s"+apiResponse.toString());
                     if (apiResponse.getCode() == Api.SUCCESS) {
                         String data = apiResponse.getData();
-                        Log.i("直播","data=s"+data.toString());
+                        //Log.i("直播","data=s"+data.toString());
 
                         LivesInfoBean livesInfoBean = JSON.parseObject(data, LivesInfoBean.class);
                         List<AvMemberInfo> list = livesInfoBean.getLives();
                         avMemberInfos.clear();
                         avMemberInfos.addAll(list);
 
-                        Log.i("Main","Menbers="+CurLiveInfo.getAdmires()+",avMemberInfos="+avMemberInfos.size()+"list="+list.size());
+                        //Log.i("Main","Menbers="+CurLiveInfo.getAdmires()+",avMemberInfos="+avMemberInfos.size()+"list="+list.size());
 //                        String user_robot = LiveMySelfInfo.getInstance().getUser_robot();
 //                        if (user_robot!=null&&user_robot.length()>0&&!"".equals(user_robot)){
 //                            int i = Integer.parseInt(user_robot);
@@ -6145,7 +6149,7 @@ private double quota=0,actual=0;
     }
 
     private void getUser_robot() {
-        Log.i("直播","apiResponse=");
+        //Log.i("直播","apiResponse=");
         Api.user_robot(LoginManager.getInstance().getUserID(LiveingActivity.this), new ApiResponseHandler(LiveingActivity.this) {
             @Override
             public void onSuccess(ApiResponse apiResponse) {
@@ -6166,10 +6170,10 @@ private double quota=0,actual=0;
         Api.groupMemberInfo(LoginManager.getInstance().getUserID(this), CurLiveInfo.getChatRoomId(), String.valueOf(page_id), "2", new ApiResponseHandler(this) {
             @Override
             public void onSuccess(ApiResponse apiResponse) {
-                Log.i("成员列表", apiResponse.toString());
+                //Log.i("成员列表", apiResponse.toString());
                 if (apiResponse.getCode() == Api.SUCCESS) {
                     String data = apiResponse.getData();
-                    Log.i("直播","data="+data.toString());
+                    //Log.i("直播","data="+data.toString());
 
                     LivesInfoBean livesInfoBean = JSON.parseObject(data, LivesInfoBean.class);
                     List<AvMemberInfo> list = livesInfoBean.getLives();
@@ -6178,7 +6182,7 @@ private double quota=0,actual=0;
                         isSucc=!isSucc;
                         //CurLiveInfo.setMembers(avMemberInfos.size()+CurLiveInfo.getAdmires());
                     }
-                    Log.i("直播",livesInfoBean.getPage().getPage()+","+livesInfoBean.getPage().getPageCount());
+                    //Log.i("直播",livesInfoBean.getPage().getPage()+","+livesInfoBean.getPage().getPageCount());
                     if (!livesInfoBean.getPage().getPage().equals(livesInfoBean.getPage().getPageCount())){
                         page_id++;
                         groupMemberInfos1();
@@ -6253,7 +6257,7 @@ private double quota=0,actual=0;
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
             if (action.equals("GETMENBERINFOS")) {
-                Log.i("成员列表", "收到广播");
+                //Log.i("成员列表", "收到广播");
                     page_id=1;
                     groupMemberInfo1(String.valueOf(page_id),"1");//观众加载观众列表显示
                     groupMemberInfo1(String.valueOf(page_id),"2");//观众加载观众列表显示
@@ -6266,15 +6270,15 @@ private double quota=0,actual=0;
             ToastUtils.showShort(this, NET_UNCONNECT);
             return;
         } else {
-            Log.i("成员列表", CurLiveInfo.getChatRoomId().toString());
-            Log.i("成员列表", CurLiveInfo.getHostID());
+            //Log.i("成员列表", CurLiveInfo.getChatRoomId().toString());
+            //Log.i("成员列表", CurLiveInfo.getHostID());
             Api.groupMemberInfo(LoginManager.getInstance().getUserID(this), CurLiveInfo.getChatRoomId(),page,type, new ApiResponseHandler(this) {
                 @Override
                 public void onSuccess(ApiResponse apiResponse) {
-                    Log.i("成员列表", apiResponse.toString());
+                    //Log.i("成员列表", apiResponse.toString());
                     if (apiResponse.getCode() == Api.SUCCESS) {
                         String data = apiResponse.getData();
-                        Log.i("直播","data="+data.toString());
+                        //Log.i("直播","data="+data.toString());
 
                         LivesInfoBean livesInfoBean = JSON.parseObject(data, LivesInfoBean.class);
                         List<AvMemberInfo> list = livesInfoBean.getLives();
@@ -6326,9 +6330,9 @@ private double quota=0,actual=0;
             Api.followHandle(LoginManager.getInstance().getUserID(LiveingActivity.this), CurLiveInfo.getHostID(), new ApiResponseHandler(LiveingActivity.this) {
                 @Override
                 public void onSuccess(ApiResponse apiResponse) {
-                    Log.i("关注", "apiResponse" + apiResponse.toString());
-                    Log.i("关注", "getHostID：" + CurLiveInfo.getHostID());
-                    Log.i("关注", "1参数：" + LoginManager.getInstance().getUserID(LiveingActivity.this));
+                    //Log.i("关注", "apiResponse" + apiResponse.toString());
+                    //Log.i("关注", "getHostID：" + CurLiveInfo.getHostID());
+                    //Log.i("关注", "1参数：" + LoginManager.getInstance().getUserID(LiveingActivity.this));
 
                     /*JSONObject parse = (JSONObject) JSON.parse(apiResponse.getData());
                     String is_follows = parse.getString("is_follows");//是否已经关注*/
@@ -6375,7 +6379,7 @@ private double quota=0,actual=0;
             Api.getFollows(CurLiveInfo.getHostID(), new ApiResponseHandler(LiveingActivity.this) {
                 @Override
                 public void onSuccess(ApiResponse apiResponse) {
-                    Log.i("主播的关注人数", "apiResponse" + apiResponse.toString());
+                    //Log.i("主播的关注人数", "apiResponse" + apiResponse.toString());
 
                     if (apiResponse.getCode() == 0) {
                         //主播的关注人数
