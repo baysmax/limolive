@@ -92,10 +92,15 @@ public class CurLiveInfo {
     }
 
     public static void setMembers(int members) {
-        CurLiveInfo.members = members;
-        if (CurLiveInfo.members>CurLiveInfo.maxmembers){
-            CurLiveInfo.maxmembers=CurLiveInfo.members;
+        if (members<=0){
+            CurLiveInfo.members=0;
+        }else {
+            CurLiveInfo.members = members;
+            if (CurLiveInfo.members>CurLiveInfo.maxmembers){
+                CurLiveInfo.maxmembers=CurLiveInfo.members;
+            }
         }
+
     }
 
     public static int getAdmires() {
