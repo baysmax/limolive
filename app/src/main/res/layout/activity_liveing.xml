@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/rl_main"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
 
     <com.tencent.ilivesdk.view.AVRootView
@@ -434,10 +434,9 @@
                 android:layout_alignParentBottom="true"
                 android:layout_width="match_parent"
                 android:layout_height="22.3dp"
-                android:layout_marginLeft="70dp"
-                android:layout_marginRight="10dp"
+                android:layout_marginLeft="40dp"
                 android:background="@drawable/tuh">
-                <com.example.project.limolive.view.MarqueeTextView
+                <TextView
                     android:id="@+id/at_tuhaobang"
                     android:layout_gravity="center_vertical"
                     android:gravity="center"
@@ -451,9 +450,8 @@
             </FrameLayout>
             <TextView
                 android:id="@+id/textView2"
-                android:layout_width="45dp"
-                android:layout_height="40dp"
-                android:layout_marginLeft="40dp"
+                android:layout_width="55dp"
+                android:layout_height="45dp"
                 android:background="@drawable/tuhao" />
         </RelativeLayout>
         <RelativeLayout
@@ -462,17 +460,16 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
             <FrameLayout
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="17dp"
                 android:layout_width="match_parent"
-                android:layout_height="22.3dp"
-                android:layout_marginLeft="70dp"
-                android:layout_marginRight="10dp"
+                android:layout_height="26dp"
+                android:layout_marginLeft="37dp"
                 android:background="@drawable/cz">
-                <com.example.project.limolive.view.MarqueeTextView
+                <TextView
                     android:id="@+id/at_auto"
                     android:layout_gravity="center_vertical"
                     android:gravity="center"
-                    android:text=""
+                    android:text="asdfasdfadsfa"
                     android:textColor="#266fb9"
                     android:maxLines="1"
                     android:layout_marginLeft="20dp"
@@ -480,44 +477,10 @@
                     android:layout_height="wrap_content" />
             </FrameLayout>
             <TextView
-                android:layout_marginLeft="40dp"
                 android:layout_width="50dp"
                 android:layout_height="45dp"
                 android:layout_centerVertical="true"
                 android:background="@drawable/chongzhi"
-                />
-
-
-        </RelativeLayout>
-        <RelativeLayout
-            android:visibility="gone"
-            android:id="@+id/rl_maxGift"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-            <FrameLayout
-                android:layout_centerVertical="true"
-                android:layout_width="match_parent"
-                android:layout_height="22.3dp"
-                android:layout_marginLeft="90dp"
-                android:layout_marginRight="10dp"
-                android:background="@drawable/maxgift">
-                <com.example.project.limolive.view.MarqueeTextView
-                    android:id="@+id/at_maxGift"
-                    android:layout_gravity="center_vertical"
-                    android:gravity="center"
-                    android:text=""
-                    android:textColor="#266fb9"
-                    android:maxLines="1"
-                    android:layout_marginLeft="50dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-            </FrameLayout>
-            <TextView
-                android:layout_marginLeft="40dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:background="@drawable/giftd"
                 />
 
 
@@ -527,7 +490,46 @@
     <RelativeLayout
         android:id="@+id/rl_anim"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:id="@+id/rl_maxGift"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="122dp"
+            android:layout_alignParentStart="true">
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="26dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="80dp"
+                android:background="@drawable/maxgift">
+
+                <TextView
+                    android:id="@+id/at_maxGift"
+                    android:layout_width="278dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center"
+                    android:maxLines="1"
+                    android:text="adsfadsfaaaaaaaaaaaaaaffffffffffffffffffffffffffffffff"
+                    android:textColor="#266fb9" />
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="45dp"
+                android:layout_centerVertical="true"
+                android:background="@drawable/giftd" />
+
+
+        </RelativeLayout>
+    </RelativeLayout>
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="70dp"

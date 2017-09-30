@@ -32,7 +32,11 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.Spanned;
 import android.text.TextUtils;
+import android.text.style.ForegroundColorSpan;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Display;
@@ -261,7 +265,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
     private TextView tv_play;
     private ImageView iv_popularity;
     private RelativeLayout rl_tuhaobang,rl_chongzhi,rl_maxGift;
-    private MarqueeTextView marqueeTextView,at_tuhaobang,at_maxGift;
+    private TextView marqueeTextView,at_tuhaobang,at_maxGift;
 
 
     @Override
@@ -358,15 +362,17 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
                 case 1:
                     if (apiList!=null&&apiList.size()!=0){
                         final ApiResponse remove = apiList.remove(0);
+                        Log.i("飘屏动画","remove.getMessage()="+remove.getMessage());
                         if (rl_tuhaobang.getVisibility()==View.GONE&&rl_chongzhi.getVisibility()==View.GONE&&rl_maxGift.getVisibility()==View.GONE){//没在显示则开始显示
                             //开始动画效果 动画执行完成后继续执行此方法直到apilist没有数据时结束
                             switch (remove.getCode()){
                                 case 3://充值飘屏
+                                    Log.i("飘屏动画","进入充值飘屏remove.getMessage()");
                                     rl_chongzhi.setVisibility(View.VISIBLE);
                                     rl_tuhaobang.setVisibility(View.GONE);
                                     rl_maxGift.setVisibility(View.GONE);
 
-
+                                    marqueeTextView.setText("  "+remove.getMessage());
                                     Animation animation = AnimationUtils.loadAnimation(LiveingActivity.this, R.anim.admin_live_translate);
                                     rl_chongzhi.startAnimation(animation);
                                     animation.setAnimationListener(new Animation.AnimationListener() {
@@ -378,11 +384,18 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
                                         @Override
                                         public void onAnimationEnd(Animation animation) {
 
-                                            marqueeTextView.setText("  "+remove.getMessage());
-                                            Message msg = Message.obtain();
-                                            msg.what=2;
-                                            msg.obj=marqueeTextView;
-                                            pHandler.sendMessageDelayed(msg,2000);
+                                            rl_chongzhi.setVisibility(View.GONE);
+                                            rl_tuhaobang.setVisibility(View.GONE);
+                                            rl_maxGift.setVisibility(View.GONE);
+                                            marqueeTextView.setText("");
+                                            at_tuhaobang.setText("");
+                                            at_maxGift.setText("");
+                                            pHandler.sendEmptyMessageAtTime(1,500);
+
+//                                            Message msg = Message.obtain();
+//                                            msg.what=2;
+//                                            msg.obj=marqueeTextView;
+//                                            pHandler.sendMessageDelayed(msg,2000);
 
                                         }
 
@@ -395,9 +408,33 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
 
                                     break;
                                 case 2://大礼物飘屏
+                                    Log.i("飘屏动画","进入大礼物飘屏remove.getMessage()");
                                     rl_chongzhi.setVisibility(View.GONE);
                                     rl_tuhaobang.setVisibility(View.GONE);
                                     rl_maxGift.setVisibility(View.VISIBLE);
+                                    String sendName="";
+                                    String hostName="";
+                                    String body="";
+                                    String message = remove.getMessage();
+                                    if (message.contains("的")){
+                                        String[] strs = message.split("的");
+                                        if (strs.length>1){
+                                            String str = strs[0];
+                                            body="的"+strs[1];
+                                            if (str.contains("在")){
+                                                String[] ss = str.split("在");
+                                                sendName=ss[0];
+                                                hostName=ss[1];
+
+                                            }
+                                        }
+                                    }
+                                    String z="在";
+                                    SpannableString spanString = new SpannableString(sendName+ z + hostName+body);
+                                    spanString.setSpan(new ForegroundColorSpan(Color.WHITE), 0, sendName.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                                    spanString.setSpan(new ForegroundColorSpan(Color.RED), sendName.length()+z.length(), sendName.length()+z.length()+hostName.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+                                    at_maxGift.setText(spanString);
                                     Animation animation1 = AnimationUtils.loadAnimation(LiveingActivity.this, R.anim.admin_live_translate);
                                     rl_maxGift.startAnimation(animation1);
                                     animation1.setAnimationListener(new Animation.AnimationListener() {
@@ -408,12 +445,19 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
 
                                         @Override
                                         public void onAnimationEnd(Animation animation) {
+//结束滚动
+                                            rl_chongzhi.setVisibility(View.GONE);
+                                            rl_tuhaobang.setVisibility(View.GONE);
+                                            rl_maxGift.setVisibility(View.GONE);
+                                            marqueeTextView.setText("");
+                                            at_tuhaobang.setText("");
+                                            at_maxGift.setText("");
+                                            pHandler.sendEmptyMessageAtTime(1,500);
 
-                                            at_tuhaobang.setText("  "+remove.getMessage());
-                                            Message msg = Message.obtain();
-                                            msg.what=2;
-                                            msg.obj=at_maxGift;
-                                            pHandler.sendMessageDelayed(msg,2000);
+//                                            Message msg = Message.obtain();
+//                                            msg.what=2;
+//                                            msg.obj=at_maxGift;
+//                                            pHandler.sendMessageDelayed(msg,2000);
 
                                         }
 
@@ -425,10 +469,11 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
 
                                     break;
                                 case 1://消费到指定数额进入直播间漂屏接口
+                                    Log.i("飘屏动画","进入消费到指定数额进入直播间漂屏接口remove.getMessage()");
                                     rl_chongzhi.setVisibility(View.GONE);
                                     rl_tuhaobang.setVisibility(View.VISIBLE);
                                     rl_maxGift.setVisibility(View.GONE);
-
+                                    at_tuhaobang.setText("  "+remove.getMessage());
                                     Animation animation2 = AnimationUtils.loadAnimation(LiveingActivity.this, R.anim.admin_live_translate);
                                     rl_tuhaobang.startAnimation(animation2);
                                     animation2.setAnimationListener(new Animation.AnimationListener() {
@@ -440,11 +485,17 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
                                         @Override
                                         public void onAnimationEnd(Animation animation) {
 
-                                            at_tuhaobang.setText("  "+remove.getMessage());
-                                            Message msg = Message.obtain();
-                                            msg.what=2;
-                                            msg.obj=at_tuhaobang;
-                                            pHandler.sendMessageDelayed(msg,2000);
+                                            rl_chongzhi.setVisibility(View.GONE);
+                                            rl_tuhaobang.setVisibility(View.GONE);
+                                            rl_maxGift.setVisibility(View.GONE);
+                                            marqueeTextView.setText("");
+                                            at_tuhaobang.setText("");
+                                            at_maxGift.setText("");
+                                            pHandler.sendEmptyMessageAtTime(1,500);
+//                                            Message msg = Message.obtain();
+//                                            msg.what=2;
+//                                            msg.obj=at_tuhaobang;
+//                                            pHandler.sendMessageDelayed(msg,2000);
 
                                         }
 
@@ -456,6 +507,8 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
                                     break;
                             }
                             //startAnimtions();
+                        }else {
+                            pHandler.sendEmptyMessageAtTime(1,2000);
                         }
                     }
                     break;
@@ -672,10 +725,10 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
         hideStatusBar();
         rl_tuhaobang= (RelativeLayout) findViewById(R.id.rl_tuhaobang);
         rl_chongzhi= (RelativeLayout) findViewById(R.id.rl_chongzhi);
-        rl_maxGift= (RelativeLayout) findViewById(R.id.rl_chongzhi);
-        marqueeTextView = (MarqueeTextView) findViewById(R.id.at_auto);
-        at_tuhaobang = (MarqueeTextView) findViewById(R.id.at_tuhaobang);
-        at_maxGift = (MarqueeTextView) findViewById(R.id.at_maxGift);
+        rl_maxGift= (RelativeLayout) findViewById(R.id.rl_maxGift);
+        marqueeTextView = (TextView) findViewById(R.id.at_auto);
+        at_tuhaobang = (TextView) findViewById(R.id.at_tuhaobang);
+        at_maxGift = (TextView) findViewById(R.id.at_maxGift);
 
 
 
@@ -934,7 +987,6 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
 
                         @Override
                         public void onFailure(String errMessage) {
-                            super.onFailure(errMessage);
                             Log.i("充值","用户进入--errMessage="+errMessage.toString());
                         }
                     });
@@ -1006,7 +1058,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
         public void run() {
             if (!isStop == true) {
                 time_span();
-                handler.postDelayed(this, 10000);
+                handler.postDelayed(this, 30000);
             }
         }
     };
@@ -1029,7 +1081,6 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
 
                             @Override
                             public void onFailure(String errMessage) {
-                                super.onFailure(errMessage);
                                 Log.i("解散群组", errMessage);
                             }
                         });
@@ -5255,7 +5306,9 @@ private double quota=0,actual=0;
                     timer.start();
                 } else {*/
                 //如果自己的柠檬币 小于1, 请求接口 获得库存
-                sendGiftToServer(live_room_gift_count.getText().toString());
+                p_type = Integer.parseInt(sp.getString("p_type"));//礼物id
+                score = Integer.parseInt(sp.getString("score"));//礼物id
+                sendGiftToServer(live_room_gift_count.getText().toString(),p_type,score);
 
                 //}
             }
@@ -5267,9 +5320,8 @@ private double quota=0,actual=0;
      * 数量
      * 分值
      */
-    private void sendGiftToServer(String amount) {
-        p_type = Integer.parseInt(sp.getString("p_type"));//礼物id
-        score = Integer.parseInt(sp.getString("score"));//礼物id
+    private void sendGiftToServer(String amount, final int p_type, int score) {
+
         if (NetWorkUtil.isNetworkConnected(this)) {
             Log.i("送礼物接口", "getUserID.." + LoginManager.getInstance().getUserID(LiveingActivity.this));
             Log.i("送礼物接口", "getHostID.." + CurLiveInfo.getHostID());
@@ -5284,6 +5336,45 @@ private double quota=0,actual=0;
                 public void onSuccess(ApiResponse apiResponse) {
                     Log.i("送礼物接口", "apiResponse.." + apiResponse.toString());
                     if (apiResponse.getCode() == 0) {
+                        if (
+                                p_type==4||
+                                        p_type==5||
+                                        p_type==6||
+                                        p_type==7||
+                                        p_type==12||
+                                        p_type==13||
+                                        p_type==14||
+                                        p_type==15){
+                            String str="";
+                            switch (p_type){
+                                case 4:
+                                    str="666";
+                                    break;
+                                case 5:
+                                    str="飞心";
+                                    break;
+                                case 6:
+                                    str="魔棒";
+                                    break;
+                                case 7:
+                                    str="钻戒";
+                                    break;
+                                case 12:
+                                    str="蛋糕";
+                                    break;
+                                case 13:
+                                    str="城堡";
+                                    break;
+                                case 14:
+                                    str="跑车";
+                                    break;
+                                case 15:
+                                    str="1314";
+                                    break;
+                            }
+
+                            live_gift_pp(str, LoginManager.getInstance().getHostName(LiveingActivity.this));
+                        }
                         //点击发送 请求网络接口 把发送的礼物信息给后台记录 主播id 自己id 礼物id 礼物数量  数据发送成功  才把礼物发给队列 预备播放
                         present_num_show = Integer.parseInt(sp.getString("present_num_show"));//数量
                         present_num_show++;
@@ -5416,6 +5507,25 @@ private double quota=0,actual=0;
             ToastUtils.showShort(LiveingActivity.this, "网络异常，请检查您的网络~");
         }
 
+    }
+
+    private void live_gift_pp(String giftName,String userName) {
+        if (!NetWorkUtil.isNetworkConnected(LiveingActivity.this)) {
+            ToastUtils.showShort(LiveingActivity.this, NET_UNCONNECT);
+            return;
+        }else {
+            Api.live_gift_pp(giftName, userName, CurLiveInfo.getRoomNum(), new ApiResponseHandler(LiveingActivity.this) {
+                @Override
+                public void onSuccess(ApiResponse apiResponse) {
+
+                }
+
+                @Override
+                public void onFailure(String errMessage) {
+
+                }
+            });
+        }
     }
 
 

@@ -84,7 +84,6 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
 
                 @Override
                 public void onFailure(String errMessage) {
-                    super.onFailure(errMessage);
                     Log.i("充值","err="+errMessage.toString());
                 }
             });

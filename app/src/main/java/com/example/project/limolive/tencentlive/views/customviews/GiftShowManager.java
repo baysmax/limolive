@@ -117,44 +117,6 @@ public class GiftShowManager {
                     }
                     String userId = showVo.getUserId();
                     int num = showVo.getNum();
-                    if (showVo.getType().equals("4")||
-                            showVo.getType().equals("5")||
-                            showVo.getType().equals("6")||
-                            showVo.getType().equals("7")||
-                            showVo.getType().equals("12")||
-                            showVo.getType().equals("13")||
-                            showVo.getType().equals("14")||
-                            showVo.getType().equals("15")){
-                        String str="";
-                        switch (showVo.getType()){
-                            case "4":
-                                str="666";
-                                break;
-                            case "5":
-                                str="飞心";
-                                break;
-                            case "6":
-                                str="魔棒";
-                                break;
-                            case "7":
-                                str="钻戒";
-                                break;
-                            case "12":
-                                str="蛋糕";
-                                break;
-                            case "13":
-                                str="城堡";
-                                break;
-                            case "14":
-                                str="跑车";
-                                break;
-                            case "15":
-                                str="1314";
-                                break;
-                        }
-
-                        live_gift_pp(str, LoginManager.getInstance().getHostName(cxt));
-                    }
                     View giftView = giftCon.findViewWithTag(userId+showVo.getType());
                     giftNumAnim.setAnimationListener(new Animation.AnimationListener() {
                         @Override
@@ -435,19 +397,7 @@ public class GiftShowManager {
         }
     };
 
-    private void live_gift_pp(String giftName,String userName) {
-        if (!NetWorkUtil.isNetworkConnected(cxt)) {
-            ToastUtils.showShort(cxt, NET_UNCONNECT);
-            return;
-        }else {
-            Api.live_gift_pp(giftName, userName, CurLiveInfo.getRoomNum(), new ApiResponseHandler(cxt) {
-                @Override
-                public void onSuccess(ApiResponse apiResponse) {
 
-                }
-            });
-        }
-    }
 
     private void showGiftMax(final ImageView imageView,int drawable,int anim) {
         Log.i("大礼物","xxxxx");
