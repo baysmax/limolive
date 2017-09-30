@@ -63,6 +63,7 @@
         android:supportsRtl="true"
         android:versionCode="6"
         android:versionName="1.3"
+        android:largeHeap="true"
         android:theme="@style/AppTheme">
         <provider
             android:name="android.support.v4.content.FileProvider"
