@@ -213,7 +213,7 @@ public class MyFragment extends BaseFragment implements View.OnClickListener{
 		LoginModel loginModel=provider.getMineInfo(LoginManager.getInstance().getPhone(getApplication()));
 		if(loginModel!=null){
 			tv_username.setText(loginModel.getNickname());
-			tv_phone.setText("手机号:"+loginModel.getPhone());
+			tv_phone.setText("柠檬号:"+loginModel.getUid());
 			Log.i("头像地址","getAvatar.."+LoginManager.getInstance().getAvatar(getActivity()));
 			Log.i("头像地址","loginModel.getHeadsmall().."+loginModel.getHeadsmall());
 			if (loginModel.getHeadsmall().toString().contains("http://")){
