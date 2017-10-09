@@ -2,6 +2,7 @@ package com.example.project.limolive.tencentim.ui;
 
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -146,8 +147,12 @@ public class ConversationActivity extends BaseActivity implements ConversationVi
             }
         }
         conversation.setLastMessage(MessageFactory.getMessage(message));
-        conversationList.add(conversation);
-        Collections.sort(conversationList);
+        Log.i("会话","class=Conversation,conversation.getLastMessageSummary()="+conversation.getLastMessageSummary());
+        if (conversation.getLastMessageSummary().contains("code")&&conversation.getLastMessageSummary().equals("message")){
+
+        }else {
+            conversationList.add(conversation);
+        }
         refresh();
     }
 

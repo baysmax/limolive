@@ -231,8 +231,12 @@ public class NewsFragment extends BaseFragment  implements ConversationView,Frie
             }
         }
         conversation.setLastMessage(MessageFactory.getMessage(message));
-        conversationList.add(conversation);
-        Collections.sort(conversationList);
+        String lastMessageSummary = conversation.getLastMessageSummary();
+        if ("".equals(lastMessageSummary)||lastMessageSummary.contains("{\"code\"")){
+        }else {
+            conversationList.add(conversation);
+        }
+        //Collections.sort(conversationList);
         refresh();
 
     }

@@ -6,6 +6,7 @@ import com.example.project.limolive.tencentim.event.FriendshipEvent;
 import com.example.project.limolive.tencentim.event.GroupEvent;
 import com.example.project.limolive.tencentim.event.MessageEvent;
 import com.example.project.limolive.tencentim.event.RefreshEvent;
+import com.example.project.limolive.tencentim.model.NomalConversation;
 import com.example.project.limolive.tencentim.viewfeatures.ConversationView;
 import com.tencent.TIMConversation;
 import com.tencent.TIMConversationType;
@@ -58,7 +59,13 @@ public class ConversationPresenter implements Observer {
             switch (cmd.type){
                 case UPDATE:
                 case ADD:
-                    view.updateGroupInfo((TIMGroupCacheInfo) cmd.data);
+                    TIMGroupCacheInfo data1 = (TIMGroupCacheInfo) cmd.data;
+                    TIMMessage lastMsg = data1.getGroupInfo().getLastMsg();
+                    NomalConversation conversation = new NomalConversation(lastMsg.getConversation());
+                    if (conversation.getLastMessageSummary().contains("code")&&conversation.getLastMessageSummary().equals("message")){
+                    }else {
+                        view.updateGroupInfo((TIMGroupCacheInfo) cmd.data);
+                    }
                     break;
                 case DEL:
                     view.removeConversation((String) cmd.data);
