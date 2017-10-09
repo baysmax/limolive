@@ -361,9 +361,9 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
                     break;
                 case 1:
                     if (apiList!=null&&apiList.size()!=0){
-                        final ApiResponse remove = apiList.remove(0);
                         //Log.i("飘屏动画","remove.getMessage()="+remove.getMessage());
                         if (rl_tuhaobang.getVisibility()==View.GONE&&rl_chongzhi.getVisibility()==View.GONE&&rl_maxGift.getVisibility()==View.GONE){//没在显示则开始显示
+                            final ApiResponse remove = apiList.remove(0);
                             //开始动画效果 动画执行完成后继续执行此方法直到apilist没有数据时结束
                             switch (remove.getCode()){
                                 case 3://充值飘屏
@@ -507,9 +507,9 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
                                     break;
                             }
                             //startAnimtions();
-                        }else {
+                        }/*else {
                             pHandler.sendEmptyMessageAtTime(1,2000);
-                        }
+                        }*/
                     }
                     break;
                 case 2://开始文字滚动
