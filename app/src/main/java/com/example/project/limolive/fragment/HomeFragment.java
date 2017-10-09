@@ -286,9 +286,9 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,
         Api.nmzt(new ApiResponseHandler(getContext()) {
             @Override
             public void onSuccess(ApiResponse apiResponse) {
+                zt_list.clear();
                 if (apiResponse.getCode()==Api.SUCCESS){
                     Log.i("直播列表","apiResponse="+apiResponse.getData());
-                    zt_list.clear();
                     zt_list.addAll(JSONArray.parseArray(apiResponse.getData(), HomeListBeen.class));
                     nmztAdapter.notifyDataSetChanged();
                     Log.i("直播列表","zt_list="+zt_list.get(0).toString());
