@@ -88,6 +88,7 @@ import com.example.project.limolive.bean.PokerBean;
 import com.example.project.limolive.bean.RechargeLiveBean;
 import com.example.project.limolive.bean.StatusBean;
 import com.example.project.limolive.bean.SystemMsgBean;
+import com.example.project.limolive.bean.home.HomeListBeen;
 import com.example.project.limolive.bean.live.LivesInfoBean;
 import com.example.project.limolive.helper.LoginManager;
 import com.example.project.limolive.pay.wx.WXPayUtils;
@@ -412,10 +413,41 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
                                     rl_chongzhi.setVisibility(View.GONE);
                                     rl_tuhaobang.setVisibility(View.GONE);
                                     rl_maxGift.setVisibility(View.VISIBLE);
+
                                     String sendName="";
                                     String hostName="";
                                     String body="";
                                     String message = remove.getMessage();
+                                    String data = remove.getData();
+                                    if (data!=null){
+                                        final HomeListBeen item = JSONObject.parseObject(data, HomeListBeen.class);
+                                        rl_maxGift.setOnClickListener(new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View view) {
+                                                if (LoginManager.getInstance().getUserID(LiveingActivity.this).equals(CurLiveInfo.getHostID())){
+                                                    return;
+                                                }
+                                                if (!item.getAvRoomId().equals(CurLiveInfo.getRoomNum())){
+                                                    Intent intent = new Intent(LiveingActivity.this, LiveingActivity.class);
+                                                    intent.putExtra(Constants.ID_STATUS, Constants.MEMBER);
+                                                    LiveMySelfInfo.getInstance().setIdStatus(Constants.MEMBER);
+                                                    LiveMySelfInfo.getInstance().setJoinRoomWay(false);
+                                                    CurLiveInfo.setHostID(item.getHost().getUid());
+                                                    CurLiveInfo.setHostName(item.getHost().getUsername());
+                                                    CurLiveInfo.setHostAvator(item.getHost().getAvatar());
+                                                    CurLiveInfo.setRoomNum(item.getAvRoomId());
+                                                    CurLiveInfo.setHost_phone(item.getHost().getPhone());
+                                                    CurLiveInfo.setMembers(Integer.parseInt(item.getWatchCount()) + 1); // 添加自己
+                                                    CurLiveInfo.setAdmires(Integer.parseInt(item.getAdmireCount()));
+                                                    CurLiveInfo.setAddress(item.getLbs().getAddress());
+                                                    CurLiveInfo.setTitle(item.getTitle());
+                                                    startActivity(intent);
+                                                }else {
+                                                    ToastUtils.showShort(LiveingActivity.this,"已在该直播间");
+                                                }
+                                            }
+                                        });
+                                    }
                                     if (message.contains("的")){
                                         String[] strs = message.split("的");
                                         if (strs.length>1){
