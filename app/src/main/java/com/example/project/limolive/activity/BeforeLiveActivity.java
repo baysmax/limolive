@@ -456,7 +456,17 @@ public class BeforeLiveActivity extends Activity implements  SurfaceHolder.Callb
     }
     private void initCaer() {
             camera=null;
+        try{
             camera = Camera.open();
+        }
+        catch(RuntimeException e){
+            if (camera!=null){
+                camera.stopPreview();//停掉原来摄像头的预览
+                camera.release();//释放资源
+                camera = null;//取消原来摄像头
+            }
+            camera=Camera.open(1);
+        }
             initCaera();
                 try {
                 camera.setPreviewDisplay(holder);//通过surfaceview显示取景画面
