@@ -6204,7 +6204,7 @@ private double quota=0,actual=0;
      */
     private void share() {
         UMImage thumb = new UMImage(this, R.mipmap.logo);
-        UMWeb web = new UMWeb("https://www.pgyer.com/B2NX");
+        UMWeb web = new UMWeb("https://www.pgyer.com/Ko1C");
         web.setTitle("柠檬秀");//标题
         web.setThumb(thumb);  //缩略图
         web.setDescription("大家好,我正在直播哦，喜欢我的朋友赶紧来哦");//描述
