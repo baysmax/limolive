@@ -113,7 +113,6 @@ public class BaseActivity extends AppCompatActivity implements ProfileView, Easy
         mLocationClient = new LocationClient(getApplicationContext());     //声明LocationClient类
         //  initLocation();
         initBaseView();
-        PgyCrashManager.register(this);
 
 
         activityHelper.onCreate(this);//当前Activity入栈
