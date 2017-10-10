@@ -2,7 +2,6 @@
 <animation-list
     android:oneshot="true"
     xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:drawable="@drawable/magic" android:duration="100" />
     <item android:drawable="@drawable/magic1" android:duration="100" />
     <item android:drawable="@drawable/magic2" android:duration="100" />
     <item android:drawable="@drawable/magic3" android:duration="100" />

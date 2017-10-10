@@ -2,15 +2,15 @@
 <animation-list
     android:oneshot="true"
     xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:drawable="@drawable/castle01" android:duration="110" />
-    <item android:drawable="@drawable/castle02" android:duration="110" />
-    <item android:drawable="@drawable/castle03" android:duration="110" />
-    <item android:drawable="@drawable/castle04" android:duration="110" />
-    <item android:drawable="@drawable/castle05" android:duration="110" />
-    <item android:drawable="@drawable/castle06" android:duration="110" />
-    <item android:drawable="@drawable/castle07" android:duration="110" />
-    <item android:drawable="@drawable/castle08" android:duration="110" />
-    <item android:drawable="@drawable/castle09" android:duration="110" />
+    <item android:drawable="@drawable/castle1" android:duration="110" />
+    <item android:drawable="@drawable/castle2" android:duration="110" />
+    <item android:drawable="@drawable/castle3" android:duration="110" />
+    <item android:drawable="@drawable/castle4" android:duration="110" />
+    <item android:drawable="@drawable/castle5" android:duration="110" />
+    <item android:drawable="@drawable/castle6" android:duration="110" />
+    <item android:drawable="@drawable/castle7" android:duration="110" />
+    <item android:drawable="@drawable/castle8" android:duration="110" />
+    <item android:drawable="@drawable/castle9" android:duration="110" />
     <item android:drawable="@drawable/castle10" android:duration="110" />
     <item android:drawable="@drawable/castle11" android:duration="110" />
     <item android:drawable="@drawable/castle13" android:duration="110" />

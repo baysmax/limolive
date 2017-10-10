@@ -2,15 +2,15 @@
 <animation-list
     android:oneshot="true"
     xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:drawable="@drawable/cake01" android:duration="100" />
-    <item android:drawable="@drawable/cake02" android:duration="100" />
-    <item android:drawable="@drawable/cake03" android:duration="100" />
-    <item android:drawable="@drawable/cake04" android:duration="100" />
-    <item android:drawable="@drawable/cake05" android:duration="100" />
-    <item android:drawable="@drawable/cake06" android:duration="100" />
-    <item android:drawable="@drawable/cake07" android:duration="100" />
-    <item android:drawable="@drawable/cake08" android:duration="100" />
-    <item android:drawable="@drawable/cake09" android:duration="100" />
+    <item android:drawable="@drawable/cake1" android:duration="100" />
+    <item android:drawable="@drawable/cake2" android:duration="100" />
+    <item android:drawable="@drawable/cake3" android:duration="100" />
+    <item android:drawable="@drawable/cake4" android:duration="100" />
+    <item android:drawable="@drawable/cake5" android:duration="100" />
+    <item android:drawable="@drawable/cake6" android:duration="100" />
+    <item android:drawable="@drawable/cake7" android:duration="100" />
+    <item android:drawable="@drawable/cake8" android:duration="100" />
+    <item android:drawable="@drawable/cake9" android:duration="100" />
     <item android:drawable="@drawable/cake11" android:duration="100" />
     <item android:drawable="@drawable/cake12" android:duration="100" />
     <item android:drawable="@drawable/cake13" android:duration="100" />

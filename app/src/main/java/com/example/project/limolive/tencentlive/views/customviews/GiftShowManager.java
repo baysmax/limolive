@@ -55,6 +55,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.logging.LogManager;
 
 import static com.example.project.limolive.R.id.confrim_btn;
+import static com.example.project.limolive.R.id.content;
 import static com.example.project.limolive.R.id.imageView;
 import static com.example.project.limolive.R.id.rl_anim;
 import static com.example.project.limolive.R.id.rl_main;
@@ -106,7 +107,13 @@ public class GiftShowManager {
                 case REMOVE_GIFT:
                     ImageView img= (ImageView) msg.obj;
                     rl_anim.removeView(img);
-
+                    img.clearAnimation();
+                    for (int i = 0; i < bitmaps.size(); i++) {
+                        if (bitmaps.get(i)!=null){
+                            bitmaps.get(i).recycle();
+                        }
+                    }
+                    bitmaps.clear();
                     System.gc();
                     break;
                 case SHOW_GIFT_FLAG://如果是处理显示礼物的消息
@@ -195,19 +202,20 @@ public class GiftShowManager {
                                 tv_n.setText("赠送主播");
                             } else if (showVo.getType().equals("4")) {
                                 im.setImageResource(R.drawable.present_5);//666
-                                showGiftMax(new ImageView(cxt),R.drawable.animation_666,R.anim.translate4);
+                                showGiftMax(new ImageView(cxt),runFrame(70, 15,"a666_")/*R.drawable.animation_666*/,R.anim.translate4);
                                 tv_n.setText("赠送主播");
                             } else if (showVo.getType().equals("5")) {
                                 im.setImageResource(R.drawable.present_4);//飞心 love
-                                showGiftMax(new ImageView(cxt),R.drawable.animation_flying,R.anim.translate_flying);
+
+                                showGiftMax(new ImageView(cxt),runFrame(70, 6,"loves")/* R.drawable.animation_flying*/,R.anim.translate_flying);
                                 tv_n.setText("赠送主播");
                             } else if (showVo.getType().equals("6")) {
                                 im.setImageResource(R.drawable.present_7);//魔棒
-                                showGiftMax(new ImageView(cxt),R.drawable.animation_magic,R.anim.translate_magic);
+                                showGiftMax(new ImageView(cxt),runFrame(100, 14,"magic")/*R.drawable.animation_magic*/,R.anim.translate_magic);
                                 tv_n.setText("赠送主播");
                             } else if (showVo.getType().equals("7")) {
                                 im.setImageResource(R.drawable.present_8);//钻戒
-                                showGiftMax(new ImageView(cxt),R.drawable.animation_ring,R.anim.translate_ring);
+                                showGiftMax(new ImageView(cxt),runFrame(100, 17,"ring")/*R.drawable.animation_ring*/,R.anim.translate_ring);
                                 tv_n.setText("赠送主播");
                             }else if (showVo.getType().equals("8")) {
                                 im.setImageResource(R.drawable.present_0);
@@ -223,15 +231,15 @@ public class GiftShowManager {
                                 tv_n.setText("赠送主播");
                             }else if (showVo.getType().equals("12")) {
                                 im.setImageResource(R.drawable.present_13);//蛋糕
-                                showGiftMax(new ImageView(cxt),R.drawable.animation_cake,R.anim.translate_cake);
+                                showGiftMax(new ImageView(cxt),runFrame(100, 23,"cake")/*R.drawable.animation_cake*/,R.anim.translate_cake);
                                 tv_n.setText("赠送主播");
                             }else if (showVo.getType().equals("13")) {
                                 im.setImageResource(R.drawable.present_14);//城堡
-                                showGiftMax(new ImageView(cxt),R.drawable.animation_castle,R.anim.translate_castle);
+                                showGiftMax(new ImageView(cxt),runFrame(110, 14,"castle")/*R.drawable.animation_castle*/,R.anim.translate_castle);
                                 tv_n.setText("赠送主播");
                             }else if (showVo.getType().equals("14")) {
                                 im.setImageResource(R.drawable.present_15);//跑车
-                                showBigluwu(new ImageView(cxt),R.drawable.animation_qiche,R.anim.translate,cxt,rl_anim);
+                                showBigluwu(new ImageView(cxt),runFrame(10, 7,"porche_0000")/*R.drawable.animation_qiche*/,R.anim.translate,cxt,rl_anim);
                                 tv_n.setText("赠送主播");
                             }else if (showVo.getType().equals("15")) {
                                 im.setImageResource(R.drawable.present_11);//1314
@@ -240,7 +248,7 @@ public class GiftShowManager {
                                 RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
                                         RelativeLayout.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
                                 imageView.setLayoutParams(params);
-                                imageView.setBackgroundResource(R.drawable.animation_1314);
+                                imageView.setBackgroundDrawable(runFrame(50,5,"a1314_")/*R.drawable.animation_1314*/);
                                 Animation animation = AnimationUtils.loadAnimation(cxt, R.anim.translate3);
                                 final AnimationDrawable background = (AnimationDrawable) imageView.getBackground();
                                 imageView.startAnimation(animation);
@@ -396,16 +404,85 @@ public class GiftShowManager {
             }
         }
     };
+    BitmapFactory.Options options =null;
+    public AnimationDrawable runFrame(int time,int count,String name) {
+        if (options==null){
+            options =new BitmapFactory.Options();
+            options.inPreferredConfig = Bitmap.Config.RGB_565;
+            options.inJustDecodeBounds=false;
+            //设置动画位图编码方式和大小
+        }
+        if (bitmaps==null){
+            bitmaps=new ArrayList<>();
+        }
+        //完全编码实现的动画效果
+        AnimationDrawable anim = null;
+        if (name.equals("a1314_")){
+            anim=forCount(1,time, count, name, new AnimationDrawable());
+            anim = forfCount(1, time, 4, name, anim);
+        }else if (name.equals("loves")){
+            anim=forCount(1,time, count, name, new AnimationDrawable());
+            anim = forfCount(1, time, 5, name, anim);
+            anim = forCount(2, time, 6, name, anim);
+            anim = forfCount(1, time, 5, name, anim);
+        }else {
+            anim=forCount(1,time, count, name, new AnimationDrawable());
+        }
+
+        if (name.equals("porche_0000")){
+
+            anim.setOneShot(false); //设置为loop
+        }else {
+            anim.setOneShot(true);
+
+        }
+        return anim;
+    }
+    private ArrayList<Bitmap> bitmaps=null;
+    private AnimationDrawable forCount(int start,int time, int count, String name, AnimationDrawable anim) {
+        for (int i = start; i <= count; i++) {
+
+            //根据资源名称和目录获取R.java中对应的资源ID
+            int id = cxt.getResources().getIdentifier(name + i, "drawable", cxt.getPackageName());
+            //根据资源ID获取到Drawable对象
 
 
+            Bitmap bitmap = BitmapFactory.decodeResource(cxt.getResources(), id, options);
 
-    private void showGiftMax(final ImageView imageView,int drawable,int anim) {
+
+            bitmaps.add(bitmap);
+            Drawable drawable = new BitmapDrawable(bitmap);
+            //将此帧添加到AnimationDrawable中
+            if (name.equals("a1314_")&&i==5){
+                anim.addFrame(drawable, 1000);
+            }else {
+                anim.addFrame(drawable, time);
+            }
+        }
+        return anim;
+    }
+    private AnimationDrawable forfCount(int start,int time, int count, String name, AnimationDrawable anim) {
+
+        for (int i = count; i >=start ; i--) {
+            //根据资源名称和目录获取R.java中对应的资源ID
+            int id = cxt.getResources().getIdentifier(name + i, "drawable", cxt.getPackageName());
+            //根据资源ID获取到Drawable对象
+
+            bitmaps.add(BitmapFactory.decodeResource(cxt.getResources(), id, options));
+            Drawable drawable = new BitmapDrawable(BitmapFactory.decodeResource(cxt.getResources(), id, options));
+            //将此帧添加到AnimationDrawable中
+            anim.addFrame(drawable, time);
+        }
+        return anim;
+    }
+
+    private void showGiftMax(final ImageView imageView, final AnimationDrawable drawable, int anim) {
         Log.i("大礼物","xxxxx");
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
                 RelativeLayout.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         imageView.setLayoutParams(params);
         params.addRule(RelativeLayout.CENTER_IN_PARENT);
-        imageView.setBackgroundResource(drawable);
+        imageView.setBackgroundDrawable(drawable);
         Animation animation = AnimationUtils.loadAnimation(cxt, anim);
         imageView.startAnimation(animation);
         final AnimationDrawable background = (AnimationDrawable) imageView.getBackground();
@@ -421,6 +498,7 @@ public class GiftShowManager {
                 ms.what=REMOVE_GIFT;
                 ms.obj=imageView;
                 handler.sendMessage(ms);
+
                 //tryRecycleAnimationDrawable(background);
             }
 
@@ -452,11 +530,11 @@ public class GiftShowManager {
 
         }
     }
-    private void showBigluwu(final ImageView imageView , int drawable, int anim, Context context, final RelativeLayout relativeLayout) {
+    private void showBigluwu(final ImageView imageView , AnimationDrawable drawable, int anim, Context context, final RelativeLayout relativeLayout) {
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
                 400, 200);
         imageView.setLayoutParams(params);
-        imageView.setBackgroundResource(drawable);
+        imageView.setBackgroundDrawable(drawable);
         Animation animation = AnimationUtils.loadAnimation(context, anim);
         imageView.startAnimation(animation);
         final AnimationDrawable background = (AnimationDrawable) imageView.getBackground();
