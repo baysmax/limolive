@@ -3556,7 +3556,7 @@ private double quota=0,actual=0;
                     }
                     break;
                 case R.id.tv_nn_recharge://充值
-
+                    startActivity(new Intent(LiveingActivity.this, ExchangeActivity.class));
                     break;
                 case R.id.rl_nn_chip10://向盘里添加10积分
                     if(this_statusd==STATUS_BET_TYPE){//quota=0,actual=0;
@@ -4054,7 +4054,7 @@ private double quota=0,actual=0;
                     }
                     break;
                 case R.id.tv_recharge://充值
-
+                    startActivity(new Intent(LiveingActivity.this, ExchangeActivity.class));
                     break;
                 case R.id.rl_chip10://向盘里添加10积分
                     if(this_status==STATUS_BET_TYPE){
