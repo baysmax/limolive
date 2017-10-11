@@ -1101,19 +1101,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
         public void run() {
             if (!isStop == true) {
                 handler.postDelayed(this, 10000);
-                Api.get_live_number(CurLiveInfo.getRoomNum(), new ApiResponseHandler(LiveingActivity.this) {
-                    @Override
-                    public void onSuccess(ApiResponse apiResponse) {
-                        //Log.i("人数","get_live_number.apiResponse"+apiResponse.getData());
-                        if (apiResponse.getCode()==Api.SUCCESS){
-                            if (isNumeric(apiResponse.getData())){
-                                int i = Integer.parseInt(apiResponse.getData());
-                                CurLiveInfo.setMembers(i);
-                                tvMembers.setText(CurLiveInfo.getMembers()+"在线");
-                            }
-                        }
-                    }
-                });
+                Api.get_live_number(CurLiveInfo.getRoomNum(), get_live_number);
                 //Log.i("同步心跳", mSecond + "");
             }
         }
@@ -1138,50 +1126,231 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
     };
     String time="";
     private void time_span() {
-        Api.time_span(CurLiveInfo.getRoomNum(), new ApiResponseHandler(LiveingActivity.this) {
-            @Override
-            public void onSuccess(ApiResponse apiResponse) {
-                //Log.i("退出异常","退出异常apiResponse="+apiResponse+"  time="+time);
-                if (apiResponse.getCode()==Api.SUCCESS){
-                    String t = apiResponse.getData();
-                    if (isTrue&&time.equals(t)){
-                        Api.stopLiveRoom(CurLiveInfo.getRoomNum(), new ApiResponseHandler(LiveingActivity.this) {
-                            @Override
-                            public void onSuccess(ApiResponse apiResponse) {
-                                if (apiResponse.getCode() == Api.SUCCESS) {
-                                }
-                                //Log.i("解散群组", apiResponse.toString());
+        Api.time_span(CurLiveInfo.getRoomNum(), time_span);
+    }
+    //检测直播间的心跳
+    ApiResponseHandler time_span=new ApiResponseHandler(LiveingActivity.this) {
+        @Override
+        public void onSuccess(ApiResponse apiResponse) {
+            //Log.i("退出异常","退出异常apiResponse="+apiResponse+"  time="+time);
+            if (apiResponse.getCode()==Api.SUCCESS){
+                String t = apiResponse.getData();
+                if (isTrue&&time.equals(t)){
+                    Api.stopLiveRoom(CurLiveInfo.getRoomNum(), new ApiResponseHandler(LiveingActivity.this) {
+                        @Override
+                        public void onSuccess(ApiResponse apiResponse) {
+                            if (apiResponse.getCode() == Api.SUCCESS) {
                             }
+                            //Log.i("解散群组", apiResponse.toString());
+                        }
 
-                            @Override
-                            public void onFailure(String errMessage) {
-                                //Log.i("解散群组", errMessage);
-                            }
-                        });
+                        @Override
+                        public void onFailure(String errMessage) {
+                            //Log.i("解散群组", errMessage);
+                        }
+                    });
 
-                        LiveingActivity.this.finish();
-                    }else {
-                        time=t;
-                    }
-                    //Log.i("退出异常","退出异常1apiResponse="+apiResponse+"  time="+time);
+                    LiveingActivity.this.finish();
+                }else {
+                    time=t;
+                }
+                //Log.i("退出异常","退出异常1apiResponse="+apiResponse+"  time="+time);
+            }
+        }
+    };
+    //人数的心跳
+    ApiResponseHandler get_live_number=new ApiResponseHandler(LiveingActivity.this) {
+        @Override
+        public void onSuccess(ApiResponse apiResponse) {
+            //Log.i("人数","get_live_number.apiResponse"+apiResponse.getData());
+            if (apiResponse.getCode()==Api.SUCCESS){
+                if (isNumeric(apiResponse.getData())){
+                    int i = Integer.parseInt(apiResponse.getData());
+                    CurLiveInfo.setMembers(i);
+                    tvMembers.setText(CurLiveInfo.getMembers()+"在线");
                 }
             }
-        });
-    }
+        }
+    };
+    //主播上传状态心跳
+    ApiResponseHandler sendHeartbeat=new ApiResponseHandler(this) {
+        @Override
+        public void onSuccess(ApiResponse apiResponse) {
+            //Log.i("同步心跳", apiResponse.toString());
+        }
+
+        @Override
+        public void onFailure(String errMessage) {
+            super.onFailure(errMessage);
+            //Log.i("同步心跳", errMessage);
+        }
+    };
+    //主播上传色子游戏状态心跳
+    ApiResponseHandler dicegame_state_add= new ApiResponseHandler(LiveingActivity.this) {
+        @Override
+        public void onSuccess(ApiResponse apiResponse) {
+            //Log.i("status","api="+apiResponse.toString());
+        }
+    };
+    //主播上传牛牛游戏状态心跳
+    ApiResponseHandler niuniu_state_add= new ApiResponseHandler(LiveingActivity.this) {
+        @Override
+        public void onSuccess(ApiResponse apiResponse) {
+
+            //Log.i("游戏1_S","apiResponse="+apiResponse.toString());
+        }
+    };
+    //获取游戏牌数
+    ApiResponseHandler niuniu_dice_list_data=new ApiResponseHandler(LiveingActivity.this) {
+        @Override
+        public void onSuccess(ApiResponse apiResponse) {
+            //Log.i("游戏1","xxx——游戏牌数apiResponse="+apiResponse.toString());
+            if (apiResponse.getCode()==Api.SUCCESS){
+                pokerBeen= JSONArray.parseArray(apiResponse.getData(), PokerBean.class);
+                Map<Integer, String[]> chip_ch = pokerBeen.get(0).getChip_ch();//第0桌
+                setDrawPokers(chip_ch,poker_z);
+                Map<Integer, String[]> chip_ch1 = pokerBeen.get(1).getChip_ch();//第1桌
+                setDrawPokers(chip_ch1,poker_one);
+                Map<Integer, String[]> chip_ch2 = pokerBeen.get(2).getChip_ch();//第2桌
+                setDrawPokers(chip_ch2,poker_two);
+                Map<Integer, String[]> chip_ch3 = pokerBeen.get(3).getChip_ch();//第3桌
+                setDrawPokers(chip_ch3,poker_three);
+
+
+                draws[0] =getPoker(chip_ch.get(4)[1])[Integer.parseInt(chip_ch.get(4)[0]) - 1];//获取最后一张牌
+                draws[1] =getPoker(chip_ch1.get(4)[1])[Integer.parseInt(chip_ch1.get(4)[0]) - 1];//获取最后一张牌
+                draws[2] =getPoker(chip_ch2.get(4)[1])[Integer.parseInt(chip_ch2.get(4)[0]) - 1];//获取最后一张牌
+                draws[3] =getPoker(chip_ch3.get(4)[1])[Integer.parseInt(chip_ch3.get(4)[0]) - 1];//获取最后一张牌
+
+                startfpAnim(draws);
+
+            }else {
+                if (isTrue){
+                    startAnimtionsd();
+                }
+            }
+        }
+
+        @Override
+        public void onFailure(String errMessage) {
+            super.onFailure(errMessage);
+            if (isTrue){
+                startAnimtionsd();
+            }
+        }
+    };
+    //获取牛牛游戏下注心跳
+    ApiResponseHandler niuniu_user_integral_heartbeat=new ApiResponseHandler(LiveingActivity.this) {
+        @Override
+        public void onSuccess(ApiResponse apiResponse) {
+            //Log.i("游戏1","下注心跳回调apiResponse="+apiResponse.toString());
+            if (apiResponse.getCode()==Api.SUCCESS){
+                lists.clear();
+                String data = apiResponse.getData();
+                lists.addAll(JSONArray.parseArray(data, ChipBeatBean.class));
+
+                for (int i = lists.size() - 1; i >= 0; i--) {
+                    ChipBeatBean chipBeatBean = lists.get(i);
+                    if (chipBeatBean==null){
+                        return;
+                    }
+                    if (chipBeatBean.getTable_number().equals("1")){
+                        String string = tv_nn_stake_bet_total_num_1.getText().toString();
+                        int i1 = Integer.parseInt(string);
+                        if (chipBeatBean.getBet_money_sum()>i1){
+                            int i2 = chipBeatBean.getBet_money_sum() - i1;
+                            //向1号池添加筹码
+                            stakeGiftsd(rl_nn_anim_stake1,i2);//添加textView；
+
+                            tv_nn_stake_bet_total_num_1.setText(String.valueOf(chipBeatBean.getBet_money_sum()));
+                        }
+                    }else if (chipBeatBean.getTable_number().equals("2")){
+                        String string = tv_nn_stake_bet_total_num_2.getText().toString();
+                        int i1 = Integer.parseInt(string);
+                        if (chipBeatBean.getBet_money_sum()>i1){
+                            int i2 = chipBeatBean.getBet_money_sum() - i1;
+                            //向2号池添加筹码
+                            stakeGiftsd(rl_nn_anim_stake2,i2);
+                            tv_nn_stake_bet_total_num_2.setText(String.valueOf(chipBeatBean.getBet_money_sum()));
+                        }
+                    }else if (chipBeatBean.getTable_number().equals("3")){
+                        String string = tv_nn_stake_bet_total_num_3.getText().toString();
+                        int i1 = Integer.parseInt(string);
+                        if (chipBeatBean.getBet_money_sum()>i1){
+                            int i2 = chipBeatBean.getBet_money_sum() - i1;
+                            //向3号池添加筹码
+                            stakeGiftsd(rl_nn_anim_stake3,i2);
+                            tv_nn_stake_bet_total_num_3.setText(String.valueOf(chipBeatBean.getBet_money_sum()));
+                        }
+                    }
+                }
+            }
+        }
+    };
+    //请求发牌接口
+    ApiResponseHandler niuniu_dice_list=new ApiResponseHandler(LiveingActivity.this) {
+        @Override
+        public void onSuccess(ApiResponse apiResponse) {
+            //Log.i("游戏1","请求摇色子="+apiResponse+"CurLiveInfo.getRoomNum()="+CurLiveInfo.getRoomNum());
+            if (apiResponse.getCode()==Api.SUCCESS){
+            }else {
+                if (isTrue){
+                    dice_listsd();
+                }
+            }
+        }
+
+        @Override
+        public void onFailure(String errMessage) {
+            super.onFailure(errMessage);
+            if (isTrue){
+                dice_listsd();
+            }
+        }
+    };
+    //牛牛清除上一局数据接口
+    ApiResponseHandler niuniu_dice_shang=new ApiResponseHandler(LiveingActivity.this) {
+        @Override
+        public void onSuccess(ApiResponse apiResponse) {
+            //Log.i("游戏1","xxx——游戏下一局开始前清除上一局数据接口");
+            if (apiResponse.getCode()==Api.SUCCESS){
+
+            }else {
+                if (isTrue){
+                    dice_shang();
+                }
+            }
+        }
+
+        @Override
+        public void onFailure(String errMessage) {
+            super.onFailure(errMessage);
+            dice_shang();
+        }
+    };
+    //色子清除上一局数据接口
+    ApiResponseHandler dice_shang=new ApiResponseHandler(LiveingActivity.this) {
+        @Override
+        public void onSuccess(ApiResponse apiResponse) {
+            //Log.i("游戏","xxx——游戏下一局开始前清除上一局数据接口");
+            if (apiResponse.getCode()==Api.SUCCESS){
+
+            }else {
+                if (isTrue){
+                    dice_shang();
+                }
+            }
+        }
+
+        @Override
+        public void onFailure(String errMessage) {
+            super.onFailure(errMessage);
+            dice_shang();
+        }
+    };
 
     private void sendHeartbeat(String host_phone, int admire_count, int watch_count, int time_span) {
-        Api.getHeartBeat(host_phone, admire_count, watch_count, time_span, new ApiResponseHandler(this) {
-            @Override
-            public void onSuccess(ApiResponse apiResponse) {
-                //Log.i("同步心跳", apiResponse.toString());
-            }
-
-            @Override
-            public void onFailure(String errMessage) {
-                super.onFailure(errMessage);
-                //Log.i("同步心跳", errMessage);
-            }
-        });
+        Api.getHeartBeat(host_phone, admire_count, watch_count, time_span,sendHeartbeat);
     }
 
     /**
@@ -1214,8 +1383,22 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
         handler.removeCallbacks(myRunnable1);
         handler.removeCallbacks(myRunnable);
         game_handler.removeCallbacks(Host_Runnable);
-        game_handler.removeCallbacks(stake_Runnable);
+        //game_handler.removeCallbacks(stake_Runnable);
         Poker_Host_handler.removeCallbacks(Poker_Runnable);
+        if (giftManger!=null){
+            giftManger.disPlay();
+
+        }
+        if (mArrayListChatEntity!=null){
+            mArrayListChatEntity.clear();
+        }
+        mArrayListChatEntity=null;
+        if (mArrayListPresent!=null){
+            mArrayListPresent.clear();
+        }
+        mChatMsgListAdapter=null;
+        gif_donghua=null;
+        mListViewMsgItems=null;
         giftManger=null;
         Order_sn=null;
         unregisterReceiver(myReceiver);
@@ -2316,13 +2499,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
 
     private void poker_game_state_add() {
         //Log.i("游戏1_S","this_statusd="+this_statusd+"-,ls="+ls+"-,CurLiveInfo.getRoomNum()="+CurLiveInfo.getRoomNum());
-        Api.niuniu_state_add(CurLiveInfo.getRoomNum(), String.valueOf(ls), this_statusd, new ApiResponseHandler(LiveingActivity.this) {
-                @Override
-            public void onSuccess(ApiResponse apiResponse) {
-
-                    //Log.i("游戏1_S","apiResponse="+apiResponse.toString());
-            }
-        });
+        Api.niuniu_state_add(CurLiveInfo.getRoomNum(), String.valueOf(ls), this_statusd,niuniu_state_add);
     }
 private double quota=0,actual=0;
     private Handler dice_poker_handler=new Handler(new Handler.Callback(){
@@ -2545,44 +2722,7 @@ private double quota=0,actual=0;
             ToastUtils.showShort(LiveingActivity.this, NET_UNCONNECT);
             return;
         }else {
-            Api.niuniu_dice_list_data(CurLiveInfo.getRoomNum(), new ApiResponseHandler(LiveingActivity.this) {
-                @Override
-                public void onSuccess(ApiResponse apiResponse) {
-                    //Log.i("游戏1","xxx——游戏牌数apiResponse="+apiResponse.toString());
-                    if (apiResponse.getCode()==Api.SUCCESS){
-                        pokerBeen= JSONArray.parseArray(apiResponse.getData(), PokerBean.class);
-                        Map<Integer, String[]> chip_ch = pokerBeen.get(0).getChip_ch();//第0桌
-                        setDrawPokers(chip_ch,poker_z);
-                        Map<Integer, String[]> chip_ch1 = pokerBeen.get(1).getChip_ch();//第1桌
-                        setDrawPokers(chip_ch1,poker_one);
-                        Map<Integer, String[]> chip_ch2 = pokerBeen.get(2).getChip_ch();//第2桌
-                        setDrawPokers(chip_ch2,poker_two);
-                        Map<Integer, String[]> chip_ch3 = pokerBeen.get(3).getChip_ch();//第3桌
-                        setDrawPokers(chip_ch3,poker_three);
-
-
-                        draws[0] =getPoker(chip_ch.get(4)[1])[Integer.parseInt(chip_ch.get(4)[0]) - 1];//获取最后一张牌
-                        draws[1] =getPoker(chip_ch1.get(4)[1])[Integer.parseInt(chip_ch1.get(4)[0]) - 1];//获取最后一张牌
-                        draws[2] =getPoker(chip_ch2.get(4)[1])[Integer.parseInt(chip_ch2.get(4)[0]) - 1];//获取最后一张牌
-                        draws[3] =getPoker(chip_ch3.get(4)[1])[Integer.parseInt(chip_ch3.get(4)[0]) - 1];//获取最后一张牌
-
-                        startfpAnim(draws);
-
-                    }else {
-                        if (isTrue){
-                            startAnimtionsd();
-                        }
-                    }
-                }
-
-                @Override
-                public void onFailure(String errMessage) {
-                    super.onFailure(errMessage);
-                    if (isTrue){
-                        startAnimtionsd();
-                    }
-                }
-            });
+            Api.niuniu_dice_list_data(CurLiveInfo.getRoomNum(), niuniu_dice_list_data);
         }
     }
 
@@ -3118,25 +3258,7 @@ private double quota=0,actual=0;
                 ToastUtils.showShort(LiveingActivity.this, NET_UNCONNECT);
                 return;
             }else {
-                Api.niuniu_dice_shang(CurLiveInfo.getRoomNum(), new ApiResponseHandler(LiveingActivity.this) {
-                    @Override
-                    public void onSuccess(ApiResponse apiResponse) {
-                        //Log.i("游戏1","xxx——游戏下一局开始前清除上一局数据接口");
-                        if (apiResponse.getCode()==Api.SUCCESS){
-
-                        }else {
-                            if (isTrue){
-                                dice_shang();
-                            }
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(String errMessage) {
-                        super.onFailure(errMessage);
-                        dice_shang();
-                    }
-                });
+                Api.niuniu_dice_shang(CurLiveInfo.getRoomNum(), niuniu_dice_shang);
             }
     }
 
@@ -3145,26 +3267,7 @@ private double quota=0,actual=0;
             ToastUtils.showShort(LiveingActivity.this, NET_UNCONNECT);
             return;
         }else {
-            Api.niuniu_dice_list(CurLiveInfo.getRoomNum(), new ApiResponseHandler(LiveingActivity.this) {
-                @Override
-                public void onSuccess(ApiResponse apiResponse) {
-                    //Log.i("游戏1","请求摇色子="+apiResponse+"CurLiveInfo.getRoomNum()="+CurLiveInfo.getRoomNum());
-                    if (apiResponse.getCode()==Api.SUCCESS){
-                    }else {
-                        if (isTrue){
-                            dice_listsd();
-                        }
-                    }
-                }
-
-                @Override
-                public void onFailure(String errMessage) {
-                    super.onFailure(errMessage);
-                    if (isTrue){
-                        dice_listsd();
-                    }
-                }
-            });
+            Api.niuniu_dice_list(CurLiveInfo.getRoomNum(), niuniu_dice_list);
         }
     }
 
@@ -3778,53 +3881,7 @@ private double quota=0,actual=0;
             ToastUtils.showShort(LiveingActivity.this, NET_UNCONNECT);
             return;
         }else {
-            Api.niuniu_user_integral_heartbeat(CurLiveInfo.getRoomNum(), new ApiResponseHandler(LiveingActivity.this) {
-                @Override
-                public void onSuccess(ApiResponse apiResponse) {
-                    //Log.i("游戏1","下注心跳回调apiResponse="+apiResponse.toString());
-                    if (apiResponse.getCode()==Api.SUCCESS){
-                        lists.clear();
-                        String data = apiResponse.getData();
-                        lists.addAll(JSONArray.parseArray(data, ChipBeatBean.class));
-
-                        for (int i = lists.size() - 1; i >= 0; i--) {
-                            ChipBeatBean chipBeatBean = lists.get(i);
-                            if (chipBeatBean==null){
-                                return;
-                            }
-                            if (chipBeatBean.getTable_number().equals("1")){
-                                String string = tv_nn_stake_bet_total_num_1.getText().toString();
-                                int i1 = Integer.parseInt(string);
-                                if (chipBeatBean.getBet_money_sum()>i1){
-                                    int i2 = chipBeatBean.getBet_money_sum() - i1;
-                                    //向1号池添加筹码
-                                    stakeGiftsd(rl_nn_anim_stake1,i2);//添加textView；
-
-                                    tv_nn_stake_bet_total_num_1.setText(String.valueOf(chipBeatBean.getBet_money_sum()));
-                                }
-                            }else if (chipBeatBean.getTable_number().equals("2")){
-                                String string = tv_nn_stake_bet_total_num_2.getText().toString();
-                                int i1 = Integer.parseInt(string);
-                                if (chipBeatBean.getBet_money_sum()>i1){
-                                    int i2 = chipBeatBean.getBet_money_sum() - i1;
-                                    //向2号池添加筹码
-                                    stakeGiftsd(rl_nn_anim_stake2,i2);
-                                    tv_nn_stake_bet_total_num_2.setText(String.valueOf(chipBeatBean.getBet_money_sum()));
-                                }
-                            }else if (chipBeatBean.getTable_number().equals("3")){
-                                String string = tv_nn_stake_bet_total_num_3.getText().toString();
-                                int i1 = Integer.parseInt(string);
-                                if (chipBeatBean.getBet_money_sum()>i1){
-                                    int i2 = chipBeatBean.getBet_money_sum() - i1;
-                                    //向3号池添加筹码
-                                    stakeGiftsd(rl_nn_anim_stake3,i2);
-                                    tv_nn_stake_bet_total_num_3.setText(String.valueOf(chipBeatBean.getBet_money_sum()));
-                                }
-                            }
-                        }
-                    }
-                }
-            });
+            Api.niuniu_user_integral_heartbeat(CurLiveInfo.getRoomNum(), niuniu_user_integral_heartbeat);
         }
     }
 
@@ -4433,12 +4490,7 @@ private double quota=0,actual=0;
             ToastUtils.showShort(LiveingActivity.this, NET_UNCONNECT);
             return;
         }else {
-            Api.dicegame_state_add(CurLiveInfo.getRoomNum(), this_status, String.valueOf(l), new ApiResponseHandler(LiveingActivity.this) {
-                @Override
-                public void onSuccess(ApiResponse apiResponse) {
-                    //Log.i("status","api="+apiResponse.toString());
-                }
-            });
+            Api.dicegame_state_add(CurLiveInfo.getRoomNum(), this_status, String.valueOf(l),dicegame_state_add);
         }
 
     }
@@ -4777,25 +4829,7 @@ private double quota=0,actual=0;
             ToastUtils.showShort(LiveingActivity.this, NET_UNCONNECT);
             return;
         }else {
-            Api.dice_shang(CurLiveInfo.getRoomNum(), new ApiResponseHandler(LiveingActivity.this) {
-                @Override
-                public void onSuccess(ApiResponse apiResponse) {
-                    //Log.i("游戏","xxx——游戏下一局开始前清除上一局数据接口");
-                    if (apiResponse.getCode()==Api.SUCCESS){
-
-                    }else {
-                        if (isTrue){
-                            dice_shang();
-                        }
-                    }
-                }
-
-                @Override
-                public void onFailure(String errMessage) {
-                    super.onFailure(errMessage);
-                    dice_shang();
-                }
-            });
+            Api.dice_shang(CurLiveInfo.getRoomNum(), dice_shang);
         }
     }
 
