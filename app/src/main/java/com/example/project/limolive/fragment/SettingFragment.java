@@ -125,6 +125,18 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
                 new UpdateManagerListener() {
                     @Override
                     public void onUpdateAvailable(final String result) {
+                        Log.i("版本更新","检测到更新"+result.toString());
+                        Log.i("版本更新","自身版本号="+ PhoneInfo.getVerCode(getActivity()));
+
+                        //                                                JSONObject jsonData;
+//                                                    jsonData = new JSONObject(
+//                                                            result);
+//                                                    if ("0".equals(jsonData
+//                                                            .getString("code"))) {
+//                                                        JSONObject jsonObject = jsonData
+//                                                                .getJSONObject("data");
+//                                                        url = jsonObject
+//                                                                .getString("downloadURL");
                         JSONObject jsonData;
                         try {
                             jsonData = new JSONObject(result);
@@ -145,35 +157,32 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
                                                         @Override
                                                         public void onClick(
                                                                 DialogInterface dialog, int which) {
-//                                                String url;
-//                                                JSONObject jsonData;
-//                                                try {
-//                                                    jsonData = new JSONObject(
-//                                                            result);
-//                                                    if ("0".equals(jsonData
-//                                                            .getString("code"))) {
-//                                                        JSONObject jsonObject = jsonData
-//                                                                .getJSONObject("data");
-//                                                        url = jsonObject
-//                                                                .getString("downloadURL");
-//
-//                                                        startDownloadTask(
-//                                                                BaseActivity.this,
-//                                                                url);
-//
-//                                                    }
-//
-//                                                } catch (JSONException e) {
-//                                                    // TODO Auto-generated
-//                                                    // catch block
-//                                                    e.printStackTrace();
-//                                                }
-                                                            Log.i("123456","android.intent.action.VIEW");
-                                                            Intent intent= new Intent();
-                                                            intent.setAction("android.intent.action.VIEW");
-                                                            Uri content_url = Uri.parse("https://www.pgyer.com/Ko1C");
-                                                            intent.setData(content_url);
-                                                            startActivity(intent);
+                                                            String url;
+                                                            JSONObject jsonData;
+                                                            try {
+                                                                jsonData = new JSONObject(result);
+                                                                if ("0".equals(jsonData.getString("code"))) {
+                                                                    JSONObject jsonObject = jsonData
+                                                                            .getJSONObject("data");
+                                                                    url = jsonObject
+                                                                            .getString("downloadURL");
+
+                                                                    startDownloadTask(getActivity(),
+                                                                            url);
+
+                                                                }
+
+                                                            } catch (JSONException e) {
+                                                                // TODO Auto-generated
+                                                                // catch block
+                                                                e.printStackTrace();
+                                                            }
+//                                                            Log.i("123456","android.intent.action.VIEW");
+//                                                            Intent intent= new Intent();
+//                                                            intent.setAction("android.intent.action.VIEW");
+//                                                            Uri content_url = Uri.parse("https://www.pgyer.com/Ko1C");
+//                                                            intent.setData(content_url);
+//                                                            startActivity(intent);
                                                         }
                                                     })
                                             .setPositiveButton("取消", new DialogInterface.OnClickListener() {
@@ -193,11 +202,10 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
 
                     @Override
                     public void onNoUpdateAvailable() {
-                        ToastUtils.showCustom(getActivity(), "已经是最新版本", Toast.LENGTH_SHORT);
+                        //  ToastUtils.showCustom(MainActivity.this, "已经是最新版本", Toast.LENGTH_SHORT);
                     }
                 });
     }
-
     @Override
     public void onDestroy() {
         PgyCrashManager.unregister();

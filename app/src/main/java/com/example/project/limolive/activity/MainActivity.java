@@ -298,64 +298,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         });
     }
 
-    private void checkUps(){
-        // 版本检测方式2：带更新回调监听
-        PgyUpdateManager.register(MainActivity.this,getString(R.string.file_provider),
-                new UpdateManagerListener() {
-                    @Override
-                    public void onUpdateAvailable(final String result) {
-                        Log.i("主人有新的版本更新哟",result.toString());
-                        new AlertDialog.Builder(MainActivity.this)
-                                .setTitle("更新")
-                                .setMessage("主人有新的版本更新哟...")
-                                .setNegativeButton(
-                                        "确定",
-                                        new DialogInterface.OnClickListener() {
-
-                                            @Override
-                                            public void onClick(
-                                                    DialogInterface dialog,
-                                                    int which) {
-                                                String url;
-                                                JSONObject jsonData;
-                                                try {
-                                                    jsonData = new JSONObject(
-                                                            result);
-                                                    if ("0".equals(jsonData
-                                                            .getString("code"))) {
-                                                        JSONObject jsonObject = jsonData
-                                                                .getJSONObject("data");
-                                                        url = jsonObject
-                                                                .getString("downloadURL");
-
-                                                        startDownloadTask(
-                                                                MainActivity.this,
-                                                                url);
-
-                                                    }
-
-                                                } catch (JSONException e) {
-                                                    // TODO Auto-generated
-                                                    // catch block
-                                                    e.printStackTrace();
-                                                }
-                                            }
-                                        })
-                                .setPositiveButton("取消", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        dialog.dismiss();
-                                    }
-                                })
-                                .show();
-                    }
-
-                    @Override
-                    public void onNoUpdateAvailable() {
-                      //  ToastUtils.showCustom(MainActivity.this, "已经是最新版本", Toast.LENGTH_SHORT);
-                    }
-                });
-    }
     /**
      * 分享
      */
