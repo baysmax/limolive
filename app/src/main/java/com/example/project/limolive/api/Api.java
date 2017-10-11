@@ -146,6 +146,14 @@ public class Api {
         params.put("phone", phone);
         ApiHttpClient.get(ApiHttpClient.API_URL + Urls.GET_LIVELIST, params, handler);
     }
+    /**
+     * 获取直播观看人数
+     */
+    public static void get_live_number(String av_room_id, AsyncHttpResponseHandler handler) {
+        RequestParams params = new RequestParams();
+        params.put("av_room_id", av_room_id);
+        ApiHttpClient.get(ApiHttpClient.API_URL + Urls.GET_LIVE_ROOM, params, handler);
+    }
 
     /**
      * 关闭直播间

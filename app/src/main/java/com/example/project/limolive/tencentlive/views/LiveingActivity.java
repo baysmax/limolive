@@ -161,6 +161,8 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static com.example.project.limolive.presenter.Presenter.NET_UNCONNECT;
 
@@ -304,8 +306,8 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
         mLiveHelper.getSystemMsg();
         isTrue=true;
-        t.start();
-        t1.start();
+        //t.start();
+        //t1.start();
         soundPlayUtils = SoundPlayUtils.init(LiveingActivity.this);
         live_coinLists();
 
@@ -420,33 +422,37 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
                                     String message = remove.getMessage();
                                     String data = remove.getData();
                                     if (data!=null){
-                                        final HomeListBeen item = JSONObject.parseObject(data, HomeListBeen.class);
-                                        rl_maxGift.setOnClickListener(new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View view) {
-                                                if (LoginManager.getInstance().getUserID(LiveingActivity.this).equals(CurLiveInfo.getHostID())){
-                                                    return;
+                                        List<HomeListBeen> homeListBeens = JSONArray.parseArray(data, HomeListBeen.class);
+                                        if (homeListBeens!=null&&homeListBeens.size()>0){
+                                            final HomeListBeen item = homeListBeens.get(0);
+                                            rl_maxGift.setOnClickListener(new View.OnClickListener() {
+                                                @Override
+                                                public void onClick(View view) {
+                                                    if (LoginManager.getInstance().getUserID(LiveingActivity.this).equals(CurLiveInfo.getHostID())){
+                                                        return;
+                                                    }
+                                                    if (!item.getAvRoomId().equals(CurLiveInfo.getRoomNum())){
+                                                        Intent intent = new Intent(LiveingActivity.this, LiveingActivity.class);
+                                                        intent.putExtra(Constants.ID_STATUS, Constants.MEMBER);
+                                                        LiveMySelfInfo.getInstance().setIdStatus(Constants.MEMBER);
+                                                        LiveMySelfInfo.getInstance().setJoinRoomWay(false);
+                                                        CurLiveInfo.setHostID(item.getHost().getUid());
+                                                        CurLiveInfo.setHostName(item.getHost().getUsername());
+                                                        CurLiveInfo.setHostAvator(item.getHost().getAvatar());
+                                                        CurLiveInfo.setRoomNum(item.getAvRoomId());
+                                                        CurLiveInfo.setHost_phone(item.getHost().getPhone());
+                                                        CurLiveInfo.setMembers(Integer.parseInt(item.getWatchCount()) + 1); // 添加自己
+                                                        CurLiveInfo.setAdmires(Integer.parseInt(item.getAdmireCount()));
+                                                        CurLiveInfo.setAddress(item.getLbs().getAddress());
+                                                        CurLiveInfo.setTitle(item.getTitle());
+                                                        startActivity(intent);
+                                                    }else {
+                                                        ToastUtils.showShort(LiveingActivity.this,"已在该直播间");
+                                                    }
                                                 }
-                                                if (!item.getAvRoomId().equals(CurLiveInfo.getRoomNum())){
-                                                    Intent intent = new Intent(LiveingActivity.this, LiveingActivity.class);
-                                                    intent.putExtra(Constants.ID_STATUS, Constants.MEMBER);
-                                                    LiveMySelfInfo.getInstance().setIdStatus(Constants.MEMBER);
-                                                    LiveMySelfInfo.getInstance().setJoinRoomWay(false);
-                                                    CurLiveInfo.setHostID(item.getHost().getUid());
-                                                    CurLiveInfo.setHostName(item.getHost().getUsername());
-                                                    CurLiveInfo.setHostAvator(item.getHost().getAvatar());
-                                                    CurLiveInfo.setRoomNum(item.getAvRoomId());
-                                                    CurLiveInfo.setHost_phone(item.getHost().getPhone());
-                                                    CurLiveInfo.setMembers(Integer.parseInt(item.getWatchCount()) + 1); // 添加自己
-                                                    CurLiveInfo.setAdmires(Integer.parseInt(item.getAdmireCount()));
-                                                    CurLiveInfo.setAddress(item.getLbs().getAddress());
-                                                    CurLiveInfo.setTitle(item.getTitle());
-                                                    startActivity(intent);
-                                                }else {
-                                                    ToastUtils.showShort(LiveingActivity.this,"已在该直播间");
-                                                }
-                                            }
-                                        });
+                                            });
+                                        }
+
                                     }
                                     if (message.contains("的")){
                                         String[] strs = message.split("的");
@@ -915,8 +921,13 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
             List<String> ids = new ArrayList<>();
             ids.add(CurLiveInfo.getHostID());
             showHeadIcon(mHeadIcon, CurLiveInfo.getHostAvator());
-            if (!(CurLiveInfo.getMembers()>8000)){
-                nums.add("0");
+//            if (!(CurLiveInfo.getMembers()>8000)){
+//                nums.add("0");
+//            }
+            if (CurLiveInfo.getMembers()>8000){
+                CurLiveInfo.setMembers(CurLiveInfo.getMembers() + 1);
+            }else {
+                CurLiveInfo.setMembers(CurLiveInfo.getMembers() + 1+40);
             }
 
             live_pp();
@@ -997,6 +1008,8 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
                                 bFirstRender = false;
                                 handler.post(myRunnable);
                                 showGameNNs();
+                            }else {
+                                handler.post(HostRunnable);
                             }
                         }
                     }
@@ -1076,11 +1089,40 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
             }
         }
     };
+    public boolean isNumeric(String str){
+        Pattern pattern = Pattern.compile("[0-9]*");
+        Matcher isNum = pattern.matcher(str);
+        if( !isNum.matches() ){
+            return false;
+        }
+        return true;
+    }
+    private Runnable HostRunnable = new Runnable() {//主播心跳
+        public void run() {
+            if (!isStop == true) {
+                handler.postDelayed(this, 10000);
+                Api.get_live_number(CurLiveInfo.getRoomNum(), new ApiResponseHandler(LiveingActivity.this) {
+                    @Override
+                    public void onSuccess(ApiResponse apiResponse) {
+                        //Log.i("人数","get_live_number.apiResponse"+apiResponse.getData());
+                        if (apiResponse.getCode()==Api.SUCCESS){
+                            if (isNumeric(apiResponse.getData())){
+                                int i = Integer.parseInt(apiResponse.getData());
+                                CurLiveInfo.setMembers(i);
+                                tvMembers.setText(CurLiveInfo.getMembers()+"在线");
+                            }
+                        }
+                    }
+                });
+                //Log.i("同步心跳", mSecond + "");
+            }
+        }
+    };
 
     private Runnable myRunnable1 = new Runnable() {//飘心动画
         public void run() {
             if (!isStop == true) {
-                handler.postDelayed(this, 500);
+                handler.postDelayed(this, 2000);
                 // mHeartLayout.addFavor();
                 mHeartLayout.addHeart(Max_X, Max_Y);
             }
@@ -1167,6 +1209,13 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
             dice_shang();
             dice_shangs();
         }
+
+        handler.removeCallbacks(myRable);
+        handler.removeCallbacks(myRunnable1);
+        handler.removeCallbacks(myRunnable);
+        game_handler.removeCallbacks(Host_Runnable);
+        game_handler.removeCallbacks(stake_Runnable);
+        Poker_Host_handler.removeCallbacks(Poker_Runnable);
         giftManger=null;
         Order_sn=null;
         unregisterReceiver(myReceiver);
@@ -1526,8 +1575,11 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
         //Log.i("进入房间", "id" + id + "   " + "name" + name + "    " + "watchCount" + watchCount);
         refreshTextListView(TextUtils.isEmpty(name) ? id : name, "进入房间", Constants.MEMBER_ENTER,id);
         nums.add("0");
-
-        CurLiveInfo.setMembers(CurLiveInfo.getMembers() + 1);
+        if (CurLiveInfo.getMembers()>8000){
+            CurLiveInfo.setMembers(CurLiveInfo.getMembers() + 1);
+        }else {
+            CurLiveInfo.setMembers(CurLiveInfo.getMembers() + 1+40);
+        }
 
         //zaixian_member.setText("" + CurLiveInfo.getMembers());
         tvMembers.setText(CurLiveInfo.getMembers()+"在线");
@@ -1538,106 +1590,106 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
     }
     boolean is=false;//锁
     boolean isTrue=true;
-    Thread t=new Thread(){
-        @Override
-        public void run() {
-            for (;isTrue;){
-                int j=100;
-//                if (CurLiveInfo.getMembers()<8000){
-                    if (nums.size()>0){
-                        int members = CurLiveInfo.getMembers();
-                        //Log.i("直播","进入前members="+members);
-                        try {
-                            if (is==false){
-//                                //Log.i("直播","进入is="+is);
-                                is=true;
-//                                //Log.i("直播","进入is="+is);
-                                for (;j>0&&isTrue;j--){
-//                                    //Log.i("直播","进入j="+j);
-                                    int members1 = CurLiveInfo.getMembers();
-                                        CurLiveInfo.setMembers(members1 +1);
-                                        Message msg = Message.obtain();
-                                        msg.what = UNTADE_NUM;
-                                        mHandler.sendMessage(msg);
-                                    //Log.i("直播","进入时members="+members1);
-//                                    //Log.i("直播","进入结束=(members1-members)="+(members1-members));
-                                    if ((members1-members)>=40){
-                                        members=0;
-                                        members1=0;
-                                        j=0;
-                                        is=false;
-//                                        //Log.i("直播","进入结束=is="+is);
-                                        if (nums.size()>0){
-                                            nums.remove(0);
-                                        }
-                                    }
-                                }
-                                Thread.sleep(100);
-                            }
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                    }
-//                }else {
-//                    if (nums.size()>0){
-//                        nums.remove(0);
-//                    }
-//                }
-            }
-        }
-    };
-    Thread t1=new Thread(){
-        @Override
-        public void run() {
-            for (;isTrue;){
-
-                int j=100;
-//                if (CurLiveInfo.getMembers()<8000){
-                    if (nums1.size()>0){
-                        try {
-                            if (is==false){
-                                int members = CurLiveInfo.getMembers();
-                                //Log.i("直播","退出前members="+members);
-//                                //Log.i("直播","退出，is="+is);
-                                is=true;
-//                                //Log.i("直播","退出，is="+is);
-                                for (;j>0&&isTrue;j--){
-
-//                                    //Log.i("直播","退出，j="+j);
-                                    int members1 = CurLiveInfo.getMembers();
-                                    //Log.i("直播","退出时members="+members1);
-                                    CurLiveInfo.setMembers(members1 - 1);
-                                        Message msg = Message.obtain();
-                                        msg.what = UNTADE_NUM;
-                                        mHandler.sendMessage(msg);
-
-                                    if ((members-members1)>=40){
-//                                        //Log.i("直播","退出结束=is="+is);
-                                        members=0;
-                                        members1=0;
-                                        j=0;
-                                        is=false;
-//                                        //Log.i("直播","退出结束=is="+is);
-                                        if (nums1.size()>0){
-                                            nums1.remove(0);
-                                        }
-                                    }
-                                    Thread.sleep(100);
-                                }
-                            }
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                    }
-//                }else {
+//    Thread t=new Thread(){
+//        @Override
+//        public void run() {
+////            for (;isTrue;){
+////                int j=100;
+//////                if (CurLiveInfo.getMembers()<8000){
+////                    if (nums.size()>0){
+////                        int members = CurLiveInfo.getMembers();
+////                        //Log.i("直播","进入前members="+members);
+////                        try {
+////                            if (is==false){
+//////                                //Log.i("直播","进入is="+is);
+////                                is=true;
+//////                                //Log.i("直播","进入is="+is);
+////                                for (;j>0&&isTrue;j--){
+//////                                    //Log.i("直播","进入j="+j);
+////                                    int members1 = CurLiveInfo.getMembers();
+////                                        CurLiveInfo.setMembers(members1 +1);
+////                                        Message msg = Message.obtain();
+////                                        msg.what = UNTADE_NUM;
+////                                        mHandler.sendMessage(msg);
+////                                    //Log.i("直播","进入时members="+members1);
+//////                                    //Log.i("直播","进入结束=(members1-members)="+(members1-members));
+////                                    if ((members1-members)>=40){
+////                                        members=0;
+////                                        members1=0;
+////                                        j=0;
+////                                        is=false;
+//////                                        //Log.i("直播","进入结束=is="+is);
+////                                        if (nums.size()>0){
+////                                            nums.remove(0);
+////                                        }
+////                                    }
+////                                }
+////                                Thread.sleep(100);
+////                            }
+////                        } catch (InterruptedException e) {
+////                            e.printStackTrace();
+////                        }
+////                    }
+//////                }else {
+//////                    if (nums.size()>0){
+//////                        nums.remove(0);
+//////                    }
+//////                }
+////            }
+//        }
+//    };
+//    Thread t1=new Thread(){
+//        @Override
+//        public void run() {
+//            for (;isTrue;){
+//
+//                int j=100;
+////                if (CurLiveInfo.getMembers()<8000){
 //                    if (nums1.size()>0){
-//                        nums1.remove(0);
+//                        try {
+//                            if (is==false){
+//                                int members = CurLiveInfo.getMembers();
+//                                //Log.i("直播","退出前members="+members);
+////                                //Log.i("直播","退出，is="+is);
+//                                is=true;
+////                                //Log.i("直播","退出，is="+is);
+//                                for (;j>0&&isTrue;j--){
+//
+////                                    //Log.i("直播","退出，j="+j);
+//                                    int members1 = CurLiveInfo.getMembers();
+//                                    //Log.i("直播","退出时members="+members1);
+//                                    CurLiveInfo.setMembers(members1 - 1);
+//                                        Message msg = Message.obtain();
+//                                        msg.what = UNTADE_NUM;
+//                                        mHandler.sendMessage(msg);
+//
+//                                    if ((members-members1)>=40){
+////                                        //Log.i("直播","退出结束=is="+is);
+//                                        members=0;
+//                                        members1=0;
+//                                        j=0;
+//                                        is=false;
+////                                        //Log.i("直播","退出结束=is="+is);
+//                                        if (nums1.size()>0){
+//                                            nums1.remove(0);
+//                                        }
+//                                    }
+//                                    Thread.sleep(100);
+//                                }
+//                            }
+//                        } catch (InterruptedException e) {
+//                            e.printStackTrace();
+//                        }
 //                    }
-//                }
-
-            }
-        }
-    };
+////                }else {
+////                    if (nums1.size()>0){
+////                        nums1.remove(0);
+////                    }
+////                }
+//
+//            }
+//        }
+//    };
 
     @Override
     public void memberQuit(String id, String name) {
@@ -1645,11 +1697,18 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
         nums1.add("0");
         //Log.i("退出房间", "id" + id + "   " + "name" + name + "    " + "watchCount" + watchCount);
         refreshTextListView(TextUtils.isEmpty(name) ? id : name, "退出房间", Constants.MEMBER_EXIT,id);
-        if (CurLiveInfo.getMembers() > 0) {
-            CurLiveInfo.setMembers(CurLiveInfo.getMembers() - 1);
-            //zaixian_member.setText("" + CurLiveInfo.getMembers());
-            tvMembers.setText(CurLiveInfo.getMembers()+"在线");
+        if (CurLiveInfo.getMembers()>8000){
+            if (CurLiveInfo.getMembers() > 0) {
+                CurLiveInfo.setMembers(CurLiveInfo.getMembers() - 1);
+            }
+        }else {
+            if (CurLiveInfo.getMembers() > 0) {
+                CurLiveInfo.setMembers(CurLiveInfo.getMembers() - 1-40);
+            }
         }
+
+
+        tvMembers.setText(CurLiveInfo.getMembers()+"在线");
     }
 
     @Override

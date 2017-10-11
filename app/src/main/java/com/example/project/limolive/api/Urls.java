@@ -60,6 +60,7 @@ public class Urls {
     public static final String STOP_ROOM = "/appapi/live/delroom";  //关闭直播间
     public static final String SEARCH_ROOM = "/appapi/live/search";  //搜索直播间
     public static final String GET_HEARTBEAT = "/appapi/live/Heartbeat";  //接收心跳包 定时接收直播间信息 时间间隔 60秒
+    public static final String GET_LIVE_ROOM = "/appapi/live/live_room";  //观看人数
 
     public static final String GETALLCATGORY = "/appapi/Goodcategory/Allcatgory";  //全部分类
     public static final String GOODSTYPE = "/appapi/Goodstype/get_goodstype";  //商品类型
