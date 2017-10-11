@@ -625,4 +625,7 @@ public class GiftShowManager {
     }
 
 
+    public void disPlay() {
+        cxt=null;
+    }
 }
