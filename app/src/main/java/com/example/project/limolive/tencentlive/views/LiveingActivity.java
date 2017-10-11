@@ -3402,7 +3402,8 @@ private double quota=0,actual=0;
         }
 
     }
-    private TextView tv_nn_num,tv_nn_back;//倒计时和退出键
+    private TextView tv_nn_num;//倒计时
+    private RelativeLayout tv_nn_back;//退出键
     private TextView tv_nn_stake_num1,tv_nn_stake_num2,tv_nn_stake_num3;//自己押注数量
     private TextView tv_nn_stake_bet_total_num_1,tv_nn_stake_bet_total_num_2,tv_nn_stake_bet_total_num_3;//自己押注数量
     private TextView iv_nn_anim1,iv_nn_anim2,iv_nn_anim3;//押注状态图片
@@ -3938,7 +3939,8 @@ private double quota=0,actual=0;
      * 色子游戏 dialog
      */
     private DiceGameDialog instance;
-    private TextView /*倒计时*/tv_num,/*后退键*/tv_back,/*自己的积分*/tv_price,/*充值*/tv_recharge;
+    private TextView /*倒计时*/tv_num,/*自己的积分*/tv_price,/*充值*/tv_recharge;
+    private RelativeLayout tv_back;/*后退键*/
     private TextView /*第1个盘的押注数*/tv_stake_num1,/*第2个盘的押注数*/tv_stake_num2,/*第3个盘的押注数*/tv_stake_num3;
     private TextView /*第1个盘的押注数*/tv_stake_bet_total_num_1,/*第2个盘的押注数*/tv_stake_bet_total_num_2,/*第3个盘的押注数*/tv_stake_bet_total_num_3;
     private TextView /*游戏押注状态图片*/iv_anim1,iv_anim2,iv_anim3;
@@ -5246,7 +5248,7 @@ private double quota=0,actual=0;
 
     private void initViews(View view) {
         tv_num=(TextView) view.findViewById(R.id.tv_num);
-        tv_back=(TextView) view.findViewById(R.id.tv_back);
+        tv_back=(RelativeLayout) view.findViewById(R.id.tv_back);
         tv_price=(TextView) view.findViewById(R.id.tv_price);
         tv_recharge=(TextView) view.findViewById(R.id.tv_recharge);
 

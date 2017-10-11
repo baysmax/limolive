@@ -11,16 +11,22 @@
         android:layout_marginLeft="20dp"
         android:layout_centerInParent="true"
         android:text="离开始还有15s"/>
-    <TextView
-        android:layout_width="18dp"
+    <RelativeLayout
         android:id="@+id/tv_nn_back"
-        android:layout_height="11dp"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
         android:layout_centerVertical="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="20dp"
-        android:background="@drawable/diolog_game_back"
-        android:textColor="#fff"
-        android:layout_marginLeft="20dp"/>
+        android:layout_alignParentRight="true">
+        <TextView
+            android:layout_width="18dp"
+
+            android:layout_height="11dp"
+            android:layout_centerInParent="true"
+            android:background="@drawable/diolog_game_back"
+            android:textColor="#fff"
+            android:layout_marginLeft="20dp"/>
+    </RelativeLayout>
+
     <ImageView
         android:id="@+id/iv_poker_fp"
         android:layout_below="@id/rl_nn_choice1"
