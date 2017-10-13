@@ -17,7 +17,6 @@ import com.example.project.limolive.R;
 import com.example.project.limolive.activity.LoginActivity;
 import com.example.project.limolive.activity.MainActivity;
 import com.example.project.limolive.api.Api;
-import com.example.project.limolive.api.ApiHttpClient;
 import com.example.project.limolive.api.ApiResponse;
 import com.example.project.limolive.api.ApiResponseHandler;
 import com.example.project.limolive.helper.ActivityHelper;
@@ -93,11 +92,6 @@ public class LoginPresenter extends Presenter {
     public LoginPresenter(Context context, LogoutView mLogoutView) {
         super(context);
         this.mLogoutView = mLogoutView;
-    }
-    public void clearLogin(){
-        loginHandler.removeCallbacksAndMessages(null);
-        loginHandler=null;
-        context=null;
     }
 
     /**
@@ -374,8 +368,6 @@ public class LoginPresenter extends Presenter {
                         ((Activity) context).finish();
                         if (loginDialog != null && loginDialog.isShowing()) {
                             loginDialog.dismiss();
-                            clearLogin();
-                            ApiHttpClient.client.cancelAllRequests(true);
                         }
                     }
                 });
@@ -437,7 +429,6 @@ public class LoginPresenter extends Presenter {
      * @param pwd
      * @param code
      */
-    private ProgressDialog dialog;
     public void findPassword(String phone, String pwd, String code) {
         if (TextUtils.isEmpty(phone)) {
             ToastUtils.showShort(context, getString(R.string.login_error1));
@@ -452,24 +443,24 @@ public class LoginPresenter extends Presenter {
             ToastUtils.showShort(context, Presenter.NET_UNCONNECT);
             return;
         }
-        dialog = new ProgressDialog(context);
+        final ProgressDialog dialog = new ProgressDialog(context);
         dialog.setMessage(CHANGING);
         dialog.show();
-        Api.findPassword(phone, pwd, code, api_handler);
-    }
-    ApiResponseHandler api_handler=new ApiResponseHandler(context) {
-        @Override
-        public void onSuccess(ApiResponse apiResponse) {
-            Log.i("找回密码", apiResponse.toString());
-            if (apiResponse.getCode() == Api.SUCCESS) {
-                ToastUtils.showShort(context, apiResponse.getMessage());
-                ((Activity) context).finish();
-            } else {
-                ToastUtils.showShort(context, apiResponse.getMessage());
+        Api.findPassword(phone, pwd, code, new ApiResponseHandler(context) {
+            @Override
+            public void onSuccess(ApiResponse apiResponse) {
+                Log.i("找回密码", apiResponse.toString());
+                if (apiResponse.getCode() == Api.SUCCESS) {
+                    ToastUtils.showShort(context, apiResponse.getMessage());
+                    ((Activity) context).finish();
+                } else {
+                    ToastUtils.showShort(context, apiResponse.getMessage());
+                }
+                dialog.dismiss();
             }
-            dialog.dismiss();
-        }
-    };
+        });
+    }
+
     /**
      * 腾讯云通讯登录 imsdk
      */
