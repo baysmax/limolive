@@ -4,6 +4,7 @@ import android.Manifest;
 import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -21,6 +22,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Rect;
+import android.graphics.Typeface;
 import android.graphics.drawable.AnimationDrawable;
 import android.media.AudioManager;
 import android.os.Build;
@@ -37,6 +39,7 @@ import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
+import android.text.style.StyleSpan;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Display;
@@ -105,6 +108,7 @@ import com.example.project.limolive.tencentlive.views.customviews.PeriscopeLayou
 import com.example.project.limolive.utils.Constant;
 import com.example.project.limolive.utils.NetWorkUtil;
 import com.example.project.limolive.utils.SoundPlayUtils;
+import com.example.project.limolive.view.BlurMaskFilterView;
 import com.example.project.limolive.view.MarqueeTextView;
 import com.example.project.limolive.view.BabyPopupWindow;
 import com.example.project.limolive.tencentlive.adapters.ChatMsgListAdapter;
@@ -155,6 +159,7 @@ import com.umeng.socialize.media.UMImage;
 import com.umeng.socialize.media.UMWeb;
 
 import java.io.UnsupportedEncodingException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -1064,6 +1069,8 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
         super.onResume();
         //mLiveHelper.startRecord(new ILiveRoomOption(""));
         ILiveRoomManager.getInstance().onResume();
+        getIntegrals();
+        getIntegralsd();
     }
 
     @Override
@@ -2501,7 +2508,39 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
         //Log.i("游戏1_S","this_statusd="+this_statusd+"-,ls="+ls+"-,CurLiveInfo.getRoomNum()="+CurLiveInfo.getRoomNum());
         Api.niuniu_state_add(CurLiveInfo.getRoomNum(), String.valueOf(ls), this_statusd,niuniu_state_add);
     }
-private double quota=0,actual=0;
+    private double quota=0;
+    private int actual=0;
+    private ValueAnimator anim=null;//按钮闪烁
+
+    private void updatas(int val) {
+        switch (actual){
+            case 1:
+                iv_nn_chip10.setImageAlpha(val);
+                iv_nn_chip25.setImageAlpha(val);
+                iv_nn_chip50.setImageAlpha(val);
+                iv_nn_chip100.setImageAlpha(val);
+
+                break;
+            case 2:
+                iv_nn_chip10.setImageAlpha(val);
+                iv_nn_chip25.setImageAlpha(val);
+                iv_nn_chip50.setImageAlpha(val);
+                break;
+            case 3:
+                iv_nn_chip10.setImageAlpha(val);
+                iv_nn_chip25.setImageAlpha(val);
+                break;
+            case 4:
+                iv_nn_chip10.setImageAlpha(val);
+
+                break;
+            case 5:
+                break;
+
+        }
+
+    }
+
     private Handler dice_poker_handler=new Handler(new Handler.Callback(){
         @Override
         public boolean handleMessage(Message msg) {
@@ -2510,9 +2549,64 @@ private double quota=0,actual=0;
                     break;
                 case MSG_CODE_END_YAZU://休息结束，开始显示押注
                     this_statusd=STATUS_BET_TYPE;
+                    iv_nn_chip10.setImageAlpha(128);
+                    iv_nn_chip25.setImageAlpha(128);
+                    iv_nn_chip50.setImageAlpha(128);
+                    iv_nn_chip100.setImageAlpha(128);
+                    actual=0;
+                    bl_choice_status=0;
+                    if (anim==null){
+                        anim= ValueAnimator.ofArgb(128, 0, 128, 0, 128,0,128);
+                        anim.setDuration(3000);
+                        anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                            @Override
+                            public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                                int val = (int) valueAnimator.getAnimatedValue();
+                                updatas(val);
+
+                            }
+
+                        });
+
+
+                    }
+
                     double v = Double.parseDouble(tv_nn_price.getText().toString());
                     if (v>0){
                         quota=v/5;//重新计算消费额度
+                        if (quota>=500){//全部可点击
+                            rl_nn_chip10.setEnabled(true);
+                            rl_nn_chip25.setEnabled(true);
+                            rl_nn_chip50.setEnabled(true);
+                            rl_nn_chip100.setEnabled(true);
+                            actual=1;
+
+                        }else if (quota>=100){
+                            rl_nn_chip10.setEnabled(true);
+                            rl_nn_chip25.setEnabled(true);
+                            rl_nn_chip50.setEnabled(true);
+                            rl_nn_chip100.setEnabled(false);
+                            actual=2;
+                        }else if (quota>=50){
+                            rl_nn_chip10.setEnabled(true);
+                            rl_nn_chip25.setEnabled(true);
+                            rl_nn_chip50.setEnabled(false);
+                            rl_nn_chip100.setEnabled(false);
+                            actual=3;
+                        }else if (quota>=10){
+                            rl_nn_chip10.setEnabled(true);
+                            rl_nn_chip25.setEnabled(false);
+                            rl_nn_chip50.setEnabled(false);
+                            rl_nn_chip100.setEnabled(false);
+                            actual=4;
+                        }else {
+                            rl_nn_chip10.setEnabled(false);
+                            rl_nn_chip25.setEnabled(false);
+                            rl_nn_chip50.setEnabled(false);
+                            rl_nn_chip100.setEnabled(false);
+                            actual=5;
+                        }
+                        anim.start();
                     }else {
                         quota=0;
                     }
@@ -2746,9 +2840,9 @@ private double quota=0,actual=0;
                         f1pokerz(startX1,startY1,poker_z[0],0);
                         SoundPlayUtils.play(3);//发牌声音
                     }
-                    f1poker(startX1,startY1,iv_nn_poker1_1,0);
-                    f1poker(startX1,startY1,iv_nn_poker2_1,0);
-                    f1poker(startX1,startY1,iv_nn_poker3_1,11);
+                    f1poker(startX1,startY1,iv_nn_poker1_1,0,ANIM_TIME_FLOP);
+                    f1poker(startX1,startY1,iv_nn_poker2_1,0,ANIM_TIME_FLOP+100);
+                    f1poker(startX1,startY1,iv_nn_poker3_1,11,ANIM_TIME_FLOP+200);
                     break;
                 case 22:
                     int[] location2 = new int[2];
@@ -2759,9 +2853,9 @@ private double quota=0,actual=0;
                         f1pokerz(startX2,startY2,poker_z[1],0);
                         SoundPlayUtils.play(3);//发牌声音
                     }
-                    f1poker(startX2,startY2,iv_nn_poker1_2,0);
-                    f1poker(startX2,startY2,iv_nn_poker2_2,0);
-                    f1poker(startX2,startY2,iv_nn_poker3_2,22);
+                    f1poker(startX2,startY2,iv_nn_poker1_2,0,ANIM_TIME_FLOP);
+                    f1poker(startX2,startY2,iv_nn_poker2_2,0,ANIM_TIME_FLOP+100);
+                    f1poker(startX2,startY2,iv_nn_poker3_2,22,ANIM_TIME_FLOP+200);
                     break;
                 case 33:
                     int[] location3 = new int[2];
@@ -2772,9 +2866,9 @@ private double quota=0,actual=0;
                         f1pokerz(startX3,startY3,poker_z[2],0);
                         SoundPlayUtils.play(3);//发牌声音
                     }
-                    f1poker(startX3,startY3,iv_nn_poker1_3,0);
-                    f1poker(startX3,startY3,iv_nn_poker2_3,0);
-                    f1poker(startX3,startY3,iv_nn_poker3_3,33);
+                    f1poker(startX3,startY3,iv_nn_poker1_3,0,ANIM_TIME_FLOP);
+                    f1poker(startX3,startY3,iv_nn_poker2_3,0,ANIM_TIME_FLOP+100);
+                    f1poker(startX3,startY3,iv_nn_poker3_3,33,ANIM_TIME_FLOP+200);
                     break;
                 case 44:
                     int[] location4 = new int[2];
@@ -2785,9 +2879,9 @@ private double quota=0,actual=0;
                         f1pokerz(startX4,startY4,poker_z[3],0);
                         SoundPlayUtils.play(3);//发牌声音
                     }
-                    f1poker(startX4,startY4,iv_nn_poker1_4,0);
-                    f1poker(startX4,startY4,iv_nn_poker2_4,0);
-                    f1poker(startX4,startY4,iv_nn_poker3_4,44);
+                    f1poker(startX4,startY4,iv_nn_poker1_4,0,ANIM_TIME_FLOP);
+                    f1poker(startX4,startY4,iv_nn_poker2_4,0,ANIM_TIME_FLOP+100);
+                    f1poker(startX4,startY4,iv_nn_poker3_4,44,ANIM_TIME_FLOP+200);
                     break;
                 case 55:
                     int[] location5 = new int[2];
@@ -2798,9 +2892,9 @@ private double quota=0,actual=0;
                         f1pokerz(startX5,startY5,poker_z[4],0);
                         SoundPlayUtils.play(3);//发牌声音
                     }
-                    f1poker(startX5,startY5,iv_nn_poker1_5,0);
-                    f1poker(startX5,startY5,iv_nn_poker2_5,0);
-                    f1poker(startX5,startY5,iv_nn_poker3_5,55);
+                    f1poker(startX5,startY5,iv_nn_poker1_5,0,ANIM_TIME_FLOP);
+                    f1poker(startX5,startY5,iv_nn_poker2_5,0,ANIM_TIME_FLOP+100);
+                    f1poker(startX5,startY5,iv_nn_poker3_5,55,ANIM_TIME_FLOP+200);
                     break;
                 case 66:
                     ObjectAnimator circle_anim=ObjectAnimator.ofFloat(iv_nn_poker1_5, "rotationY", 0,89);
@@ -2829,10 +2923,15 @@ private double quota=0,actual=0;
                                     //显示是否有牛动画
                                     Animation Animation = (Animation) AnimationUtils.loadAnimation(LiveingActivity.this, R.anim.anim_round_rotate);
                                     ObjectAnimator circle_anim1=ObjectAnimator.ofFloat(rl_anim_win1, "alpha", 0.0f,1.0f);
+                                    ObjectAnimator circle_animX=ObjectAnimator.ofFloat(rl_anim_win1, "scaleX", 0.0f,1.0f);
+                                    ObjectAnimator circle_animY=ObjectAnimator.ofFloat(rl_anim_win1, "scaleY", 0.0f,1.0f);
+                                    AnimatorSet animset=new AnimatorSet();
+                                    animset.play(circle_anim1).with(circle_animX).with(circle_animY);
+
                                     String point_sum = pokerBeen.get(1).getPoint_sum();
                                     int i = Integer.parseInt(point_sum);
                                     rl_anim_win1.setBackground(LiveingActivity.this.getDrawable(an_n[i]));
-                                    circle_anim1.setDuration(2000).start();
+                                    animset.setDuration(ANIM_TIME_IS_NN).start();
 
                                     Message msg = Message.obtain();
                                     msg.what=77;
@@ -2889,10 +2988,16 @@ private double quota=0,actual=0;
                                 public void onAnimationEnd(Animator animator) {
                                     //显示是否有牛动画
                                     ObjectAnimator circle_anim1=ObjectAnimator.ofFloat(rl_anim_win2, "alpha", 0.0f,1.0f);
+
+                                    ObjectAnimator circle_animX=ObjectAnimator.ofFloat(rl_anim_win2, "scaleX", 0.0f,1.0f);
+                                    ObjectAnimator circle_animY=ObjectAnimator.ofFloat(rl_anim_win2, "scaleY", 0.0f,1.0f);
+                                    AnimatorSet animset=new AnimatorSet();
+                                    animset.play(circle_anim1).with(circle_animX).with(circle_animY);
+
                                     String point_sum = pokerBeen.get(2).getPoint_sum();
                                     int i = Integer.parseInt(point_sum);
                                     rl_anim_win2.setBackground(LiveingActivity.this.getDrawable(an_n[i]));
-                                    circle_anim1.setDuration(2000).start();
+                                    animset.setDuration(ANIM_TIME_IS_NN).start();
 
                                     Message msg = Message.obtain();
                                     msg.what=88;
@@ -2949,10 +3054,16 @@ private double quota=0,actual=0;
                                 public void onAnimationEnd(Animator animator) {
                                     //显示是否有牛动画
                                     ObjectAnimator circle_anim1=ObjectAnimator.ofFloat(rl_anim_win3, "alpha", 0.0f,1.0f);
+
+                                    ObjectAnimator circle_animX=ObjectAnimator.ofFloat(rl_anim_win3, "scaleX", 0.0f,1.0f);
+                                    ObjectAnimator circle_animY=ObjectAnimator.ofFloat(rl_anim_win3, "scaleY", 0.0f,1.0f);
+                                    AnimatorSet animset=new AnimatorSet();
+                                    animset.play(circle_anim1).with(circle_animX).with(circle_animY);
+
                                     String point_sum = pokerBeen.get(3).getPoint_sum();
                                     int i = Integer.parseInt(point_sum);
                                     rl_anim_win3.setBackground(LiveingActivity.this.getDrawable(an_n[i]));
-                                    circle_anim1.setDuration(2000).start();
+                                    animset.setDuration(ANIM_TIME_IS_NN).start();
 
                                     Message msg = Message.obtain();
                                     msg.what=99;
@@ -3007,13 +3118,18 @@ private double quota=0,actual=0;
                                 @Override
                                 public void onAnimationEnd(Animator animator) {
                                     //显示是否有牛动画
-                                    Animation Animation = (Animation) AnimationUtils.loadAnimation(LiveingActivity.this, R.anim.anim_round_rotate);
                                     ObjectAnimator circle_anim1=ObjectAnimator.ofFloat(rl_anim_win, "alpha", 0.0f,1.0f);
+
+                                    ObjectAnimator circle_animX=ObjectAnimator.ofFloat(rl_anim_win, "scaleX", 0.0f,1.0f);
+                                    ObjectAnimator circle_animY=ObjectAnimator.ofFloat(rl_anim_win, "scaleY", 0.0f,1.0f);
+                                    AnimatorSet animset=new AnimatorSet();
+                                    animset.play(circle_anim1).with(circle_animX).with(circle_animY);
+
                                     String point_sum = pokerBeen.get(0).getPoint_sum();
                                     int i = Integer.parseInt(point_sum);
                                     rl_anim_win.setBackground(LiveingActivity.this.getDrawable(an_n[i]));
-                                    circle_anim1.setDuration(2000).start();
-                                    circle_anim1.addListener(new Animator.AnimatorListener() {
+                                    animset.setDuration(ANIM_TIME_IS_NN).start();
+                                    animset.addListener(new Animator.AnimatorListener() {
                                         @Override
                                         public void onAnimationStart(Animator animator) {
 
@@ -3023,6 +3139,7 @@ private double quota=0,actual=0;
                                         public void onAnimationEnd(Animator animator) {
                                             Message msg = Message.obtain();
                                             msg.what=MSG_CODE_END_REST;
+                                            getAnimIntegrals();
                                             dice_poker_handler.sendMessageDelayed(msg,3000);
                                         }
 
@@ -3066,7 +3183,7 @@ private double quota=0,actual=0;
         }
     };
 
-    private void f1poker(int startX, int startY, final ImageView toiv, final int type) {
+    private void f1poker(int startX, int startY, final ImageView toiv, final int type,int time) {
 
         int width = iv_nn_poker1_3.getWidth();
         int height = iv_nn_poker1_3.getHeight();
@@ -3085,14 +3202,14 @@ private double quota=0,actual=0;
         int stopY = location1[1];//控件相对与屏幕的坐标
         //int y = (int) (heightPixels * 0.40 - (heightPixels - stopY) + 1);
         rl_nn_anims.addView(textView);//把牌添加到容器中
-        TranslateAnimation animation=new TranslateAnimation(0,stopX-startX,0,stopY-startY);
+        //TranslateAnimation animation=new TranslateAnimation(0,stopX-startX,0,stopY-startY);
         AnimatorSet set = new AnimatorSet();
         set.playTogether(
                 // 移动
                 ObjectAnimator.ofFloat(textView, "translationX", startX, stopX-startX+30),
                 ObjectAnimator.ofFloat(textView, "translationY", (int)(heightPixels*0.40-(heightPixels-startY)+1), stopY-startY+20));
 
-        set.setDuration(500).start();
+        set.setDuration(time).start();
         set.addListener(new Animator.AnimatorListener() {
             @Override
             public void onAnimationStart(Animator animator) {
@@ -3134,6 +3251,54 @@ private double quota=0,actual=0;
                         hanpoker.sendMessage(msg5);
                         break;
                 }
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animator) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animator) {
+
+            }
+        });
+
+    }
+    private void f1Num(String var,int time) {
+        int[] location1 = new int[2];
+        tv_nn_price.getLocationOnScreen(location1);
+        int stopX = location1[0];
+        int stopY = location1[1];//控件相对与屏幕的坐标
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
+                RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+        final TextView textView = new TextView(LiveingActivity.this);
+        textView.setLayoutParams(params);
+        int heightPixels = layout.getResources().getDisplayMetrics().heightPixels;
+        textView.setX(stopX);//牌出现的位置
+        textView.setY((int)(heightPixels*0.40-(heightPixels-stopY)+1));
+        textView.setTextColor(Color.rgb(0xff,0xba,0x15));
+        SpannableString spanString = new SpannableString(var);
+        StyleSpan boldStyle = new StyleSpan(Typeface.BOLD);
+        spanString.setSpan(boldStyle, 0, var.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        textView.setText(var);
+        rl_nn_anims.addView(textView);//把牌添加到容器中
+        AnimatorSet set = new AnimatorSet();
+        set
+                .play(ObjectAnimator.ofFloat(textView, "scaleX", 0.0f,1.5f))
+                .with(ObjectAnimator.ofFloat(textView, "scaleY", 0.0f,1.5f))
+                .with(ObjectAnimator.ofFloat(textView, "translationY", (int)(heightPixels*0.40-(heightPixels-stopY)), (int)(heightPixels*0.40-(heightPixels-stopY))-100));
+
+        set.setDuration(time).start();
+        set.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animator) {
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animator) {
+                rl_nn_anims.removeView(textView);
+
             }
 
             @Override
@@ -3395,7 +3560,102 @@ private double quota=0,actual=0;
                                 JSONObject parse = (JSONObject) JSON.parse(data);
                                 String diamonds_coins = parse.getString("integral");
                                 //Log.i("游戏1","integral:"+diamonds_coins);
-                                tv_nn_price.setText(diamonds_coins);
+                                if (tv_nn_price!=null){
+                                    tv_nn_price.setText(diamonds_coins);
+                                }
+                            }
+                        }
+                    });
+        }
+
+    }
+    private void getAnimIntegralsd(){
+        if (!NetWorkUtil.isNetworkConnected(LiveingActivity.this)) {
+            ToastUtils.showShort(LiveingActivity.this, NET_UNCONNECT);
+            return;
+        }else {
+            Api.getIntegral(LoginManager.getInstance().getUserID(LiveingActivity.this),
+                    new ApiResponseHandler(LiveingActivity.this) {
+                        @Override
+                        public void onSuccess(ApiResponse apiResponse) {
+                            //Log.i("游戏1","apiResponse="+apiResponse.toString());
+                            if (apiResponse.getCode()==Api.SUCCESS){
+                                String data = apiResponse.getData();
+                                JSONObject parse = (JSONObject) JSON.parse(data);
+                                String diamonds_coins = parse.getString("integral");
+                                //Log.i("游戏1","integral:"+diamonds_coins);
+                                Float v = Float.parseFloat(diamonds_coins);
+                                Float v1 =Float.parseFloat(tv_price.getText().toString());
+                                int vs= (int) (v-v1);//变化量
+                                if (vs>0){
+                                    f1Num1("+"+String.valueOf(vs),2000);
+                                }else if (vs<0){
+                                    f1Num1(String.valueOf(vs),2000);
+
+                                }
+                                ValueAnimator anim=null;
+                                if (vs>0){
+                                    anim=ValueAnimator.ofFloat(v1,v);
+                                }else {
+                                    anim=ValueAnimator.ofFloat(v,v1);
+                                }
+                                anim.setDuration(2000);
+                                anim.start();
+                                anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                                    @Override
+                                    public void onAnimationUpdate(ValueAnimator animation) {
+                                        float currentValue = (float) animation.getAnimatedValue();
+                                        int integer =Math.round(currentValue);
+                                        tv_price.setText(String.valueOf((double) integer));
+                                    }
+                                });
+                            }
+                        }
+                    });
+        }
+
+    }
+    private void getAnimIntegrals(){
+        if (!NetWorkUtil.isNetworkConnected(LiveingActivity.this)) {
+            ToastUtils.showShort(LiveingActivity.this, NET_UNCONNECT);
+            return;
+        }else {
+            Api.getIntegral(LoginManager.getInstance().getUserID(LiveingActivity.this),
+                    new ApiResponseHandler(LiveingActivity.this) {
+                        @Override
+                        public void onSuccess(ApiResponse apiResponse) {
+                            //Log.i("游戏1","apiResponse="+apiResponse.toString());
+                            if (apiResponse.getCode()==Api.SUCCESS){
+                                String data = apiResponse.getData();
+                                JSONObject parse = (JSONObject) JSON.parse(data);
+                                String diamonds_coins = parse.getString("integral");
+                                //Log.i("游戏1","integral:"+diamonds_coins);
+                                Float v = Float.parseFloat(diamonds_coins);
+                                Float v1 =Float.parseFloat(tv_nn_price.getText().toString());
+                                int vs= (int) (v-v1);//变化量
+                                if (vs>0){
+
+                                    f1Num("+"+String.valueOf(vs),2000);
+                                }else if (vs<0){
+                                    f1Num(String.valueOf(vs),2000);
+
+                                }
+                                ValueAnimator anim=null;
+                                if (vs>0){
+                                    anim=ValueAnimator.ofFloat(v1,v);
+                                }else {
+                                    anim=ValueAnimator.ofFloat(v,v1);
+                                }
+                                anim.setDuration(2000);
+                                anim.start();
+                                anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                                    @Override
+                                    public void onAnimationUpdate(ValueAnimator animation) {
+                                        float currentValue = (float) animation.getAnimatedValue();
+                                        int integer =Math.round(currentValue);
+                                        tv_nn_price.setText(String.valueOf((double) integer));
+                                    }
+                                });
                             }
                         }
                     });
@@ -3417,14 +3677,18 @@ private double quota=0,actual=0;
     private ImageView poker_three[]=new ImageView[5];
     private TextView tv_nn_price,tv_nn_recharge;//积分数量和充值
     private RelativeLayout rl_nn_chip10,rl_nn_chip25,rl_nn_chip50,rl_nn_chip100;//筹码的点击事件容器
-    private ImageView iv_nn_chip10,iv_nn_chip25,iv_nn_chip50,iv_nn_chip100;//筹码控件
-    private RelativeLayout rl_nn_anims;
+    private BlurMaskFilterView iv_nn_chip10,iv_nn_chip25,iv_nn_chip50,iv_nn_chip100;//筹码控件
+    private RelativeLayout rl_nn_anims;//牛牛动画容器
     private RelativeLayout rl_nn_choice1,rl_nn_choice2,rl_nn_choice3;
     private ImageView iv_poker_fp;
 
     private int bl_choice1s=0;//选择的状态 0：没有选择任何一个盘 1：1盘 2：2盘 3：3盘
+    private int bl_choice_status=0;//点击的状态 0：没有点击任何一个盘 1：1盘 2：2盘 3：3盘
     private int first_p=0,doubles_p=0,third_p=0;//自己向盘子里添加的积分数量
     private RelativeLayout rl_anim_win1,rl_anim_win2,rl_anim_win3;
+    private static final int ANIM_TIME_IS_NN=1000;//是否有牛动画时长
+    private static final int ANIM_TIME_FLOP=500;//翻牌动画时长
+    private static final int ANIM_TIME_LICENCE=1000;//发牌动画时长
 
     private void initViewsPoker(View layout) {
         tv_nn_num=layout.findViewById(R.id.tv_nn_num);
@@ -3539,7 +3803,7 @@ private double quota=0,actual=0;
     private class OnClicks implements View.OnClickListener{
         @Override
         public void onClick(View v) {
-            getIntegralsd();
+
             switch (v.getId()){
                 case R.id.tv_nn_back://退出
                     if (instancePoker!=null&&instancePoker.isShowing()){
@@ -3561,81 +3825,53 @@ private double quota=0,actual=0;
                     break;
                 case R.id.rl_nn_chip10://向盘里添加10积分
                     if(this_statusd==STATUS_BET_TYPE){//quota=0,actual=0;
-                        if (quota<10){
-                            showDialog();
-                        }else {
-                            if (bl_choice1s==0){
-                                ToastUtils.showShort(LiveingActivity.this, "请选择押注的盘口");
-                            }else {
-                                quota=quota-10;
-                                betServices("10",iv_nn_chip10, rl_nn_anims, R.drawable.chip10, 10);
-                            }
-                        }
-
+                        bl_choice1s=1;
+                        betsd();
+                        iv_nn_chip10.setImageAlpha(255);
+                        //rl_nn_chip10.setBackground(LiveingActivity.this.getDrawable(R.drawable.games_bgs1));
                     }
                     break;
                 case R.id.rl_nn_chip25://向盘里添加50积分
+                    bl_choice1s=2;
                     if(this_statusd==STATUS_BET_TYPE){
-                        if (quota<50.0){
-                            showDialog();
-                        }else {
-                            if (bl_choice1s==0){
-                                ToastUtils.showShort(LiveingActivity.this, "请选择押注的盘口");
-                            }else {
-                                quota=quota-50;
-                                betServices("50",iv_nn_chip25, rl_nn_anims, R.drawable.chip25, 50);
-                            }
-                        }
+                        betsd();
+                        iv_nn_chip25.setImageAlpha(255);
+                        //rl_nn_chip25.setBackground(LiveingActivity.this.getDrawable(R.drawable.games_bgs1));
                     }
                     break;
                 case R.id.rl_nn_chip50://向盘里添加100积分
+                    bl_choice1s=3;
                     if(this_statusd==STATUS_BET_TYPE){
-                        if (quota<100.0){
-                            showDialog();
-                        }else {
-                            if (bl_choice1s==0){
-                                ToastUtils.showShort(LiveingActivity.this, "请选择押注的盘口");
-                            }else {
-                                quota=quota-100;
-                                betServices("100", iv_nn_chip50, rl_nn_anims, R.drawable.chip50, 100);
-                            }
-                        }
+                        betsd();
+                        iv_nn_chip50.setImageAlpha(255);
+                        //rl_nn_chip50.setBackground(LiveingActivity.this.getDrawable(R.drawable.games_bgs1));
                     }
                     break;
                 case R.id.rl_nn_chip100://向盘里添加100积分
+                    bl_choice1s=4;
                     if(this_statusd==STATUS_BET_TYPE){
-                        if (quota<500.0){
-                            showDialog();
-                        }else {
-                            if (bl_choice1s==0){
-                                ToastUtils.showShort(LiveingActivity.this, "请选择押注的盘口");
-                            }else {
-
-                                quota=quota-500;
-                                betServices("500",iv_nn_chip100, rl_nn_anims, R.drawable.chip100, 500);
-                            }
-                        }
+                        betsd();
+                        iv_nn_chip100.setImageAlpha(255);
+                        //rl_nn_chip100.setBackground(LiveingActivity.this.getDrawable(R.drawable.games_bgs1));
                     }
                     break;
                 case R.id.rl_nn_choice1://选择第1个
                     if(this_statusd==STATUS_BET_TYPE){
-                        bl_choice1s=1;
-                        betsd();
-                        rl_nn_choice1.setBackground(LiveingActivity.this.getDrawable(R.drawable.game_bgs1));
+                        bl_choice_status=1;
+                        setDice();
+
                     }
                     break;
                 case R.id.rl_nn_choice2://选择第2个
                     if(this_statusd==STATUS_BET_TYPE){
-                        bl_choice1s=2;
-                        betsd();
-                        rl_nn_choice2.setBackground(LiveingActivity.this.getDrawable(R.drawable.game_bgs1));
+                        bl_choice_status=2;
+                        setDice();
                     }
                     break;
                 case R.id.rl_nn_choice3://选择第3个
                     if(this_statusd==STATUS_BET_TYPE){
-                        bl_choice1s=3;
-                        betsd();
-                        rl_nn_choice3.setBackground(LiveingActivity.this.getDrawable(R.drawable.game_bgs1));
+                        bl_choice_status=3;
+                        setDice();
                     }
                     break;
             }
@@ -3643,21 +3879,102 @@ private double quota=0,actual=0;
         }
     }
 
-    private void betServices(final String bet_money, final ImageView iv_chip10, final RelativeLayout rl_anims, final int chip10, final int i) {
+    private void setDice() {
+
+            int i = choice1(bl_choice1s);
+            if(this_statusd==STATUS_BET_TYPE){
+                if (quota<i){
+                    showDialog();
+                }else {
+                    if (i==0){
+                        ToastUtils.showShort(LiveingActivity.this, "请选择押注的筹码");
+                    }else {
+                        quota=quota-i;
+                        double v = Double.parseDouble(tv_nn_price.getText().toString());
+                        v=v-i;
+                        tv_nn_price.setText(String.valueOf(v));
+                        betServices(bl_choice_status,""+i,getChipDraws(bl_choice1s), rl_nn_anims, getDraw(bl_choice1s), i);
+                    }
+                }
+            }
+
+
+    }
+
+    private BlurMaskFilterView getChipDraws(int i) {
+        switch (i){
+            case 1:
+                return iv_nn_chip10;
+            case 2:
+                return iv_nn_chip25;
+            case 3:
+                return iv_nn_chip50;
+            case 4:
+                return iv_nn_chip100;
+        }
+        return null;
+
+    }
+    private ImageView getChipDiceDraws(int i) {
+        switch (i){
+            case 1:
+                return iv_chip10;
+            case 2:
+                return iv_chip25;
+            case 3:
+                return iv_chip50;
+            case 4:
+                return iv_chip100;
+        }
+        return null;
+
+    }
+
+    private int getDraw(int i) {
+        switch (i){
+            case 1:
+                return R.drawable.chip10;
+            case 2:
+                return R.drawable.chip25;
+            case 3:
+                return R.drawable.chip50;
+            case 4:
+                return R.drawable.chip100;
+        }
+        return 0;
+    }
+
+    private int choice1(int i) {
+        switch (i){
+            case 1:
+                return 10;
+            case 2:
+                return 50;
+            case 3:
+                return 100;
+            case 4:
+                return 500;
+        }
+        return 0;
+    }
+
+    private void betServices(final int bl_choice_status, final String bet_money, final BlurMaskFilterView iv_chip10, final RelativeLayout rl_anims, final int chip10, final int i) {
         if (!NetWorkUtil.isNetworkConnected(LiveingActivity.this)) {
             ToastUtils.showShort(LiveingActivity.this, NET_UNCONNECT);
             return;
         }else {
+            giftsd(bl_choice_status,iv_chip10, rl_anims, bet_money, chip10, i);
+            SoundPlayUtils.play(1);//下注声音
             Api.niuniu_user_integral_reduce(LoginManager.getInstance().getUserID(LiveingActivity.this)
                     , bet_money
                     , CurLiveInfo.getRoomNum()
-                    , String.valueOf(bl_choice1s), new ApiResponseHandler(LiveingActivity.this) {
+                    , String.valueOf(bl_choice_status), new ApiResponseHandler(LiveingActivity.this) {
                         @Override
                         public void onSuccess(ApiResponse apiResponse) {
                             //Log.i("游戏1","下注-数据="+apiResponse.toString()+",bet_money="+bet_money);
                             if (apiResponse.getCode()==Api.SUCCESS){
-                                giftsd(iv_chip10, rl_anims, bet_money, chip10, i);
-                                SoundPlayUtils.play(1);//下注声音
+//                                giftsd(bl_choice_status,iv_chip10, rl_anims, bet_money, chip10, i);
+//                                SoundPlayUtils.play(1);//下注声音
                             }else {
                                 ToastUtils.showShort(LiveingActivity.this,"下注失败");
                             }
@@ -3672,9 +3989,9 @@ private double quota=0,actual=0;
         }
     }
 
-    private void giftsd(ImageView iv_chip10, RelativeLayout rl_anims, String string, int chip10, int i) {
+    private void giftsd(int bl_choice_status,BlurMaskFilterView iv_chip10, RelativeLayout rl_anims, String string, int chip10, int i) {
 //        if (View.GONE == iv_nn_win1.getVisibility()) {
-            switch (bl_choice1s) {
+            switch (bl_choice_status) {
                 case 1:
                     stakeGifts(new TextView(LiveingActivity.this), iv_chip10, rl_nn_anim_stake1, rl_anims, string, chip10);//添加textView；
                     break;
@@ -3685,13 +4002,15 @@ private double quota=0,actual=0;
                     stakeGifts(new TextView(LiveingActivity.this), iv_chip10, rl_nn_anim_stake3, rl_anims, string, chip10);//添加textView；
                     break;
             }
-            addIntegrals(i);
+            addIntegrals(bl_choice_status,i);
 //        } else {
 //            ToastUtils.showShort(LiveingActivity.this, "请选择押注的盘口");
 //        }
     }
 
-    private void stakeGifts(final TextView textView, ImageView imageView, RelativeLayout rl_anim_stake, final RelativeLayout rl_anims,String string,int draw) {
+    private void stakeGifts(final TextView textView
+            , BlurMaskFilterView imageView, RelativeLayout rl_anim_stake
+            , final RelativeLayout rl_anims,String string,int draw) {
 
         int width = imageView.getWidth();
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
@@ -3772,14 +4091,13 @@ private double quota=0,actual=0;
         }
     }
 
-    private void addIntegrals(int i) {
-        switch (bl_choice1s){
+    private void addIntegrals(int bl_choice_status,int i) {
+        switch (bl_choice_status){
             case 0:
-                ToastUtils.showShort(LiveingActivity.this,"请选择押注的盘口");
+                ToastUtils.showShort(LiveingActivity.this,"请选择押注的筹码");
                 break;
             case 1:
                 first_p=first_p+i;
-
                 tv_nn_stake_num1.setText(""+first_p);
                 break;
             case 2:
@@ -3800,9 +4118,13 @@ private double quota=0,actual=0;
         iv_nn_anim1.setVisibility(View.GONE);
         iv_nn_anim2.setVisibility(View.GONE);
         iv_nn_anim3.setVisibility(View.GONE);
-        rl_nn_choice1.setBackground(LiveingActivity.this.getDrawable(R.drawable.game_bgs));
-        rl_nn_choice2.setBackground(LiveingActivity.this.getDrawable(R.drawable.game_bgs));
-        rl_nn_choice3.setBackground(LiveingActivity.this.getDrawable(R.drawable.game_bgs));
+//        rl_nn_choice1.setBackground(LiveingActivity.this.getDrawable(R.drawable.game_bgs));
+//        rl_nn_choice2.setBackground(LiveingActivity.this.getDrawable(R.drawable.game_bgs));
+//        rl_nn_choice3.setBackground(LiveingActivity.this.getDrawable(R.drawable.game_bgs));
+        iv_nn_chip10.setImageAlpha(128);
+        iv_nn_chip25.setImageAlpha(128);
+        iv_nn_chip50.setImageAlpha(128);
+        iv_nn_chip100.setImageAlpha(128);
     }
 
     /**
@@ -3956,6 +4278,8 @@ private double quota=0,actual=0;
     private OnClick o;
     private int first=0,doubles=0,third=0;//自己向盘子里添加的积分数量
     private int bl_choice1=0;//选择的状态 0：没有选择任何一个盘 1：1盘 2：2盘 3：3盘
+    private int is_dice_num=0;
+    private int bl_chip_status=0;//点击的状态
     private RelativeLayout rl_anim_stake1,rl_anim_stake2,rl_anim_stake3;//盘里增加积分时 添加图片的父容器
     private RelativeLayout rl_anims;
     private View view;
@@ -4026,7 +4350,9 @@ private double quota=0,actual=0;
                                 JSONObject parse = (JSONObject) JSON.parse(data);
                                 String diamonds_coins = parse.getString("integral");
                                 //Log.i("积分","integral:"+diamonds_coins);
-                                tv_price.setText(diamonds_coins);
+                                if (tv_price!=null){
+                                    tv_price.setText(diamonds_coins);
+                                }
                             }
                         }
                     });
@@ -4038,7 +4364,6 @@ private double quota=0,actual=0;
     private class OnClick implements View.OnClickListener{
         @Override
         public void onClick(View v) {
-            getIntegrals();
             switch (v.getId()){
                 case R.id.tv_back://退出
                     if (instance!=null&&instance.isShowing()){
@@ -4060,78 +4385,89 @@ private double quota=0,actual=0;
                     break;
                 case R.id.rl_chip10://向盘里添加10积分
                     if(this_status==STATUS_BET_TYPE){
-                        if (!(Double.parseDouble(tv_price.getText().toString())>10.00)){
-                            showDialog();
-                        }else {
-                            if (bl_choice1==0){
-                                ToastUtils.showShort(LiveingActivity.this, "请选择押注的盘口");
-                            }else {
-                                betService("10",iv_chip10, rl_anims, R.drawable.chip10, 10);
-                            }
-                        }
-
+                        bl_chip_status=1;
+                        bets();
+                        iv_chip10.setImageAlpha(255);
                     }
                     break;
                 case R.id.rl_chip25://向盘里添加25积分
                     if(this_status==STATUS_BET_TYPE){
-                        if (!(Double.parseDouble(tv_price.getText().toString())>50.00)){
-                            showDialog();
-                        }else {
-                            if (bl_choice1==0){
-                                ToastUtils.showShort(LiveingActivity.this, "请选择押注的盘口");
-                            }else {
-
-                                betService("50",iv_chip25, rl_anims, R.drawable.chip25, 50);
-                            }
-                        }
+                        bl_chip_status=2;
+                        bets();
+                        iv_chip25.setImageAlpha(255);
                     }
                     break;
                 case R.id.rl_chip50://向盘里添加50积分
                     if(this_status==STATUS_BET_TYPE){
-                        if (!(Double.parseDouble(tv_price.getText().toString())>100.00)){
-                            showDialog();
-                        }else {
-                            if (bl_choice1==0){
-                                ToastUtils.showShort(LiveingActivity.this, "请选择押注的盘口");
-                            }else {
-                                betService("100", iv_chip50, rl_anims, R.drawable.chip50, 100);
-                            }
-                        }
+                        bl_chip_status=3;
+                        bets();
+                        iv_chip50.setImageAlpha(255);
                     }
                     break;
                 case R.id.rl_chip100://向盘里添加100积分
                     if(this_status==STATUS_BET_TYPE){
-                        if (!(Double.parseDouble(tv_price.getText().toString())>500.00)){
-                            showDialog();
-                        }else {
-                            if (bl_choice1==0){
-                                ToastUtils.showShort(LiveingActivity.this, "请选择押注的盘口");
-                            }else {
-
-                                betService("500",iv_chip100, rl_anims, R.drawable.chip100, 500);
-                            }
-                        }
+                        bl_chip_status=4;
+                        bets();
+                        iv_chip100.setImageAlpha(255);
                     }
                     break;
                 case R.id.rl_choice1://选择第1个
                     if(this_status==STATUS_BET_TYPE){
                         bl_choice1=1;
-                        bets();
-                        rl_choice1.setBackground(LiveingActivity.this.getDrawable(R.drawable.game_bgs1));
+                        iv_anim1.setVisibility(View.GONE);
+                        iv_anim2.setVisibility(View.GONE);
+                        iv_anim3.setVisibility(View.GONE);
+                        if (!(is_dice_num>choice1(bl_chip_status))){
+                            showDialog();
+                        }else {
+                            if (bl_chip_status==0){
+                                ToastUtils.showShort(LiveingActivity.this, "请选择押注的筹码");
+                            }else {
+                                is_dice_num=is_dice_num-choice1(bl_chip_status);
+                                tv_price.setText(String.valueOf(is_dice_num));
+                                betService(""+choice1(bl_chip_status),getChipDiceDraws(bl_chip_status), rl_anims, getDraw(bl_chip_status), choice1(bl_chip_status));
+                            }
+                        }
+
+
                     }
                     break;
                 case R.id.rl_choice2://选择第2个
                     if(this_status==STATUS_BET_TYPE){
                         bl_choice1=2;
-                        bets();
-                        rl_choice2.setBackground(LiveingActivity.this.getDrawable(R.drawable.game_bgs1));
+                        iv_anim1.setVisibility(View.GONE);
+                        iv_anim2.setVisibility(View.GONE);
+                        iv_anim3.setVisibility(View.GONE);
+                        if (!(is_dice_num>choice1(bl_chip_status))){
+                            showDialog();
+                        }else {
+                            if (bl_chip_status==0){
+                                ToastUtils.showShort(LiveingActivity.this, "请选择押注的筹码");
+                            }else {
+                                is_dice_num=is_dice_num-choice1(bl_chip_status);
+                                tv_price.setText(String.valueOf(is_dice_num));
+                                betService(""+choice1(bl_chip_status),getChipDiceDraws(bl_chip_status), rl_anims, getDraw(bl_chip_status), choice1(bl_chip_status));
+                            }
+                        }
                     }
                     break;
                 case R.id.rl_choice3://选择第3个
                     if(this_status==STATUS_BET_TYPE){
                         bl_choice1=3;
-                        bets();
-                        rl_choice3.setBackground(LiveingActivity.this.getDrawable(R.drawable.game_bgs1));
+                        iv_anim1.setVisibility(View.GONE);
+                        iv_anim2.setVisibility(View.GONE);
+                        iv_anim3.setVisibility(View.GONE);
+                        if (!(is_dice_num>choice1(bl_chip_status))){
+                            showDialog();
+                        }else {
+                            if (bl_chip_status==0){
+                                ToastUtils.showShort(LiveingActivity.this, "请选择押注的筹码");
+                            }else {
+                                is_dice_num=is_dice_num-choice1(bl_chip_status);
+                                tv_price.setText(String.valueOf(is_dice_num));
+                                betService(""+choice1(bl_chip_status),getChipDiceDraws(bl_chip_status), rl_anims,getDraw(bl_chip_status), choice1(bl_chip_status));
+                            }
+                        }
                     }
                     break;
             }
@@ -4145,6 +4481,8 @@ private double quota=0,actual=0;
             ToastUtils.showShort(LiveingActivity.this, NET_UNCONNECT);
             return;
         }else {
+            gifts(iv_chip10, rl_anims, bet_money, chip10, i);
+            SoundPlayUtils.play(1);
             Api.dice_user_integral_reduce(LoginManager.getInstance().getUserID(LiveingActivity.this)
                     , bet_money
                     , CurLiveInfo.getRoomNum()
@@ -4153,8 +4491,7 @@ private double quota=0,actual=0;
                 public void onSuccess(ApiResponse apiResponse) {
                     //Log.i("游戏","下注-数据="+apiResponse.toString()+",bet_money="+bet_money);
                     if (apiResponse.getCode()==Api.SUCCESS){
-                        gifts(iv_chip10, rl_anims, bet_money, chip10, i);
-                        SoundPlayUtils.play(1);
+
                     }else {
                         ToastUtils.showShort(LiveingActivity.this,"下注失败");
                     }
@@ -4273,9 +4610,11 @@ private double quota=0,actual=0;
         iv_anim1.setVisibility(View.GONE);
         iv_anim2.setVisibility(View.GONE);
         iv_anim3.setVisibility(View.GONE);
-        rl_choice1.setBackground(LiveingActivity.this.getDrawable(R.drawable.game_bgs));
-        rl_choice2.setBackground(LiveingActivity.this.getDrawable(R.drawable.game_bgs));
-        rl_choice3.setBackground(LiveingActivity.this.getDrawable(R.drawable.game_bgs));
+
+        iv_chip10.setImageAlpha(128);
+        iv_chip25.setImageAlpha(128);
+        iv_chip50.setImageAlpha(128);
+        iv_chip100.setImageAlpha(128);
     }
 
     private void addIntegral(int i) {
@@ -4520,6 +4859,12 @@ private double quota=0,actual=0;
                     break;
                 case MSG_CODE_END_YAZU://休息结束，开始显示押注
                     this_status=STATUS_BET_TYPE;
+                    iv_chip10.setImageAlpha(128);
+                    iv_chip25.setImageAlpha(128);
+                    iv_chip50.setImageAlpha(128);
+                    iv_chip100.setImageAlpha(128);
+                    bl_chip_status=0;
+                    is_dice_num= (int) Double.parseDouble(tv_price.getText().toString());//计算本次可押注金额
                     //Log.i("游戏","STATUS_BET_TYPE——休息结束，开始显示押注");
                     rl_anim_stake1.removeAllViews();
                     rl_anim_stake2.removeAllViews();//色子数量容器
@@ -4758,6 +5103,7 @@ private double quota=0,actual=0;
 
                     @Override
                     public void onAnimationEnd(Animator animator) {
+                        getAnimIntegralsd();
                         if (LoginManager.getInstance().getUserID(LiveingActivity.this).equals(CurLiveInfo.getHostID())){
                             isAnim_dice=1;
                             Message msg1 = Message.obtain();
@@ -4795,6 +5141,55 @@ private double quota=0,actual=0;
             return;
         }
 
+
+    }
+    private void f1Num1(String var,int time) {
+        int[] location1 = new int[2];
+        tv_price.getLocationOnScreen(location1);
+        int stopX = location1[0];
+        int stopY = location1[1];//控件相对与屏幕的坐标
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
+                RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+        final TextView textView = new TextView(LiveingActivity.this);
+        textView.setLayoutParams(params);
+        int heightPixels = layout.getResources().getDisplayMetrics().heightPixels;
+        textView.setX(stopX);//牌出现的位置
+        textView.setY((int)(heightPixels*0.40-(heightPixels-stopY)+1));
+        textView.setMaxLines(1);
+        textView.setTextColor(Color.rgb(0xff,0xba,0x15));
+        SpannableString spanString = new SpannableString(var);
+        StyleSpan boldStyle = new StyleSpan(Typeface.BOLD);
+        spanString.setSpan(boldStyle, 0, var.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        textView.setText(var);
+        rl_anims.addView(textView);//把牌添加到容器中
+        AnimatorSet set = new AnimatorSet();
+        set
+                .play(ObjectAnimator.ofFloat(textView, "scaleX", 0.0f,1.5f))
+                .with(ObjectAnimator.ofFloat(textView, "scaleY", 0.0f,1.5f))
+                .with(ObjectAnimator.ofFloat(textView, "translationY", (int)(heightPixels*0.40-(heightPixels-stopY)), (int)(heightPixels*0.40-(heightPixels-stopY))-100));
+
+        set.setDuration(time).start();
+        set.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animator) {
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animator) {
+                rl_anims.removeView(textView);
+
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animator) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animator) {
+
+            }
+        });
 
     }
 
@@ -6018,9 +6413,15 @@ private double quota=0,actual=0;
         if (mBoolNeedRefresh) {
             mBoolRefreshLock = true;
             mBoolNeedRefresh = false;
-            mArrayListChatEntity.addAll(mTmpChatList);
-            mTmpChatList.clear();
-            mChatMsgListAdapter.notifyDataSetChanged();
+            if (mArrayListChatEntity!=null){
+                mArrayListChatEntity.addAll(mTmpChatList);
+            }
+            if (mTmpChatList!=null){
+                mTmpChatList.clear();
+            }
+            if (mChatMsgListAdapter!=null){
+                mChatMsgListAdapter.notifyDataSetChanged();
+            }
 
             if (null != mTimerTask) {
                 mTimerTask.cancel();

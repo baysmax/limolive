@@ -42,13 +42,14 @@
         android:orientation="horizontal">
         <RelativeLayout
             android:id="@+id/rl_nn_chip10"
+            android:layout_marginTop="2dp"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="50dp"
             android:orientation="vertical"
             android:gravity="center"
             >
-            <ImageView
+            <com.example.project.limolive.view.BlurMaskFilterView
                 android:id="@+id/iv_nn_chip10"
                 android:layout_marginTop="2dp"
                 android:layout_centerHorizontal="true"
@@ -75,7 +76,7 @@
             android:orientation="vertical"
             android:gravity="center"
             >
-            <ImageView
+            <com.example.project.limolive.view.BlurMaskFilterView
 
                 android:layout_centerHorizontal="true"
                 android:id="@+id/iv_nn_chip25"
@@ -102,7 +103,7 @@
             android:orientation="vertical"
             android:gravity="center"
             >
-            <ImageView
+            <com.example.project.limolive.view.BlurMaskFilterView
                 android:id="@+id/iv_nn_chip50"
                 android:layout_width="26dp"
                 android:layout_height="26dp"
@@ -128,7 +129,7 @@
             android:orientation="vertical"
             android:gravity="center"
             >
-            <ImageView
+            <com.example.project.limolive.view.BlurMaskFilterView
                 android:layout_centerHorizontal="true"
                 android:id="@+id/iv_nn_chip100"
                 android:layout_width="26dp"
