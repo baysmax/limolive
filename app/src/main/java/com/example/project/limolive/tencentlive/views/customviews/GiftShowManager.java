@@ -83,7 +83,7 @@ public class GiftShowManager {
     private LinearLayout giftCon;//礼物的容器
     private Context cxt;//上下文
     private RelativeLayout rl_anim;
-    private List<ImageView> imageLists;
+    //private List<ImageView> imageLists;
 
     private TranslateAnimation inAnim;//礼物View出现的动画
     private Animation huaAnim;//礼物View出现的动画
@@ -106,15 +106,19 @@ public class GiftShowManager {
             switch (msg.what) {
                 case REMOVE_GIFT:
                     ImageView img= (ImageView) msg.obj;
-                    rl_anim.removeView(img);
+                    img.setVisibility(View.GONE);
                     img.clearAnimation();
-                    for (int i = 0; i < bitmaps.size(); i++) {
-                        if (bitmaps.get(i)!=null){
-                            bitmaps.get(i).recycle();
-                        }
-                    }
-                    bitmaps.clear();
-                    System.gc();
+                    img.setImageAlpha(0);
+                    img=null;
+                    rl_anim.removeView(img);
+                    rl_anim.removeAllViews();
+//                    for (int i = 0; i < bitmaps.size(); i++) {
+//                        if (bitmaps.get(i)!=null){
+//                            bitmaps.get(i).recycle();
+//                        }
+//                    }
+                    //bitmaps.clear();
+                    //System.gc();
                     break;
                 case SHOW_GIFT_FLAG://如果是处理显示礼物的消息
                     Log.i("handler收到的","msg..."+msg.toString());
@@ -276,7 +280,6 @@ public class GiftShowManager {
                                 rl_anim.addView(imageView);
                                 AnimationDrawable anim = (AnimationDrawable) imageView.getBackground();
                                 anim.start();
-                                imageLists.add(imageView);
                                 tv_n.setText("赠送主播");
                             }else if (showVo.getType().equals("16")) {
                                 im.setImageResource(R.drawable.present_16);
@@ -412,9 +415,9 @@ public class GiftShowManager {
             options.inJustDecodeBounds=false;
             //设置动画位图编码方式和大小
         }
-        if (bitmaps==null){
-            bitmaps=new ArrayList<>();
-        }
+        //if (bitmaps==null){
+            //bitmaps=new ArrayList<>();
+        //}
         //完全编码实现的动画效果
         AnimationDrawable anim = null;
         if (name.equals("a1314_")){
@@ -438,7 +441,7 @@ public class GiftShowManager {
         }
         return anim;
     }
-    private ArrayList<Bitmap> bitmaps=null;
+//    private ArrayList<Bitmap> bitmaps=null;
     private AnimationDrawable forCount(int start,int time, int count, String name, AnimationDrawable anim) {
         for (int i = start; i <= count; i++) {
 
@@ -448,9 +451,7 @@ public class GiftShowManager {
 
 
             Bitmap bitmap = BitmapFactory.decodeResource(cxt.getResources(), id, options);
-
-
-            bitmaps.add(bitmap);
+            //bitmaps.add(bitmap);
             Drawable drawable = new BitmapDrawable(bitmap);
             //将此帧添加到AnimationDrawable中
             if (name.equals("a1314_")&&i==5){
@@ -468,7 +469,7 @@ public class GiftShowManager {
             int id = cxt.getResources().getIdentifier(name + i, "drawable", cxt.getPackageName());
             //根据资源ID获取到Drawable对象
 
-            bitmaps.add(BitmapFactory.decodeResource(cxt.getResources(), id, options));
+            //bitmaps.add(BitmapFactory.decodeResource(cxt.getResources(), id, options));
             Drawable drawable = new BitmapDrawable(BitmapFactory.decodeResource(cxt.getResources(), id, options));
             //将此帧添加到AnimationDrawable中
             anim.addFrame(drawable, time);
@@ -507,29 +508,15 @@ public class GiftShowManager {
 
             }
         });
-        rl_anim.addView(imageView);
+        rl_anim.addView(imageView,0);
 
-        AnimationDrawable anims = background;
-        anims.start();
-        imageLists.add(imageView);
+
+        background.start();
     }
 
 
 
-    private  void tryRecycleAnimationDrawable(AnimationDrawable animationDrawables) {
-        if (animationDrawables != null) {
-            animationDrawables.stop();
-            for (int i = 0; i < animationDrawables.getNumberOfFrames(); i++) {
-                Drawable frame = animationDrawables.getFrame(i);
-                if (frame instanceof BitmapDrawable) {
-                    ((BitmapDrawable) frame).getBitmap().recycle();
-                }
-                frame.setCallback(null);
-            }
-            animationDrawables.setCallback(null);
 
-        }
-    }
     private void showBigluwu(final ImageView imageView , AnimationDrawable drawable, int anim, Context context, final RelativeLayout relativeLayout) {
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
                 400, 200);
@@ -550,7 +537,6 @@ public class GiftShowManager {
                 msg.obj=imageView;
                 msg.what=REMOVE_GIFT;
                 handler.sendMessage(msg);
-                //tryRecycleAnimationDrawable(background);
                 System.gc();
             }
 
@@ -568,7 +554,6 @@ public class GiftShowManager {
         this.cxt = cxt;
         this.giftCon = giftCon;
         this.rl_anim=rl_anim;
-        imageLists=new ArrayList<>();
         queue = new LinkedBlockingQueue<GiftVo>(100);
         //bigGiftqueue=new LinkedBlockingQueue<>(100);
         inAnim = (TranslateAnimation) AnimationUtils.loadAnimation(cxt, R.anim.slide_left_in);

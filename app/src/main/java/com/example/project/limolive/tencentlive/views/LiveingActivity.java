@@ -2498,7 +2498,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
             if(!isStop==true){
                 //请求服务器 上传自己状态
                 poker_game_state_add();
-                Poker_Host_handler.postDelayed(Poker_Runnable,500);//主播游戏状态心跳
+                Poker_Host_handler.postDelayed(Poker_Runnable,1000);//主播游戏状态心跳
             }
 
         }
@@ -4768,7 +4768,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
             if(!isStop==true){
                 //请求服务器 上传自己状态
                 dicegame_state_add();
-                game_handler.postDelayed(Host_Runnable,500);//主播游戏状态心跳
+                game_handler.postDelayed(Host_Runnable,1000);//主播游戏状态心跳
             }
 
         }
