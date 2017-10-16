@@ -28,6 +28,7 @@ import com.example.project.limolive.helper.LoginManager;
 import com.example.project.limolive.tencentlive.presenters.LiveHelper;
 import com.example.project.limolive.tencentlive.views.LiveingActivity;
 import com.example.project.limolive.utils.ToastUtils;
+import com.example.project.limolive.view.CustomProgressDialog;
 import com.pgyersdk.crash.PgyCrashManager;
 import com.pgyersdk.update.PgyUpdateManager;
 import com.pgyersdk.update.UpdateManagerListener;
@@ -58,7 +59,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     private boolean isHideStatus = false; //是否隐藏status
     private LinearLayout ll_tabs;
-
+    private CustomProgressDialog mProgressDialog=null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -128,11 +129,15 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 clickIndex = 1;
                 break;
             case R.id.ll_live: //直播
+                showProgressDialog("正在请求...");
                 tabs[2].setEnabled(false);
                 Api.isBaned(LoginManager.getInstance().getUserID(MainActivity.this), new ApiResponseHandler(MainActivity.this) {
                     @Override
                     public void onSuccess(ApiResponse apiResponse) {
                         tabs[2].setEnabled(true);
+                        if (mProgressDialog!=null&&mProgressDialog.isShowing()){
+                            mProgressDialog.dismiss();
+                        }
                         if (apiResponse!=null&&apiResponse.getCode()==0){
                             Intent intent = new Intent();
                             intent.setClass(MainActivity.this, BeforeLiveActivity.class);
@@ -161,7 +166,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         }
         loadFragment();
     }
-
+    public void showProgressDialog(String msg) {
+        mProgressDialog = new CustomProgressDialog(this);
+        mProgressDialog.setMessage(msg);
+        mProgressDialog.setCanceledOnTouchOutside(false);
+        mProgressDialog.show();
+    }
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
