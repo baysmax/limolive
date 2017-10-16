@@ -185,6 +185,10 @@ public class GiftShowManager {
                             TextView tv = (TextView) giftView.findViewById(R.id.name);
                             TextView tv_n = (TextView) giftView.findViewById(R.id.tv_presentcontent_2);
                             im = (ImageView) giftView.findViewById(R.id.big_present_toa_2);
+                            RelativeLayout big_present_toa=(RelativeLayout) giftView.findViewById(R.id.big_present_toa);
+                            big_present_toa.setBackgroundDrawable(cxt.getDrawable(R.drawable.gift));
+                            AnimationDrawable background1 = (AnimationDrawable)big_present_toa.getBackground();
+                            background1.start();
                             im.setTag(showVo.getType());
                             CircleImageView civ = (CircleImageView) giftView.findViewById(R.id.tv_chat_head_image_present_2);
                             tv.setText(showVo.getName());

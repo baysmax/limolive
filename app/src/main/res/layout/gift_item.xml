@@ -58,16 +58,23 @@
 
             <RelativeLayout
                 android:id="@+id/re_hua_2"
-                android:layout_width="148dp"
+                android:layout_width="180dp"
                 android:layout_height="wrap_content">
-
-                <ImageView
-                    android:id="@+id/big_present_toa_2"
+                <RelativeLayout
+                    android:id="@+id/big_present_toa"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
-                    android:visibility="invisible"
-                    android:src="@drawable/present_1" />
+                    android:background="@drawable/giftg4">
+                    <ImageView
+                        android:id="@+id/big_present_toa_2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:src="@drawable/present_1" />
+                </RelativeLayout>
+
+
             </RelativeLayout>
 
             <com.example.project.limolive.tencentlive.views.customviews.MagicTextView
