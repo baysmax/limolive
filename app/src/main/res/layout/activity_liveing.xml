@@ -601,13 +601,13 @@
     <FrameLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
+        android:layout_marginTop="140dp"
         android:layout_marginLeft="20dp"
         android:paddingBottom="30dp">
         <ImageView
             android:id="@+id/iv_popularity"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:src="@drawable/top_nums"/>
     </FrameLayout>
 

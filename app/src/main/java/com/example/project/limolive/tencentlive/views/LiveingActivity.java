@@ -786,6 +786,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
 
         iv_popularity= (ImageView) findViewById(R.id.iv_popularity);
         iv_popularity.setOnClickListener(this);
+        iv_popularity.setVisibility(View.GONE);
 
 //        tv_admin= (TextView) findViewById(R.id.tv_admin);
         tv_game= (TextView) findViewById(R.id.tv_games);//游戏
@@ -2314,6 +2315,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
             showGameNN();//牛牛游戏
             if (instance!=null&&instance.isShowing()){
                 //if (LoginManager.getInstance().getUserID(LiveingActivity.this).equals(CurLiveInfo.getHostID())){
+                iv_popularity.setVisibility(View.GONE);
                 instance.hide();
                 rl_dice.setVisibility(View.GONE);
             }
@@ -2322,6 +2324,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
             if (instancePoker!=null&&instancePoker.isShowing()){
                 //if (LoginManager.getInstance().getUserID(LiveingActivity.this).equals(CurLiveInfo.getHostID())){
                 instancePoker.hide();
+                iv_popularity.setVisibility(View.GONE);
                 rl_nn_choice.setVisibility(View.GONE);
             }
         }else if (i==R.id.iv_popularity){
@@ -3817,8 +3820,9 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
                 case R.id.tv_nn_back://退出
                     if (instancePoker!=null&&instancePoker.isShowing()){
                         //if (LoginManager.getInstance().getUserID(LiveingActivity.this).equals(CurLiveInfo.getHostID())){
-                            instancePoker.hide();
-                            rl_nn_choice.setVisibility(View.GONE);
+                        instancePoker.hide();
+                        rl_nn_choice.setVisibility(View.GONE);
+                        iv_popularity.setVisibility(View.VISIBLE);
 //                        }else {
 //                            rl_nn_choice.setVisibility(View.GONE);
 //                            instancePoker.dismiss();
@@ -4023,7 +4027,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
 
         int width = imageView.getWidth();
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
-                width, width);
+                width/3*4, width/3*4);
         int width1 = rl_anim_stake.getWidth();//父容器的宽
         int height1 = rl_anim_stake.getHeight();//父容器的高
         Random random =new Random();//随机
@@ -4034,10 +4038,6 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
         int y = random.nextInt(height1-50);
         textView.setLayoutParams(params);
         textView.setBackground(LiveingActivity.this.getDrawable(draw));
-        textView.setText(string);
-        textView.setTextColor(Color.RED);
-        textView.setTextSize(8);
-        textView.setGravity(Gravity.CENTER);
         textView.setX(x);
         textView.setY(y);
         textView.setVisibility(View.INVISIBLE);
@@ -4047,10 +4047,6 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
 
         textView1.setLayoutParams(params);
         textView1.setBackground(LiveingActivity.this.getDrawable(draw));
-        textView1.setText("10");
-        textView1.setTextColor(Color.RED);
-        textView1.setTextSize(8);
-        textView1.setGravity(Gravity.CENTER);
         int[] location1 = new int[2];
         imageView.getLocationOnScreen(location1);
         int x1 = location1[0];
@@ -4244,7 +4240,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
         TextView textView=new TextView(LiveingActivity.this);
         int width = iv_nn_chip100.getWidth();
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
-                width, width);
+                width/3*4, width/3*4);
         int width1 = rl_anim_stake.getWidth();//父容器的宽
         int height1 = rl_anim_stake.getHeight();//父容器的高
         Random random =new Random();//随机
@@ -4254,10 +4250,6 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
 
         textView.setLayoutParams(params);
         textView.setBackground(LiveingActivity.this.getDrawable(draw));
-        textView.setText(str);
-        textView.setTextColor(Color.RED);
-        textView.setTextSize(7);
-        textView.setGravity(Gravity.CENTER);
         textView.setX(x);
         textView.setY(y);
         rl_anim_stake.addView(textView);
@@ -4377,6 +4369,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
                         //if (LoginManager.getInstance().getUserID(LiveingActivity.this).equals(CurLiveInfo.getHostID())){
                             instance.hide();
                             rl_dice.setVisibility(View.GONE);
+                        iv_popularity.setVisibility(View.VISIBLE);
 //                        }else {
 //                            instance.dismiss();
 //                            rl_dice.setVisibility(View.GONE);
@@ -4488,7 +4481,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
             ToastUtils.showShort(LiveingActivity.this, NET_UNCONNECT);
             return;
         }else {
-            gifts(iv_chip10, rl_anims, bet_money, chip10, i);
+            gifts(iv_chip10, rl_anims, chip10, i);
             SoundPlayUtils.play(1);
             Api.dice_user_integral_reduce(LoginManager.getInstance().getUserID(LiveingActivity.this)
                     , bet_money
@@ -4513,17 +4506,17 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
         }
     }
 
-    private void gifts(ImageView iv_chip10, RelativeLayout rl_anims, String string, int chip10, int i) {
+    private void gifts(ImageView iv_chip10, RelativeLayout rl_anims, int chip10, int i) {
         if (View.GONE == iv_win1.getVisibility()) {
             switch (bl_choice1) {
                 case 1:
-                    stakeGift(new TextView(LiveingActivity.this), iv_chip10, rl_anim_stake1, rl_anims, string, chip10);//添加textView；
+                    stakeGift(new TextView(LiveingActivity.this), iv_chip10, rl_anim_stake1, rl_anims, chip10);//添加textView；
                     break;
                 case 2:
-                    stakeGift(new TextView(LiveingActivity.this), iv_chip10, rl_anim_stake2, rl_anims, string, chip10);//添加textView；
+                    stakeGift(new TextView(LiveingActivity.this), iv_chip10, rl_anim_stake2, rl_anims, chip10);//添加textView；
                     break;
                 case 3:
-                    stakeGift(new TextView(LiveingActivity.this), iv_chip10, rl_anim_stake3, rl_anims, string, chip10);//添加textView；
+                    stakeGift(new TextView(LiveingActivity.this), iv_chip10, rl_anim_stake3, rl_anims,  chip10);//添加textView；
                     break;
             }
             addIntegral(i);
@@ -4532,11 +4525,11 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
         }
     }
 
-    private void stakeGift(final TextView textView, ImageView imageView, RelativeLayout rl_anim_stake, final RelativeLayout rl_anims,String string,int draw) {
+    private void stakeGift(final TextView textView, ImageView imageView, RelativeLayout rl_anim_stake, final RelativeLayout rl_anims,int draw) {
 
         int width = imageView.getWidth();
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
-                width, width);
+                width/3*4, width/3*4);
         int width1 = rl_anim_stake.getWidth();//父容器的宽
         int height1 = rl_anim_stake.getHeight();//父容器的高
         Random random =new Random();//随机
@@ -4544,10 +4537,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
         int y = random.nextInt(height1-40);
         textView.setLayoutParams(params);
         textView.setBackground(LiveingActivity.this.getDrawable(draw));
-        textView.setText(string);
-        textView.setTextColor(Color.RED);
-        textView.setTextSize(8);
-        textView.setGravity(Gravity.CENTER);
+
         textView.setX(x);
         textView.setY(y);
         textView.setVisibility(View.INVISIBLE);
@@ -4557,10 +4547,6 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
 
         textView1.setLayoutParams(params);
         textView1.setBackground(LiveingActivity.this.getDrawable(draw));
-        textView1.setText("10");
-        textView1.setTextColor(Color.RED);
-        textView1.setTextSize(8);
-        textView1.setGravity(Gravity.CENTER);
         int[] location1 = new int[2];
         imageView.getLocationOnScreen(location1);
         int x1 = location1[0];
@@ -4750,7 +4736,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
         TextView textView=new TextView(LiveingActivity.this);
         int width = iv_chip100.getWidth();
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
-                width, width);
+                width/3*4, width/3*4);
         int width1 = rl_anim_stake.getWidth();//父容器的宽
         int height1 = rl_anim_stake.getHeight();//父容器的高
         Random random =new Random();//随机
@@ -4760,10 +4746,6 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
 
         textView.setLayoutParams(params);
         textView.setBackground(LiveingActivity.this.getDrawable(draw));
-        textView.setText(str);
-        textView.setTextColor(Color.RED);
-        textView.setTextSize(7);
-        textView.setGravity(Gravity.CENTER);
         textView.setX(x);
         textView.setY(y);
         rl_anim_stake.addView(textView);
