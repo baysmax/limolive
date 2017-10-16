@@ -3480,6 +3480,11 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
                         }
                     }
                 }
+
+                @Override
+                public void onFailure(String errMessage) {
+                    dicegame_state_listd(10000);
+                }
             });
         }
     }
@@ -4822,6 +4827,11 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
 
 
                     }
+                }
+
+                @Override
+                public void onFailure(String errMessage) {
+                    dicegame_state_list(1000);
                 }
             });
         }
