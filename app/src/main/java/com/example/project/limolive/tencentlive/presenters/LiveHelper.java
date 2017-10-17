@@ -931,7 +931,9 @@ public class LiveHelper extends Presenter implements ILiveRoomOption.onRoomDisco
     }
 
     public void showProgressDialog(String msg) {
-        mProgressDialog = new CustomProgressDialog(mContext);
+        if (mProgressDialog==null){
+            mProgressDialog = new CustomProgressDialog(mContext);
+        }
         mProgressDialog.setMessage(msg);
         mProgressDialog.setCanceledOnTouchOutside(false);
         mProgressDialog.show();

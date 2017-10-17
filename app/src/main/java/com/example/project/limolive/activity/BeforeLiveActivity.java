@@ -465,7 +465,7 @@ public class BeforeLiveActivity extends Activity implements  SurfaceHolder.Callb
                 camera.release();//释放资源
                 camera = null;//取消原来摄像头
             }
-            camera=Camera.open(1);
+            //camera=Camera.open(1);
         }
             initCaera();
                 try {
