@@ -369,9 +369,9 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
                     break;
                 case 1:
                     if (apiList!=null&&apiList.size()!=0){
-                        //Log.i("飘屏动画","remove.getMessage()="+remove.getMessage());
                         if (rl_tuhaobang.getVisibility()==View.GONE&&rl_chongzhi.getVisibility()==View.GONE&&rl_maxGift.getVisibility()==View.GONE){//没在显示则开始显示
                             final ApiResponse remove = apiList.remove(0);
+                            //Log.i("飘屏动画","remove.getMessage()="+remove.getMessage());
                             //开始动画效果 动画执行完成后继续执行此方法直到apilist没有数据时结束
                             switch (remove.getCode()){
                                 case 3://充值飘屏
@@ -2322,18 +2322,42 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
         }else if (i==R.id.ll_niuniu){
             showGameNN();//牛牛游戏
             if (instance!=null&&instance.isShowing()){
-                //if (LoginManager.getInstance().getUserID(LiveingActivity.this).equals(CurLiveInfo.getHostID())){
+                if (LoginManager.getInstance().getUserID(LiveingActivity.this).equals(CurLiveInfo.getHostID())){
+                    instance.hide();
+                    rl_dice.setVisibility(View.GONE);
+                }else {
+                    instance.dismiss();
+                    rl_dice.setVisibility(View.GONE);
+                    if (instance!=null){
+                        if (timer!=null){
+                            timer.cancel();
+                        }
+                        instance.onDesPlay();
+                        instance=null;
+                    }
+                }
                 iv_popularity.setVisibility(View.GONE);
-                instance.hide();
-                rl_dice.setVisibility(View.GONE);
             }
         }else if (i==R.id.ll_dice){
             showGames();//色子游戏
             if (instancePoker!=null&&instancePoker.isShowing()){
-                //if (LoginManager.getInstance().getUserID(LiveingActivity.this).equals(CurLiveInfo.getHostID())){
-                instancePoker.hide();
+                if (LoginManager.getInstance().getUserID(LiveingActivity.this).equals(CurLiveInfo.getHostID())){
+                    instancePoker.hide();
+
+                    rl_nn_choice.setVisibility(View.GONE);
+                }else {
+                    rl_nn_choice.setVisibility(View.GONE);
+                    instancePoker.dismiss();
+                    if (instancePoker!=null){
+                        instancePoker.onDesPlay();
+                        if (timers!=null){
+                            timers.cancel();
+                            timers=null;
+                        }
+                        instancePoker=null;
+                    }
+                }
                 iv_popularity.setVisibility(View.GONE);
-                rl_nn_choice.setVisibility(View.GONE);
             }
         }else if (i==R.id.iv_popularity){
             showPopularityDialog();
@@ -2698,7 +2722,9 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
                             startCountDownTime_tv_numsd(5,1);
                         }else {
                             //Log.i("牛牛","CurLiveInfo.getHostID()1");
-
+                            if (instancePoker!=null&&instancePoker.isShowing()){
+                                mLiveHelper.showProgressDialog("正在获取游戏状态...");
+                            }
                             dicegame_state_listd(STATUS_ANIM_TYPE);
                         }
                     }
@@ -3458,6 +3484,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
                 @Override
                 public void onSuccess(ApiResponse apiResponse) {
                     //Log.i("牛牛","获取游戏状态api="+apiResponse.toString());
+                    mLiveHelper.hideProgressDialog();
                     if (apiResponse.getCode()==Api.SUCCESS){
                         String data = apiResponse.getData();
                         statusBean = JSON.parseObject(data, StatusBean.class);
@@ -3524,6 +3551,9 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
                 msg.what=MSG_CODE_END_REST;
                 dice_poker_handler.sendMessage(msg);
             }else {
+                if (instancePoker!=null&&instancePoker.isShowing()){
+                    mLiveHelper.showProgressDialog("正在获取游戏状态...");
+                }
                 dicegame_state_listd(10000);//获取游戏状态
             }
         }else {
@@ -3553,6 +3583,9 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
                 msg.what=MSG_CODE_END_REST;
                 dice_poker_handler.sendMessage(msg);
             }else {
+                if (instancePoker!=null&&instancePoker.isShowing()){
+                    mLiveHelper.showProgressDialog("正在获取游戏状态...");
+                }
                 dicegame_state_listd(10000);//获取游戏状态
             }
         }else {
@@ -3827,18 +3860,22 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
             switch (v.getId()){
                 case R.id.tv_nn_back://退出
                     if (instancePoker!=null&&instancePoker.isShowing()){
-                        //if (LoginManager.getInstance().getUserID(LiveingActivity.this).equals(CurLiveInfo.getHostID())){
+                        if (LoginManager.getInstance().getUserID(LiveingActivity.this).equals(CurLiveInfo.getHostID())){
                         instancePoker.hide();
                         rl_nn_choice.setVisibility(View.GONE);
+                        }else {
+                            rl_nn_choice.setVisibility(View.GONE);
+                            instancePoker.dismiss();
+                            if (instancePoker!=null){
+                                instancePoker.onDesPlay();
+                                if (timers!=null){
+                                    timers.cancel();
+                                    timers=null;
+                                }
+                                instancePoker=null;
+                            }
+                        }
                         iv_popularity.setVisibility(View.VISIBLE);
-//                        }else {
-//                            rl_nn_choice.setVisibility(View.GONE);
-//                            instancePoker.dismiss();
-//                            if (instancePoker!=null){
-//                                instancePoker.onDesPlay();
-//                                //instancePoker=null;
-//                            }
-//                        }
                     }
                     break;
                 case R.id.tv_nn_recharge://充值
@@ -4301,9 +4338,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
             initViews(view);
             instance.setContentView(view);
             instance.setCancelable(false);
-
-                instance.show();
-
+            instance.show();
             rl_dice.setVisibility(View.VISIBLE);
             getIntegrals();//显示积分
             WindowManager.LayoutParams params = instance.getWindow().getAttributes();// 得到属性
@@ -4323,6 +4358,10 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
                 msg.what=MSG_CODE_END_REST;
                 dice_handler.sendMessage(msg);
             }else {
+                //Log.i("色子","观众方式打开游戏");
+                if (instance!=null&&instance.isShowing()){
+                    mLiveHelper.showProgressDialog("正在获取游戏状态...");
+                }
                 dicegame_state_list(10000);
             }
         }else {
@@ -4374,18 +4413,21 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
             switch (v.getId()){
                 case R.id.tv_back://退出
                     if (instance!=null&&instance.isShowing()){
-                        //if (LoginManager.getInstance().getUserID(LiveingActivity.this).equals(CurLiveInfo.getHostID())){
+                        if (LoginManager.getInstance().getUserID(LiveingActivity.this).equals(CurLiveInfo.getHostID())){
                             instance.hide();
                             rl_dice.setVisibility(View.GONE);
+                        }else {
+                            instance.dismiss();
+                            rl_dice.setVisibility(View.GONE);
+                            if (instance!=null){
+                                if (timer!=null){
+                                    timer.cancel();
+                                }
+                                instance.onDesPlay();
+                                instance=null;
+                            }
+                        }
                         iv_popularity.setVisibility(View.VISIBLE);
-//                        }else {
-//                            instance.dismiss();
-//                            rl_dice.setVisibility(View.GONE);
-//                            if (instance!=null){
-//                                instance.onDesPlay();
-//                                //instance=null;
-//                            }
-//                        }
                     }
                     break;
                 case R.id.tv_recharge://充值
@@ -4779,10 +4821,12 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
             ToastUtils.showShort(LiveingActivity.this, NET_UNCONNECT);
             return;
         }else {
+            //Log.i("色子","观众方式打开游戏--执行获取状态前");
             Api.dicegame_state_list(CurLiveInfo.getRoomNum(), new ApiResponseHandler(LiveingActivity.this) {
                 @Override
                 public void onSuccess(ApiResponse apiResponse) {
-                    //Log.i("色子","获取游戏状态api="+apiResponse.toString());
+                    mLiveHelper.hideProgressDialog();
+                    //Log.i("色子","回调获取游戏状态api="+apiResponse.toString());
                     if (apiResponse.getCode()==Api.SUCCESS){
                         String data = apiResponse.getData();
                         statusBean = JSON.parseObject(data, StatusBean.class);
@@ -4823,6 +4867,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
 
                 @Override
                 public void onFailure(String errMessage) {
+                    //Log.i("色子","失败回调="+errMessage);
                     dicegame_state_list(1000);
                 }
             });
@@ -4940,7 +4985,9 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
                             startCountDownTime_tv_num(5,1);
                         }else {
                             //Log.i("色子","CurLiveInfo.getHostID()1");
-
+                            if (instance!=null&&instance.isShowing()){
+                                mLiveHelper.showProgressDialog("正在获取游戏状态...");
+                            }
                             dicegame_state_list(STATUS_END_TYPE);
                         }
                     }
@@ -6641,9 +6688,11 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
         } else {
             //Log.i("成员列表", CurLiveInfo.getChatRoomId().toString());
             //Log.i("成员列表", CurLiveInfo.getHostID());
+            mLiveHelper.showProgressDialog("正在加载观众列表...");
             Api.groupMemberInfo(LoginManager.getInstance().getUserID(this), CurLiveInfo.getChatRoomId(),"1","1", new ApiResponseHandler(this) {
                 @Override
                 public void onSuccess(ApiResponse apiResponse) {
+                    mLiveHelper.hideProgressDialog();
                     //Log.i("成员列表", "data=s"+apiResponse.toString());
                     if (apiResponse.getCode() == Api.SUCCESS) {
                         String data = apiResponse.getData();
