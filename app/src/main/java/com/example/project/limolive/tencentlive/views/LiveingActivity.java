@@ -1494,6 +1494,14 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
             public void onClick(View v) {
                 if (null != mLiveHelper) {
                     initDetailDailog();
+                    if (instancePoker!=null){
+                        instancePoker.hide();
+                        instancePoker.dismiss();
+                    }
+                    if (instance!=null){
+                        instance.hide();
+                        instance.dismiss();
+                    }
                     mLiveHelper.startExitRoom();
                 }
                 backDialog.dismiss();
