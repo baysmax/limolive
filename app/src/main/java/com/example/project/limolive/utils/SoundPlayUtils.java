@@ -51,7 +51,9 @@ public class SoundPlayUtils {
      * @param soundID
      */
     public static void play(int soundID) {
-        mSoundPlayer.play(soundID, 1.0f, 1.0f, 0, 0, 1.0f);
+        if (mSoundPlayer!=null){
+            mSoundPlayer.play(soundID, 1.0f, 1.0f, 0, 0, 1.0f);
+        }
     }
     public static void desPlay(){
         soundPlayUtils=null;
