@@ -24,6 +24,7 @@ import com.example.project.limolive.tencentlive.model.CurLiveInfo;
 import com.example.project.limolive.tencentlive.model.LiveMySelfInfo;
 import com.example.project.limolive.tencentlive.utils.Constants;
 import com.example.project.limolive.tencentlive.views.LiveingActivity;
+import com.example.project.limolive.utils.ImageUtils;
 import com.example.project.limolive.utils.ToastUtils;
 import com.example.project.limolive.view.RoundCornersImageView;
 import com.facebook.drawee.view.SimpleDraweeView;
@@ -118,11 +119,11 @@ public class FollowAdapter  extends RecyclerView.Adapter {
             holder1.tv_mlz.setText("魅力值 "+homeListBeen.getCharm());
             holder1.isLive.setImageDrawable(context.getDrawable(R.drawable.wkb));
             if (homeListBeen.getHeadsmall().contains("http://")){
-                holder1.avatar.setImageURI(homeListBeen.getHeadsmall());
-                ImageLoader.getInstance().displayImage(homeListBeen.getHeadsmall(),holder1.largeImgs);
+                holder1.avatar.setImageURI(homeListBeen.getHeadsmall(),ImageUtils.getOptions());
+                ImageLoader.getInstance().displayImage(homeListBeen.getHeadsmall(),holder1.largeImgs,ImageUtils.getOptions());
             }else {
-                holder1.avatar.setImageURI(ApiHttpClient.API_PIC+homeListBeen.getHeadsmall());
-                ImageLoader.getInstance().displayImage(ApiHttpClient.API_PIC+homeListBeen.getHeadsmall(),holder1.largeImgs);
+                holder1.avatar.setImageURI(ApiHttpClient.API_PIC+homeListBeen.getHeadsmall(),ImageUtils.getOptions());
+                ImageLoader.getInstance().displayImage(ApiHttpClient.API_PIC+homeListBeen.getHeadsmall(),holder1.largeImgs,ImageUtils.getOptions());
             }
             return;
         }
@@ -131,15 +132,15 @@ public class FollowAdapter  extends RecyclerView.Adapter {
         holder1.tv_mlz.setText("魅力值 "+homeListBeen.getCharm());
         Log.i("直播列表","homeListBeen="+homeListBeen.toString());
         if ((!TextUtils.isEmpty(homeListBeen.getHost().getAvatar()))&&homeListBeen.getHost().getAvatar().contains("http://")){
-            holder1.avatar.setImageURI(homeListBeen.getHost().getAvatar());
+            holder1.avatar.setImageURI(homeListBeen.getHost().getAvatar(),ImageUtils.getOptions());
         }else {
-            holder1.avatar.setImageURI(ApiHttpClient.API_PIC+homeListBeen.getHost().getAvatar());
+            holder1.avatar.setImageURI(ApiHttpClient.API_PIC+homeListBeen.getHost().getAvatar(),ImageUtils.getOptions());
         }
 
         if ((!TextUtils.isEmpty(homeListBeen.getCover()))&&homeListBeen.getCover().contains("http://")){
-            ImageLoader.getInstance().displayImage(homeListBeen.getCover(),holder1.largeImgs);
+            ImageLoader.getInstance().displayImage(homeListBeen.getCover(),holder1.largeImgs,ImageUtils.getOptions());
         }else {
-            ImageLoader.getInstance().displayImage(ApiHttpClient.API_PIC+homeListBeen.getCover(),holder1.largeImgs);
+            ImageLoader.getInstance().displayImage(ApiHttpClient.API_PIC+homeListBeen.getCover(),holder1.largeImgs,ImageUtils.getOptions());
         }
             holder1.isLive.setImageDrawable(context.getDrawable(R.drawable.zbz));
     }

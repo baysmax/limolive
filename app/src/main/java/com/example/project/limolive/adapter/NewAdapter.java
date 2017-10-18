@@ -16,6 +16,7 @@ import com.example.project.limolive.tencentlive.model.CurLiveInfo;
 import com.example.project.limolive.tencentlive.model.LiveMySelfInfo;
 import com.example.project.limolive.tencentlive.utils.Constants;
 import com.example.project.limolive.tencentlive.views.LiveingActivity;
+import com.example.project.limolive.utils.ImageUtils;
 import com.example.project.limolive.view.RoundCornersImageView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
@@ -52,9 +53,9 @@ public class NewAdapter extends RecyclerView.Adapter {
         }
         holder1.tv_dizhi.setText(homeListBeen.getLbs().getAddress());
         if (homeListBeen.getCover().contains("http://")){
-            ImageLoader.getInstance().displayImage(homeListBeen.getCover(),holder1.image);
+            ImageLoader.getInstance().displayImage(homeListBeen.getCover(),holder1.image, ImageUtils.getOptions());
         }else {
-            ImageLoader.getInstance().displayImage(ApiHttpClient.API_PIC+homeListBeen.getCover(),holder1.image);
+            ImageLoader.getInstance().displayImage(ApiHttpClient.API_PIC+homeListBeen.getCover(),holder1.image,ImageUtils.getOptions());
         }
         holder1.image.setOnClickListener(new View.OnClickListener() {
             @Override
