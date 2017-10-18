@@ -17,6 +17,8 @@ import com.example.project.limolive.R;
 import com.example.project.limolive.activity.GoodsDetails;
 import com.example.project.limolive.api.ApiHttpClient;
 import com.example.project.limolive.bean.taowu.RecommendBean;
+import com.example.project.limolive.utils.ImageUtils;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.List;
 
@@ -48,8 +50,13 @@ public class New_Adapter extends RecyclerView.Adapter {
             holder.iv_img.setImageResource(R.mipmap.goods);
         } else {
             //String[] split = rb.getGoods_content().split(";");
-            Log.i("获取普通商品","getOriginal_img"+recommendBean.getOriginal_img());
-            Glide.with(context).load(ApiHttpClient.API_PIC + recommendBean.getOriginal_img()).into(holder.iv_img);
+            //Log.i("获取普通商品","getOriginal_img"+recommendBean.getOriginal_img());
+            //Glide.with(context).load(ApiHttpClient.API_PIC + recommendBean.getOriginal_img()).into(holder.iv_img);
+            if (recommendBean.getOriginal_img().contains("http")){
+                ImageLoader.getInstance().displayImage(recommendBean.getOriginal_img(),holder.iv_img, ImageUtils.getOptions());
+            }else {
+                ImageLoader.getInstance().displayImage(ApiHttpClient.API_PIC + recommendBean.getOriginal_img(),holder.iv_img, ImageUtils.getOptions());
+            }
         }
         holder.ll.setOnClickListener(new View.OnClickListener() {
             @Override

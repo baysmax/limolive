@@ -73,8 +73,8 @@ public class GoodsAdapter extends RecyclerView.Adapter{
             holder.iv_goods_iicon.setImageResource(R.mipmap.goods);
         } else {
             //String[] split = rb.getGoods_content().split(";");
-            Log.i("获取普通商品","getOriginal_img"+recommendBean.getOriginal_img());
-            Glide.with(context).load(ApiHttpClient.API_PIC + recommendBean.getOriginal_img()).into( holder.iv_goods_iicon);
+//            Log.i("获取普通商品","getOriginal_img"+recommendBean.getOriginal_img());
+//            Glide.with(context).load(ApiHttpClient.API_PIC + recommendBean.getOriginal_img()).into( holder.iv_goods_iicon);
             if (recommendBean.getOriginal_img().contains("http")){
                 ImageLoader.getInstance().displayImage(recommendBean.getOriginal_img(),holder.iv_goods_iicon, ImageUtils.getOptions());
             }else {
