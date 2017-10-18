@@ -362,13 +362,16 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
                     }
                     if (msg.obj!=null){
                         ApiResponse api= (ApiResponse) msg.obj;
+                        //Log.i("飘屏动画","添加飘屏元素api="+api.toString());
                         apiList.add(api);
+                        //Log.i("飘屏动画","添加飘屏元素apiList.size()="+apiList.size());
                         pHandler.sendEmptyMessageAtTime(1,500);
                     }
 
                     break;
                 case 1:
                     if (apiList!=null&&apiList.size()!=0){
+                        //Log.i("飘屏动画",".getVisibility()==View.GONE"+(rl_tuhaobang.getVisibility()==View.GONE)+(rl_chongzhi.getVisibility()==View.GONE)+(rl_maxGift.getVisibility()==View.GONE));
                         if (rl_tuhaobang.getVisibility()==View.GONE&&rl_chongzhi.getVisibility()==View.GONE&&rl_maxGift.getVisibility()==View.GONE){//没在显示则开始显示
                             final ApiResponse remove = apiList.remove(0);
                             //Log.i("飘屏动画","remove.getMessage()="+remove.getMessage());
@@ -392,6 +395,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
                                         @Override
                                         public void onAnimationEnd(Animation animation) {
 
+                                            rl_chongzhi.clearAnimation();
                                             rl_chongzhi.setVisibility(View.GONE);
                                             rl_tuhaobang.setVisibility(View.GONE);
                                             rl_maxGift.setVisibility(View.GONE);
@@ -495,6 +499,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
                                             marqueeTextView.setText("");
                                             at_tuhaobang.setText("");
                                             at_maxGift.setText("");
+                                            //Log.i("飘屏动画","结束");
                                             pHandler.sendEmptyMessageAtTime(1,500);
 
 //                                            Message msg = Message.obtain();
@@ -527,6 +532,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
 
                                         @Override
                                         public void onAnimationEnd(Animation animation) {
+                                            rl_tuhaobang.clearAnimation();
 
                                             rl_chongzhi.setVisibility(View.GONE);
                                             rl_tuhaobang.setVisibility(View.GONE);
@@ -6627,7 +6633,9 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
 
     // 清除老房间数据
     private void clearOldData() {
-        mArrayListChatEntity.clear();
+        if (mArrayListChatEntity!=null){
+            mArrayListChatEntity.clear();
+        }
         mBoolNeedRefresh = true;
         if (mBoolRefreshLock) {
             return;
