@@ -2618,20 +2618,39 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
                     iv_nn_chip50.setImageAlpha(128);
                     iv_nn_chip100.setImageAlpha(128);
                     actual=0;
-                    bl_choice_status=0;
                     if (anim==null){
-                        anim= ValueAnimator.ofArgb(128, 0, 128, 0, 128,0,128);
+                        anim= ValueAnimator.ofArgb(128, 0, 128, 0, 128,0,130);
                         anim.setDuration(3000);
                         anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                             @Override
                             public void onAnimationUpdate(ValueAnimator valueAnimator) {
                                 int val = (int) valueAnimator.getAnimatedValue();
                                 updatas(val);
-
                             }
 
                         });
+                        anim.addListener(new Animator.AnimatorListener() {
+                            @Override
+                            public void onAnimationStart(Animator animator) {
 
+                            }
+                            @Override
+                            public void onAnimationEnd(Animator animator) {
+                                iv_nn_chip10.setImageAlpha(255);
+                                bl_choice_status=1;
+                                bl_choice1s=1;
+                            }
+
+                            @Override
+                            public void onAnimationCancel(Animator animator) {
+
+                            }
+
+                            @Override
+                            public void onAnimationRepeat(Animator animator) {
+
+                            }
+                        });
 
                     }
 
@@ -3967,7 +3986,9 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
     }
 
     private void setDice() {
-
+        iv_nn_anim1.setVisibility(View.GONE);
+        iv_nn_anim2.setVisibility(View.GONE);
+        iv_nn_anim3.setVisibility(View.GONE);
             int i = choice1(bl_choice1s);
             if(this_statusd==STATUS_BET_TYPE){
                 if (quota<i){
@@ -4945,7 +4966,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
                     }
                     if (is_dice_num>=10){
                         iv_chip10.setImageAlpha(255);
-                        bl_chip_status=10;
+                        bl_chip_status=1;
                     }else {
                         bl_chip_status=0;
                     }
