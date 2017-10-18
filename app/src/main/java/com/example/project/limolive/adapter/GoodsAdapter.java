@@ -20,8 +20,10 @@ import com.example.project.limolive.api.ApiResponse;
 import com.example.project.limolive.api.ApiResponseHandler;
 import com.example.project.limolive.bean.taowu.RecommendBean;
 import com.example.project.limolive.helper.LoginManager;
+import com.example.project.limolive.utils.ImageUtils;
 import com.example.project.limolive.utils.NetWorkUtil;
 import com.example.project.limolive.utils.ToastUtils;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.List;
 
@@ -73,6 +75,11 @@ public class GoodsAdapter extends RecyclerView.Adapter{
             //String[] split = rb.getGoods_content().split(";");
             Log.i("获取普通商品","getOriginal_img"+recommendBean.getOriginal_img());
             Glide.with(context).load(ApiHttpClient.API_PIC + recommendBean.getOriginal_img()).into( holder.iv_goods_iicon);
+            if (recommendBean.getOriginal_img().contains("http")){
+                ImageLoader.getInstance().displayImage(recommendBean.getOriginal_img(),holder.iv_goods_iicon, ImageUtils.getOptions());
+            }else {
+                ImageLoader.getInstance().displayImage(ApiHttpClient.API_PIC + recommendBean.getOriginal_img(),holder.iv_goods_iicon, ImageUtils.getOptions());
+            }
         }
 
     }
