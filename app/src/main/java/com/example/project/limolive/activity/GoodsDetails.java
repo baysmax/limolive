@@ -65,10 +65,12 @@ import com.example.project.limolive.tencentlive.utils.GlideCircleTransform;
 import com.example.project.limolive.tencentlive.utils.SxbLog;
 import com.example.project.limolive.tencentlive.utils.UIUtils;
 import com.example.project.limolive.tencentlive.views.LiveingActivity;
+import com.example.project.limolive.utils.ImageUtils;
 import com.example.project.limolive.utils.NetWorkUtil;
 import com.example.project.limolive.utils.ToastUtils;
 import com.example.project.limolive.view.CustomDialog;
 import com.example.project.limolive.view.MyListview;
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
@@ -130,7 +132,12 @@ public class GoodsDetails extends BaseActivity implements View.OnClickListener {
 
         if (!TextUtils.isEmpty(gb.getGoodInfo().getOriginal_img())) {
             // String[] split = gb.getGoodInfo().getGoods_content().split(";");
-            Glide.with(GoodsDetails.this).load(ApiHttpClient.API_PIC + gb.getGoodInfo().getOriginal_img()).into(iv_goods_icon);
+           // Glide.with(GoodsDetails.this).load(ApiHttpClient.API_PIC + gb.getGoodInfo().getOriginal_img()).into(iv_goods_icon);
+            if (gb.getGoodInfo().getOriginal_img().contains("http://")){
+                ImageLoader.getInstance().displayImage(gb.getGoodInfo().getOriginal_img(),iv_goods_icon, ImageUtils.getOptions());
+            }else {
+                ImageLoader.getInstance().displayImage(ApiHttpClient.API_PIC+gb.getGoodInfo().getOriginal_img(),iv_goods_icon, ImageUtils.getOptions());
+            }
             Log.i("获取商品详情","getOriginal_img全路径"+ApiHttpClient.API_PIC + gb.getGoodInfo().getOriginal_img());
         }
         tv_goodsname = contentView.findViewById(R.id.tv_goodsname);//商品简绍
@@ -475,13 +482,15 @@ public class GoodsDetails extends BaseActivity implements View.OnClickListener {
             Bitmap cirBitMap = UIUtils.createCircleImage(bitmap, 0);
             view.setImageBitmap(cirBitMap);
         } else {
-            RequestManager req = Glide.with(this);
+//            RequestManager req = Glide.with(this);
             if (avatar.toString().contains("http://")) {
-                req.load(avatar).transform(new GlideCircleTransform(this)).into(view);
-                Log.i("主播头像", "微信avatar" + avatar);
+                ImageLoader.getInstance().displayImage(avatar.toString(),view, ImageUtils.getOptions());
+                //req.load(avatar).transform(new GlideCircleTransform(this)).into(view);
+                //Log.i("主播头像", "微信avatar" + avatar);
             } else {
-                req.load(ApiHttpClient.API_PIC + avatar).transform(new GlideCircleTransform(this)).into(view);
-                Log.i("主播头像", "avatar" + avatar);
+                ImageLoader.getInstance().displayImage(ApiHttpClient.API_PIC + avatar,view, ImageUtils.getOptions());
+//                req.load(ApiHttpClient.API_PIC + avatar).transform(new GlideCircleTransform(this)).into(view);
+//                Log.i("主播头像", "avatar" + avatar);
             }
         }
     }
