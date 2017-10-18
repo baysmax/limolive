@@ -14,6 +14,8 @@ import com.bumptech.glide.Glide;
 import com.example.project.limolive.R;
 import com.example.project.limolive.api.ApiHttpClient;
 import com.example.project.limolive.bean.taowu.RecommendBean;
+import com.example.project.limolive.utils.ImageUtils;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.List;
 
@@ -68,8 +70,13 @@ public class HorizontalListAdapter extends BaseAdapter {
         if (TextUtils.isEmpty(rb.getOriginal_img())) {
             vh.image.setImageResource(R.mipmap.shopicon);
         } else {
-            Log.i("获取爆款商品","rb.getOriginal_img()..."+rb.getOriginal_img());
-            Glide.with(mContext).load(ApiHttpClient.API_PIC + rb.getOriginal_img()).into(vh.image);
+            //Log.i("获取爆款商品","rb.getOriginal_img()..."+rb.getOriginal_img());
+            //Glide.with(mContext).load(ApiHttpClient.API_PIC + rb.getOriginal_img()).into(vh.image);
+            if (rb.getOriginal_img().contains("http://")){
+                ImageLoader.getInstance().displayImage(rb.getOriginal_img(),vh.image, ImageUtils.getOptions());
+            }else {
+                ImageLoader.getInstance().displayImage(ApiHttpClient.API_PIC+rb.getOriginal_img(),vh.image, ImageUtils.getOptions());
+            }
         }
         return convertView;
     }

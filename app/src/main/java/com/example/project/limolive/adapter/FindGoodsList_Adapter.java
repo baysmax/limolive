@@ -21,6 +21,7 @@ import com.example.project.limolive.api.ApiResponse;
 import com.example.project.limolive.api.ApiResponseHandler;
 import com.example.project.limolive.bean.taowu.RecommendBean;
 import com.example.project.limolive.helper.LoginManager;
+import com.example.project.limolive.utils.ImageUtils;
 import com.example.project.limolive.utils.NetWorkUtil;
 import com.example.project.limolive.utils.ToastUtils;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -85,8 +86,13 @@ public class FindGoodsList_Adapter extends BaseAdapter {
             viewHolder.iv_goodspicture.setImageResource(R.mipmap.goods);
         } else {
             //String[] split = rb.getGoods_content().split(";");
-            Log.i("获取普通商品","getOriginal_img"+rb.getOriginal_img());
-           Glide.with(mContext).load(ApiHttpClient.API_PIC + rb.getOriginal_img()).into(viewHolder.iv_goodspicture);
+           // Log.i("获取普通商品","getOriginal_img"+rb.getOriginal_img());
+           //Glide.with(mContext).load(ApiHttpClient.API_PIC + rb.getOriginal_img()).into(viewHolder.iv_goodspicture);
+            if (rb.getOriginal_img().contains("http://")){
+                ImageLoader.getInstance().displayImage(rb.getOriginal_img(),viewHolder.iv_goodspicture, ImageUtils.getOptions());
+            }else {
+                ImageLoader.getInstance().displayImage(ApiHttpClient.API_PIC+rb.getOriginal_img(),viewHolder.iv_goodspicture, ImageUtils.getOptions());
+            }
         }
         viewHolder.tv_recommend_baokuan.setText(rb.getGoods_name());
         viewHolder.tv_howMoney.setText("¥" + rb.getShop_price());
