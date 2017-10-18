@@ -4939,10 +4939,15 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
                     iv_chip25.setImageAlpha(128);
                     iv_chip50.setImageAlpha(128);
                     iv_chip100.setImageAlpha(128);
-                    bl_chip_status=0;
                     String s = tv_price.getText().toString();
                     if (!"".equals(s)){
                         is_dice_num= (int) Double.parseDouble(s);//计算本次可押注金额
+                    }
+                    if (is_dice_num>=10){
+                        iv_chip10.setImageAlpha(255);
+                        bl_chip_status=10;
+                    }else {
+                        bl_chip_status=0;
                     }
                     //Log.i("色子","STATUS_BET_TYPE——休息结束，开始显示押注");
                     rl_anim_stake1.removeAllViews();
