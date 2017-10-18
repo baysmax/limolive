@@ -17,6 +17,8 @@ import com.example.project.limolive.api.ApiHttpClient;
 import com.example.project.limolive.tencentlive.model.AvMemberInfo;
 import com.example.project.limolive.tencentlive.utils.GlideCircleTransform;
 import com.example.project.limolive.tencentlive.utils.UIUtils;
+import com.example.project.limolive.utils.ImageUtils;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.List;
 
@@ -58,7 +60,7 @@ public class MembersHeadAdapter extends BaseAdapter {
 
     private void showHeadIcon(ImageView view, String avatar) {
         if (TextUtils.isEmpty(avatar)) {
-            Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.default_avatar);
+            Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.zanwu);
             Bitmap cirBitMap = UIUtils.createCircleImage(bitmap, 0);
             view.setImageBitmap(cirBitMap);
         } else {
@@ -68,6 +70,11 @@ public class MembersHeadAdapter extends BaseAdapter {
             }else {
                 req.load(ApiHttpClient.API_PIC+avatar).transform(new GlideCircleTransform(context)).into(view);
             }
+//            if (avatar.contains("http://")){
+//                ImageLoader.getInstance().displayImage(avatar,view, ImageUtils.getOptions());
+//            }else {
+                //ImageLoader.getInstance().displayImage(ApiHttpClient.API_PIC+avatar,view, ImageUtils.getOptions());
+//            }
         }
     }
 }
