@@ -18,6 +18,7 @@ import com.example.project.limolive.tencentlive.model.CurLiveInfo;
 import com.example.project.limolive.tencentlive.model.LiveMySelfInfo;
 import com.example.project.limolive.tencentlive.utils.Constants;
 import com.example.project.limolive.tencentlive.views.LiveingActivity;
+import com.example.project.limolive.utils.ImageUtils;
 import com.example.project.limolive.view.RoundCornersImageView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
@@ -50,15 +51,15 @@ public class NmztAdapter extends RecyclerView.Adapter {
         holder1.tv_pm.setText("top"+(position+1));
         if ("".equals(homeListBeen.getCover())){
             if (homeListBeen.getCover().contains("http://")){
-                ImageLoader.getInstance().displayImage(homeListBeen.getCover(),holder1.avatar);
+                ImageLoader.getInstance().displayImage(homeListBeen.getCover(),holder1.avatar,ImageUtils.getOptions());
             }else {
-                ImageLoader.getInstance().displayImage(ApiHttpClient.API_PIC+homeListBeen.getCover(),holder1.avatar);
+                ImageLoader.getInstance().displayImage(ApiHttpClient.API_PIC+homeListBeen.getCover(),holder1.avatar,ImageUtils.getOptions());
             }
         }else {
             if (host.getAvatar().contains("http://")){
-                ImageLoader.getInstance().displayImage(host.getAvatar(),holder1.avatar);
+                ImageLoader.getInstance().displayImage(host.getAvatar(),holder1.avatar, ImageUtils.getOptions());
             }else {
-                ImageLoader.getInstance().displayImage(ApiHttpClient.API_PIC+host.getAvatar(),holder1.avatar);
+                ImageLoader.getInstance().displayImage(ApiHttpClient.API_PIC+host.getAvatar(),holder1.avatar,ImageUtils.getOptions());
             }
         }
         holder1.avatar.setOnClickListener(new View.OnClickListener() {

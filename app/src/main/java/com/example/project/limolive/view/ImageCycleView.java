@@ -16,6 +16,7 @@ import android.widget.LinearLayout;
 
 import com.example.project.limolive.R;
 import com.example.project.limolive.api.ApiHttpClient;
+import com.example.project.limolive.utils.ImageUtils;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.ArrayList;
@@ -296,7 +297,7 @@ public class ImageCycleView extends LinearLayout {
                 }
             });
             Log.i("12312312312312", imageUrl);
-            imageView.setImageURI(ApiHttpClient.API_PIC + imageUrl);
+            imageView.setImageURI(ApiHttpClient.API_PIC + imageUrl, ImageUtils.getOptions());
             container.addView(imageView);
 //            mImageCycleViewListener.displayImage(imageUrl, imageView);
             return imageView;

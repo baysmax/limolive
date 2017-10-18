@@ -9,6 +9,7 @@ import com.example.project.limolive.R;
 import com.example.project.limolive.api.ApiHttpClient;
 import com.example.project.limolive.bean.mine.FansAttention;
 import com.example.project.limolive.presenter.FansAndAttention;
+import com.example.project.limolive.utils.ImageUtils;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.List;
@@ -37,9 +38,9 @@ public class AttentionAdapter extends CommonAdapter<FansAttention>  {
         SimpleDraweeView simpleDraweeView = helper.getView(R.id.iv_user_head);
         final ImageView imageView = helper.getView(R.id.iv_select);
         if (fansAttention.getHeadsmall().contains("http://")){
-            simpleDraweeView.setImageURI(fansAttention.getHeadsmall());
+            simpleDraweeView.setImageURI(fansAttention.getHeadsmall(), ImageUtils.getOptions());
         }else {
-            simpleDraweeView.setImageURI(ApiHttpClient.API_PIC+fansAttention.getHeadsmall());
+            simpleDraweeView.setImageURI(ApiHttpClient.API_PIC+fansAttention.getHeadsmall(),ImageUtils.getOptions());
         }
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override

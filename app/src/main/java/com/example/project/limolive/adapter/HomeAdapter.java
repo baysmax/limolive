@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.example.project.limolive.R;
 import com.example.project.limolive.api.ApiHttpClient;
 import com.example.project.limolive.bean.home.HomeListBeen;
+import com.example.project.limolive.utils.ImageUtils;
 import com.example.project.limolive.view.RoundCornersImageView;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -73,9 +74,9 @@ public class HomeAdapter extends BaseAdapter {
             Log.i("12312312312312", data.get(position).getCover());
             if (null != data.get(position).getCover() && !" ".equals(data.get(position).getCover())) {
                 if (data.get(position).getCover().contains("http")){
-                    ImageLoader.getInstance().displayImage(data.get(position).getCover(),viewHolder.draweview);
+                    ImageLoader.getInstance().displayImage(data.get(position).getCover(),viewHolder.draweview, ImageUtils.getOptions());
                 }else {
-                    ImageLoader.getInstance().displayImage(ApiHttpClient.API_PIC + data.get(position).getCover(),viewHolder.draweview);
+                    ImageLoader.getInstance().displayImage(ApiHttpClient.API_PIC + data.get(position).getCover(),viewHolder.draweview,ImageUtils.getOptions());
                 }
             } else {
                 viewHolder.draweview.setBackgroundResource(R.mipmap.head2);
