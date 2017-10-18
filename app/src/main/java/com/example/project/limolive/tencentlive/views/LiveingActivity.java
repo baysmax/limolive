@@ -441,20 +441,38 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
                                                         return;
                                                     }
                                                     if (!item.getAvRoomId().equals(CurLiveInfo.getRoomNum())){
-                                                        Intent intent = new Intent(LiveingActivity.this, LiveingActivity.class);
-                                                        intent.putExtra(Constants.ID_STATUS, Constants.MEMBER);
-                                                        LiveMySelfInfo.getInstance().setIdStatus(Constants.MEMBER);
-                                                        LiveMySelfInfo.getInstance().setJoinRoomWay(false);
-                                                        CurLiveInfo.setHostID(item.getHost().getUid());
-                                                        CurLiveInfo.setHostName(item.getHost().getUsername());
-                                                        CurLiveInfo.setHostAvator(item.getHost().getAvatar());
-                                                        CurLiveInfo.setRoomNum(item.getAvRoomId());
-                                                        CurLiveInfo.setHost_phone(item.getHost().getPhone());
-                                                        CurLiveInfo.setMembers(Integer.parseInt(item.getWatchCount()) + 1); // 添加自己
-                                                        CurLiveInfo.setAdmires(Integer.parseInt(item.getAdmireCount()));
-                                                        CurLiveInfo.setAddress(item.getLbs().getAddress());
-                                                        CurLiveInfo.setTitle(item.getTitle());
-                                                        startActivity(intent);
+                                                    if (LiveMySelfInfo.getInstance().getIdStatus() == Constants.HOST) {
+
+                                                    }else {
+                                                        mLiveHelper.sendGroupCmd(Constants.AVIMCMD_EXITLIVE, "");
+                                                    }
+                                                    mLiveHelper.startExitRoom();
+                                                    clearOldData();
+                                                    LiveingActivity.this.finish();
+                                                    Intent intent = new Intent();
+                                                    intent.setClass(LiveingActivity.this, MainActivity.class);
+                                                    StringBuilder str = new StringBuilder();
+                                                    String s = str
+                                                            .append(item.getHost().getUid())
+                                                            .append(",")
+                                                            .append(item.getHost().getUsername())
+                                                            .append(",")
+                                                            .append(item.getHost().getAvatar())
+                                                            .append(",")
+                                                            .append(item.getAvRoomId())
+                                                            .append(",")
+                                                            .append(item.getHost().getPhone())
+                                                            .append(",")
+                                                            .append(item.getWatchCount() + 1)
+                                                            .append(",")
+                                                            .append(item.getAdmireCount())
+                                                            .append(",")
+                                                            .append(item.getLbs().getAddress())
+                                                            .append(",")
+                                                            .append(item.getTitle()).toString();
+
+                                                    intent.putExtra("isIntent",s);
+                                                    startActivity(intent);
                                                     }else {
                                                         ToastUtils.showShort(LiveingActivity.this,"已在该直播间");
                                                     }
@@ -1458,6 +1476,11 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
      */
     @Override
     public void onBackPressed() {
+        if (LiveMySelfInfo.getInstance().getIdStatus() == Constants.HOST) {
+
+        } else {
+            mLiveHelper.sendGroupCmd(Constants.AVIMCMD_EXITLIVE, "");
+        }
         if (bInAvRoom) {
             bDelayQuit = false;
             quiteLiveByPurpose();

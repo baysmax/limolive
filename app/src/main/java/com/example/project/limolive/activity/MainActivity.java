@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.View;
@@ -25,7 +26,10 @@ import com.example.project.limolive.fragment.HomeFragment;
 import com.example.project.limolive.fragment.HomeFragment2;
 import com.example.project.limolive.fragment.MyFragment;
 import com.example.project.limolive.helper.LoginManager;
+import com.example.project.limolive.tencentlive.model.CurLiveInfo;
+import com.example.project.limolive.tencentlive.model.LiveMySelfInfo;
 import com.example.project.limolive.tencentlive.presenters.LiveHelper;
+import com.example.project.limolive.tencentlive.utils.Constants;
 import com.example.project.limolive.tencentlive.views.LiveingActivity;
 import com.example.project.limolive.utils.ToastUtils;
 import com.example.project.limolive.view.CustomProgressDialog;
@@ -172,6 +176,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         mProgressDialog.setCanceledOnTouchOutside(false);
         mProgressDialog.show();
     }
+    Handler handler = new Handler();
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
@@ -179,6 +184,33 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         String share = intent.getStringExtra("share");
         if ("share".equals(share)){
             share();
+        }
+        String s= intent.getStringExtra("isIntent");
+        Log.i("飘屏动画","s="+s);
+        if (s!=null&&!"".equals(s)){
+            final String[] split = s.split(",");
+            if (split.length==9){
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        Log.i("飘屏动画","s=qd");
+                        Intent intents = new Intent(MainActivity.this, LiveingActivity.class);
+                        intents.putExtra(Constants.ID_STATUS, Constants.MEMBER);
+                        LiveMySelfInfo.getInstance().setIdStatus(Constants.MEMBER);
+                        LiveMySelfInfo.getInstance().setJoinRoomWay(false);
+                        CurLiveInfo.setHostID(split[0]);
+                        CurLiveInfo.setHostName(split[1]);
+                        CurLiveInfo.setHostAvator(split[2]);
+                        CurLiveInfo.setRoomNum(split[3]);
+                        CurLiveInfo.setHost_phone(split[4]);
+                        CurLiveInfo.setMembers(Integer.parseInt(split[5])); // 添加自己
+                        CurLiveInfo.setAdmires(Integer.parseInt(split[6]));
+                        CurLiveInfo.setAddress(split[7]);
+                        CurLiveInfo.setTitle(split[8]);
+                        startActivity(intents);
+                    }
+                },500);
+            }
         }
     }
 
