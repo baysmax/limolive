@@ -1,5 +1,6 @@
 package com.example.project.limolive.fragment;
 
+import com.example.project.limolive.utils.ImageUtils;
 import com.example.project.limolive.utils.NetWorkUtil;
 import android.content.Context;
 
@@ -217,9 +218,9 @@ public class MyFragment extends BaseFragment implements View.OnClickListener{
 			Log.i("头像地址","getAvatar.."+LoginManager.getInstance().getAvatar(getActivity()));
 			Log.i("头像地址","loginModel.getHeadsmall().."+loginModel.getHeadsmall());
 			if (loginModel.getHeadsmall().toString().contains("http://")){
-				iv_user_head.setImageURI(loginModel.getHeadsmall());
+				iv_user_head.setImageURI(loginModel.getHeadsmall(), ImageUtils.getOptions());
 			}else {
-				iv_user_head.setImageURI(ApiHttpClient.API_PIC+loginModel.getHeadsmall());
+				iv_user_head.setImageURI(ApiHttpClient.API_PIC+loginModel.getHeadsmall(), ImageUtils.getOptions());
 			}
 
 		}

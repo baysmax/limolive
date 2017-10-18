@@ -26,6 +26,7 @@ import com.example.project.limolive.helper.TakePhotoHelper;
 import com.example.project.limolive.model.LoginModel;
 import com.example.project.limolive.presenter.PersonInfoPresenter;
 import com.example.project.limolive.provider.MineDataProvider;
+import com.example.project.limolive.utils.ImageUtils;
 import com.example.project.limolive.utils.datepicker.DateUtil;
 import com.example.project.limolive.widget.ChangeDialog;
 import com.facebook.drawee.view.SimpleDraweeView;
@@ -99,9 +100,9 @@ public class PersonInfoFragment extends BaseFragment implements View.OnClickList
         LoginModel model=provider.getMineInfo(LoginManager.getInstance().getPhone(getApplication()));
         if(model!=null){
             if (model.getHeadsmall().contains("http://")){
-                iv_user_avatar.setImageURI(model.getHeadsmall());
+                iv_user_avatar.setImageURI(model.getHeadsmall(),ImageUtils.getOptions());
             }else {
-                iv_user_avatar.setImageURI(ApiHttpClient.API_PIC+model.getHeadsmall());
+                iv_user_avatar.setImageURI(ApiHttpClient.API_PIC+model.getHeadsmall(), ImageUtils.getOptions());
             }
             tv_user_name.setText(model.getNickname());
             tv_live_code.setText(model.getLivenum());
