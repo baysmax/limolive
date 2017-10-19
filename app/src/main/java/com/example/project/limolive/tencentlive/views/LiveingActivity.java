@@ -6867,7 +6867,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
      */
     private void share() {
         UMImage thumb = new UMImage(this, R.mipmap.logo);
-        UMWeb web = new UMWeb("https://www.pgyer.com/Ko1C");
+        UMWeb web = new UMWeb("http://www.ningmengtv.net/");
         web.setTitle("柠檬秀");//标题
         web.setThumb(thumb);  //缩略图
         web.setDescription("大家好,我正在直播哦，喜欢我的朋友赶紧来哦");//描述
