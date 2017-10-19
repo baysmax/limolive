@@ -440,42 +440,55 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
                                                     if (LoginManager.getInstance().getUserID(LiveingActivity.this).equals(CurLiveInfo.getHostID())){
                                                         return;
                                                     }
-                                                    if (!item.getAvRoomId().equals(CurLiveInfo.getRoomNum())){
-                                                    if (LiveMySelfInfo.getInstance().getIdStatus() == Constants.HOST) {
+                                                    Dialog alertDialog = new AlertDialog.Builder(LiveingActivity.this)
+                                                            .setTitle("提示")
+                                                            //.setView(R.layout.dialog_content_normal)
+                                                            .setMessage("当前积分余额不足,需兑换积分才能继续押注,是否去充值?")
+                                                            .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                                                                @Override
+                                                                public void onClick(DialogInterface dialog, int which) {
+                                                                    if (!item.getAvRoomId().equals(CurLiveInfo.getRoomNum())){
+                                                                        if (LiveMySelfInfo.getInstance().getIdStatus() == Constants.HOST) {
 
-                                                    }else {
-                                                        mLiveHelper.sendGroupCmd(Constants.AVIMCMD_EXITLIVE, "");
-                                                    }
-                                                    mLiveHelper.startExitRoom();
-                                                    clearOldData();
-                                                    LiveingActivity.this.finish();
-                                                    Intent intent = new Intent();
-                                                    intent.setClass(LiveingActivity.this, MainActivity.class);
-                                                    StringBuilder str = new StringBuilder();
-                                                    String s = str
-                                                            .append(item.getHost().getUid())
-                                                            .append(",")
-                                                            .append(item.getHost().getUsername())
-                                                            .append(",")
-                                                            .append(item.getHost().getAvatar())
-                                                            .append(",")
-                                                            .append(item.getAvRoomId())
-                                                            .append(",")
-                                                            .append(item.getHost().getPhone())
-                                                            .append(",")
-                                                            .append(item.getWatchCount() + 1)
-                                                            .append(",")
-                                                            .append(item.getAdmireCount())
-                                                            .append(",")
-                                                            .append(item.getLbs().getAddress())
-                                                            .append(",")
-                                                            .append(item.getTitle()).toString();
+                                                                        }else {
+                                                                            mLiveHelper.sendGroupCmd(Constants.AVIMCMD_EXITLIVE, "");
+                                                                        }
+                                                                        mLiveHelper.startExitRoom();
+                                                                        clearOldData();
+                                                                        LiveingActivity.this.finish();
+                                                                        Intent intent = new Intent();
+                                                                        intent.setClass(LiveingActivity.this, MainActivity.class);
+                                                                        StringBuilder str = new StringBuilder();
+                                                                        String s = str
+                                                                                .append(item.getHost().getUid())
+                                                                                .append(",")
+                                                                                .append(item.getHost().getUsername())
+                                                                                .append(",")
+                                                                                .append(item.getHost().getAvatar())
+                                                                                .append(",")
+                                                                                .append(item.getAvRoomId())
+                                                                                .append(",")
+                                                                                .append(item.getHost().getPhone())
+                                                                                .append(",")
+                                                                                .append(item.getWatchCount() + 1)
+                                                                                .append(",")
+                                                                                .append(item.getAdmireCount())
+                                                                                .append(",")
+                                                                                .append(item.getLbs().getAddress())
+                                                                                .append(",")
+                                                                                .append(item.getTitle()).toString();
 
-                                                    intent.putExtra("isIntent",s);
-                                                    startActivity(intent);
-                                                    }else {
-                                                        ToastUtils.showShort(LiveingActivity.this,"已在该直播间");
-                                                    }
+                                                                        intent.putExtra("isIntent",s);
+                                                                        startActivity(intent);
+                                                                    }else {
+                                                                        ToastUtils.showShort(LiveingActivity.this,"已在该直播间");
+                                                                    }
+                                                                }
+                                                            })
+                                                            .create();
+
+                                                    alertDialog.show();
+
                                                 }
                                             });
                                         }
@@ -715,7 +728,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
     private void showHeadIcon(ImageView view, String avatar) {
 
         if (TextUtils.isEmpty(avatar)) {
-            Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.default_avatar);
+            Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.zanwu);
             Bitmap cirBitMap = UIUtils.createCircleImage(bitmap, 0);
             view.setImageBitmap(cirBitMap);
         } else {
@@ -1442,6 +1455,13 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
         if (instancePoker!=null){
             instancePoker.onDesPlay();
         }
+        if (mDetailDialog!=null){
+            mDetailDialog.dismiss();
+        }
+
+        if (backDialog!=null){
+            backDialog.dismiss();
+        }
         SoundPlayUtils.desPlay();
         instance=null;
         watchCount = 0;
@@ -1521,8 +1541,8 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
         tvSure.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                backDialog.dismiss();
                 if (null != mLiveHelper) {
-                    initDetailDailog();
                     if (instancePoker!=null){
                         instancePoker.hide();
                         instancePoker.dismiss();
@@ -1531,9 +1551,9 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
                         instance.hide();
                         instance.dismiss();
                     }
+                    initDetailDailog();
                     mLiveHelper.startExitRoom();
                 }
-                backDialog.dismiss();
             }
         });
         TextView tvCancel = (TextView) backDialog.findViewById(R.id.btn_cancel);
@@ -1666,17 +1686,25 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
                 SharedPreferences.Editor editor = getSharedPreferences("data", MODE_PRIVATE).edit();
                 editor.putBoolean("living", false);
                 editor.apply();
-                mDetailTime.setText(formatTime);
-                mDetailAdmires . setText("" + CurLiveInfo.getAdmires());
-                //tv_get_NMB.setText(""+Hostlemon_coins);
-                mDetailWatchCount.setText("" +CurLiveInfo.getMaxMembers());
-                if (stopnmb==0){
-                    tv_get_NMB.setText(""+0);//stopnmb为0说明获取柠檬币接口只被掉用了一次 说明收益为0
-                }else {
-                    tv_get_NMB.setText(""+(stopnmb-startnmb));
-                }
-                mDetailDialog.show();
+
             }
+
+            TIMGroupManager.getInstance().deleteGroup(CurLiveInfo.getChatRoomId(), new TIMCallBack() {
+                @Override
+                public void onError(int code, String desc) {
+
+                    //错误码code和错误描述desc，可用于定位请求失败原因
+                    //错误码code列表请参见错误码表
+                    Log.d("解散群组", "login failed. code: " + code + " errmsg: " + desc);
+                }
+
+                @Override
+                public void onSuccess() {
+                    //解散群组成功
+                    Log.d("解散群组", "成功d");
+                    // updateHostLeaveLayout();
+                }
+            });
         } else {
             clearOldData();
             finish();
@@ -1686,50 +1714,35 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
         bDelayQuit = false;
         updateHostLeaveLayout();
         //解散群组
-        TIMGroupManager.getInstance().deleteGroup(CurLiveInfo.getChatRoomId(), new TIMCallBack() {
-            @Override
-            public void onError(int code, String desc) {
 
-                //错误码code和错误描述desc，可用于定位请求失败原因
-                //错误码code列表请参见错误码表
-                Log.d("解散群组", "login failed. code: " + code + " errmsg: " + desc);
-            }
-
-            @Override
-            public void onSuccess() {
-                //解散群组成功
-                Log.d("解散群组", "成功d");
-                // updateHostLeaveLayout();
-            }
-        });
     }
 
-    private TextView mDetailTime, mDetailAdmires, mDetailWatchCount, btn_save, btn_delete,tv_get_NMB,tv_user_name,tv_share;
-    private ImageView iv_chat, iv_qq, iv_weibo, iv_colect;
-    private SimpleDraweeView iv_user_head;
-    private ImageView bgs1;
+    //private TextView mDetailTime, mDetailAdmires, mDetailWatchCount, btn_save, btn_delete,tv_get_NMB,tv_user_name,tv_share;
+    //private ImageView iv_chat, iv_qq, iv_weibo, iv_colect;
+    //private SimpleDraweeView iv_user_head;
+    //private ImageView bgs1;
     private void initDetailDailog() {
         mDetailDialog = new Dialog(this, R.style.dialog);
         mDetailDialog.setContentView(R.layout.dialog_live_details);
-        mDetailTime = (TextView) mDetailDialog.findViewById(R.id.tv_time);
+        TextView mDetailTime = (TextView) mDetailDialog.findViewById(R.id.tv_time);
 
-        bgs1= (ImageView)mDetailDialog.findViewById(R.id.bgs1);
+        ImageView bgs1= (ImageView)mDetailDialog.findViewById(R.id.bgs1);
 
-        tv_user_name = (TextView) mDetailDialog.findViewById(R.id.tv_user_name);
-        tv_share = (TextView) mDetailDialog.findViewById(R.id.tv_share);
-        iv_user_head = (SimpleDraweeView) mDetailDialog.findViewById(R.id.iv_user_head);
-        setNameAvatar();
+        TextView tv_user_name = (TextView) mDetailDialog.findViewById(R.id.tv_user_name);
+        TextView tv_share = (TextView) mDetailDialog.findViewById(R.id.tv_share);
+        SimpleDraweeView iv_user_head = (SimpleDraweeView) mDetailDialog.findViewById(R.id.iv_user_head);
+        setNameAvatar(tv_user_name,iv_user_head);
 
-        mDetailAdmires = (TextView) mDetailDialog.findViewById(R.id.tv_admires);
-        tv_get_NMB=(TextView) mDetailDialog.findViewById(R.id.tv_get_NMB);//————————————————————
-        mDetailWatchCount = (TextView) mDetailDialog.findViewById(R.id.tv_members);
-        btn_save = (TextView) mDetailDialog.findViewById(R.id.btn_save);
-        btn_delete = (TextView) mDetailDialog.findViewById(R.id.btn_delete);
+        TextView mDetailAdmires = (TextView) mDetailDialog.findViewById(R.id.tv_admires);
+        TextView tv_get_NMB=(TextView) mDetailDialog.findViewById(R.id.tv_get_NMB);//————————————————————
+        TextView mDetailWatchCount = (TextView) mDetailDialog.findViewById(R.id.tv_members);
+        TextView btn_save = (TextView) mDetailDialog.findViewById(R.id.btn_save);
+        TextView btn_delete = (TextView) mDetailDialog.findViewById(R.id.btn_delete);
 
-        iv_chat = (ImageView) mDetailDialog.findViewById(R.id.iv_chat);
-        iv_qq = (ImageView) mDetailDialog.findViewById(R.id.iv_qq);
-        iv_weibo = (ImageView) mDetailDialog.findViewById(R.id.iv_weibo);
-        iv_colect = (ImageView) mDetailDialog.findViewById(R.id.iv_colect);
+//        iv_chat = (ImageView) mDetailDialog.findViewById(R.id.iv_chat);
+//        iv_qq = (ImageView) mDetailDialog.findViewById(R.id.iv_qq);
+//        iv_weibo = (ImageView) mDetailDialog.findViewById(R.id.iv_weibo);
+//        iv_colect = (ImageView) mDetailDialog.findViewById(R.id.iv_colect);
 
         mDetailDialog.setCancelable(false);
         tv_share.setOnClickListener(new View.OnClickListener() {
@@ -1774,9 +1787,20 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
                 mDetailDialog.dismiss();
             }
         });
+
+        mDetailTime.setText(formatTime);
+        mDetailAdmires . setText("" + CurLiveInfo.getAdmires());
+        //tv_get_NMB.setText(""+Hostlemon_coins);
+        mDetailWatchCount.setText("" +CurLiveInfo.getMaxMembers());
+        if (stopnmb==0){
+            tv_get_NMB.setText(""+0);//stopnmb为0说明获取柠檬币接口只被掉用了一次 说明收益为0
+        }else {
+            tv_get_NMB.setText(""+(stopnmb-startnmb));
+        }
+        mDetailDialog.show();
     }
 
-    private void setNameAvatar() {
+    private void setNameAvatar(TextView tv_user_name,SimpleDraweeView iv_user_head) {
         tv_user_name.setText(LiveMySelfInfo.getInstance().getNickName());
         if (LiveMySelfInfo.getInstance().getAvatar().toString().contains("http://")) {
             iv_user_head.setImageURI(LiveMySelfInfo.getInstance().getAvatar());
@@ -1948,7 +1972,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
         bDelayQuit = false;
         updateHostLeaveLayout();
         if (LoginManager.getInstance().getUserID(LiveingActivity.this).equals(CurLiveInfo.getHostID())){
-            initDetailDailog();
+            //initDetailDailog();
         }
 
 
