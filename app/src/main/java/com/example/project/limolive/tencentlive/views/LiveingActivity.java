@@ -6769,7 +6769,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
         } else {
             //Log.i("成员列表", CurLiveInfo.getChatRoomId().toString());
             //Log.i("成员列表", CurLiveInfo.getHostID());
-            mLiveHelper.showProgressDialog("正在加载观众列表...");
+            mLiveHelper.showProgressDialog("加载中...");
             Api.groupMemberInfo(LoginManager.getInstance().getUserID(this), CurLiveInfo.getChatRoomId(),"1","1", new ApiResponseHandler(this) {
                 @Override
                 public void onSuccess(ApiResponse apiResponse) {
