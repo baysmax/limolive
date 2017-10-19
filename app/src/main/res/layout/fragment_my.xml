@@ -40,7 +40,7 @@
                         fresco:roundAsCircle="true"
                         fresco:roundingBorderColor="@color/white"
                         fresco:roundingBorderWidth="2dp"
-                        fresco:backgroundImage="@mipmap/icon_qq_img"
+                        fresco:backgroundImage="@drawable/zanwu"
                         android:scaleType="centerCrop"
                         />
                     <ImageView

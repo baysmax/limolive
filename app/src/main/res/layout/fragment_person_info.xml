@@ -31,7 +31,7 @@
             android:layout_marginRight="@dimen/activity_padding_margin10"
             android:layout_centerVertical="true"
             fresco:roundAsCircle="true"
-            fresco:placeholderImage="@mipmap/icon_qq_img"
+            fresco:placeholderImage="@drawable/zanwu"
             android:scaleType="centerCrop"
             />
         <TextView
