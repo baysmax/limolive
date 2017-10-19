@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.example.project.limolive.R;
 import com.example.project.limolive.api.ApiHttpClient;
 import com.example.project.limolive.bean.LiveRechargeBean;
+import com.example.project.limolive.utils.ImageUtils;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.List;
@@ -39,9 +40,9 @@ public class LiveRankConsumptionAdapter extends RecyclerView.Adapter {
         holder.tv_user_nick.setText(liveRechargeBean.getNickname());
         holder.tv_price.setText("消费值 "+liveRechargeBean.getOrder_price());
         if (liveRechargeBean.getHeadsmall().contains("http://")){
-            holder.iv_avatar.setImageURI(liveRechargeBean.getHeadsmall());
+            holder.iv_avatar.setImageURI(liveRechargeBean.getHeadsmall(), ImageUtils.getOptions());
         }else {
-            holder.iv_avatar.setImageURI(ApiHttpClient.API_PIC+liveRechargeBean.getHeadsmall());
+            holder.iv_avatar.setImageURI(ApiHttpClient.API_PIC+liveRechargeBean.getHeadsmall(),ImageUtils.getOptions());
         }
         switch (position){
             case 0:
