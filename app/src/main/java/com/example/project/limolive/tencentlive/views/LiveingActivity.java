@@ -1052,7 +1052,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
                                 handler.post(myRunnable);
                                 showGameNNs();
                             }else {
-                                handler.post(HostRunnable);
+                                handler.postDelayed(HostRunnable,15000);
                             }
                         }
                     }
@@ -1142,7 +1142,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
         }
         return true;
     }
-    private Runnable HostRunnable = new Runnable() {//主播心跳
+    private Runnable HostRunnable = new Runnable() {
         public void run() {
             if (!isStop == true) {
                 handler.postDelayed(this, 10000);
@@ -4354,7 +4354,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
             }
         }
     }
-
+    private Random random =new Random();//随机
     private void addTexts(RelativeLayout rl_anim_stake,int draw,String str) {
         TextView textView=new TextView(LiveingActivity.this);
         int width = iv_nn_chip100.getWidth();
@@ -4362,16 +4362,15 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
                 width/3*4, width/3*4);
         int width1 = rl_anim_stake.getWidth();//父容器的宽
         int height1 = rl_anim_stake.getHeight();//父容器的高
-        Random random =new Random();//随机
-        int x = random.nextInt(width1-50);
-        int y = random.nextInt(height1-50);
-        //Log.i("游戏1","x="+x+",y="+y);
-
-        textView.setLayoutParams(params);
-        textView.setBackground(LiveingActivity.this.getDrawable(draw));
-        textView.setX(x);
-        textView.setY(y);
-        rl_anim_stake.addView(textView);
+        if (width1>0&&height1>0){
+            int x = random.nextInt(width1-50);
+            int y = random.nextInt(height1-50);
+            textView.setLayoutParams(params);
+            textView.setBackground(LiveingActivity.this.getDrawable(draw));
+            textView.setX(x);
+            textView.setY(y);
+            rl_anim_stake.addView(textView);
+        }
     }
 
     //------------------------------------------------------------
@@ -4863,16 +4862,17 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
                 width/3*4, width/3*4);
         int width1 = rl_anim_stake.getWidth();//父容器的宽
         int height1 = rl_anim_stake.getHeight();//父容器的高
-        Random random =new Random();//随机
-        int x = random.nextInt(width1-20);
-        int y = random.nextInt(height1-20);
-        //Log.i("色子","x="+x+",y="+y);
-
-        textView.setLayoutParams(params);
-        textView.setBackground(LiveingActivity.this.getDrawable(draw));
-        textView.setX(x);
-        textView.setY(y);
-        rl_anim_stake.addView(textView);
+        int x =0;
+        int y=0;
+        if (width1>0&&height1>0){
+            x = random.nextInt(width1-20);
+            y = random.nextInt(height1-20);
+            textView.setLayoutParams(params);
+            textView.setBackground(LiveingActivity.this.getDrawable(draw));
+            textView.setX(x);
+            textView.setY(y);
+            rl_anim_stake.addView(textView);
+        }
     }
 
     private Runnable Host_Runnable=new Runnable() {

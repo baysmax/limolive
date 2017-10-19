@@ -95,7 +95,7 @@ public class ManberInfoPopupWindow {
 
     private void showHeadIcon(ImageView view, String avatar) {
         if (TextUtils.isEmpty(avatar)) {
-            Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.default_avatar);
+            Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.zanwu);
             Bitmap cirBitMap = UIUtils.createCircleImage(bitmap, 0);
             view.setImageBitmap(cirBitMap);
         } else {
