@@ -143,10 +143,10 @@ public class LiveHelper extends Presenter implements ILiveRoomOption.onRoomDisco
      */
     public void startEnterRoom() {
         if (LiveMySelfInfo.getInstance().isCreateRoom() == true) {
-            Log.i("有房间没有", "没有房间  创建房间");
+            Log.i("房间", "没有房间  创建房间");
             createRoom();
         } else {
-            Log.i("有房间没有", "有房间  进入房间");
+            Log.i("房间", "有房间  进入房间");
             joinRoom();
         }
     }
@@ -345,6 +345,11 @@ public class LiveHelper extends Presenter implements ILiveRoomOption.onRoomDisco
     public void onRoomDisconnect(int errCode, String errMsg) {
         if (null != mLiveView) {
             mLiveView.quiteRoomComplete(LiveMySelfInfo.getInstance().getIdStatus(), true, null);
+            if (LiveMySelfInfo.getInstance().getIdStatus() == Constants.HOST) {
+
+            }else {
+                sendGroupCmd(Constants.AVIMCMD_EXITLIVE, "");
+            }
         }
     }
 
@@ -542,6 +547,8 @@ public class LiveHelper extends Presenter implements ILiveRoomOption.onRoomDisco
             Log.i("创建房间", "LoginManager  getId" + LoginManager.getInstance().getUserID(mContext));
             Log.i("创建房间", "LiveMySelfInfo  getMyRoomNum" + LiveMySelfInfo.getInstance().getMyRoomNum());
             Log.i("创建房间", "LoginManager  getMyRoomNum" + LoginManager.getInstance().getRoomNum(mContext));
+
+
             ILVLiveManager.getInstance().createRoom(Integer.parseInt(LiveMySelfInfo.getInstance().getMyRoomNum()), hostOption, new ILiveCallBack() {
                 @Override
                 public void onSuccess(Object data) {
