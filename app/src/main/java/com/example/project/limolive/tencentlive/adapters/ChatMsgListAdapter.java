@@ -267,7 +267,7 @@ public class ChatMsgListAdapter extends BaseAdapter implements AbsListView.OnScr
                 } else if (listMessage.get(position).getPresenr_type().equals("3")) {
                     present_holder.msg_present.setImageResource(R.drawable.present_10);
                 } else if (listMessage.get(position).getPresenr_type().equals("4")) {
-                    present_holder.msg_present.setImageResource(R.drawable.present_5);
+                    present_holder.msg_present.setImageResource(R.drawable.nmp/*present_5*/);
                 } else if (listMessage.get(position).getPresenr_type().equals("5")) {
                     present_holder.msg_present.setImageResource(R.drawable.present_4);
                 } else if (listMessage.get(position).getPresenr_type().equals("6")) {

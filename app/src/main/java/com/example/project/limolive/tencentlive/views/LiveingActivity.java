@@ -419,7 +419,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
 
 
                                     break;
-                                case 2://大礼物飘屏
+                                case 2://大礼物飘屏  柠檬啪
                                     //Log.i("飘屏动画","进入大礼物飘屏remove.getMessage()");
                                     rl_chongzhi.setVisibility(View.GONE);
                                     rl_tuhaobang.setVisibility(View.GONE);
@@ -440,52 +440,66 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
                                                     if (LoginManager.getInstance().getUserID(LiveingActivity.this).equals(CurLiveInfo.getHostID())){
                                                         return;
                                                     }
-                                                    Dialog alertDialog = new AlertDialog.Builder(LiveingActivity.this)
-                                                            .setTitle("提示")
-                                                            //.setView(R.layout.dialog_content_normal)
-                                                            .setMessage("当前积分余额不足,需兑换积分才能继续押注,是否去充值?")
-                                                            .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                                                                @Override
-                                                                public void onClick(DialogInterface dialog, int which) {
-                                                                    if (!item.getAvRoomId().equals(CurLiveInfo.getRoomNum())){
-                                                                        if (LiveMySelfInfo.getInstance().getIdStatus() == Constants.HOST) {
+                                                    View inflate = View.inflate(LiveingActivity.this, R.layout.bg_live_window, null);
+                                                    ImageView back =(ImageView) inflate.findViewById(R.id.back);
 
-                                                                        }else {
-                                                                            mLiveHelper.sendGroupCmd(Constants.AVIMCMD_EXITLIVE, "");
-                                                                        }
-                                                                        mLiveHelper.startExitRoom();
-                                                                        clearOldData();
-                                                                        LiveingActivity.this.finish();
-                                                                        Intent intent = new Intent();
-                                                                        intent.setClass(LiveingActivity.this, MainActivity.class);
-                                                                        StringBuilder str = new StringBuilder();
-                                                                        String s = str
-                                                                                .append(item.getHost().getUid())
-                                                                                .append(",")
-                                                                                .append(item.getHost().getUsername())
-                                                                                .append(",")
-                                                                                .append(item.getHost().getAvatar())
-                                                                                .append(",")
-                                                                                .append(item.getAvRoomId())
-                                                                                .append(",")
-                                                                                .append(item.getHost().getPhone())
-                                                                                .append(",")
-                                                                                .append(item.getWatchCount() + 1)
-                                                                                .append(",")
-                                                                                .append(item.getAdmireCount())
-                                                                                .append(",")
-                                                                                .append(item.getLbs().getAddress())
-                                                                                .append(",")
-                                                                                .append(item.getTitle()).toString();
-
-                                                                        intent.putExtra("isIntent",s);
-                                                                        startActivity(intent);
-                                                                    }else {
-                                                                        ToastUtils.showShort(LiveingActivity.this,"已在该直播间");
-                                                                    }
-                                                                }
-                                                            })
+                                                    TextView tv_go =(TextView) inflate.findViewById(R.id.tv_go);
+                                                    final Dialog alertDialog = new AlertDialog.Builder(LiveingActivity.this)
+                                                            .setView(inflate)
                                                             .create();
+                                                    back.setOnClickListener(new View.OnClickListener() {
+                                                        @Override
+                                                        public void onClick(View view) {
+                                                            if (alertDialog!=null){
+                                                                alertDialog.dismiss();
+                                                            }
+                                                        }
+                                                    });
+                                                    tv_go.setOnClickListener(new View.OnClickListener() {
+                                                        @Override
+                                                        public void onClick(View view) {
+                                                            if (!item.getAvRoomId().equals(CurLiveInfo.getRoomNum())){
+                                                                if (LiveMySelfInfo.getInstance().getIdStatus() == Constants.HOST) {
+
+                                                                }else {
+                                                                    mLiveHelper.sendGroupCmd(Constants.AVIMCMD_EXITLIVE, "");
+                                                                }
+                                                                mLiveHelper.startExitRoom();
+                                                                clearOldData();
+                                                                LiveingActivity.this.finish();
+                                                                Intent intent = new Intent();
+                                                                intent.setClass(LiveingActivity.this, MainActivity.class);
+                                                                StringBuilder str = new StringBuilder();
+                                                                String s = str
+                                                                        .append(item.getHost().getUid())
+                                                                        .append(",")
+                                                                        .append(item.getHost().getUsername())
+                                                                        .append(",")
+                                                                        .append(item.getHost().getAvatar())
+                                                                        .append(",")
+                                                                        .append(item.getAvRoomId())
+                                                                        .append(",")
+                                                                        .append(item.getHost().getPhone())
+                                                                        .append(",")
+                                                                        .append(item.getWatchCount() + 1)
+                                                                        .append(",")
+                                                                        .append(item.getAdmireCount())
+                                                                        .append(",")
+                                                                        .append(item.getLbs().getAddress())
+                                                                        .append(",")
+                                                                        .append(item.getTitle()).toString();
+
+                                                                intent.putExtra("isIntent",s);
+                                                                startActivity(intent);
+
+                                                            }else {
+                                                                ToastUtils.showShort(LiveingActivity.this,"已在该直播间");
+                                                                if (alertDialog!=null) {
+                                                                    alertDialog.dismiss();
+                                                                }
+                                                            }
+                                                        }
+                                                    });
 
                                                     alertDialog.show();
 
@@ -5994,40 +6008,42 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
                     //Log.i("送礼物接口", "apiResponse.." + apiResponse.toString());
                     if (apiResponse.getCode() == 0) {
                         if (
-                                p_type==4||
-                                        p_type==5||
-                                        p_type==6||
-                                        p_type==7||
-                                        p_type==12||
-                                        p_type==13||
-                                        p_type==14||
-                                        p_type==15){
+                                p_type==4
+//                                        ||
+//                                        p_type==5||
+//                                        p_type==6||
+//                                        p_type==7||
+//                                        p_type==12||
+//                                        p_type==13||
+//                                        p_type==14||
+//                                        p_type==15
+                                ){
                             String str="";
                             switch (p_type){
                                 case 4:
-                                    str="666";
+                                    str="柠檬啪";
                                     break;
-                                case 5:
-                                    str="飞心";
-                                    break;
-                                case 6:
-                                    str="魔棒";
-                                    break;
-                                case 7:
-                                    str="钻戒";
-                                    break;
-                                case 12:
-                                    str="蛋糕";
-                                    break;
-                                case 13:
-                                    str="城堡";
-                                    break;
-                                case 14:
-                                    str="跑车";
-                                    break;
-                                case 15:
-                                    str="1314";
-                                    break;
+//                                case 5:
+//                                    str="飞心";
+//                                    break;
+//                                case 6:
+//                                    str="魔棒";
+//                                    break;
+//                                case 7:
+//                                    str="钻戒";
+//                                    break;
+//                                case 12:
+//                                    str="蛋糕";
+//                                    break;
+//                                case 13:
+//                                    str="城堡";
+//                                    break;
+//                                case 14:
+//                                    str="跑车";
+//                                    break;
+//                                case 15:
+//                                    str="1314";
+//                                    break;
                             }
 
                             live_gift_pp(str, LoginManager.getInstance().getHostName(LiveingActivity.this));

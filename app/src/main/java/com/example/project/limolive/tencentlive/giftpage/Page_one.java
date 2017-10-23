@@ -111,9 +111,13 @@ public class Page_one extends BasePager {
                 present_checked_6.setBackgroundResource(R.color.full_transparent);
                 present_checked_7.setBackgroundResource(R.color.full_transparent);
                 present_checked_8.setBackgroundResource(R.color.full_transparent);
+                //柠檬啪
+//                sp.setString("present_num_show","0");
+//                sp.setString("p_type","4");
+//                sp.setString("score","30");
                 sp.setString("present_num_show","0");
                 sp.setString("p_type","4");
-                sp.setString("score","30");
+                sp.setString("score","2888");
             }
         });
         present_checked_6.setOnClickListener(new View.OnClickListener() {

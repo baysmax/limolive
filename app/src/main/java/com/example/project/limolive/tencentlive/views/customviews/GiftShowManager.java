@@ -209,8 +209,11 @@ public class GiftShowManager {
                                 im.setImageResource(R.drawable.present_10);//糖果
                                 tv_n.setText("赠送主播");
                             } else if (showVo.getType().equals("4")) {
-                                im.setImageResource(R.drawable.present_5);//666
-                                showGiftMax(new ImageView(cxt),runFrame(70, 15,"a666_")/*R.drawable.animation_666*/,R.anim.translate4);
+                                //im.setImageResource(R.drawable.present_5);//666
+                                im.setImageResource(R.drawable.nmp);//柠檬啪
+                               // showGiftMax(new ImageView(cxt),runFrame(70, 15,"a666_")/*R.drawable.animation_666*/,R.anim.translate4);
+                                showGiftMaxs(new ImageView(cxt),runFrame(200, 15,"gift_item")/*R.drawable.animation_666*/,R.anim.translate5);
+
                                 tv_n.setText("赠送主播");
                             } else if (showVo.getType().equals("5")) {
                                 im.setImageResource(R.drawable.present_4);//飞心 love
@@ -485,6 +488,42 @@ public class GiftShowManager {
         Log.i("大礼物","xxxxx");
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
                 RelativeLayout.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        imageView.setLayoutParams(params);
+        params.addRule(RelativeLayout.CENTER_IN_PARENT);
+        imageView.setBackgroundDrawable(drawable);
+        Animation animation = AnimationUtils.loadAnimation(cxt, anim);
+        imageView.startAnimation(animation);
+        final AnimationDrawable background = (AnimationDrawable) imageView.getBackground();
+        animation.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                Message ms = Message.obtain();
+                ms.what=REMOVE_GIFT;
+                ms.obj=imageView;
+                handler.sendMessage(ms);
+
+                //tryRecycleAnimationDrawable(background);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+        rl_anim.addView(imageView,0);
+
+
+        background.start();
+    }
+    private void showGiftMaxs(final ImageView imageView, final AnimationDrawable drawable, int anim) {
+        Log.i("大礼物","xxxxx");
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
+                RelativeLayout.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         imageView.setLayoutParams(params);
         params.addRule(RelativeLayout.CENTER_IN_PARENT);
         imageView.setBackgroundDrawable(drawable);
