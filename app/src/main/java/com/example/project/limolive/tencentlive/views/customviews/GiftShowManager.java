@@ -402,6 +402,7 @@ public class GiftShowManager {
                         public void onAnimationRepeat(Animation animation) {
                         }
                     });
+                    if (removeView!=null)
                     removeView.startAnimation(outAnim);
 
                     break;
