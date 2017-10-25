@@ -5938,16 +5938,16 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
             }
         });
         mPagerList.get(0).initData();// 初始化首页数据
-        count_layout = (RelativeLayout) viewd.findViewById(R.id.count_layout);
-        giftcount_layout = (ImageView) viewd.findViewById(R.id.giftcount_layout);
-        live_room_gift_count = (TextView) viewd.findViewById(R.id.live_room_gift_count);
-        live_room_gift_sendname = (TextView) viewd.findViewById(R.id.live_room_gift_sendname);
+        //count_layout = (RelativeLayout) viewd.findViewById(R.id.count_layout);
+        //giftcount_layout = (ImageView) viewd.findViewById(R.id.giftcount_layout);
+        //live_room_gift_count = (TextView) viewd.findViewById(R.id.live_room_gift_count);
+        //live_room_gift_sendname = (TextView) viewd.findViewById(R.id.live_room_gift_sendname);
         iv_giftGiveing_button = (Button) viewd.findViewById(R.id.iv_giftGiveing_button);
 
         live_room_gift_pay = (TextView) viewd.findViewById(R.id.live_room_gift_pay);//点击充值
         live_room_gift_money = (TextView) viewd.findViewById(R.id.live_room_gift_money);//柠檬币
         getSelCoins();//观众的钻石
-        live_room_gift_sendname.setText("主播: " + CurLiveInfo.getHostName());
+        //live_room_gift_sendname.setText("主播: " + CurLiveInfo.getHostName());
         live_room_gift_pay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -5958,13 +5958,13 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
 
             }
         });
-        count_layout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //  PopuGiftCount mPopuGiftCount = new PopuGiftCount(LiveingActivity.this, viewd, live_room_gift_count);
-                //  mPopuGiftCount.showPopuGftCount();
-            }
-        });
+//        count_layout.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                //  PopuGiftCount mPopuGiftCount = new PopuGiftCount(LiveingActivity.this, viewd, live_room_gift_count);
+//                //  mPopuGiftCount.showPopuGftCount();
+//            }
+//        });
         iv_giftGiveing_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -5979,7 +5979,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
                 //如果自己的柠檬币 小于1, 请求接口 获得库存
                 p_type = Integer.parseInt(sp.getString("p_type"));//礼物id
                 score = Integer.parseInt(sp.getString("score"));//礼物id
-                sendGiftToServer(live_room_gift_count.getText().toString(),p_type,score);
+                sendGiftToServer("1",p_type,score);
 
                 //}
             }
@@ -6000,7 +6000,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
             //Log.i("送礼物接口", "score.." + score);
             Api.sendGift(LoginManager.getInstance().getUserID(LiveingActivity.this)
                     , CurLiveInfo.getHostID()
-                    , amount
+                    , "1"
                     , score
                     , new ApiResponseHandler(this) {
                 @Override
@@ -6117,7 +6117,7 @@ public class LiveingActivity extends BaseActivity implements LiveView, View.OnCl
                                         vo.setName(LiveMySelfInfo.getInstance().getNickName());
                                         vo.setHeard(LiveMySelfInfo.getInstance().getAvatar());
                                         vo.setType(String.valueOf(p_type));
-                                        vo.setNum(Integer.parseInt(live_room_gift_count.getText().toString()));
+                                        vo.setNum(Integer.parseInt("1"));
                                         giftManger.addGift(vo);
                                     }
                                 }).start();
