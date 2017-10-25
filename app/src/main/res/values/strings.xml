@@ -513,9 +513,9 @@
     <string name="live_gift_tab_special">红包</string>
     <string name="live_gift_tab_store">包裹</string>
     <string name="live_gift_gold">我的柠檬币：</string>
-    <string name="live_gift_gold_coins">我的钻石：</string>
+    <string name="live_gift_gold_coins">钻石：</string>
     <string name="live_gift_gold_coin">钻石点：</string>
-    <string name="live_gift_gold_pay">点击充值 >></string>
+    <string name="live_gift_gold_pay">充值</string>
 
     <string name="file_provider">com.example.project.limolive.provider</string>
     <string name="help">帮助</string>

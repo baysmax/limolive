@@ -49,6 +49,7 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="colorAccents">#51c6ce</color>
     <color name="color_8a8a8a">#8a8a8a</color>
     <color name="white">#FFFFFF</color>
     <color name="lvse">#09bb07</color>
